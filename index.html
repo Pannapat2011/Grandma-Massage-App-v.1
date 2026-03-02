@@ -18,7 +18,6 @@
         body {
             font-family: 'Sarabun', sans-serif;
             background: var(--bg-cream);
-            background-image: radial-gradient(circle at top right, #FFFFFF 0%, transparent 50%);
             margin: 0;
             color: var(--text-dark);
             display: flex;
@@ -88,6 +87,7 @@
         .list-item { padding: 15px; background: #FFF; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border-gold); }
         #qr-container { display: none; text-align: center; margin-top: 20px; padding: 15px; background: #FFF; border-radius: 20px; border: 1px solid var(--border-gold); }
         #qr-img { width: 200px; }
+        .sync-status { font-size: 10px; color: #888; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -125,6 +125,7 @@
             <h2 id="total-val">฿0</h2>
             <div style="font-size:12px; margin-top:10px;">
                 <span id="current-user"></span> | <span style="color:red;">Pending: <b id="wait-count">0</b></span>
+                <div id="sync-indicator" class="sync-status">ระบบ Google Sheet เชื่อมต่อแล้ว</div>
             </div>
         </div>
         <div class="menu-grid">
@@ -177,11 +178,12 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-BRWBtHvZTJL2rJlyKNJWGJujoXmubwlWPWwpiQ7Qi3jNtfICqgn_-jQriMoRrfuIKQ/exec";
+    // 🚩 URL ที่มึงให้มา เชื่อมต่อตรงนี้แล้วเพื่อน!
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwU9lRbEPkM09WIxWrH28jO9uTx7xUyOqd1K9TaZR0cAZ2eP3PHHBN6YexYZ_Gw9PeI6g/exec";
+    
     let activePP = "0863526387", currentAdmin = "";
     let db = { total: parseInt(localStorage.getItem('bpt_total')) || 0, queues: JSON.parse(localStorage.getItem('bpt_queues')) || [], wait: JSON.parse(localStorage.getItem('bpt_wait')) || [], history: JSON.parse(localStorage.getItem('bpt_history')) || [] };
 
-    // 🧮 Calculator Logic
     function calcInput(v) { document.getElementById('calc-display').value += v; }
     function calcClear() { document.getElementById('calc-display').value = ''; }
     function calcSolve() { try { document.getElementById('calc-display').value = eval(document.getElementById('calc-display').value); } catch(e) { alert('รูปแบบผิดพลาด'); } }
@@ -210,17 +212,44 @@
     function updateDrop() { let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกรายการจากคิว --</option>'; db.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n}</option>`); }
     function autoPay() { let id=document.getElementById('pay-select').value; if(!id)return; let q=db.queues.find(x=>x.id==id); document.getElementById('pay-name').value=q.n; document.getElementById('pay-amt').value=q.p; genQR(); }
     function submitPay() { let a=parseInt(document.getElementById('pay-amt').value), n=document.getElementById('pay-name').value, qId=document.getElementById('pay-select').value; if(!a||!n) return alert('กรอกชื่อและยอดเงิน'); db.wait.push({id:Date.now(), n, a, qId}); if(qId) db.queues=db.queues.filter(x=>x.id!=qId); save(); alert('แจ้งชำระเงินแล้ว!'); openPage('home'); updateUI(); }
+    
     function renderV() {
         let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.4;">ไม่มีรายการรอตรวจสอบ</p>';
         db.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><strong>฿${v.a} | ${v.n}</strong><button onclick="confirmV(${v.id})" style="background:var(--main-gold); color:#FFF; border:none; padding:10px 15px; border-radius:12px; float:right;">เช็คเงินเข้า</button></div>`; });
     }
+
+    // --- ✨ ฟังชันก์ใหม่ ยืนยันปุ๊บ ยิงเข้าชีทปั๊บ ---
     async function confirmV(id) {
         let v = db.wait.find(x => x.id === id);
-        let record = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: v.n, a: v.a, user: currentAdmin };
-        db.total += v.a; db.history.push(record); db.wait = db.wait.filter(x => x.id !== id);
+        let record = { 
+            date: new Date().toLocaleDateString('th-TH'), 
+            time: new Date().toLocaleTimeString('th-TH'), 
+            n: v.n, 
+            a: v.a, 
+            user: currentAdmin 
+        };
+
+        // บวกยอดในเว็บ
+        db.total += v.a; 
+        db.history.push(record); 
+        db.wait = db.wait.filter(x => x.id !== id);
         save(); updateUI(); renderV();
-        try { fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify([record]) }); } catch (e) {}
+
+        // ยิงเข้า Google Sheet ทันทีแบบ Auto
+        document.getElementById('sync-indicator').innerText = "⏳ กำลังบันทึกลง Google Sheet...";
+        try {
+            await fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', // สำคัญเพื่อให้ยิงข้ามโดเมนได้
+                body: JSON.stringify([record]) 
+            });
+            document.getElementById('sync-indicator').innerText = "✅ บันทึกลง Google Sheet สำเร็จ";
+            setTimeout(() => { document.getElementById('sync-indicator').innerText = "ระบบ Google Sheet เชื่อมต่อแล้ว"; }, 3000);
+        } catch (e) {
+            document.getElementById('sync-indicator').innerText = "❌ บันทึกลง Sheet ไม่สำเร็จ";
+        }
     }
+
     function renderH() { let l=document.getElementById('hist-list'); l.innerHTML=''; db.history.slice().reverse().forEach(h => { l.innerHTML+=`<div class="list-item"><strong>${h.n}</strong> | ฿${h.a}<br><small>${h.date} ${h.time}</small></div>`; }); }
     function save() { localStorage.setItem('bpt_total', db.total); localStorage.setItem('bpt_queues', JSON.stringify(db.queues)); localStorage.setItem('bpt_wait', JSON.stringify(db.wait)); localStorage.setItem('bpt_history', JSON.stringify(db.history)); }
 </script>
