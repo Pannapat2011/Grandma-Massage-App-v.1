@@ -3,55 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บ้านประคบทอง - Official POS</title>
+    <title>บ้านประคบทอง - Official POS v2</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #D4AF37; --dark: #1a1a1a; --bg: #F4F1EA; --white: #ffffff; }
-        body { font-family: 'Sarabun', sans-serif; background: var(--bg); margin: 0; color: #333; }
+        /* ระบบ Theme */
+        :root { --gold: #D4AF37; --dark: #1a1a1a; --bg: #F4F1EA; --card-bg: #ffffff; --primary: #996515; }
+        body.theme-green { --gold: #4CAF50; --primary: #2E7D32; --bg: #E8F5E9; }
+        body.theme-pink { --gold: #F06292; --primary: #C2185B; --bg: #FCE4EC; }
+
+        body { font-family: 'Sarabun', sans-serif; background: var(--bg); margin: 0; color: #333; transition: 0.3s; }
         .app-container { width: 100%; max-width: 480px; margin: auto; min-height: 100vh; padding: 20px; box-sizing: border-box; }
         
         /* Login */
-        #login-overlay { position: fixed; inset: 0; background: var(--dark); display: flex; align-items: center; justify-content: center; z-index: 999; }
-        .login-box { background: var(--white); padding: 30px; border-radius: 25px; width: 80%; text-align: center; border: 2px solid var(--gold); }
+        #login-overlay { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; z-index: 999; }
+        .login-box { background: #fff; padding: 30px; border-radius: 25px; width: 80%; text-align: center; border: 2px solid var(--gold); }
         
         /* Dashboard */
-        .header { text-align: center; margin-bottom: 20px; }
-        .summary-card { background: var(--white); padding: 30px; border-radius: 30px; border: 2px solid var(--gold); text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .summary-card { background: var(--card-bg); padding: 30px; border-radius: 30px; border: 2px solid var(--gold); text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .summary-card h1 { font-size: 45px; margin: 10px 0; color: var(--gold); }
         
         /* Menu Grid */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .menu-item { background: var(--white); padding: 20px; border-radius: 20px; border: none; border-bottom: 5px solid var(--gold); cursor: pointer; transition: 0.2s; box-shadow: 0 5px 10px rgba(0,0,0,0.03); }
+        .menu-item { background: var(--card-bg); padding: 20px; border-radius: 20px; border: none; border-bottom: 5px solid var(--gold); cursor: pointer; transition: 0.2s; }
         .menu-item:active { transform: scale(0.95); }
         .menu-item span { font-size: 30px; display: block; margin-bottom: 10px; }
 
         /* General UI */
-        .sub-page { display: none; background: var(--white); padding: 25px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .sub-page { display: none; background: var(--card-bg); padding: 25px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         input, select, button.primary-btn { width: 100%; padding: 15px; margin-top: 10px; border-radius: 15px; border: 1px solid #ddd; font-size: 16px; font-family: 'Sarabun'; box-sizing: border-box; }
-        button.primary-btn { background: linear-gradient(135deg, #996515, var(--gold)); color: white; border: none; font-weight: bold; cursor: pointer; }
-        .item-card { background: #f9f9f9; padding: 15px; border-radius: 15px; border-left: 5px solid var(--gold); margin-bottom: 10px; position: relative; }
+        button.primary-btn { background: linear-gradient(135deg, var(--primary), var(--gold)); color: white; border: none; font-weight: bold; cursor: pointer; }
+        .item-card { background: rgba(0,0,0,0.02); padding: 15px; border-radius: 15px; border-left: 5px solid var(--gold); margin-bottom: 10px; position: relative; text-align: left; }
+
+        /* Theme Selector */
+        .theme-box { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+        .theme-dot { width: 45px; height: 45px; border-radius: 50%; border: 3px solid white; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         /* QR Zone */
         #qr-container { display: none; margin-top: 20px; text-align: center; padding: 15px; background: #fffbe6; border-radius: 20px; border: 2px dashed var(--gold); }
         #qr-img { width: 220px; height: 220px; border: 5px solid white; border-radius: 10px; }
     </style>
 </head>
-<body>
+<body class="theme-gold">
 
 <div id="login-overlay">
     <div class="login-box">
         <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" width="120">
         <h2 style="margin: 15px 0;">บ้านประคบทอง</h2>
-        <input type="password" id="login-pass" placeholder="กรุณาใส่รหัสผ่าน">
+        <input type="password" id="login-pass" placeholder="รหัสผ่าน">
         <button class="primary-btn" onclick="handleLogin()">เข้าสู่ระบบ</button>
     </div>
 </div>
 
 <div class="app-container" id="main-app" style="display:none;">
     <div id="home-page">
-        <div class="header">
-            <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" width="100">
-        </div>
+        <div style="text-align: center; margin-bottom: 15px;"><img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" width="90"></div>
         <div class="summary-card">
             <small>รายได้รวมวันนี้ที่ยืนยันแล้ว</small>
             <h1 id="total-val">฿0</h1>
@@ -62,7 +67,18 @@
             <button class="menu-item" onclick="showPage('pay-page')"><span>💰</span><strong>รับเงิน</strong></button>
             <button class="menu-item" onclick="showPage('verify-page')"><span>🔍</span><strong>เช็คเงิน <small id="wait-count" style="color:red;">(0)</small></strong></button>
             <button class="menu-item" onclick="showPage('hist-page')"><span>📋</span><strong>ประวัติ</strong></button>
+            <button class="menu-item" onclick="showPage('theme-page')" style="grid-column: span 2;"><span>🎨</span><strong>เปลี่ยนสีธีมร้าน</strong></button>
         </div>
+    </div>
+
+    <div id="theme-page" class="sub-page">
+        <h3>🎨 เลือกธีมสีที่ย่าชอบ</h3>
+        <div class="theme-box">
+            <div class="theme-dot" style="background:#D4AF37;" onclick="setTheme('gold')"></div>
+            <div class="theme-dot" style="background:#4CAF50;" onclick="setTheme('green')"></div>
+            <div class="theme-dot" style="background:#F06292;" onclick="setTheme('pink')"></div>
+        </div>
+        <button onclick="showPage('home-page')" class="primary-btn">ตกลง</button>
     </div>
 
     <div id="queue-page" class="sub-page">
@@ -75,11 +91,11 @@
         <button onclick="showPage('home-page')" style="background:none; border:none; color:#888; margin-top:20px; width:100%;">⬅️ กลับหน้าหลัก</button>
     </div>
 
-    <div id="pay-page" class="sub-page">
+    <div id="pay-page" class="sub-app sub-page">
         <h3>💰 บันทึกชำระเงิน</h3>
         <select id="q-selector" onchange="autoFillPay()"></select>
         <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
-        <input type="number" id="pay-amt" placeholder="จำนวนเงิน" oninput="generateQR()" style="font-size:25px; text-align:center; font-weight:bold; color:#996515;">
+        <input type="number" id="pay-amt" placeholder="จำนวนเงิน" oninput="generateQR()" style="font-size:25px; text-align:center; font-weight:bold; color:var(--primary);">
         
         <div id="qr-container">
             <img id="qr-img" src="" alt="PromptPay QR">
@@ -100,7 +116,7 @@
         <h3>📋 ประวัติวันนี้</h3>
         <button onclick="sendToSheet()" style="background:#2E7D32; color:white; border:none; padding:10px; border-radius:10px; width:100%; margin-bottom:15px;">📤 ส่งข้อมูลเข้า Google Sheet</button>
         <div id="hist-list"></div>
-        <button onclick="showPage('home-page')" style="background:none; border:none; color:#888; margin-top:20px; width:100%;">⬅️ กลับหน้าหลัก</button>
+        <button onclick="showDashboard()" style="background:none; border:none; color:#888; margin-top:20px; width:100%;" id="back-btn">⬅️ กลับหน้าหลัก</button>
     </div>
 </div>
 
@@ -114,6 +130,7 @@
     let history = JSON.parse(localStorage.getItem('bp_history')) || [];
 
     function handleLogin() { if(document.getElementById('login-pass').value === '123456') { document.getElementById('login-overlay').style.display='none'; document.getElementById('main-app').style.display='block'; updateUI(); } }
+    
     function showPage(id) { 
         document.getElementById('home-page').style.display='none'; 
         document.querySelectorAll('.sub-page').forEach(p=>p.style.display='none');
@@ -124,9 +141,16 @@
         if(id==='hist-page') renderHistory();
     }
 
+    function showDashboard() { showPage('home-page'); }
+
     function updateUI() { 
         document.getElementById('total-val').innerText = `฿${grandTotal}`; 
         document.getElementById('wait-count').innerText = `(${waitings.length})`;
+    }
+
+    function setTheme(t) {
+        document.body.className = 'theme-' + t;
+        localStorage.setItem('bp_theme', t);
     }
 
     // --- QR System ---
@@ -135,13 +159,12 @@
         let img = document.getElementById('qr-img');
         let box = document.getElementById('qr-container');
         if(amt > 0) {
-            // ใช้ API มาตรฐาน EMVCo ที่ธนาคารไทยสแกนติดชัวร์ 100%
             img.src = `https://promptpay.io/${PP_ID}/${amt}.png?v=${Date.now()}`;
             box.style.display = 'block';
         } else { box.style.display = 'none'; }
     }
 
-    // --- Queue System ---
+    // --- Queue & Payment ---
     function saveQueue() {
         let n=document.getElementById('q-name').value, p=document.getElementById('q-price').value, s=document.getElementById('q-start').value, e=document.getElementById('q-end').value;
         if(!n||!p||!s||!e) return alert('กรอกข้อมูลให้ครบจ้า');
@@ -151,11 +174,10 @@
     }
     function renderQueues() {
         let l = document.getElementById('q-list'); l.innerHTML = '';
-        queues.forEach(q => { l.innerHTML += `<div class="item-card"><strong>⏰ ${q.s}-${q.e} | ${q.n}</strong><br><small>ราคา: ฿${q.p}</small><button onclick="delQueue(${q.id})" style="position:absolute; right:10px; top:10px; background:red; color:white; border:none; border-radius:5px; font-size:10px;">ลบ</button></div>`; });
+        queues.forEach(q => { l.innerHTML += `<div class="item-card"><strong>⏰ ${q.s}-${q.e} | ${q.n}</strong><br><small>ราคา: ฿${q.p}</small><button onclick="delQueue(${q.id})" style="position:absolute; right:10px; top:10px; background:red; color:white; border:none; border-radius:5px; font-size:10px; padding:5px;">ลบ</button></div>`; });
     }
     function delQueue(id) { queues = queues.filter(x=>x.id!==id); localStorage.setItem('bp_queues', JSON.stringify(queues)); renderQueues(); }
 
-    // --- Payment Flow ---
     function updateSelector() {
         let s = document.getElementById('q-selector'); s.innerHTML = '<option value="">-- เลือกชื่อคนจอง --</option>';
         queues.forEach(q => { s.innerHTML += `<option value="${q.id}">${q.n}</option>`; });
@@ -176,10 +198,9 @@
         alert('บันทึกแล้ว รอย่ายืนยันเงินเข้าจ้า'); showPage('home-page'); updateUI();
     }
 
-    // --- Verify & History ---
     function renderVerify() {
         let l = document.getElementById('verify-list'); l.innerHTML = waitings.length === 0 ? '<p>ไม่มีรายการรอเช็ค</p>' : '';
-        waitings.forEach(w => { l.innerHTML += `<div class="item-card"><strong>💰 ฿${w.a} | ${w.n}</strong><br><button onclick="approvePay(${w.id})" style="background:#2E7D32; color:white; border:none; padding:10px; border-radius:10px; width:100%; margin-top:10px;">✅ เงินเข้าแล้ว (บวกยอด)</button></div>`; });
+        waitings.forEach(w => { l.innerHTML += `<div class="item-card"><strong>💰 ฿${w.a} | ${w.n}</strong><br><button onclick="approvePay(${w.id})" style="background:#2E7D32; color:white; border:none; padding:10px; border-radius:10px; width:100%; margin-top:10px; cursor:pointer;">✅ เงินเข้าแล้ว (บวกยอด)</button></div>`; });
     }
     function approvePay(id) {
         let w = waitings.find(x=>x.id===id);
@@ -201,6 +222,9 @@
         } catch(e) { alert('ส่งไม่สำเร็จ เช็ค URL อีกทีนะ'); }
     }
     function clearDay() { if(confirm('รีเซ็ตยอดวันนี้เป็น 0 ใช่ไหม?')) { localStorage.clear(); location.reload(); } }
+
+    // Init Theme
+    setTheme(localStorage.getItem('bp_theme') || 'gold');
 </script>
 </body>
 </html>
