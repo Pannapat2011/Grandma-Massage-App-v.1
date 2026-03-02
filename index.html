@@ -3,244 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บ้านประคบทอง - Ultimate POS (Sheet Connected)</title>
+    <title>บ้านประคบทอง ไทย/สปา - POS REBORN</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #D4AF37; --secondary: #996515; --bg: #F9F5F0; --card: #ffffff; --text: #333; }
-        body { font-family: 'Sarabun', sans-serif; background-color: var(--bg); margin: 0; color: var(--text); }
-        .app-container { width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; margin: auto; }
+        :root { --gold: #D4AF37; --dark: #996515; --bg: #F9F5F0; --white: #ffffff; }
+        body { font-family: 'Sarabun', sans-serif; background: var(--bg); margin: 0; padding: 0; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; }
         
-        /* Dashboard & Box */
-        .summary-box { background: var(--card); padding: 25px; border-radius: 35px; border: 3px solid var(--primary); margin-bottom: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .menu-card { background: var(--card); padding: 20px; border-radius: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); cursor: pointer; border-bottom: 4px solid var(--primary); text-align: center; }
+        /* Login Section */
+        #login-screen { position: fixed; inset: 0; background: #1a1a1a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; }
+        .login-card { background: var(--white); padding: 30px; border-radius: 30px; width: 80%; text-align: center; border: 3px solid var(--gold); }
+        
+        /* Main UI */
+        .card { background: var(--white); padding: 20px; border-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: center; border: 1px solid #eee; }
+        .summary-box { background: var(--white); border: 3px solid var(--gold); padding: 20px; border-radius: 30px; }
+        .summary-box h1 { font-size: 40px; color: var(--dark); margin: 10px 0; }
 
-        /* App Layout */
-        .sub-app { display: none; background: var(--card); padding: 25px; border-radius: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        input, select, button { width: 100%; padding: 15px; margin-top: 10px; border-radius: 15px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; font-family: 'Sarabun'; }
-        button { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; border: none; font-weight: bold; cursor: pointer; }
-        .item-card { background: rgba(0,0,0,0.02); padding: 15px; border-radius: 20px; border-left: 6px solid var(--primary); margin-bottom: 12px; position: relative; text-align: left; }
-        
-        .timer-display { font-weight: bold; color: #D32F2F; font-size: 14px; }
-        .btn-start { background: #2E7D32; padding: 5px 10px; width: auto; font-size: 12px; margin-top: 5px; }
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .menu-btn { background: var(--white); padding: 20px; border-radius: 20px; border: none; border-bottom: 4px solid var(--gold); cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.2s; }
+        .menu-btn:active { transform: scale(0.95); }
+        .menu-btn span { font-size: 30px; display: block; margin-bottom: 5px; }
+
+        /* Input Styles */
+        input, select, button.action-btn { width: 100%; padding: 15px; margin-top: 10px; border-radius: 15px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; font-family: 'Sarabun'; }
+        button.action-btn { background: linear-gradient(135deg, var(--dark), var(--gold)); color: white; border: none; font-weight: bold; font-size: 18px; }
+        .sub-app { display: none; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* QR Zone */
+        .qr-display { display: none; margin-top: 20px; padding: 15px; background: #fffde7; border-radius: 20px; border: 2px dashed var(--gold); }
+        #qr-image { width: 220px; height: 220px; border: 5px solid #fff; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<div id="loginOverlay" style="position:fixed; inset:0; background:#121212; display:flex; justify-content:center; align-items:center; z-index:2000;">
-    <div style="background:white; padding:40px; border-radius:35px; width:85%; text-align:center; border:3px solid var(--primary);">
+<div id="login-screen">
+    <div class="login-card">
         <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" width="150">
-        <h2>ระบบจัดการร้าน</h2>
-        <input type="password" id="passInput" placeholder="รหัสผ่าน" style="text-align:center;">
-        <button onclick="checkLogin()">เข้าสู่ระบบ</button>
+        <h2 style="color:var(--dark)">บ้านประคบทอง</h2>
+        <input type="password" id="pass" placeholder="รหัสผ่านเข้าสู่ระบบ">
+        <button class="action-btn" onclick="login()">เข้าสู่ระบบ</button>
     </div>
 </div>
 
-<div class="app-container">
-    <div id="dashboard" style="display:none;">
+<div class="container" id="main-app" style="display:none;">
+    <div id="dashboard">
+        <div style="text-align:center; margin-bottom:20px;">
+            <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" width="100">
+        </div>
         <div class="summary-box">
             <small>ยอดรายได้รวมวันนี้</small>
-            <h1 id="grandTotal" style="font-size:45px; margin:10px 0; color:var(--secondary);">฿0</h1>
+            <h1 id="total-display">฿0</h1>
+            <button onclick="resetDay()" style="background:red; color:white; border:none; padding:5px 15px; border-radius:10px; font-size:12px;">ปิดยอดวัน</button>
         </div>
-        <div class="menu-grid">
-            <div class="menu-card" onclick="showApp('queueApp')"><span>💆‍♂️</span><br><strong>คิว & จับเวลา</strong></div>
-            <div class="menu-card" onclick="showApp('paymentApp')"><span>💰</span><br><strong>รับเงิน</strong></div>
-            <div class="menu-card" onclick="showApp('reportApp'); renderReport();"><span>📊</span><br><strong>สรุปยอดวันนี้</strong></div>
-            <div class="menu-card" onclick="showApp('historyApp'); renderHistory();"><span>📋</span><br><strong>ประวัติ/ส่งชีต</strong></div>
-            <div class="menu-card" onclick="showApp('verifyApp')"><span>🔍</span><br><strong>เช็คเงิน <span id="pendingCount" style="color:red;">0</span></strong></div>
-            <div class="menu-card" onclick="showApp('settingApp')"><span>⚙️</span><br><strong>ตั้งค่า</strong></div>
+        <div class="menu-grid" style="margin-top:20px;">
+            <button class="menu-btn" onclick="go('queue-app')"><span>💆‍♂️</span><strong>ลงคิว</strong></button>
+            <button class="menu-btn" onclick="go('pay-app')"><span>💰</span><strong>รับเงิน</strong></button>
+            <button class="menu-btn" onclick="go('history-app')"><span>📋</span><strong>ประวัติ</strong></button>
+            <button class="menu-btn" onclick="location.reload()"><span>⚙️</span><strong>ออก</strong></button>
         </div>
     </div>
 
-    <div id="queueApp" class="sub-app">
-        <h3>💆‍♂️ ตารางนวด & จับเวลา</h3>
-        <select id="staffSelect"></select>
-        <input type="text" id="custNameQ" placeholder="ชื่อลูกค้า">
-        <input type="number" id="custPriceQ" placeholder="ราคา (บาท)">
-        <input type="number" id="custTimeQ" placeholder="เวลานวด (นาที)" value="60">
-        <button onclick="addQueue()">📌 เพิ่มเข้าตาราง</button>
-        <hr><div id="queueList"></div>
-        <button onclick="showDashboard()" style="background:#f0f0f0; color:#888; margin-top:20px;">⬅️ กลับ</button>
-    </div>
-
-    <div id="paymentApp" class="sub-app">
-        <h3>💰 บันทึกรับเงิน</h3>
-        <select id="activeCustSelect" onchange="autoFillPay()"></select>
-        <input type="text" id="custNamePay" placeholder="ชื่อลูกค้า">
-        <input type="number" id="payAmount" oninput="updateQR()" style="font-size:30px; text-align:center;">
-        <div style="display:flex; gap:10px;">
-            <button onclick="setMethod('qr')" style="flex:1;">📱 โอน</button>
-            <button onclick="setMethod('cash')" style="flex:1; background:#888;">💵 เงินสด</button>
+    <div id="queue-app" class="sub-app">
+        <div class="card">
+            <h3>💆‍♂️ ลงตารางคิว</h3>
+            <input type="text" id="q-name" placeholder="ชื่อลูกค้า">
+            <input type="number" id="q-price" placeholder="ราคา">
+            <div style="display:flex; gap:10px;"><input type="time" id="q-f"> <span>ถึง</span> <input type="time" id="q-t"></div>
+            <button class="action-btn" onclick="saveQueue()">📌 บันทึกคิว</button>
         </div>
-        <div id="qrZone" style="text-align:center; margin-top:15px; display:none;">
-            <img id="qrcode" width="150">
+        <div id="queue-list"></div>
+        <button onclick="go('dashboard')" style="width:100%; padding:10px; border:none; background:none; color:#888;">⬅️ กลับหน้าหลัก</button>
+    </div>
+
+    <div id="pay-app" class="sub-app">
+        <div class="card">
+            <h3>💰 บันทึกรับเงิน</h3>
+            <select id="q-select" onchange="autoFill()"></select>
+            <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
+            <input type="number" id="pay-amt" placeholder="จำนวนเงิน" oninput="genQR()" style="font-size:25px; text-align:center;">
+            
+            <div class="qr-display" id="qr-area">
+                <img id="qr-image" src="" alt="สแกนเพื่อจ่ายเงิน">
+                <p style="font-size:12px; color:#666;">สแกนโอนเข้าเบอร์: 086-352-6387</p>
+            </div>
+
+            <button class="action-btn" onclick="confirmPay()" style="margin-top:20px;">✅ ยืนยันเงินเข้า</button>
         </div>
-        <button onclick="confirmPayment()" style="background:var(--secondary); margin-top:20px;">ยืนยันแจ้งชำระ</button>
-        <button onclick="showDashboard()" style="background:#f0f0f0; color:#888; margin-top:20px;">⬅️ กลับ</button>
+        <button onclick="go('dashboard')" style="width:100%; padding:10px; border:none; background:none; color:#888;">⬅️ ยกเลิก</button>
     </div>
 
-    <div id="reportApp" class="sub-app">
-        <h3>📊 สรุปยอดรายวัน</h3>
-        <div id="reportContent" style="text-align:left; line-height:1.8;"></div>
-        <button onclick="showDashboard()" style="background:#f0f0f0; color:#888; margin-top:20px;">⬅️ กลับ</button>
-    </div>
-
-    <div id="historyApp" class="sub-app">
-        <h3>📋 ประวัติวันนี้</h3>
-        <button id="sheetBtn" onclick="sendToSheet()" style="background:#2E7D32; margin-bottom:15px;">📤 ส่งข้อมูลไป Google Sheet</button>
-        <div id="historyList"></div>
-        <button onclick="showDashboard()" style="background:#f0f0f0; color:#888; margin-top:20px;">⬅️ กลับ</button>
-    </div>
-
-    <div id="verifyApp" class="sub-app">
-        <h3>🔍 รายการรอตรวจสอบ</h3>
-        <div id="pendingList"></div>
-        <button onclick="showDashboard()" style="background:#f0f0f0; color:#888; margin-top:20px;">⬅️ กลับ</button>
-    </div>
-
-    <div id="settingApp" class="sub-app">
-        <h3>⚙️ ตั้งค่า</h3>
-        <button onclick="localStorage.clear(); location.reload();" style="background:#333;">⚠️ ล้างข้อมูลทั้งหมด</button>
-        <button onclick="showDashboard()" style="background:#f0f0f0; color:#888; margin-top:20px;">⬅️ กลับ</button>
+    <div id="history-app" class="sub-app">
+        <div class="card">
+            <h3>📋 ประวัติวันนี้</h3>
+            <div id="hist-list"></div>
+        </div>
+        <button onclick="go('dashboard')" style="width:100%; padding:10px; border:none; background:none; color:#888;">⬅️ กลับหน้าหลัก</button>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-BRWBtHvZTJL2rJlyKNJWGJujoXmubwlWPWwpiQ7Qi3jNtfICqgn_-jQriMoRrfuIKQ/exec";
-    
-    let staff = JSON.parse(localStorage.getItem('staffData')) || [{id:1,name:'หมอแดง'},{id:2,name:'หมอเขียว'},{id:3,name:'หมอฟ้า'}];
-    let activeQueues = JSON.parse(localStorage.getItem('activeQueues')) || [];
-    let history = JSON.parse(localStorage.getItem('massageHistory')) || [];
-    let pending = JSON.parse(localStorage.getItem('pendingPayments')) || [];
-    let grandTotal = parseInt(localStorage.getItem('grandTotal')) || 0;
-    let payMethod = 'qr';
+    let grandTotal = parseInt(localStorage.getItem('gt_v2')) || 0;
+    let queues = JSON.parse(localStorage.getItem('q_v2')) || [];
+    let history = JSON.parse(localStorage.getItem('h_v2')) || [];
 
-    function checkLogin() { if(document.getElementById('passInput').value === "123456") { document.getElementById('loginOverlay').style.display = "none"; document.getElementById('dashboard').style.display = 'block'; updateDashboard(); } }
+    function login() { if(document.getElementById('pass').value === '123456') { document.getElementById('login-screen').style.display='none'; document.getElementById('main-app').style.display='block'; updateHome(); } }
+    function go(id) { document.getElementById('dashboard').style.display='none'; document.querySelectorAll('.sub-app').forEach(a=>a.style.display='none'); document.getElementById(id).style.display='block'; if(id==='pay-app') updateQDrop(); if(id==='queue-app') renderQ(); if(id==='history-app') renderH(); }
+    function updateHome() { document.getElementById('total-display').innerText = `฿${grandTotal}`; }
 
-    function updateDashboard() {
-        document.getElementById('grandTotal').innerText = `฿${grandTotal}`;
-        document.getElementById('pendingCount').innerText = pending.length;
+    // --- ระบบ QR Code (เบอร์ใหม่ 0863526387) ---
+    function genQR() {
+        let a = document.getElementById('pay-amt').value;
+        let img = document.getElementById('qr-image');
+        let area = document.getElementById('qr-area');
+        if(a > 0) {
+            // ใช้ PromptPay.io ตรงๆ พร้อมเบอร์ใหม่ และสุ่มเลขท้ายเพื่อล้าง Cache
+            img.src = `https://promptpay.io/0863526387/${a}.png?v=${Date.now()}`;
+            area.style.display = 'block';
+        } else { area.style.display = 'none'; }
     }
 
-    function showApp(id) {
-        document.getElementById('dashboard').style.display = 'none';
-        document.querySelectorAll('.sub-app').forEach(a => a.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
-        if(id==='queueApp') { updateStaffDrop(); renderQueueList(); }
-        if(id==='paymentApp') updateActiveCustDrop();
+    // --- ระบบจัดการคิว ---
+    function saveQueue() {
+        let n=document.getElementById('q-name').value, p=document.getElementById('q-price').value, f=document.getElementById('q-f').value, t=document.getElementById('q-t').value;
+        if(!n||!p||!f||!t) return alert('ใส่ข้อมูลให้ครบนะจ๊ะ');
+        queues.push({id:Date.now(), n, p, f, t});
+        localStorage.setItem('q_v2', JSON.stringify(queues));
+        renderQ(); document.getElementById('q-name').value='';
+    }
+    function renderQ() {
+        let l = document.getElementById('queue-list'); l.innerHTML = '';
+        queues.forEach(q => { l.innerHTML += `<div class="card" style="text-align:left;"><strong>⏰ ${q.f}-${q.t} | ${q.n}</strong><br><small>ราคา: ฿${q.p}</small></div>`; });
+    }
+    function updateQDrop() {
+        let s = document.getElementById('q-select'); s.innerHTML = '<option value="">-- เลือกจากคิวจอง --</option>';
+        queues.forEach(q => { s.innerHTML += `<option value="${q.id}">${q.n}</option>`; });
+    }
+    function autoFill() {
+        let id = document.getElementById('q-select').value; if(!id) return;
+        let q = queues.find(x=>x.id==id);
+        document.getElementById('pay-name').value = q.n;
+        document.getElementById('pay-amt').value = q.p;
+        genQR();
     }
 
-    function showDashboard() {
-        document.querySelectorAll('.sub-app').forEach(a => a.style.display = 'none');
-        document.getElementById('dashboard').style.display = 'block';
-        updateDashboard();
+    // --- ระบบจ่ายเงิน ---
+    function confirmPay() {
+        let a = parseInt(document.getElementById('pay-amt').value);
+        let n = document.getElementById('pay-name').value;
+        let id = document.getElementById('q-select').value;
+        if(!a || !n) return alert('กรอกชื่อและยอดเงินด้วยจ๊ะ');
+        
+        grandTotal += a; history.push({n, a, t: new Date().toLocaleTimeString()});
+        if(id) queues = queues.filter(x=>x.id != id);
+        
+        localStorage.setItem('gt_v2', grandTotal); localStorage.setItem('h_v2', JSON.stringify(history)); localStorage.setItem('q_v2', JSON.stringify(queues));
+        alert('บันทึกยอดเงินเรียบร้อย!'); go('dashboard'); updateHome();
     }
 
-    // Timer Logic
-    function startTimer(id, duration) {
-        let q = activeQueues.find(x => x.id === id);
-        if(q.startTime) return;
-        q.startTime = Date.now();
-        q.endTime = q.startTime + (duration * 60000);
-        localStorage.setItem('activeQueues', JSON.stringify(activeQueues));
-        renderQueueList();
+    function renderH() {
+        let l = document.getElementById('hist-list'); l.innerHTML = '';
+        history.slice().reverse().forEach(h => { l.innerHTML += `<div style="border-bottom:1px solid #eee; padding:10px; text-align:left;"><strong>${h.n}</strong> | ฿${h.a} <br><small>${h.t}</small></div>`; });
     }
-
-    setInterval(() => {
-        let changed = false;
-        activeQueues.forEach(q => {
-            if(q.startTime && !q.alerted) {
-                if(Date.now() >= q.endTime) {
-                    alert(`⏰ หมดเวลา: คุณ ${q.n} (หมอ ${q.sn})`);
-                    q.alerted = true;
-                    changed = true;
-                }
-            }
-        });
-        if(changed) { localStorage.setItem('activeQueues', JSON.stringify(activeQueues)); renderQueueList(); }
-    }, 1000);
-
-    function addQueue() {
-        let n=document.getElementById('custNameQ').value, sn=document.getElementById('staffSelect').value, p=document.getElementById('custPriceQ').value, t=document.getElementById('custTimeQ').value;
-        if(!n||!p||!t) return alert("กรอกข้อมูลให้ครบ");
-        activeQueues.push({id:Date.now(), n, sn, p, duration:t, alerted:false, startTime:null});
-        localStorage.setItem('activeQueues', JSON.stringify(activeQueues));
-        renderQueueList(); document.getElementById('custNameQ').value="";
-    }
-
-    function renderQueueList() {
-        let list = document.getElementById('queueList'); list.innerHTML = "";
-        activeQueues.forEach(q => {
-            let timerHtml = q.startTime ? `<span class="timer-display">⏳ กำลังนวด...</span>` : `<button class="btn-start" onclick="startTimer(${q.id}, ${q.duration})">▶️ เริ่มนวด (${q.duration} นาที)</button>`;
-            list.innerHTML += `<div class="item-card">
-                <strong>👤 ${q.n}</strong> | ฿${q.p}<br><small>หมอ: ${q.sn}</small><br>${timerHtml}
-                <button onclick="removeQueue(${q.id})" style="position:absolute; right:10px; top:10px; width:auto; padding:5px; background:red;">ลบ</button>
-            </div>`;
-        });
-    }
-    function removeQueue(id) { activeQueues = activeQueues.filter(q=>q.id!==id); localStorage.setItem('activeQueues', JSON.stringify(activeQueues)); renderQueueList(); }
-
-    // Payment Logic
-    function updateActiveCustDrop() { let s=document.getElementById('activeCustSelect'); s.innerHTML="<option value=''>-- เลือกคนจอง --</option>"; activeQueues.forEach(q=>s.innerHTML+=`<option value='${q.id}'>${q.n}</option>`); }
-    function autoFillPay() { let id=document.getElementById('activeCustSelect').value; if(!id) return; let q=activeQueues.find(x=>x.id==id); document.getElementById('custNamePay').value=q.n; document.getElementById('payAmount').value=q.p; updateQR(); }
-    function setMethod(m) { payMethod=m; document.getElementById('qrZone').style.display=m==='qr'?'block':'none'; updateQR(); }
-    function updateQR() { let a=document.getElementById('payAmount').value; document.getElementById('qrcode').src=a>0?`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://promptpay.io/0863112536/${a}`:''; }
-
-    function confirmPayment() {
-        let a=parseInt(document.getElementById('payAmount').value), n=document.getElementById('custNamePay').value, qId=document.getElementById('activeCustSelect').value;
-        if(!a||!n) return alert("กรอกยอดเงิน");
-        let sn = qId ? activeQueues.find(x=>x.id==qId).sn : "ไม่ระบุ";
-        pending.push({a, n, sn, method: payMethod, id: Date.now()});
-        if(qId) activeQueues = activeQueues.filter(q=>q.id!=qId);
-        localStorage.setItem('pendingPayments', JSON.stringify(pending));
-        localStorage.setItem('activeQueues', JSON.stringify(activeQueues));
-        alert("แจ้งรับเงินแล้ว! รอย่ายืนยันในหน้าเช็คเงิน"); showDashboard();
-    }
-
-    function verifyPayment(id) {
-        let idx=pending.findIndex(p=>p.id===id), p=pending[idx];
-        grandTotal += p.a;
-        history.push({...p, com:Math.floor(p.a*0.4), date:new Date().toLocaleString()});
-        pending.splice(idx,1);
-        localStorage.setItem('grandTotal', grandTotal);
-        localStorage.setItem('massageHistory', JSON.stringify(history));
-        localStorage.setItem('pendingPayments', JSON.stringify(pending));
-        showDashboard();
-    }
-
-    // Report & History
-    function renderReport() {
-        let report = `<b>💰 ยอดรวม:</b> ฿${grandTotal}<br><b>📊 จำนวนลูกค้า:</b> ${history.length} ท่าน<hr><b>ค่าคอมพนักงาน:</b><br>`;
-        staff.forEach(s => {
-            let sTotal = history.filter(h => h.sn === s.name).reduce((sum, h) => sum + h.com, 0);
-            report += `- ${s.name}: ฿${sTotal}<br>`;
-        });
-        document.getElementById('reportContent').innerHTML = report;
-    }
-
-    function renderHistory() { let list=document.getElementById('historyList'); list.innerHTML=""; history.slice().reverse().forEach(h=>list.innerHTML+=`<div class="item-card">👤 ${h.n} | ฿${h.a} | หมอ ${h.sn}<br><small>${h.date}</small></div>`); }
-
-    // Google Sheet Function
-    async function sendToSheet() {
-        let btn = document.getElementById('sheetBtn');
-        btn.innerText = "กำลังส่ง... ห้ามปิดหน้าเว็บ";
-        btn.disabled = true;
-        try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(history)
-            });
-            alert("ส่งข้อมูลเข้า Google Sheet สำเร็จแล้วเพื่อน!");
-        } catch (e) { alert("ล้มเหลว! เช็คการ Deploy ใน Sheet หน่อย"); }
-        finally { btn.innerText = "📤 ส่งข้อมูลไป Google Sheet"; btn.disabled = false; }
-    }
-
-    function updateStaffDrop() { let s=document.getElementById('staffSelect'); s.innerHTML=""; staff.forEach(x=>s.innerHTML+=`<option>${x.name}</option>`); }
-    function renderPending() { let list=document.getElementById('pendingList'); list.innerHTML=pending.length===0?"<p>ไม่มีรายการ</p>":""; pending.forEach(p=>list.innerHTML+=`<div class="item-card">฿${p.a} | ${p.n}<br><button onclick="verifyPayment(${p.id})">✅ ยืนยันเงินเข้า</button></div>`); }
-    function closeDay() { if(confirm("ปิดยอดวัน?")){ grandTotal=0; history=[]; localStorage.setItem('grandTotal',0); localStorage.setItem('massageHistory', JSON.stringify([])); showDashboard(); } }
-
-    showDashboard();
+    function resetDay() { if(confirm('ต้องการเริ่มวันใหม่ใช่ไหม?')) { localStorage.clear(); location.reload(); } }
 </script>
 </body>
 </html>
