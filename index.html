@@ -11,18 +11,18 @@
             --dark-gold: #996515;
             --light-bg: #F9F5F0;
             --white: #ffffff;
-            --text: #333;
+            --black: #1a1a1a;
             --shadow: 0 10px 30px rgba(153,101,21,0.1);
         }
-        body { font-family: 'Sarabun', sans-serif; background-color: var(--light-bg); margin: 0; color: var(--text); display: flex; justify-content: center; min-height: 100vh; }
+        body { font-family: 'Sarabun', sans-serif; background-color: var(--light-bg); margin: 0; color: #333; display: flex; justify-content: center; min-height: 100vh; }
         .app-container { width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; }
         
-        /* Login */
-        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a, #333); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .login-box { background: var(--white); padding: 40px; border-radius: 30px; width: 85%; text-align: center; box-shadow: 0 10px 50px rgba(0,0,0,0.5); border: 2px solid var(--primary-gold); }
-        .logo-img { width: 180px; margin-bottom: 15px; }
-        
-        /* Dashboard */
+        /* Login UI */
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #000, #333); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background: var(--white); padding: 40px; border-radius: 30px; width: 85%; text-align: center; box-shadow: 0 15px 50px rgba(0,0,0,0.5); border: 2px solid var(--primary-gold); }
+        .logo-img { width: 200px; margin-bottom: 10px; }
+
+        /* Dashboard UI */
         #dashboard { display: none; text-align: center; }
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
         .total-card { background: var(--white); padding: 20px; border-radius: 25px; box-shadow: var(--shadow); border: 1px solid #eee; }
@@ -34,14 +34,14 @@
         .menu-card:active { transform: scale(0.95); }
         .menu-card span { font-size: 40px; display: block; margin-bottom: 8px; color: var(--primary-gold); }
 
-        /* Sub-App */
-        .sub-app { display: none; background: var(--white); padding: 25px; border-radius: 30px; box-shadow: var(--shadow); }
+        /* Common Elements */
+        .sub-app { display: none; background: var(--white); padding: 25px; border-radius: 30px; box-shadow: var(--shadow); border: 1px solid #eee; }
         input, select, button { width: 100%; padding: 15px; margin-top: 10px; border-radius: 15px; border: 1px solid #eee; box-sizing: border-box; font-size: 16px; font-family: 'Sarabun'; }
         button { background: linear-gradient(135deg, var(--dark-gold), var(--primary-gold)); color: white; border: none; font-weight: bold; cursor: pointer; }
         .btn-back { background: #f5f5f5; color: #999; margin-top: 15px; }
         
         .item-card { background: #fcfcfc; padding: 15px; border-radius: 18px; border-left: 5px solid var(--primary-gold); margin-bottom: 12px; text-align: left; }
-        .method-btn { padding: 12px; border: 2px solid #f0f0f0; border-radius: 15px; flex: 1; cursor: pointer; text-align: center; font-size: 14px; color: #999; }
+        .method-btn { padding: 12px; border: 2px solid #f0f0f0; border-radius: 15px; flex: 1; cursor: pointer; text-align: center; font-size: 14px; }
         .method-btn.active { border-color: var(--primary-gold); background: #FFFDF5; color: var(--dark-gold); font-weight: bold; }
         #qrZone { margin-top: 20px; text-align: center; min-height: 200px; }
     </style>
@@ -50,7 +50,7 @@
 
 <div id="loginOverlay">
     <div class="login-box">
-        <img src="https://raw.githubusercontent.com/Pannaphat2011/Grandma-Massage-App-v.1/main/image-removebg-preview.png" class="logo-img" alt="โลโก้บ้านประคบทอง">
+        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img" alt="บ้านประคบทอง Logo">
         <h2 style="color: var(--dark-gold); margin-bottom: 20px;">บ้านประคบทอง ไทย/สปา</h2>
         <input type="text" id="userInput" placeholder="ชื่อผู้ใช้">
         <input type="password" id="passInput" placeholder="รหัสผ่าน">
@@ -60,10 +60,10 @@
 
 <div class="app-container">
     <div id="dashboard">
-        <img src="https://raw.githubusercontent.com/Pannaphat2011/Grandma-Massage-App-v.1/main/image-removebg-preview.png" style="width: 120px; margin-bottom: 15px;">
+        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" style="width: 140px; margin-bottom: 15px;">
         <div class="summary-grid">
-            <div class="total-card" style="grid-column: span 2; background: #1a1a1a; color: white; border: 1px solid var(--primary-gold);">
-                <small style="color: #ccc;">รายได้รวมทั้งหมดวันนี้</small>
+            <div class="total-card" style="grid-column: span 2; background: var(--black); color: white; border: 1px solid var(--primary-gold);">
+                <small style="color: #ccc;">ยอดรายได้รวมวันนี้</small>
                 <h2 id="grandTotal" style="color: var(--primary-gold); font-size: 38px;">฿0</h2>
             </div>
             <div class="total-card"><small>💰 เงินสด</small><h2 id="cashTotal" style="font-size: 22px;">฿0</h2></div>
@@ -79,7 +79,7 @@
     </div>
 
     <div id="queueApp" class="sub-app">
-        <h3 style="color: var(--dark-gold);">💆‍♂️ จองคิว</h3>
+        <h3 style="color: var(--dark-gold);">💆‍♂️ ลงทะเบียนจองคิว</h3>
         <select id="staffSelect"></select>
         <select id="serviceType">
             <option>นวดไทย</option><option>นวดไทยประคบ</option><option>นวดไทยออย</option>
@@ -194,7 +194,7 @@
         const list = document.getElementById('staffStatusList'); list.innerHTML = "";
         staffData.forEach(s => {
             const div = document.createElement('div'); div.className = 'item-card'; div.style.display = "flex"; div.style.justifyContent = "space-between"; div.style.alignItems = "center";
-            div.innerHTML = `<strong>${s.name}</strong><button style="width:auto; margin:0; padding:8px 15px; background:${s.isAvailable?'#2E7D32':'#D32F2F'};" onclick="toggleStatus('${s.id}')">${s.isAvailable ? 'ว่าง' : 'ไม่ว่าง'}</button>`;
+            div.innerHTML = `<strong>${s.name}</strong><button style="width:auto; margin:0; padding:8px 15px; background:${s.isAvailable?'#2E7D32':'#D32F2F'};color:white;" onclick="toggleStatus('${s.id}')">${s.isAvailable ? 'ว่าง' : 'ไม่ว่าง'}</button>`;
             list.appendChild(div);
         });
     }
@@ -207,7 +207,7 @@
         const n = document.getElementById('customerName').value; const p = document.getElementById('servicePrice').value; const t = document.getElementById('bookingTime').value; const sn = document.getElementById('staffSelect').value; const s = document.getElementById('serviceType').value;
         if(!n || !p || !t) { alert("ข้อมูลไม่ครบ!"); return; }
         const div = document.createElement('div'); div.className = 'item-card';
-        div.innerHTML = `<strong>${t}</strong> | ${n} (${s})<br><small>ราคา: ฿${p} | หมอ: ${sn}</small><button style="margin-top:10px; background:#007bff;" onclick="goToPay('${p}', '${n}', '${s}', '${sn}', this)">💆‍♂️ ไปจ่ายเงิน</button>`;
+        div.innerHTML = `<strong>${t}</strong> | ${n} (${s})<br><small>ราคา: ฿${p} | หมอ: ${sn}</small><button style="margin-top:10px; background:#007bff; color:white;" onclick="goToPay('${p}', '${n}', '${s}', '${sn}', this)">💆‍♂️ ไปจ่ายเงิน</button>`;
         document.getElementById('queueList').prepend(div); staffData.find(x => x.name === sn).isAvailable = false;
     }
     function goToPay(p, n, s, sn, btn) { document.getElementById('payAmount').value = p; window.currentPayData = {price:p, name:n, service:s, staffName:sn}; window.currentQueueBtn = btn; showApp('paymentApp'); setMethod('qr'); }
