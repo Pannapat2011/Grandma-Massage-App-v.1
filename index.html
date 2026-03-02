@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประคบทองไทยสปา - POS System</title>
+    <title>ประคบทองไทยสปา - Warm Cream POS</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        /* 🎨 Theme สีครีมเน้นๆ */
         :root {
+            --cream: #F5EEDC; /* สีครีมชัดเจน */
             --primary: #996515;
-            --bg: #F9F9F9;
-            --card: #FFFFFF;
-            --text: #333333;
-            --border: #EEEEEE;
+            --bg: #EFE6D5;
+            --card: #FFFBF2;
+            --text: #433D35;
+            --border: #DED3BC;
         }
 
         body {
@@ -34,7 +36,7 @@
         #login-overlay {
             position: fixed;
             inset: 0;
-            background: #FFF;
+            background: var(--cream);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -44,69 +46,97 @@
         .login-box {
             width: 85%;
             text-align: center;
+            background: var(--card);
+            padding: 40px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--border);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
 
         /* 🏠 Dashboard UI */
         .brand-section { text-align: center; margin-bottom: 25px; }
         .brand-section img { width: 100px; margin-bottom: 10px; }
-        .brand-section h1 { font-size: 22px; margin: 0; color: var(--primary); }
+        .brand-section h1 { font-size: 24px; margin: 0; color: var(--primary); font-weight: 600; }
 
         .balance-card {
             background: var(--card);
-            padding: 30px 20px;
-            border-radius: 25px;
-            border: 1px solid var(--border);
+            padding: 35px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--border);
             text-align: center;
             margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
 
-        .balance-card h2 { font-size: 40px; margin: 5px 0; color: var(--primary); font-weight: 600; }
+        .balance-card h2 { font-size: 45px; margin: 10px 0; color: var(--primary); font-weight: 600; }
 
         /* 🔘 Menu Buttons */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-item {
             background: var(--card);
-            padding: 20px 10px;
-            border-radius: 20px;
+            padding: 25px 15px;
+            border-radius: 25px;
             border: 1px solid var(--border);
             cursor: pointer;
             text-align: center;
             transition: 0.2s;
         }
-        .menu-item:active { background: #F5F5F5; transform: scale(0.95); }
-        .menu-item span { font-size: 28px; display: block; margin-bottom: 8px; }
+        .menu-item:active { background: var(--cream); transform: scale(0.95); }
+        .menu-item span { font-size: 32px; display: block; margin-bottom: 8px; }
 
         /* 📄 Sub-Page UI */
         .page { display: none; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        input, select, button.btn-black {
-            width: 100%; padding: 16px; margin-top: 12px; border-radius: 12px;
-            border: 1px solid var(--border); background: #FAFAFA; font-size: 16px; 
+        h3 { color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+
+        input, select, button.btn-primary {
+            width: 100%; padding: 18px; margin-top: 15px; border-radius: 15px;
+            border: 1px solid var(--border); background: var(--card); font-size: 16px; 
             font-family: 'Sarabun'; box-sizing: border-box; outline: none;
         }
 
-        button.btn-black { background: #000; color: #fff; border: none; font-weight: 600; cursor: pointer; }
-
-        .list-item {
-            padding: 15px; border-bottom: 1px solid var(--border); display: flex;
-            justify-content: space-between; align-items: center;
+        button.btn-primary { 
+            background: var(--primary); 
+            color: #fff; 
+            border: none; 
+            font-weight: 600; 
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(153, 101, 21, 0.2);
         }
 
-        #qr-box { display: none; text-align: center; margin-top: 20px; }
-        #qr-img { width: 220px; border-radius: 10px; border: 1px solid var(--border); }
+        .list-item {
+            padding: 18px; 
+            background: var(--card);
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #qr-box { 
+            display: none; 
+            text-align: center; 
+            margin-top: 25px; 
+            background: #FFF; 
+            padding: 20px; 
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+        #qr-img { width: 220px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div id="login-overlay">
     <div class="login-box">
-        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" width="100">
-        <h3>ประคบทองไทยสปา</h3>
+        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" width="110">
+        <h2 style="color:var(--primary);">ประคบทองไทยสปา</h2>
         <input type="text" id="user-input" placeholder="ชื่อผู้ใช้งาน">
         <input type="password" id="pass-input" placeholder="รหัสผ่าน">
-        <button class="btn-black" onclick="handleAuth()">เข้าสู่ระบบ</button>
+        <button class="btn-primary" onclick="handleAuth()">เข้าสู่ระบบ</button>
     </div>
 </div>
 
@@ -118,56 +148,56 @@
         </div>
 
         <div class="balance-card">
-            <small style="color:#888;">ยอดเงินรวมวันนี้</small>
+            <small style="color:#8E8474; letter-spacing: 1px;">ยอดเงินรวมวันนี้</small>
             <h2 id="total-val">฿0</h2>
-            <div style="font-size:12px; margin-top:10px; opacity:0.6;">
-                ผู้ใช้งาน: <span id="current-user"></span> | รอยืนยัน: <b id="wait-count" style="color:red;">0</b>
+            <div style="font-size:12px; margin-top:12px; color: #8E8474;">
+                ผู้ใช้: <b id="current-user"></b> | รอยืนยัน: <b id="wait-count" style="color:#D32F2F;">0</b>
             </div>
         </div>
 
         <div class="menu-grid">
-            <div class="menu-item" onclick="openPage('p-queue')"><span>📅</span><strong>จองคิว</strong></div>
+            <div class="menu-item" onclick="openPage('p-queue')"><span>📅</span><strong>ลงคิว</strong></div>
             <div class="menu-item" onclick="openPage('p-pay')"><span>💰</span><strong>รับเงิน</strong></div>
             <div class="menu-item" onclick="openPage('p-verify')"><span>🔍</span><strong>เช็คยอด</strong></div>
             <div class="menu-item" onclick="openPage('p-hist')"><span>📋</span><strong>ประวัติ</strong></div>
         </div>
         
-        <button onclick="if(confirm('Logout?')) location.reload();" style="background:none; border:none; color:#DDD; width:100%; margin-top:60px; font-size:11px;">ออกจากระบบ</button>
+        <button onclick="if(confirm('Logout?')) location.reload();" style="background:none; border:none; color:#B4A894; width:100%; margin-top:60px; font-size:11px; cursor:pointer;">ออกจากระบบ</button>
     </div>
 
     <div id="p-queue" class="page">
-        <h3>จองคิว</h3>
+        <h3>บันทึกคิวจอง</h3>
         <input type="text" id="q-name" placeholder="ชื่อลูกค้า">
-        <input type="number" id="q-price" placeholder="ราคา">
+        <input type="number" id="q-price" placeholder="ราคาบริการ">
         <div style="display:flex; gap:10px;"><input type="time" id="q-s"><input type="time" id="q-e"></div>
-        <button class="btn-black" onclick="addQ()">บันทึกคิว</button>
+        <button class="btn-primary" onclick="addQ()">บันทึกคิว</button>
         <div id="q-list" style="margin-top:20px;"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; width:100%; margin-top:20px;">กลับหน้าหลัก</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#999; width:100%; margin-top:20px;">กลับหน้าหลัก</button>
     </div>
 
     <div id="p-pay" class="page">
-        <h3>รับเงิน</h3>
+        <h3>รับชำระเงิน</h3>
         <select id="pay-select" onchange="autoPay()"></select>
         <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
-        <input type="number" id="pay-amt" placeholder="0" oninput="genQR()" style="font-size:32px; text-align:center; border:none; border-bottom:2px solid #000; border-radius:0; background:none;">
+        <input type="number" id="pay-amt" placeholder="0" oninput="genQR()" style="font-size:36px; text-align:center; border:none; border-bottom:2px solid var(--primary); background:none; color:var(--primary); font-weight:bold;">
         <div id="qr-box">
             <img id="qr-img" src="">
-            <p style="font-size:12px; color:#999; margin-top:10px;">พร้อมเพย์: <span id="display-pp"></span></p>
+            <p style="font-size:13px; color:#666; margin-top:10px;">พร้อมเพย์: <span id="display-pp" style="font-weight:bold; color:var(--primary);"></span></p>
         </div>
-        <button class="btn-black" onclick="submitPay()">ยืนยันแจ้งโอน</button>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; width:100%; margin-top:20px;">ยกเลิก</button>
+        <button class="btn-primary" onclick="submitPay()" style="margin-top:20px;">ยืนยันแจ้งโอน</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#999; width:100%; margin-top:20px;">ยกเลิก</button>
     </div>
 
     <div id="p-verify" class="page">
-        <h3>รอตรวจสอบ</h3>
+        <h3>รายการรอตรวจสอบ</h3>
         <div id="v-list"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; width:100%; margin-top:20px;">กลับหน้าหลัก</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#999; width:100%; margin-top:20px;">กลับหน้าหลัก</button>
     </div>
 
     <div id="p-hist" class="page">
-        <h3>ประวัติวันนี้</h3>
+        <h3>ประวัติการรับเงิน</h3>
         <div id="hist-list"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; width:100%; margin-top:20px;">กลับหน้าหลัก</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#999; width:100%; margin-top:20px;">กลับหน้าหลัก</button>
     </div>
 </div>
 
@@ -206,8 +236,20 @@
         updateUI();
     }
 
-    function openPage(id) { document.getElementById('home').style.display='none'; document.querySelectorAll('.page').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='block'; if(id==='p-queue')renderQ(); if(id==='p-pay')updateDrop(); if(id==='p-verify')renderV(); if(id==='p-hist')renderH(); }
-    function updateUI() { document.getElementById('total-val').innerText=`฿${db.total.toLocaleString()}`; document.getElementById('wait-count').innerText=db.wait.length; }
+    function openPage(id) { 
+        document.getElementById('home').style.display='none'; 
+        document.querySelectorAll('.page').forEach(p=>p.style.display='none'); 
+        document.getElementById(id).style.display='block'; 
+        if(id==='p-queue')renderQ(); 
+        if(id==='p-pay')updateDrop(); 
+        if(id==='p-verify')renderV(); 
+        if(id==='p-hist')renderH(); 
+    }
+
+    function updateUI() { 
+        document.getElementById('total-val').innerText=`฿${db.total.toLocaleString()}`; 
+        document.getElementById('wait-count').innerText=db.wait.length; 
+    }
 
     function genQR() {
         let a = document.getElementById('pay-amt').value;
@@ -221,36 +263,49 @@
         let n=document.getElementById('q-name').value, p=document.getElementById('q-price').value, s=document.getElementById('q-s').value, e=document.getElementById('q-e').value;
         if(!n||!p) return;
         db.queues.push({id:Date.now(), n, p, s, e}); save(); renderQ();
+        document.getElementById('q-name').value = ''; document.getElementById('q-price').value = '';
     }
 
     function renderQ() {
         let l=document.getElementById('q-list'); l.innerHTML='';
-        db.queues.forEach(q => { l.innerHTML+=`<div class="list-item"><div><strong>${q.n}</strong><br><small>${q.s}-${q.e}</small></div><div>฿${q.p} <span onclick="delQ(${q.id})" style="color:red; margin-left:12px; cursor:pointer;">×</span></div></div>`; });
+        db.queues.forEach(q => { l.innerHTML+=`<div class="list-item"><div><strong>${q.n}</strong><br><small style="color:#999;">${q.s}-${q.e}</small></div><div style="color:var(--primary); font-weight:bold;">฿${q.p} <span onclick="delQ(${q.id})" style="color:red; margin-left:12px; cursor:pointer; font-size:18px;">×</span></div></div>`; });
     }
-    function delQ(id) { db.queues=db.queues.filter(x=>x.id!==id); save(); renderQ(); }
+    function delQ(id) { if(confirm('ลบคิวนี้?')){ db.queues=db.queues.filter(x=>x.id!==id); save(); renderQ(); } }
 
     function updateDrop() {
-        let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกจากคิว --</option>';
+        let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกจากคิวจอง --</option>';
         db.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n}</option>`);
     }
-    function autoPay() { let id=document.getElementById('pay-select').value; if(!id)return; let q=db.queues.find(x=>x.id==id); document.getElementById('pay-name').value=q.n; document.getElementById('pay-amt').value=q.p; genQR(); }
+
+    function autoPay() { 
+        let id=document.getElementById('pay-select').value; if(!id)return; 
+        let q=db.queues.find(x=>x.id==id); 
+        document.getElementById('pay-name').value=q.n; 
+        document.getElementById('pay-amt').value=q.p; 
+        genQR(); 
+    }
 
     function submitPay() {
         let a=parseInt(document.getElementById('pay-amt').value), n=document.getElementById('pay-name').value, qId=document.getElementById('pay-select').value;
-        if(!a||!n) return;
+        if(!a||!n) return alert('กรอกชื่อและยอดเงิน');
         db.wait.push({id:Date.now(), n, a, qId});
         if(qId) db.queues=db.queues.filter(x=>x.id!=qId);
-        save(); openPage('home'); updateUI();
+        save(); alert('บันทึกรายการแล้ว รอย่ายืนยันเงินเข้า'); openPage('home'); updateUI();
     }
 
     function renderV() {
-        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.5; margin-top:40px;">ไม่มีรายการ</p>';
-        db.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><div><strong>${v.n}</strong><br>฿${v.a}</div><button onclick="confirmV(${v.id})" style="background:#000; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-size:12px;">เงินเข้าแล้ว</button></div>`; });
+        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.5; margin-top:40px;">ไม่มีรายการรอตรวจสอบ</p>';
+        db.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><div><strong>${v.n}</strong><br><b style="color:var(--primary)">฿${v.a}</b></div><button onclick="confirmV(${v.id})" style="background:var(--primary); color:#fff; border:none; padding:10px 20px; border-radius:12px; font-size:12px; cursor:pointer;">ยืนยันเงินเข้า</button></div>`; });
     }
 
     async function confirmV(id) {
         let v = db.wait.find(x => x.id === id);
-        let record = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: v.n, a: v.a, user: document.getElementById('current-user').innerText };
+        let record = { 
+            date: new Date().toLocaleDateString('th-TH'), 
+            time: new Date().toLocaleTimeString('th-TH'), 
+            n: v.n, a: v.a, 
+            user: document.getElementById('current-user').innerText 
+        };
         db.total += v.a; db.history.push(record); db.wait = db.wait.filter(x => x.id !== id);
         save(); updateUI(); renderV();
         try { fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify([record]) }); } catch (e) {}
@@ -258,7 +313,7 @@
 
     function renderH() {
         let l=document.getElementById('hist-list'); l.innerHTML='';
-        db.history.slice().reverse().forEach(h => { l.innerHTML+=`<div class="list-item"><div><strong>${h.n}</strong><br><small>${h.time}</small></div><div>฿${h.a}</div></div>`; });
+        db.history.slice().reverse().forEach(h => { l.innerHTML+=`<div class="list-item"><div><strong>${h.n}</strong><br><small style="color:#999;">${h.time}</small></div><div style="font-weight:bold;">฿${h.a}</div></div>`; });
     }
 
     function save() { 
