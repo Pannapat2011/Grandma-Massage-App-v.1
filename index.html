@@ -102,7 +102,7 @@
 </div>
 
 <script>
-    // 🚩 เชื่อมต่อ URL แอปเว็บล่าสุดที่มึงให้มาเรียบร้อย
+    // 🚩 เชื่อมต่อ URL แอปเว็บล่าสุดที่มึงให้มาเรียบร้อยแล้วเพื่อน!
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3acLTKEmqAutw19YgnUfs3viIZwLNF0me2nfM9ck4KyJv-Ulk8DAb5m3G12FtVQeFA/exec";
     
     let currentUser = "", db = {};
@@ -216,7 +216,7 @@
         db.wait=db.wait.filter(x=>x.id!==id);
         updateUI(); renderV();
 
-        // 🚀 ยิงข้อมูลเข้า Google Sheet
+        // 🚀 บันทึกลง Google Sheet
         try {
             fetch(SCRIPT_URL, {
                 method:'POST',
