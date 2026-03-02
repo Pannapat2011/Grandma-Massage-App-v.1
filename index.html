@@ -1,240 +1,479 @@
 <!DOCTYPE html>
+
 <html lang="th">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>ประคบทอง - ระบบบันทึกข้อมูล</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Kanit:wght@500&display=swap" rel="stylesheet">
+
     <style>
+
         :root { --main-gold: #996515; --bg-cream: #F5EEDC; --card-white: #FFFBF2; --border-gold: #DED3BC; --success: #2E7D32; --danger: #D32F2F; }
+
         body { font-family: 'Sarabun', sans-serif; background: var(--bg-cream); margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+
         .container { width: 100%; max-width: 480px; padding: 20px; box-sizing: border-box; }
+
         .logo-img { width: 75px; display: block; margin: 0 auto 10px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+
         
+
         .balance-card { background: var(--card-white); padding: 25px; border-radius: 35px; border: 2px solid var(--border-gold); text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
         .balance-card h2 { font-family: 'Kanit'; font-size: 45px; margin: 5px 0; color: var(--main-gold); }
 
+
+
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
         .menu-item { background: var(--card-white); padding: 20px; border-radius: 25px; border: 1px solid var(--border-gold); cursor: pointer; text-align: center; transition: 0.2s; }
+
         .menu-item:active { transform: scale(0.95); }
+
         .menu-item span { font-size: 28px; display: block; margin-bottom: 8px; }
 
+
+
         .page { display: none; background: var(--card-white); padding: 25px; border-radius: 35px; border: 2px solid var(--border-gold); animation: fadeIn 0.3s; }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+
+
         input, select, button.btn-gold { width: 100%; padding: 15px; margin-top: 10px; border-radius: 12px; border: 1px solid var(--border-gold); background: #FFF; font-size: 16px; box-sizing: border-box; }
+
         button.btn-gold { background: var(--main-gold); color: #FFF; border: none; font-weight: 700; cursor: pointer; font-family: 'Kanit'; }
+
         
+
         .list-item { padding: 15px; background: #FFF; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border-gold); font-size: 14px; position: relative; }
+
         .dr-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+
     </style>
+
 </head>
+
 <body>
 
+
+
 <div id="login-overlay" style="position:fixed; inset:0; background:var(--bg-cream); display:flex; align-items:center; justify-content:center; z-index:2000;">
+
     <div style="width:85%; background:var(--card-white); padding:40px 25px; border-radius:40px; border:2px solid var(--border-gold); text-align:center;">
+
         <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img">
+
         <h2 style="font-family:'Kanit'; color:var(--main-gold); margin-bottom:20px;">ประคบทอง ไทย/สปา</h2>
+
         <input type="text" id="user-input" placeholder="ชื่อผู้ใช้งาน (admin/admin2)">
+
         <input type="password" id="pass-input" placeholder="รหัสผ่าน">
+
         <button class="btn-gold" onclick="handleAuth()">เข้าสู่ระบบ</button>
+
     </div>
+
 </div>
+
+
 
 <div class="container" id="app" style="display:none;">
+
     <div id="home">
+
         <div style="text-align:center; margin-bottom:20px;"><img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img"></div>
+
         <div class="balance-card">
+
             <small>ยอดรวมรายได้วันนี้ (<span id="user-label"></span>)</small>
+
             <h2 id="total-val">฿0</h2>
+
         </div>
+
         <div class="menu-grid">
+
             <div class="menu-item" onclick="openPage('p-queue')"><span>📅</span><strong>ลงคิวจอง</strong></div>
+
             <div class="menu-item" onclick="openPage('p-pay')"><span>💰</span><strong>รับชำระเงิน</strong></div>
+
             <div class="menu-item" onclick="openPage('p-verify')"><span>🔍</span><strong>ตรวจสอบยอด</strong></div>
+
             <div class="menu-item" onclick="openPage('p-settings')"><span>⚙️</span><strong>จัดการหมอ</strong></div>
+
         </div>
+
         <button onclick="location.reload()" style="background:none; border:none; color:#AAA; width:100%; margin-top:40px; cursor:pointer;">ออกจากระบบ</button>
+
     </div>
+
+
 
     <div id="p-queue" class="page">
+
         <h3 style="text-align:center; font-family:'Kanit';">ลงตารางจองคิว</h3>
+
         <input type="date" id="q-date">
+
         <input type="text" id="q-name" placeholder="ชื่อลูกค้า">
+
         <select id="q-type">
+
             <option value="นวดไทย">นวดไทย</option>
+
             <option value="นวดไทยประคบ">นวดไทยประคบ</option>
+
             <option value="นวดไทยออย">นวดไทยออย</option>
+
             <option value="นวดสปา+ขัดผิวครบชุด">นวดสปา+ขัดผิวครบชุด</option>
+
             <option value="นวดฝ่าเท้า">นวดฝ่าเท้า</option>
+
             <option value="นวดแก้อาการ">นวดแก้อาการ</option>
+
             <option value="นวดหน้าด้วยสมุนไพร">นวดหน้าด้วยสมุนไพร</option>
+
         </select>
+
         <select id="q-dr-select"></select>
+
         <input type="number" id="q-price" placeholder="ระบุราคา">
+
         <button class="btn-gold" onclick="addQ()">บันทึกคิวใหม่</button>
+
         <div id="q-list" style="margin-top:20px;"></div>
+
         <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; width:100%; margin-top:15px;">กลับ</button>
+
     </div>
+
+
 
     <div id="p-pay" class="page">
+
         <h3 style="text-align:center;">รับชำระเงิน</h3>
+
         <select id="pay-select" onchange="autoPay()"></select>
+
         <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
+
         <input type="number" id="pay-amt" placeholder="0" style="font-size:32px; text-align:center; font-weight:bold; color:var(--main-gold);">
+
         <button class="btn-gold" onclick="submitPay()">แจ้งยอดเข้าเครื่อง</button>
+
         <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; width:100%; margin-top:15px;">ยกเลิก</button>
+
     </div>
+
+
 
     <div id="p-verify" class="page">
+
         <h3 style="text-align:center;">ยืนยันข้อมูลลงชีท</h3>
+
         <div id="v-list"></div>
+
         <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; width:100%; margin-top:15px;">กลับ</button>
+
     </div>
+
+
 
     <div id="p-settings" class="page">
+
         <h3 style="text-align:center;">รายชื่อหมอนวด</h3>
+
         <input type="text" id="new-dr-name" placeholder="ชื่อหมอคนใหม่">
+
         <button class="btn-gold" onclick="addDr()">เพิ่มรายชื่อ</button>
+
         <div id="manage-dr-list" style="margin-top:20px;"></div>
+
         <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; width:100%; margin-top:15px;">กลับ</button>
+
     </div>
+
 </div>
 
+
+
 <script>
-    // 🚩 เชื่อมต่อ URL แอปเว็บล่าสุดที่มึงให้มาเรียบร้อยแล้วเพื่อน!
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3acLTKEmqAutw19YgnUfs3viIZwLNF0me2nfM9ck4KyJv-Ulk8DAb5m3G12FtVQeFA/exec";
+
+    // 🚩 URL ที่มึงส่งมา เชื่อมต่อให้แล้ว
+
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwU9lRbEPkM09WIxWrH28jO9uTx7xUyOqd1K9TaZR0cAZ2eP3PHHBN6YexYZ_Gw9PeI6g/exec";
+
     
+
     let currentUser = "", db = {};
 
+
+
     function handleAuth() {
+
         let u = document.getElementById('user-input').value.toLowerCase().trim(), p = document.getElementById('pass-input').value;
+
         if (p === '123456') {
+
             currentUser = (u === 'admin2') ? 'admin2' : 'admin';
+
             loadDB();
+
             document.getElementById('login-overlay').style.display = 'none';
+
             document.getElementById('app').style.display = 'block';
+
             document.getElementById('user-label').innerText = currentUser;
+
             updateUI();
+
         } else alert('รหัสผ่านไม่ถูกต้อง');
+
     }
+
+
 
     function loadDB() {
+
         let pf = currentUser + "_";
+
         db = {
+
             total: parseInt(localStorage.getItem(pf+'total')) || 0,
+
             queues: JSON.parse(localStorage.getItem(pf+'queues')) || [],
+
             wait: JSON.parse(localStorage.getItem(pf+'wait')) || [],
+
             doctors: JSON.parse(localStorage.getItem(pf+'doctors')) || [{n:"หมอนก", st:"free"}]
+
         };
+
     }
 
+
+
     function save() {
+
         let pf = currentUser + "_";
+
         localStorage.setItem(pf+'total', db.total);
+
         localStorage.setItem(pf+'queues', JSON.stringify(db.queues));
+
         localStorage.setItem(pf+'wait', JSON.stringify(db.wait));
+
         localStorage.setItem(pf+'doctors', JSON.stringify(db.doctors));
+
     }
+
+
 
     function updateUI() { document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`; save(); }
 
+
+
     function openPage(id) {
+
         document.getElementById('home').style.display='none';
+
         document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+
         document.getElementById(id).style.display='block';
+
         if(id==='p-queue') { renderQ(); populateDrSelect(); }
+
         if(id==='p-pay') updateDrop();
+
         if(id==='p-verify') renderV();
+
         if(id==='p-settings') renderManageDr();
+
     }
+
+
 
     function populateDrSelect() {
+
         let s = document.getElementById('q-dr-select'); s.innerHTML = '<option value="">-- เลือกหมอ --</option>';
+
         db.doctors.forEach(d => { s.innerHTML += `<option value="${d.n}" ${d.st==='busy'?'disabled':''}>${d.n}${d.st==='busy'?' (ไม่ว่าง)':''}</option>`; });
+
     }
+
+
 
     function addQ() {
+
         let n=document.getElementById('q-name').value, p=parseInt(document.getElementById('q-price').value), d=document.getElementById('q-date').value, t=document.getElementById('q-type').value, dr=document.getElementById('q-dr-select').value;
+
         if(!n||!p||!dr) return alert('กรอกข้อมูลให้ครบ');
+
         let drIdx = db.doctors.findIndex(x => x.n === dr); db.doctors[drIdx].st = 'busy';
+
         db.queues.push({id:Date.now(), n, p, d, type:t, dr});
+
         save(); renderQ(); populateDrSelect();
+
     }
+
+
 
     function renderQ() {
+
         let l=document.getElementById('q-list'); l.innerHTML='<strong>คิววันนี้:</strong>';
+
         db.queues.forEach(q => l.innerHTML+=`<div class="list-item"><strong>${q.n}</strong> (${q.type})<br><small>หมอ: ${q.dr}</small> <button onclick="delQ(${q.id}, '${q.dr}')" style="float:right; color:red; border:none; background:none; cursor:pointer;">ลบ</button></div>`);
+
     }
+
+
 
     function delQ(id, drName) {
+
         let drIdx = db.doctors.findIndex(x => x.n === drName);
+
         if(drIdx !== -1) db.doctors[drIdx].st = 'free';
+
         db.queues=db.queues.filter(x=>x.id!==id); save(); renderQ(); populateDrSelect();
+
     }
+
+
 
     function updateDrop() {
+
         let s=document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกจากคิวลูกค้า --</option>';
+
         db.queues.forEach(q=>s.innerHTML+=`<option value="${q.id}">${q.n} (หมอ${q.dr})</option>`);
+
     }
+
+
 
     function autoPay() {
+
         let id=document.getElementById('pay-select').value; let q=db.queues.find(x=>x.id==id);
+
         if(q){document.getElementById('pay-name').value=q.n; document.getElementById('pay-amt').value=q.p;}
+
     }
+
+
 
     function submitPay() {
+
         let a=parseInt(document.getElementById('pay-amt').value), n=document.getElementById('pay-name').value, qId=document.getElementById('pay-select').value;
+
         if(!a||!n) return;
+
         let q = db.queues.find(x => x.id == qId);
+
         db.wait.push({id:Date.now(), a, n, type: q?q.type:'', dr: q?q.dr:''});
+
         if(qId) {
+
             let drIdx = db.doctors.findIndex(x => x.n === q.dr);
+
             if(drIdx !== -1) db.doctors[drIdx].st = 'free';
+
             db.queues = db.queues.filter(x => x.id != qId);
+
         }
+
         save(); openPage('home'); updateUI();
+
     }
+
+
 
     function renderV() {
+
         let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.5;">ไม่มีรายการรอการยืนยัน</p>';
+
         db.wait.forEach(v => l.innerHTML+=`<div class="list-item">฿${v.a} | ${v.n}<br><small>${v.type} (หมอ${v.dr})</small><button onclick="confirmV(${v.id})" style="float:right; background:var(--main-gold); color:white; border:none; border-radius:10px; padding:8px 15px; cursor:pointer;">บันทึกลงชีท</button></div>`);
+
     }
+
+
 
     async function confirmV(id) {
+
         let v=db.wait.find(x=>x.id===id);
+
         let record={
+
             date: new Date().toLocaleDateString('th-TH'),
+
             time: new Date().toLocaleTimeString('th-TH'),
+
             n: v.n,
+
             type: v.type,
+
             dr: v.dr,
+
             a: v.a,
+
             user: currentUser
+
         };
+
         db.total+=v.a;
+
         db.wait=db.wait.filter(x=>x.id!==id);
+
         updateUI(); renderV();
 
-        // 🚀 บันทึกลง Google Sheet
+
+
+        // 🚀 ยิงข้อมูลเข้า Google Sheet
+
         try {
+
             fetch(SCRIPT_URL, {
+
                 method:'POST',
+
                 mode:'no-cors',
+
                 body:JSON.stringify([record])
+
             });
+
             alert('บันทึกลง Google Sheet สำเร็จ!');
+
         } catch(e){
+
             alert('เกิดข้อผิดพลาดในการบันทึก');
+
         }
+
     }
 
+
+
     function addDr() { let n = document.getElementById('new-dr-name').value; if(n){ db.doctors.push({n, st:"free"}); save(); document.getElementById('new-dr-name').value=''; renderManageDr(); } }
+
     function renderManageDr() {
+
         let l = document.getElementById('manage-dr-list'); l.innerHTML = '';
+
         db.doctors.forEach((d, i) => l.innerHTML += `<div class="dr-item">${d.n} <button onclick="delDr(${i})" style="color:red; border:none; background:none; cursor:pointer;">ลบ</button></div>`);
+
     }
+
     function delDr(i) { if(confirm('ลบชื่อหมอคนนี้?')) { db.doctors.splice(i, 1); save(); renderManageDr(); } }
+
 </script>
+
 </body>
+
 </html>
