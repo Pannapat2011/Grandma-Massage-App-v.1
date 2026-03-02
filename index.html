@@ -18,18 +18,11 @@
         body { font-family: 'Sarabun', sans-serif; background: var(--bg-cream); margin: 0; color: var(--text-dark); display: flex; justify-content: center; min-height: 100vh; }
         .container { width: 100%; max-width: 460px; padding: 20px; box-sizing: border-box; }
 
-        /* 🖼️ Logo Styling - ย่อขนาดให้เล็กลงแบบพรีเมียม */
-        .logo-img {
-            width: 75px; /* ขนาดกะทัดรัด */
-            height: auto;
-            margin: 0 auto 10px;
-            filter: drop-shadow(0 4px 8px var(--glow-gold));
-            display: block;
-        }
+        .logo-img { width: 75px; height: auto; margin: 0 auto 10px; filter: drop-shadow(0 4px 8px var(--glow-gold)); display: block; }
 
         /* 🔒 Login */
         #login-overlay { position: fixed; inset: 0; background: var(--bg-cream); display: flex; align-items: center; justify-content: center; z-index: 2000; }
-        .login-box { width: 80%; max-width: 350px; background: var(--card-white); padding: 35px 20px; border-radius: 40px; border: 2px solid var(--border-gold); text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
+        .login-box { width: 80%; max-width: 350px; background: var(--card-white); padding: 35px 20px; border-radius: 40px; border: 2px solid var(--border-gold); text-align: center; }
 
         /* 🏠 Home */
         .brand-header { text-align: center; margin-bottom: 25px; }
@@ -38,54 +31,47 @@
         .balance-card { background: var(--card-white); padding: 30px 20px; border-radius: 40px; border: 2px solid var(--border-gold); text-align: center; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         .balance-card h2 { font-family: 'Kanit'; font-size: 45px; margin: 5px 0; color: var(--main-gold); }
 
-        /* 🔘 Grid */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .menu-item { background: var(--card-white); padding: 22px 10px; border-radius: 25px; border: 1px solid var(--border-gold); cursor: pointer; text-align: center; transition: 0.2s; }
         .menu-item:active { transform: scale(0.95); }
         .menu-item span { font-size: 28px; display: block; margin-bottom: 5px; }
         .menu-item strong { font-family: 'Kanit'; font-size: 14px; }
 
-        /* 📄 Pages */
         .page { display: none; background: var(--card-white); padding: 25px 20px; border-radius: 40px; border: 2px solid var(--border-gold); animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        input, select, button.btn-gold { width: 100%; padding: 16px; margin-top: 10px; border-radius: 15px; border: 1px solid var(--border-gold); background: #FFF; font-size: 16px; box-sizing: border-box; outline: none; }
+        input, select, button.btn-gold { width: 100%; padding: 16px; margin-top: 10px; border-radius: 15px; border: 1px solid var(--border-gold); background: #FFF; font-size: 16px; box-sizing: border-box; }
         button.btn-gold { background: var(--main-gold); color: #FFF; border: none; font-weight: 700; cursor: pointer; font-family: 'Kanit'; }
 
-        /* 📊 Summary */
         .summary-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed var(--border-gold); }
-        .summary-item strong { color: var(--main-gold); }
-
-        /* 🧮 Calculator */
-        #calc-box { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #FFF; padding: 20px; border-radius: 30px; border: 3px solid var(--main-gold); z-index: 3000; width: 280px; box-shadow: 0 0 50px rgba(0,0,0,0.2); }
+        .list-item { padding: 15px; background: #FFF; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border-gold); }
+        
+        #calc-box { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #FFF; padding: 20px; border-radius: 30px; border: 3px solid var(--main-gold); z-index: 3000; width: 280px; }
         .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .calc-btn { padding: 15px; border: none; border-radius: 10px; background: #F5EEDC; font-weight: bold; cursor: pointer; }
-        .calc-btn-op { background: var(--main-gold); color: #FFF; }
-
-        .list-item { padding: 15px; background: #FFF; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border-gold); }
     </style>
 </head>
 <body>
 
 <div id="calc-box">
-    <input type="text" id="calc-display" readonly style="width:100%; text-align:right; font-size:24px; margin-bottom:10px; padding:10px; border-radius:10px; border:1px solid #ddd;">
+    <input type="text" id="calc-display" readonly style="width:100%; text-align:right; font-size:24px; margin-bottom:10px; padding:10px;">
     <div class="calc-grid">
-        <button class="calc-btn" onclick="calcInput('7')">7</button><button class="calc-btn" onclick="calcInput('8')">8</button><button class="calc-btn" onclick="calcInput('9')">9</button><button class="calc-btn calc-btn-op" onclick="calcInput('/')">÷</button>
-        <button class="calc-btn" onclick="calcInput('4')">4</button><button class="calc-btn" onclick="calcInput('5')">5</button><button class="calc-btn" onclick="calcInput('6')">6</button><button class="calc-btn calc-btn-op" onclick="calcInput('*')">×</button>
-        <button class="calc-btn" onclick="calcInput('1')">1</button><button class="calc-btn" onclick="calcInput('2')">2</button><button class="calc-btn" onclick="calcInput('3')">3</button><button class="calc-btn calc-btn-op" onclick="calcInput('-')">-</button>
-        <button class="calc-btn" onclick="calcInput('0')">0</button><button class="calc-btn" onclick="calcClear()">C</button><button class="calc-btn calc-btn-op" onclick="calcSolve()">=</button><button class="calc-btn calc-btn-op" onclick="calcInput('+')">+</button>
+        <button class="calc-btn" onclick="calcInput('7')">7</button><button class="calc-btn" onclick="calcInput('8')">8</button><button class="calc-btn" onclick="calcInput('9')">9</button><button class="calc-btn" onclick="calcInput('/')">/</button>
+        <button class="calc-btn" onclick="calcInput('4')">4</button><button class="calc-btn" onclick="calcInput('5')">5</button><button class="calc-btn" onclick="calcInput('6')">6</button><button class="calc-btn" onclick="calcInput('*')">*</button>
+        <button class="calc-btn" onclick="calcInput('1')">1</button><button class="calc-btn" onclick="calcInput('2')">2</button><button class="calc-btn" onclick="calcInput('3')">3</button><button class="calc-btn" onclick="calcInput('-')">-</button>
+        <button class="calc-btn" onclick="calcInput('0')">0</button><button class="calc-btn" onclick="calcClear()">C</button><button class="calc-btn" onclick="calcSolve()">=</button><button class="calc-btn" onclick="calcInput('+')">+</button>
     </div>
-    <button class="btn-gold" onclick="useCalcResult()" style="margin-top:15px;">ใช้ยอดเงินนี้</button>
-    <button onclick="document.getElementById('calc-box').style.display='none'" style="width:100%; border:none; background:none; margin-top:10px; color:#888; cursor:pointer;">ปิด</button>
+    <button class="btn-gold" onclick="useCalcResult()">ใช้ตัวเลขนี้</button>
+    <button onclick="document.getElementById('calc-box').style.display='none'" style="width:100%; border:none; background:none; margin-top:10px;">ปิด</button>
 </div>
 
 <div id="login-overlay">
     <div class="login-box">
         <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img">
         <h1>ประคบทอง ไทย/สปา</h1>
-        <input type="text" id="user-input" placeholder="ชื่อผู้ใช้งาน">
-        <input type="password" id="pass-input" placeholder="รหัสผ่าน">
-        <button class="btn-gold" onclick="handleAuth()">เข้าสู่ระบบ</button>
+        <input type="text" id="user-input" placeholder="Username (admin หรือ admin2)">
+        <input type="password" id="pass-input" placeholder="Password">
+        <button class="btn-gold" onclick="handleAuth()">LOGIN</button>
     </div>
 </div>
 
@@ -96,148 +82,149 @@
             <h1>ประคบทอง ไทย/สปา</h1>
         </div>
         <div class="balance-card">
-            <small>ยอดเงินปัจจุบันในระบบ</small>
+            <small>ยอดเงินปัจจุบัน (<span id="user-label"></span>)</small>
             <h2 id="total-val">฿0</h2>
-            <div style="font-size:12px; opacity:0.7;">แอดมิน: <span id="current-user"></span></div>
+            <div style="font-size:12px; opacity:0.7;">พร้อมเพย์: <span id="pp-label"></span></div>
         </div>
         <div class="menu-grid">
-            <div class="menu-item" onclick="openPage('p-queue')"><span>📋</span><strong>ลงตารางจอง</strong></div>
+            <div class="menu-item" onclick="openPage('p-queue')"><span>📋</span><strong>ลงคิวจอง</strong></div>
             <div class="menu-item" onclick="openPage('p-pay')"><span>💰</span><strong>รับชำระเงิน</strong></div>
-            <div class="menu-item" onclick="openPage('p-verify')"><span>🔍</span><strong>เช็คยอด</strong></div>
-            <div class="menu-item" onclick="openPage('p-summary')"><span>📊</span><strong>สรุปรายงาน</strong></div>
+            <div class="menu-item" onclick="openPage('p-verify')"><span>🔍</span><strong>ตรวจสอบ</strong></div>
+            <div class="menu-item" onclick="openPage('p-summary')"><span>📊</span><strong>สรุปงาน</strong></div>
         </div>
-        <button onclick="location.reload()" style="background:none; border:none; color:#AAA; width:100%; margin-top:40px; cursor:pointer;">ออกจากระบบ</button>
+        <button onclick="location.reload()" style="background:none; border:none; color:#AAA; width:100%; margin-top:50px; cursor:pointer;">LOGOUT</button>
     </div>
 
     <div id="p-summary" class="page">
-        <h3 style="text-align:center; font-family:'Kanit';">สรุปรายงานยอดเงิน</h3>
+        <h3 style="text-align:center;">สรุปยอดของบัญชีนี้</h3>
         <div id="summary-content">
             <div class="summary-item"><span>วันนี้</span><strong id="sum-day">฿0</strong></div>
-            <div class="summary-item"><span>สัปดาห์นี้</span><strong id="sum-week">฿0</strong></div>
             <div class="summary-item"><span>เดือนนี้</span><strong id="sum-month">฿0</strong></div>
-            <div class="summary-item"><span>ปีนี้</span><strong id="sum-year">฿0</strong></div>
         </div>
-        <p style="font-size: 11px; color: #d9534f; text-align: center; margin-top: 20px;">* การรีเซ็ตจะล้างยอดเงินหน้าแรกเป็น 0 เพื่อเริ่มวันใหม่</p>
-        <button class="btn-gold" style="background:#d9534f;" onclick="resetToZero()">ปิดยอดและเริ่มใหม่ (RESET)</button>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:15px; width:100%; cursor:pointer;">กลับหน้าหลัก</button>
+        <button class="btn-gold" style="background:#d9534f;" onclick="resetToZero()">รีเซ็ตยอดของบัญชีนี้เป็น 0</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">กลับ</button>
     </div>
 
     <div id="p-queue" class="page">
-        <h3 style="text-align:center; font-family:'Kanit';">จองคิวใหม่</h3>
+        <h3>ลงตารางคิว</h3>
         <input type="date" id="q-date">
         <input type="text" id="q-name" placeholder="ชื่อลูกค้า">
-        <div style="display:flex; gap:10px; align-items:center;">
+        <div style="display:flex; gap:10px;">
             <input type="number" id="q-price" placeholder="ราคา">
-            <button onclick="document.getElementById('calc-box').style.display='block'" style="width:50px; padding:12px; border-radius:12px; border:1px solid var(--main-gold); background:var(--bg-cream); margin-top:10px;">🧮</button>
+            <button onclick="document.getElementById('calc-box').style.display='block'" style="width:50px; margin-top:10px; border-radius:15px; border:1px solid #DED3BC;">🧮</button>
         </div>
         <div style="display:flex; gap:10px;"><input type="time" id="q-s"><span>ถึง</span><input type="time" id="q-e"></div>
-        <button class="btn-gold" onclick="addQ()">บันทึกการจอง</button>
-        <div id="q-list" style="margin-top:15px;"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:15px; width:100%; cursor:pointer;">กลับ</button>
+        <button class="btn-gold" onclick="addQ()">บันทึกคิว</button>
+        <div id="q-list" style="margin-top:20px;"></div>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">กลับ</button>
     </div>
 
     <div id="p-pay" class="page">
-        <h3 style="text-align:center; font-family:'Kanit';">รับชำระเงิน</h3>
+        <h3>รับเงิน</h3>
         <select id="pay-select" onchange="autoPay()"></select>
         <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
-        <input type="number" id="pay-amt" placeholder="0" oninput="genQR()" style="font-size:32px; text-align:center; font-weight:bold; color:var(--main-gold); border:none; border-bottom:2px solid var(--main-gold); background:none;">
-        <div id="qr-container" style="display:none; text-align:center; padding:10px; background:#FFF; margin-top:10px; border-radius:20px;">
+        <input type="number" id="pay-amt" placeholder="0" oninput="genQR()" style="font-size:32px; text-align:center; color:var(--main-gold); border:none; border-bottom:2px solid var(--main-gold); background:none;">
+        <div id="qr-container" style="display:none; text-align:center; margin-top:10px;">
             <img id="qr-img" style="width:180px;">
-            <p style="font-size:12px; font-weight:bold; margin-top:5px;">Scan: <span id="display-pp"></span></p>
         </div>
-        <button class="btn-gold" onclick="submitPay()" style="margin-top:15px;">ยืนยันแจ้งชำระ</button>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:15px; width:100%; cursor:pointer;">ยกเลิก</button>
+        <button class="btn-gold" onclick="submitPay()">ยืนยัน</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">กลับ</button>
     </div>
 
     <div id="p-verify" class="page">
-        <h3 style="text-align:center; font-family:'Kanit';">ตรวจสอบเงินเข้า</h3>
+        <h3>ตรวจสอบ</h3>
         <div id="v-list"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:15px; width:100%; cursor:pointer;">กลับ</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">กลับ</button>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwU9lRbEPkM09WIxWrH28jO9uTx7xUyOqd1K9TaZR0cAZ2eP3PHHBN6YexYZ_Gw9PeI6g/exec";
-    let activePP = "0863526387", currentAdmin = "";
-    let db = { total: parseInt(localStorage.getItem('bpt_total')) || 0, history: JSON.parse(localStorage.getItem('bpt_history')) || [], queues: JSON.parse(localStorage.getItem('bpt_queues')) || [], wait: JSON.parse(localStorage.getItem('bpt_wait')) || [] };
-
-    // Calculator
-    function calcInput(v) { document.getElementById('calc-display').value += v; }
-    function calcClear() { document.getElementById('calc-display').value = ''; }
-    function calcSolve() { try { document.getElementById('calc-display').value = eval(document.getElementById('calc-display').value); } catch(e) { alert('ผิดพลาด'); } }
-    function useCalcResult() { document.getElementById('q-price').value = document.getElementById('calc-display').value; document.getElementById('calc-box').style.display='none'; }
+    
+    let currentUser = "";
+    let activePP = "";
+    let db = {};
 
     function handleAuth() {
-        let u = document.getElementById('user-input').value, p = document.getElementById('pass-input').value;
-        if (p === '123456') { 
-            activePP = (u === 'admin2') ? "0812799119" : "0863526387"; 
-            currentAdmin = u.toUpperCase() || "ADMIN";
-            document.getElementById('login-overlay').style.display='none';
-            document.getElementById('app').style.display='block';
-            document.getElementById('current-user').innerText = currentAdmin;
-            document.getElementById('display-pp').innerText = activePP;
+        let u = document.getElementById('user-input').value.toLowerCase().trim();
+        let p = document.getElementById('pass-input').value;
+
+        if (p === '123456') {
+            if (u === 'admin2') {
+                currentUser = 'admin2';
+                activePP = '0812799119';
+            } else {
+                currentUser = 'admin';
+                activePP = '0863526387';
+            }
+            loadUserDB();
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            document.getElementById('user-label').innerText = currentUser;
+            document.getElementById('pp-label').innerText = activePP;
             updateUI();
         } else { alert('รหัสผ่านไม่ถูกต้อง'); }
     }
 
-    function updateUI() { 
-        document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`; 
-        localStorage.setItem('bpt_total', db.total);
-        localStorage.setItem('bpt_history', JSON.stringify(db.history));
-        localStorage.setItem('bpt_queues', JSON.stringify(db.queues));
-        localStorage.setItem('bpt_wait', JSON.stringify(db.wait));
+    // 🗝️ โหลดฐานข้อมูลแยกตาม User
+    function loadUserDB() {
+        let prefix = currentUser + "_";
+        db = {
+            total: parseInt(localStorage.getItem(prefix + 'total')) || 0,
+            queues: JSON.parse(localStorage.getItem(prefix + 'queues')) || [],
+            wait: JSON.parse(localStorage.getItem(prefix + 'wait')) || [],
+            history: JSON.parse(localStorage.getItem(prefix + 'history')) || []
+        };
     }
+
+    function save() {
+        let prefix = currentUser + "_";
+        localStorage.setItem(prefix + 'total', db.total);
+        localStorage.setItem(prefix + 'queues', JSON.stringify(db.queues));
+        localStorage.setItem(prefix + 'wait', JSON.stringify(db.wait));
+        localStorage.setItem(prefix + 'history', JSON.stringify(db.history));
+    }
+
+    function updateUI() {
+        document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`;
+        save();
+    }
+
+    // 🧮 Calculator
+    function calcInput(v) { document.getElementById('calc-display').value += v; }
+    function calcClear() { document.getElementById('calc-display').value = ''; }
+    function calcSolve() { try { document.getElementById('calc-display').value = eval(document.getElementById('calc-display').value); } catch(e) { alert('ERROR'); } }
+    function useCalcResult() { document.getElementById('q-price').value = document.getElementById('calc-display').value; document.getElementById('calc-box').style.display='none'; }
 
     function openPage(id) {
         document.getElementById('home').style.display='none';
         document.querySelectorAll('.page').forEach(p=>p.style.display='none');
         document.getElementById(id).style.display='block';
-        if(id==='p-summary') runSummary();
-        if(id==='p-verify') renderV();
-        if(id==='p-pay') updateDrop();
         if(id==='p-queue') renderQ();
+        if(id==='p-pay') updateDrop();
+        if(id==='p-verify') renderV();
+        if(id==='p-summary') renderSummary();
     }
 
-    function runSummary() {
-        let now = new Date(), sums = { day: 0, week: 0, month: 0, year: 0 };
-        db.history.forEach(h => {
-            let hDate = new Date(h.timestamp), diff = (now - hDate) / (1000 * 60 * 60 * 24);
-            if (hDate.toDateString() === now.toDateString()) sums.day += h.a;
-            if (diff <= 7) sums.week += h.a;
-            if (hDate.getMonth() === now.getMonth() && hDate.getFullYear() === now.getFullYear()) sums.month += h.a;
-            if (hDate.getFullYear() === now.getFullYear()) sums.year += h.a;
-        });
-        document.getElementById('sum-day').innerText = `฿${sums.day.toLocaleString()}`;
-        document.getElementById('sum-week').innerText = `฿${sums.week.toLocaleString()}`;
-        document.getElementById('sum-month').innerText = `฿${sums.month.toLocaleString()}`;
-        document.getElementById('sum-year').innerText = `฿${sums.year.toLocaleString()}`;
-    }
-
-    function resetToZero() {
-        if (confirm('ยืนยันการปิดยอด? ยอดหน้าแรกจะเริ่มที่ 0')) {
-            db.total = 0; updateUI(); alert('Reset สำเร็จ'); openPage('home');
-        }
-    }
-
+    // --- Logic functions ---
     function addQ() {
-        let n=document.getElementById('q-name').value, p=parseInt(document.getElementById('q-price').value), d=document.getElementById('q-date').value;
-        if(!n || !p || !d) return alert('กรอกให้ครบ');
+        let n = document.getElementById('q-name').value, p = parseInt(document.getElementById('q-price').value), d = document.getElementById('q-date').value;
+        if(!n || !p) return;
         db.queues.push({id:Date.now(), n, p, d, s:document.getElementById('q-s').value, e:document.getElementById('q-e').value});
-        updateUI(); renderQ(); document.getElementById('q-name').value=''; document.getElementById('q-price').value='';
+        save(); renderQ();
     }
-
     function renderQ() {
-        let l=document.getElementById('q-list'); l.innerHTML='';
-        db.queues.forEach(q => l.innerHTML+=`<div class="list-item"><strong>${q.d} | ${q.s}-${q.e}</strong><br>${q.n} <span style="float:right; color:var(--main-gold); font-weight:bold;">฿${q.p} <button onclick="delQ(${q.id})" style="color:red; border:none; background:none; cursor:pointer;">×</button></span></div>`);
+        let l = document.getElementById('q-list'); l.innerHTML='';
+        db.queues.forEach(q => l.innerHTML+=`<div class="list-item"><strong>${q.d} | ${q.s}-${q.e}</strong><br>${q.n} <span style="float:right; color:var(--main-gold);">฿${q.p} <button onclick="delQ(${q.id})" style="color:red; border:none; background:none;">×</button></span></div>`);
     }
-    function delQ(id) { db.queues=db.queues.filter(x=>x.id!==id); updateUI(); renderQ(); }
-
+    function delQ(id) { db.queues = db.queues.filter(x=>x.id!==id); save(); renderQ(); }
+    
     function updateDrop() {
-        let s=document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกจากคิว --</option>';
-        db.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n} (฿${q.p})</option>`);
+        let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกคิว --</option>';
+        db.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n}</option>`);
     }
     function autoPay() {
-        let id=document.getElementById('pay-select').value; let q=db.queues.find(x=>x.id==id);
+        let id = document.getElementById('pay-select').value; let q = db.queues.find(x=>x.id==id);
         if(q) { document.getElementById('pay-name').value = q.n; document.getElementById('pay-amt').value = q.p; genQR(); }
     }
     function genQR() {
@@ -245,21 +232,29 @@
         if(a > 0) { document.getElementById('qr-img').src = `https://promptpay.io/${activePP}/${a}.png?t=${Date.now()}`; document.getElementById('qr-container').style.display='block'; }
     }
     function submitPay() {
-        let a=parseInt(document.getElementById('pay-amt').value), n=document.getElementById('pay-name').value, qId=document.getElementById('pay-select').value;
-        if(!a || !n) return alert('ข้อมูลไม่ครบ');
-        db.wait.push({id:Date.now(), a, n, qId}); if(qId) db.queues=db.queues.filter(x=>x.id!=qId);
-        updateUI(); alert('แจ้งยอดแล้ว'); openPage('home');
+        let a = parseInt(document.getElementById('pay-amt').value), n = document.getElementById('pay-name').value, qId = document.getElementById('pay-select').value;
+        if(!a || !n) return;
+        db.wait.push({id:Date.now(), a, n, qId}); if(qId) db.queues = db.queues.filter(x=>x.id!=qId);
+        save(); openPage('home'); updateUI();
     }
     function renderV() {
-        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.4;">ไม่มีรายการ</p>';
-        db.wait.forEach(v => { l.innerHTML += `<div class="list-item"><strong>฿${v.a} | ${v.n}</strong><button onclick="confirmV(${v.id})" style="background:var(--main-gold); color:#FFF; border:none; padding:8px 15px; border-radius:12px; float:right; cursor:pointer;">เช็คเงินเข้า</button></div>`; });
+        let l = document.getElementById('v-list'); l.innerHTML = db.wait.length?'':'<p style="text-align:center; opacity:0.5;">ไม่มีรายการ</p>';
+        db.wait.forEach(v => { l.innerHTML += `<div class="list-item">฿${v.a} | ${v.n} <button onclick="confirmV(${v.id})" style="float:right; background:var(--main-gold); color:white; border:none; border-radius:10px; padding:5px 10px;">ยืนยัน</button></div>`; });
     }
     async function confirmV(id) {
         let v = db.wait.find(x=>x.id===id);
-        let record = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: v.n, a: v.a, user: currentAdmin, timestamp: new Date().getTime() };
+        let record = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: v.n, a: v.a, user: currentUser, timestamp: new Date().getTime() };
         db.total += v.a; db.history.push(record); db.wait = db.wait.filter(x=>x.id!==id);
         updateUI(); renderV();
         try { fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify([record]) }); } catch(e){}
+    }
+    function renderSummary() {
+        let daySum = 0; let now = new Date().toDateString();
+        db.history.forEach(h => { if(new Date(h.timestamp).toDateString() === now) daySum += h.a; });
+        document.getElementById('sum-day').innerText = `฿${daySum.toLocaleString()}`;
+    }
+    function resetToZero() {
+        if(confirm('ยืนยันรีเซ็ตยอดบัญชีนี้เป็น 0?')) { db.total = 0; updateUI(); openPage('home'); }
     }
 </script>
 </body>
