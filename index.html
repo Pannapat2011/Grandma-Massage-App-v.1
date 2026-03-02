@@ -3,47 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grandma Massage - Professional POS v2</title>
+    <title>Grandma Massage POS - Smart QR</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #2E7D32; --secondary: #4CAF50; --bg: #F1F8E9; --white: #ffffff; }
+        :root { --primary: #2E7D32; --secondary: #4CAF50; --bg: #F8FAF7; --white: #ffffff; }
         body { font-family: 'Sarabun', sans-serif; background-color: var(--bg); margin: 0; color: #333; display: flex; justify-content: center; min-height: 100vh; }
         .app-container { width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; }
         
-        /* Dashboard */
+        /* Dashboard Summary */
         #dashboard { display: none; text-align: center; }
-        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .total-card { background: var(--white); padding: 20px; border-radius: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary); }
-        .total-card h2 { margin: 5px 0; color: var(--primary); font-size: 28px; }
-        .total-card small { color: #888; font-size: 11px; font-weight: bold; }
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+        .total-card { background: var(--white); padding: 20px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .total-card h2 { margin: 5px 0; color: var(--primary); font-size: 26px; }
+        .total-card small { color: #888; font-size: 11px; font-weight: bold; text-transform: uppercase; }
 
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .menu-card { background: var(--white); padding: 20px; border-radius: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
-        .menu-card:active { transform: scale(0.95); background: #f9f9f9; }
-        .menu-card span { font-size: 35px; display: block; margin-bottom: 5px; }
+        .menu-card { background: var(--white); padding: 25px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid transparent; }
+        .menu-card:active { transform: scale(0.95); }
+        .menu-card span { font-size: 40px; display: block; margin-bottom: 8px; }
 
         /* UI Elements */
-        .sub-app { display: none; background: var(--white); padding: 25px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        input, select, button { width: 100%; padding: 14px; margin-top: 8px; border-radius: 15px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; }
-        button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        .btn-back { background: #eee; color: #666; }
+        .sub-app { display: none; background: var(--white); padding: 25px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        input, select, button { width: 100%; padding: 15px; margin-top: 10px; border-radius: 15px; border: 1px solid #eee; box-sizing: border-box; font-size: 16px; }
+        button { background: var(--primary); color: white; border: none; font-weight: bold; cursor: pointer; }
+        .btn-back { background: #f5f5f5; color: #999; margin-top: 15px; }
         
         .item-card { background: #fcfcfc; padding: 15px; border-radius: 18px; border-left: 5px solid var(--primary); margin-bottom: 12px; text-align: left; }
-        .pay-methods { display: flex; gap: 10px; margin-top: 10px; }
-        .method-btn { padding: 12px; border: 2px solid #eee; border-radius: 15px; flex: 1; cursor: pointer; text-align: center; font-size: 14px; }
+        .pay-methods { display: flex; gap: 10px; margin-top: 15px; }
+        .method-btn { padding: 12px; border: 2px solid #f0f0f0; border-radius: 15px; flex: 1; cursor: pointer; text-align: center; font-size: 14px; color: #999; }
         .method-btn.active { border-color: var(--primary); background: #E8F5E9; color: var(--primary); font-weight: bold; }
 
         #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1B5E20, #4CAF50); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .login-box { background: white; padding: 40px; border-radius: 30px; width: 80%; text-align: center; }
+        .login-box { background: white; padding: 40px; border-radius: 30px; width: 85%; text-align: center; }
     </style>
 </head>
 <body>
 
 <div id="loginOverlay">
     <div class="login-box">
-        <h2 style="color: var(--primary); margin-top:0;">🍃 ยินดีต้อนรับคุณย่า</h2>
+        <h2 style="color: var(--primary); margin: 0 0 20px 0;">👵 ระบบร้านนวดคุณย่า</h2>
         <input type="text" id="userInput" placeholder="ชื่อผู้ใช้">
         <input type="password" id="passInput" placeholder="รหัสผ่าน">
         <button onclick="checkLogin()">เข้าสู่ระบบ</button>
@@ -54,21 +52,15 @@
     <div id="dashboard">
         <div class="summary-grid">
             <div class="total-card" style="grid-column: span 2; background: var(--primary); color: white;">
-                <small style="color: #c8e6c9;">ยอดรวมทั้งหมดวันนี้</small>
-                <h2 id="grandTotal" style="color: white; font-size: 36px;">฿0</h2>
+                <small style="color: #c8e6c9;">รายได้รวมวันนี้</small>
+                <h2 id="grandTotal" style="color: white; font-size: 38px;">฿0</h2>
             </div>
-            <div class="total-card">
-                <small>💰 เงินสด</small>
-                <h2 id="cashTotal" style="font-size: 22px;">฿0</h2>
-            </div>
-            <div class="total-card">
-                <small>📱 เงินโอน</small>
-                <h2 id="qrTotal" style="font-size: 22px;">฿0</h2>
-            </div>
+            <div class="total-card"><small>💰 เงินสด</small><h2 id="cashTotal" style="font-size: 22px;">฿0</h2></div>
+            <div class="total-card"><small>📱 เงินโอน</small><h2 id="qrTotal" style="font-size: 22px;">฿0</h2></div>
         </div>
         <div class="menu-grid">
             <div class="menu-card" onclick="showApp('queueApp')"><span>💆‍♂️</span><strong>จองคิว</strong></div>
-            <div class="menu-card" onclick="showApp('paymentApp')"><span>💰</span><strong>รับชำระเงิน</strong></div>
+            <div class="menu-card" onclick="showApp('paymentApp')"><span>💰</span><strong>จ่ายเงิน</strong></div>
             <div class="menu-card" onclick="showApp('staffApp')"><span>👤</span><strong>สถานะหมอ</strong></div>
             <div class="menu-card" onclick="loadHistory()"><span>📋</span><strong>ประวัติ</strong></div>
         </div>
@@ -76,56 +68,58 @@
     </div>
 
     <div id="queueApp" class="sub-app">
-        <h3>💆‍♂️ จองคิว</h3>
+        <h3>💆‍♂️ ลงทะเบียนจองคิว</h3>
         <select id="staffSelect"></select>
         <select id="serviceType">
             <option>นวดไทย</option><option>นวดไทยประคบ</option><option>นวดไทยออย</option>
             <option>นวดสปา+ขัดผิว</option><option>นวดฝ่าเท้า</option><option>นวดแก้อาการ</option>
-            <option>นวดหน้าสมุนไพร</option>
         </select>
         <input type="text" id="customerName" placeholder="ชื่อลูกค้า">
-        <input type="number" id="servicePrice" placeholder="ราคา (บาท)">
-        <div style="display: flex; gap: 5px;"><input type="date" id="bookingDate"><input type="time" id="bookingTime"></div>
+        <input type="number" id="servicePrice" placeholder="ราคาที่ตกลง (บาท)">
+        <div style="display: flex; gap: 8px;"><input type="date" id="bookingDate"><input type="time" id="bookingTime"></div>
         <button onclick="addQueue()">✅ บันทึกคิว</button>
-        <hr style="margin:20px 0; border:none; border-top:1px dashed #ddd;">
+        <hr style="margin:20px 0; border:none; border-top:1px dashed #eee;">
         <div id="queueList"></div>
-        <button onclick="showDashboard()" class="btn-back">⬅️ กลับ</button>
+        <button onclick="showDashboard()" class="btn-back">⬅️ กลับหน้าหลัก</button>
     </div>
 
     <div id="paymentApp" class="sub-app">
-        <h3>💰 รับชำระเงิน</h3>
-        <label>ราคาที่ต้องจ่าย:</label>
-        <input type="number" id="payAmount" style="font-size: 24px; font-weight: bold; text-align: center; color: var(--primary);">
+        <h3>💰 ชำระเงิน</h3>
+        <label>ระบุจำนวนเงินที่รับ:</label>
+        <input type="number" id="payAmount" placeholder="ใส่ราคาตรงนี้" oninput="updateQR()" style="font-size: 28px; font-weight: bold; text-align: center; color: var(--primary); border: 2px solid var(--primary);">
         
         <div class="pay-methods">
             <div id="m_qr" class="method-btn active" onclick="setMethod('qr')">📱 โอน QR</div>
             <div id="m_cash" class="method-btn" onclick="setMethod('cash')">💵 เงินสด</div>
         </div>
 
-        <div id="qrZone" style="margin-top: 15px; text-align: center;">
-            <div style="background: white; padding: 10px; border: 2px solid #4CAF50; border-radius: 15px; display: inline-block;">
-                <img id="qrcode" src="" alt="QR Code" style="width: 180px; height: 180px; display: block;">
+        <div id="qrZone" style="margin-top: 20px; text-align: center; min-height: 200px;">
+            <div id="qrPlaceholder" style="color: #ccc; padding-top: 80px;">กรุณาใส่ราคาเพื่อสร้าง QR</div>
+            <div id="qrImageArea" style="display: none;">
+                <div style="background: white; padding: 12px; border: 2px solid var(--primary); border-radius: 20px; display: inline-block;">
+                    <img id="qrcode" src="" alt="QR Code" style="width: 180px; height: 180px; display: block;">
+                </div>
+                <p style="font-size: 11px; color: #666; margin-top: 8px;">สแกนโอนเข้าเบอร์: 086-352-6387</p>
             </div>
-            <p style="font-size: 11px; color: #666; margin-top: 5px;">สแกนโอนเข้าเบอร์: 086-352-6387</p>
         </div>
 
-        <div id="cashZone" style="display: none; margin-top: 15px;">
-            <input type="number" id="cashReceived" placeholder="รับเงินมาเท่าไหร่?" oninput="calcChange()">
-            <h4 id="changeText" style="color: #D32F2F; margin-top: 10px;">เงินทอน: ฿0</h4>
+        <div id="cashZone" style="display: none; margin-top: 20px;">
+            <input type="number" id="cashReceived" placeholder="รับเงินมา..." oninput="calcChange()">
+            <h4 id="changeText" style="color: #D32F2F; margin-top: 12px; text-align: center;">เงินทอน: ฿0</h4>
         </div>
 
-        <button onclick="confirmPayment()" style="background: #1B5E20; font-size: 18px;">✔️ ได้รับเงินแล้ว</button>
+        <button onclick="confirmPayment()" style="background: #1B5E20; font-size: 18px; margin-top: 25px;">✔️ ได้รับเงินแล้ว</button>
         <button onclick="showDashboard()" class="btn-back">ยกเลิก</button>
     </div>
 
     <div id="staffApp" class="sub-app">
-        <h3>👤 สถานะหมอ</h3>
+        <h3>👤 สถานะหมอนวด</h3>
         <div id="staffStatusList"></div>
         <button onclick="showDashboard()" class="btn-back">กลับหน้าหลัก</button>
     </div>
 
     <div id="historyApp" class="sub-app">
-        <h3>📋 ประวัติรับเงินวันนี้</h3>
+        <h3>📋 ประวัติวันนี้</h3>
         <div id="historyList"></div>
         <button onclick="showDashboard()" class="btn-back">กลับหน้าหลัก</button>
     </div>
@@ -164,6 +158,61 @@
         if (appId === 'staffApp') renderStaffStatus();
     }
 
+    // --- ระบบ QR Code อัจฉริยะ ---
+    function updateQR() {
+        const amt = document.getElementById('payAmount').value;
+        const qrArea = document.getElementById('qrImageArea');
+        const placeholder = document.getElementById('qrPlaceholder');
+        
+        if (amt && amt > 0 && payMethod === 'qr') {
+            document.getElementById('qrcode').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://promptpay.io/0863526387/${amt}`;
+            qrArea.style.display = "block";
+            placeholder.style.display = "none";
+        } else {
+            qrArea.style.display = "none";
+            placeholder.style.display = "block";
+        }
+        calcChange(); // อัปเดตเงินทอนไปด้วยเลย
+    }
+
+    function setMethod(m) {
+        payMethod = m;
+        document.getElementById('m_qr').className = m === 'qr' ? 'method-btn active' : 'method-btn';
+        document.getElementById('m_cash').className = m === 'cash' ? 'method-btn active' : 'method-btn';
+        document.getElementById('qrZone').style.display = m === 'qr' ? 'block' : 'none';
+        document.getElementById('cashZone').style.display = m === 'cash' ? 'block' : 'none';
+        updateQR();
+    }
+
+    function calcChange() {
+        const price = document.getElementById('payAmount').value || 0;
+        const received = document.getElementById('cashReceived').value || 0;
+        const change = received - price;
+        document.getElementById('changeText').innerText = `เงินทอน: ฿${change >= 0 ? change : 0}`;
+    }
+
+    function confirmPayment() {
+        const amt = parseInt(document.getElementById('payAmount').value);
+        if (!amt || amt <= 0) { alert("ระบุจำนวนเงินก่อนนะเพื่อน!"); return; }
+
+        if (payMethod === 'qr') { qrTotal += amt; localStorage.setItem('qrTotal', qrTotal); }
+        else { cashTotal += amt; localStorage.setItem('cashTotal', cashTotal); }
+
+        massageHistory.push({ ...window.currentPayData, payMethod, price: amt, date: new Date().toLocaleTimeString() });
+        localStorage.setItem('massageHistory', JSON.stringify(massageHistory));
+
+        if (window.currentPayData) {
+            staffData.find(s => s.name === window.currentPayData.staffName).isAvailable = true;
+            if (window.currentQueueBtn) window.currentQueueBtn.parentElement.remove();
+        }
+
+        alert("บันทึกรับเงินเรียบร้อย!");
+        document.getElementById('payAmount').value = "";
+        document.getElementById('cashReceived').value = "";
+        showDashboard();
+    }
+
+    // --- ส่วนคิวและหมอ (คงเดิม) ---
     function renderStaffStatus() {
         const list = document.getElementById('staffStatusList');
         list.innerHTML = "";
@@ -171,7 +220,7 @@
             const div = document.createElement('div');
             div.className = 'item-card';
             div.style.display = "flex"; div.style.justifyContent = "space-between"; div.style.alignItems = "center";
-            div.innerHTML = `<strong>${staff.name}</strong><button style="width:auto; margin:0; padding:8px 15px; background:${staff.isAvailable?'#2E7D32':'#D32F2F'}; color:white;" onclick="toggleStatus('${staff.id}')">${staff.isAvailable ? 'ว่าง' : 'ไม่ว่าง'}</button>`;
+            div.innerHTML = `<strong>${staff.name}</strong><button style="width:auto; margin:0; padding:8px 15px; background:${staff.isAvailable?'#2E7D32':'#D32F2F'};" onclick="toggleStatus('${staff.id}')">${staff.isAvailable ? 'ว่าง' : 'ไม่ว่าง'}</button>`;
             list.appendChild(div);
         });
     }
@@ -201,15 +250,14 @@
         const time = document.getElementById('bookingTime').value;
         const staffName = document.getElementById('staffSelect').value;
         const service = document.getElementById('serviceType').value;
-
-        if (!name || !price || !time) { alert("ใส่ข้อมูลให้ครบ!"); return; }
+        if (!name || !price || !time) { alert("ข้อมูลไม่ครบ!"); return; }
 
         const div = document.createElement('div');
         div.className = 'item-card';
         div.innerHTML = `
             <strong>${time}</strong> | ${name} (${service})<br>
             <small>ราคา: ฿${price} | หมอ: ${staffName}</small>
-            <button style="margin-top:10px; background:#007bff;" onclick="goToPay('${price}', '${name}', '${service}', '${staffName}', this)">💆‍♂️ นวดเสร็จแล้ว/ไปจ่ายเงิน</button>
+            <button style="margin-top:10px; background:#007bff;" onclick="goToPay('${price}', '${name}', '${service}', '${staffName}', this)">💆‍♂️ ไปจ่ายเงิน</button>
         `;
         document.getElementById('queueList').prepend(div);
         staffData.find(s => s.name === staffName).isAvailable = false;
@@ -223,39 +271,6 @@
         setMethod('qr');
     }
 
-    function setMethod(m) {
-        payMethod = m;
-        document.getElementById('m_qr').className = m === 'qr' ? 'method-btn active' : 'method-btn';
-        document.getElementById('m_cash').className = m === 'cash' ? 'method-btn active' : 'method-btn';
-        document.getElementById('qrZone').style.display = m === 'qr' ? 'block' : 'none';
-        document.getElementById('cashZone').style.display = m === 'cash' ? 'block' : 'none';
-        if (m === 'qr') {
-            const amt = document.getElementById('payAmount').value;
-            // ใช้ API ตัวใหม่: api.qrserver.com
-            document.getElementById('qrcode').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://promptpay.io/0863526387/${amt}`;
-        }
-    }
-
-    function calcChange() {
-        const price = document.getElementById('payAmount').value;
-        const received = document.getElementById('cashReceived').value;
-        document.getElementById('changeText').innerText = `เงินทอน: ฿${received - price >= 0 ? received - price : 0}`;
-    }
-
-    function confirmPayment() {
-        const amt = parseInt(document.getElementById('payAmount').value);
-        if (payMethod === 'qr') { qrTotal += amt; localStorage.setItem('qrTotal', qrTotal); }
-        else { cashTotal += amt; localStorage.setItem('cashTotal', cashTotal); }
-
-        massageHistory.push({ ...window.currentPayData, payMethod, date: new Date().toLocaleDateString() });
-        localStorage.setItem('massageHistory', JSON.stringify(massageHistory));
-
-        staffData.find(s => s.name === window.currentPayData.staffName).isAvailable = true;
-        window.currentQueueBtn.parentElement.remove();
-        alert("รับเงินสำเร็จ!");
-        showDashboard();
-    }
-
     function loadHistory() {
         showApp('historyApp');
         const list = document.getElementById('historyList');
@@ -263,7 +278,7 @@
         massageHistory.slice().reverse().forEach(item => {
             const div = document.createElement('div');
             div.className = 'item-card';
-            div.innerHTML = `<strong>฿${item.price}</strong> (${item.payMethod=='qr'?'โอน':'เงินสด'})<br><small>ลูกค้า: ${item.name} | หมอ: ${item.staffName}</small>`;
+            div.innerHTML = `<strong>฿${item.price}</strong> (${item.payMethod=='qr'?'โอน':'เงินสด'})<br><small>เวลา: ${item.date} | หมอ: ${item.staffName}</small>`;
             list.appendChild(div);
         });
     }
