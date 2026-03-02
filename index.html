@@ -3,145 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baan Prakob Thong - POS System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Baan Prakob Thong - Luxury POS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #D4AF37; --secondary: #996515; --bg: #F8F9FA; --card: #ffffff; --dark: #343A40; --success: #28A745; }
-        body { font-family: 'Sarabun', sans-serif; background: var(--bg); margin: 0; color: var(--dark); transition: 0.3s; }
-        .container { width: 100%; max-width: 500px; margin: auto; min-height: 100vh; padding: 20px; box-sizing: border-box; }
-        
-        /* Navigation & Header */
-        .header { text-align: center; padding: 20px 0; border-bottom: 2px solid var(--primary); margin-bottom: 20px; background: white; border-radius: 0 0 30px 30px; }
-        .summary-card { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; margin-bottom: 20px; }
-        .summary-card h1 { font-size: 36px; color: var(--secondary); margin: 10px 0; }
+        :root {
+            --primary: #C5A059;
+            --secondary: #996515;
+            --bg: #FDFBF8;
+            --card: rgba(255, 255, 255, 0.9);
+            --text: #4A4A4A;
+            --shadow: 0 8px 32px 0 rgba(197, 160, 89, 0.15);
+        }
 
-        /* Menu Grid */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .menu-item { background: white; padding: 18px; border-radius: 20px; border: 1px solid #eee; border-bottom: 4px solid var(--primary); cursor: pointer; text-align: center; transition: 0.2s; }
-        .menu-item:active { transform: scale(0.96); }
-        .menu-item i { font-size: 24px; display: block; margin-bottom: 8px; }
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: var(--bg);
+            background-image: radial-gradient(circle at top right, #F4EBD0, transparent), radial-gradient(circle at bottom left, #F4EBD0, transparent);
+            margin: 0;
+            color: var(--text);
+            min-height: 100vh;
+        }
 
-        /* Sub Pages */
-        .page { display: none; background: white; padding: 25px; border-radius: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        h3 { border-left: 5px solid var(--primary); padding-left: 10px; color: var(--secondary); }
-        input, select, button.btn-main { width: 100%; padding: 14px; margin-top: 10px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; font-family: 'Sarabun'; box-sizing: border-box; }
-        button.btn-main { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; border: none; font-weight: bold; cursor: pointer; }
-        .btn-back { background: none; border: none; color: #999; margin-top: 20px; width: 100%; cursor: pointer; }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-        /* List Items */
-        .list-item { background: #fdfdfd; padding: 15px; border-radius: 15px; border: 1px solid #f0f0f0; margin-bottom: 10px; position: relative; }
-        .status-badge { font-size: 10px; padding: 3px 8px; border-radius: 20px; color: white; }
-        .bg-wait { background: #ffc107; } .bg-active { background: #17a2b8; } .bg-done { background: #28a745; }
+        /* 🔒 Login UI */
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
 
-        /* QR & Analytics */
-        #qr-box { display: none; text-align: center; padding: 15px; background: #fafafa; border-radius: 20px; margin-top: 15px; border: 2px dashed var(--primary); }
-        .stat-bar { height: 15px; background: #eee; border-radius: 10px; margin: 10px 0; overflow: hidden; }
-        .stat-fill { height: 100%; background: var(--primary); }
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 40px;
+            width: 80%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .login-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--secondary);
+            margin-bottom: 30px;
+        }
+
+        /* 🏠 Header UI */
+        .brand-header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .brand-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin: 0;
+            color: var(--secondary);
+            letter-spacing: 2px;
+        }
+
+        /* 💰 Dashboard Card */
+        .summary-card {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(197, 160, 89, 0.05), transparent);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+
+        .summary-card h2 {
+            font-size: 48px;
+            margin: 10px 0;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 🔘 Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .menu-item {
+            background: var(--card);
+            padding: 25px 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.2);
+        }
+
+        .menu-item span {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* 📄 Sub-Page UI */
+        .page {
+            display: none;
+            background: var(--card);
+            padding: 30px;
+            border-radius: 40px;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input, select, button.btn-gold {
+            width: 100%;
+            padding: 16px;
+            margin-top: 15px;
+            border-radius: 20px;
+            border: 1px solid #EFEAE2;
+            background: #F9F7F2;
+            font-size: 16px;
+            font-family: 'Sarabun';
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        button.btn-gold {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(153, 101, 21, 0.2);
+            cursor: pointer;
+        }
+
+        .list-item {
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+            margin-bottom: 12px;
+            border: 1px solid #F0EDE7;
+            text-align: left;
+        }
+
+        /* 📱 QR Display */
+        #qr-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+        }
+
+        #qr-img {
+            width: 200px;
+            border-radius: 15px;
+            border: 4px solid #FDFBF8;
+        }
     </style>
 </head>
 <body>
 
-<div id="login-overlay" style="position:fixed; inset:0; background:var(--dark); display:flex; align-items:center; justify-content:center; z-index:1000;">
-    <div style="background:white; padding:40px; border-radius:30px; width:80%; text-align:center; border:2px solid var(--primary);">
-        <h2 style="color:var(--secondary)">ระบบบริหารจัดการสปา</h2>
-        <p style="font-size:12px; color:#666;">กรุณาระบุรหัสผ่านเพื่อเข้าใช้งาน</p>
-        <input type="password" id="login-pass" style="text-align:center; letter-spacing: 5px;">
-        <button class="btn-main" onclick="auth()" style="margin-top:20px;">ยืนยันสิทธิ์เข้าใช้งาน</button>
+<div id="login-overlay">
+    <div class="login-box">
+        <h1 style="font-family: 'Playfair Display'; color: #C5A059; margin:0;">BPT</h1>
+        <h2>Premium Access</h2>
+        <input type="password" id="login-pass" style="text-align:center; letter-spacing: 10px;" placeholder="••••••">
+        <button class="btn-gold" onclick="auth()">เข้าสู่ระบบงาน</button>
     </div>
 </div>
 
 <div class="container" id="app" style="display:none;">
     <div id="home">
-        <div class="header"><strong>BAAN PRAKOB THONG</strong><br><small>SPA & MASSAGE POS System</small></div>
+        <div class="brand-header">
+            <h1>BAAN PRAKOB THONG</h1>
+            <small style="color:#C5A059; letter-spacing: 3px;">THAILAND SPA & MASSAGE</small>
+        </div>
+
         <div class="summary-card">
-            <small>ยอดรายได้ที่ยืนยันแล้วประจำวันนี้</small>
-            <h1 id="total-val">฿0</h1>
-            <div style="display:flex; justify-content: space-around; font-size:12px; color:#666;">
-                <span>สะสมแต้มรวม: <b id="point-total">0</b></span>
-                <span>คิวรอดำเนินการ: <b id="wait-total">0</b></span>
+            <small style="text-transform: uppercase; letter-spacing: 1px;">ยอดรายได้วันนี้</small>
+            <h2 id="total-val">฿0</h2>
+            <div style="display:flex; justify-content: space-around; font-size:12px; opacity: 0.6;">
+                <span>สะสมแต้ม: <b id="point-total">0</b></span>
+                <span>คิวที่รอ: <b id="wait-total">0</b></span>
             </div>
         </div>
+
         <div class="menu-grid">
-            <button class="menu-item" onclick="openPage('p-queue')"><span>📋</span>ลงตารางจองคิว</button>
-            <button class="menu-item" onclick="openPage('p-pay')"><span>💰</span>บันทึกการรับเงิน</button>
-            <button class="menu-item" onclick="openPage('p-verify')"><span>🔍</span>ตรวจสอบยอดเงิน</button>
-            <button class="menu-item" onclick="openPage('p-member')"><span>💎</span>ระบบสมาชิก</button>
-            <button class="menu-item" onclick="openPage('p-stock')"><span>📦</span>คลังสินค้า</button>
-            <button class="menu-item" onclick="openPage('p-stat')"><span>📊</span>รายงานสถิติ</button>
+            <div class="menu-item" onclick="openPage('p-queue')"><span>📅</span><strong>จองคิว</strong></div>
+            <div class="menu-item" onclick="openPage('p-pay')"><span>💳</span><strong>ชำระเงิน</strong></div>
+            <div class="menu-item" onclick="openPage('p-verify')"><span>🔍</span><strong>เช็คยอด</strong></div>
+            <div class="menu-item" onclick="openPage('p-member')"><span>💎</span><strong>สมาชิก</strong></div>
+            <div class="menu-item" onclick="openPage('p-stock')"><span>📦</span><strong>สต็อก</strong></div>
+            <div class="menu-item" onclick="openPage('p-stat')"><span>📊</span><strong>รายงาน</strong></div>
         </div>
+        
+        <button onclick="localStorage.clear(); location.reload();" style="background:none; border:none; color:#ccc; width:100%; margin-top:30px; font-size:10px;">RESET SYSTEM</button>
     </div>
 
     <div id="p-queue" class="page">
-        <h3>ลงทะเบียนจองคิวใหม่</h3>
-        <input type="text" id="q-name" placeholder="ชื่อ-นามสกุล ลูกค้า">
-        <input type="number" id="q-price" placeholder="ราคาค่าบริการ">
-        <div style="display:flex; gap:10px;"><input type="time" id="q-s"><span>ถึง</span><input type="time" id="q-e"></div>
-        <button class="btn-main" onclick="addQ()">ยืนยันการลงคิว</button>
-        <hr><div id="q-list"></div>
-        <button class="btn-back" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+        <h3 style="font-family:'Playfair Display'; color:var(--secondary);">Queue Booking</h3>
+        <input type="text" id="q-name" placeholder="ชื่อลูกค้า">
+        <input type="number" id="q-price" placeholder="ค่าบริการ">
+        <div style="display:flex; gap:10px;"><input type="time" id="q-s"><input type="time" id="q-e"></div>
+        <button class="btn-gold" onclick="addQ()">ยืนยันการจอง</button>
+        <div id="q-list" style="margin-top:20px;"></div>
+        <button class="btn-back" onclick="openPage('home')">ย้อนกลับ</button>
     </div>
 
     <div id="p-pay" class="page">
-        <h3>บันทึกรับชำระเงิน</h3>
+        <h3 style="font-family:'Playfair Display'; color:var(--secondary);">Payment</h3>
         <select id="pay-select" onchange="autoPay()"></select>
         <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
-        <input type="number" id="pay-amt" placeholder="จำนวนเงิน" oninput="genQR()" style="font-size:24px; text-align:center; font-weight:bold;">
+        <input type="number" id="pay-amt" placeholder="0.00" oninput="genQR()" style="font-size:32px; text-align:center; background:none; border:none; border-bottom: 2px solid var(--primary); border-radius:0;">
+        
         <div id="qr-box">
-            <img id="qr-img" width="180">
-            <p style="font-size:11px; margin-top:5px; color:#666;">Scan PromptPay: 086-352-6387</p>
+            <img id="qr-img" src="">
+            <p style="font-size:11px; color:#999; margin-top:10px;">SCAN PROMPTPAY: 086-352-6387</p>
         </div>
-        <button class="btn-main" onclick="submitPay()" style="margin-top:20px;">แจ้งชำระเงิน (รอการตรวจสอบ)</button>
-        <button class="btn-back" onclick="openPage('home')">⬅️ ยกเลิก</button>
+
+        <button class="btn-gold" onclick="submitPay()" style="margin-top:20px;">แจ้งชำระเงิน</button>
+        <button class="btn-back" onclick="openPage('home')">ยกเลิก</button>
     </div>
 
     <div id="p-verify" class="page">
-        <h3>ตรวจสอบยอดโอนเงิน</h3>
+        <h3 style="font-family:'Playfair Display'; color:var(--secondary);">Verification</h3>
         <div id="v-list"></div>
-        <button class="btn-back" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+        <button class="btn-back" onclick="openPage('home')">ย้อนกลับ</button>
     </div>
 
     <div id="p-member" class="page">
-        <h3>ฐานข้อมูลสมาชิก</h3>
-        <input type="text" id="m-phone" placeholder="ค้นหาเบอร์โทรศัพท์">
-        <button class="btn-main" onclick="searchMember()">ค้นหา / ลงทะเบียน</button>
+        <h3 style="font-family:'Playfair Display'; color:var(--secondary);">Members</h3>
+        <input type="text" id="m-phone" placeholder="เบอร์โทรศัพท์">
+        <button class="btn-gold" onclick="searchMember()">ค้นหาสมาชิก</button>
         <div id="m-result" style="margin-top:20px;"></div>
-        <button class="btn-back" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+        <button class="btn-back" onclick="openPage('home')">ย้อนกลับ</button>
     </div>
 
     <div id="p-stock" class="page">
-        <h3>สต็อกอุปกรณ์และวัตถุดิบ</h3>
+        <h3 style="font-family:'Playfair Display'; color:var(--secondary);">Inventory</h3>
         <div id="stock-list"></div>
-        <button class="btn-back" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+        <button class="btn-back" onclick="openPage('home')">ย้อนกลับ</button>
     </div>
 
     <div id="p-stat" class="page">
-        <h3>รายงานผลประกอบการ</h3>
+        <h3 style="font-family:'Playfair Display'; color:var(--secondary);">Daily Report</h3>
         <div id="stat-content"></div>
-        <button class="btn-main" onclick="exportSheet()" style="margin-top:15px; background:#28A745;">ส่งออกข้อมูลไปยัง Google Sheets</button>
-        <button class="btn-back" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+        <button class="btn-gold" onclick="exportSheet()" style="background:#2E7D32;">SEND TO GOOGLE SHEETS</button>
+        <button class="btn-back" onclick="openPage('home')">ย้อนกลับ</button>
     </div>
 </div>
 
 <script>
-    // Database
-    let data = {
-        total: parseInt(localStorage.getItem('bp_total')) || 0,
-        queues: JSON.parse(localStorage.getItem('bp_queues')) || [],
-        wait: JSON.parse(localStorage.getItem('bp_wait')) || [],
-        members: JSON.parse(localStorage.getItem('bp_members')) || {},
-        history: JSON.parse(localStorage.getItem('bp_history')) || [],
-        stock: JSON.parse(localStorage.getItem('bp_stock')) || [
+    let db = {
+        total: parseInt(localStorage.getItem('bpt_total')) || 0,
+        queues: JSON.parse(localStorage.getItem('bpt_queues')) || [],
+        wait: JSON.parse(localStorage.getItem('bpt_wait')) || [],
+        members: JSON.parse(localStorage.getItem('bpt_members')) || {},
+        history: JSON.parse(localStorage.getItem('bpt_history')) || [],
+        stock: JSON.parse(localStorage.getItem('bpt_stock')) || [
             {n:"น้ำมันนวด", q:10, u:"ขวด"}, {n:"ลูกประคบ", q:25, u:"ลูก"}, {n:"ผ้าขนหนู", q:50, u:"ผืน"}
         ]
     };
 
     function auth() { if(document.getElementById('login-pass').value==='123456') { document.getElementById('login-overlay').style.display='none'; document.getElementById('app').style.display='block'; updateUI(); } }
     function openPage(id) { document.getElementById('home').style.display='none'; document.querySelectorAll('.page').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='block'; if(id==='p-queue')renderQ(); if(id==='p-pay')updateDrop(); if(id==='p-verify')renderV(); if(id==='p-stat')renderStat(); if(id==='p-stock')renderStock(); }
-    function updateUI() { document.getElementById('total-val').innerText=`฿${data.total}`; document.getElementById('wait-total').innerText=data.wait.length; }
+    function updateUI() { document.getElementById('total-val').innerText=`฿${db.total.toLocaleString()}`; document.getElementById('wait-total').innerText=db.wait.length; }
 
-    // --- QR & Payment ---
+    // Logic: QR
     function genQR() {
         let a = document.getElementById('pay-amt').value;
         if(a > 0) {
@@ -149,82 +314,87 @@
             document.getElementById('qr-box').style.display='block';
         } else document.getElementById('qr-box').style.display='none';
     }
-    function updateDrop() {
-        let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกรายการจากตารางคิว --</option>';
-        data.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n}</option>`);
-    }
-    function autoPay() { let id=document.getElementById('pay-select').value; if(!id)return; let q=data.queues.find(x=>x.id==id); document.getElementById('pay-name').value=q.n; document.getElementById('pay-amt').value=q.p; genQR(); }
 
-    // --- Queues ---
+    // Logic: Queue
     function addQ() {
         let n=document.getElementById('q-name').value, p=document.getElementById('q-price').value, s=document.getElementById('q-s').value, e=document.getElementById('q-e').value;
-        if(!n||!p||!s||!e) return alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        data.queues.push({id:Date.now(), n, p, s, e, st:'wait'}); save(); renderQ();
+        if(!n||!p||!s||!e) return;
+        db.queues.push({id:Date.now(), n, p, s, e}); save(); renderQ();
     }
     function renderQ() {
         let l=document.getElementById('q-list'); l.innerHTML='';
-        data.queues.forEach(q => { l.innerHTML+=`<div class="list-item"><strong>${q.s}-${q.e} | ${q.n}</strong><br><span class="status-badge bg-wait">รอดำเนินการ</span> <button onclick="delQ(${q.id})" style="float:right; border:none; background:none; color:red;">ลบ</button></div>`; });
+        db.queues.forEach(q => { l.innerHTML+=`<div class="list-item"><strong>${q.s}-${q.e}</strong><br>${q.n} (฿${q.p}) <span onclick="delQ(${q.id})" style="float:right;color:red;cursor:pointer;">×</span></div>`; });
     }
-    function delQ(id) { data.queues=data.queues.filter(x=>x.id!==id); save(); renderQ(); }
+    function delQ(id) { db.queues=db.queues.filter(x=>x.id!==id); save(); renderQ(); }
 
-    // --- Logic Payment ---
+    // Logic: Payment
+    function updateDrop() {
+        let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกรายการคนจอง --</option>';
+        db.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n}</option>`);
+    }
+    function autoPay() { let id=document.getElementById('pay-select').value; if(!id)return; let q=db.queues.find(x=>x.id==id); document.getElementById('pay-name').value=q.n; document.getElementById('pay-amt').value=q.p; genQR(); }
     function submitPay() {
         let a=parseInt(document.getElementById('pay-amt').value), n=document.getElementById('pay-name').value, qId=document.getElementById('pay-select').value;
-        if(!a||!n) return alert('กรุณาระบุชื่อและยอดเงิน');
-        data.wait.push({id:Date.now(), n, a, qId});
-        if(qId) data.queues=data.queues.filter(x=>x.id!=qId);
-        save(); alert('บันทึกรายการแล้ว รอกับตรวจสอบยอดเงิน'); openPage('home'); updateUI();
+        if(!a||!n) return;
+        db.wait.push({id:Date.now(), n, a, qId});
+        if(qId) db.queues=db.queues.filter(x=>x.id!=qId);
+        save(); openPage('home'); updateUI();
     }
+
+    // Logic: Verify
     function renderV() {
-        let l=document.getElementById('v-list'); l.innerHTML=data.wait.length?'':'<p style="text-align:center; color:#999;">ไม่มีรายการรอตรวจสอบ</p>';
-        data.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><strong>฿${v.a} | ${v.n}</strong><button class="btn-main" onclick="confirmV(${v.id})" style="margin-top:10px; background:var(--success);">✅ ยืนยันยอดเงินเข้า</button></div>`; });
+        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center;opacity:0.5;">ไม่มีรายการรอตรวจสอบ</p>';
+        db.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><strong>฿${v.a} | ${v.n}</strong><button class="btn-gold" onclick="confirmV(${v.id})" style="margin-top:10px;">✅ ยืนยันเงินเข้าแล้ว</button></div>`; });
     }
     function confirmV(id) {
-        let v=data.wait.find(x=>x.id===id); data.total+=v.a;
-        data.history.push({...v, date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString()});
-        data.wait=data.wait.filter(x=>x.id!==id);
+        let v=db.wait.find(x=>x.id===id); db.total+=v.a;
+        db.history.push({...v, date: new Date().toLocaleDateString()});
+        db.wait=db.wait.filter(x=>x.id!==id);
         save(); updateUI(); renderV();
     }
 
-    // --- Member ---
+    // Logic: Member
     function searchMember() {
         let tel = document.getElementById('m-phone').value; if(!tel) return;
-        if(!data.members[tel]) data.members[tel] = {p:0};
-        let m = data.members[tel];
-        document.getElementById('m-result').innerHTML = `<div class="summary-card">📱: ${tel}<br>คะแนนสะสม: <h2 style="color:var(--primary);">${m.p} แต้ม</h2><p style="font-size:11px;">(มานวดครบ 10 แต้ม รับสิทธิ์นวดฟรี 1 ครั้ง)</p><button class="btn-main" onclick="addPoint('${tel}')">+ เพิ่มแต้ม (1 ครั้ง)</button></div>`;
+        if(!db.members[tel]) db.members[tel] = {p:0};
+        let m = db.members[tel];
+        document.getElementById('m-result').innerHTML = `<div class="list-item" style="text-align:center;">เบอร์: ${tel}<br><h2 style="color:var(--secondary);">${m.p} แต้ม</h2><button class="btn-gold" onclick="addPoint('${tel}')">+ เพิ่ม 1 แต้ม</button></div>`;
         save();
     }
-    function addPoint(t) { data.members[t].p++; searchMember(); save(); }
+    function addPoint(t) { db.members[t].p++; searchMember(); save(); }
 
-    // --- Stock ---
+    // Logic: Stock
     function renderStock() {
         let l=document.getElementById('stock-list'); l.innerHTML='';
-        data.stock.forEach((s, i) => {
-            let color = s.q < 10 ? 'red' : 'green';
-            l.innerHTML+=`<div class="list-item"><strong>${s.n}</strong>: <b style="color:${color}">${s.q}</b> ${s.u} <div style="float:right;"><button onclick="adjStock(${i},-1)">-</button> <button onclick="adjStock(${i},1)">+</button></div></div>`;
+        db.stock.forEach((s, i) => {
+            l.innerHTML+=`<div class="list-item"><strong>${s.n}</strong>: ${s.q} ${s.u} <div style="float:right;"><button onclick="adjStock(${i},-1)">-</button><button onclick="adjStock(${i},1)">+</button></div></div>`;
         });
     }
-    function adjStock(i, v) { data.stock[i].q += v; save(); renderStock(); }
+    function adjStock(i, v) { db.stock[i].q += v; save(); renderStock(); }
 
-    // --- Stat ---
+    // Logic: Stat
     function renderStat() {
         let l=document.getElementById('stat-content');
-        let count = data.history.length;
-        l.innerHTML = `<div class="summary-card"><small>จำนวนลูกค้าวันนี้</small><h1>${count} ราย</h1></div>`;
-        l.innerHTML += `<strong>ความนิยมของช่วงเวลา</strong><div class="stat-bar"><div class="stat-fill" style="width:${Math.min(100, count*10)}%"></div></div>`;
+        l.innerHTML = `<div class="summary-card"><small>จำนวนเคสวันนี้</small><h1>${db.history.length}</h1></div>`;
     }
 
     async function exportSheet() {
-        if(!data.history.length) return alert('ไม่มีข้อมูลประวัติสำหรับส่งออก');
         try {
             await fetch('https://script.google.com/macros/s/AKfycby-BRWBtHvZTJL2rJlyKNJWGJujoXmubwlWPWwpiQ7Qi3jNtfICqgn_-jQriMoRrfuIKQ/exec', {
-                method: 'POST', body: JSON.stringify(data.history)
+                method: 'POST', body: JSON.stringify(db.history)
             });
-            alert('ส่งออกข้อมูลไปยัง Google Sheets สำเร็จ');
-        } catch(e) { alert('การส่งข้อมูลล้มเหลว'); }
+            alert('Export Success');
+        } catch(e) { alert('Export Failed'); }
     }
 
-    function save() { localStorage.setItem('bp_total', data.total); localStorage.setItem('bp_queues', JSON.stringify(data.queues)); localStorage.setItem('bp_wait', JSON.stringify(data.wait)); localStorage.setItem('bp_members', JSON.stringify(data.members)); localStorage.setItem('bp_history', JSON.stringify(data.history)); localStorage.setItem('bp_stock', JSON.stringify(data.stock)); }
+    function save() { 
+        localStorage.setItem('bpt_total', db.total); 
+        localStorage.setItem('bpt_queues', JSON.stringify(db.queues)); 
+        localStorage.setItem('bpt_wait', JSON.stringify(db.wait)); 
+        localStorage.setItem('bpt_members', JSON.stringify(db.members)); 
+        localStorage.setItem('bpt_history', JSON.stringify(db.history)); 
+        localStorage.setItem('bpt_stock', JSON.stringify(db.stock)); 
+    }
 </script>
 </body>
 </html>
