@@ -19,7 +19,7 @@
         body { font-family: 'Sarabun', sans-serif; background: var(--os-bg); margin: 0; color: var(--os-text); display: flex; justify-content: center; min-height: 100vh; }
         .container { width: 100%; max-width: 480px; padding: 20px; box-sizing: border-box; }
 
-        /* 🔒 Login */
+        /* 🔒 Login - เปลี่ยนชื่อเป็นภาษาไทยตามสั่ง */
         #login-overlay { position: fixed; inset: 0; background: var(--os-bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
         .login-box { width: 85%; background: var(--os-card); padding: 40px 30px; border-radius: 45px; box-shadow: var(--os-shadow); text-align: center; border: 1px solid #fff; }
 
@@ -50,7 +50,7 @@
         }
         button.btn-os { background: var(--os-gold); color: #FFF; border: none; font-weight: 700; cursor: pointer; font-family: 'Kanit'; }
 
-        /* 👨‍⚕️ Lists & Badges */
+        /* 👨‍⚕️ Lists */
         .dr-item { padding: 15px; background: #fff; border-radius: 25px; margin-bottom: 8px; border: 1px solid #f0f0f2; display: flex; justify-content: space-between; align-items: center; }
         .status-badge { font-size: 11px; padding: 4px 12px; border-radius: 12px; color: white; font-weight: bold; }
         .bg-free { background: var(--success); } .bg-busy { background: var(--danger); }
@@ -64,10 +64,10 @@
 <div id="login-overlay">
     <div class="login-box">
         <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img">
-        <h2 style="font-family:'Kanit'; color:var(--os-gold); margin-bottom:20px;">Unlock OriginOS</h2>
-        <input type="text" id="user-input" placeholder="User (admin/admin2)">
-        <input type="password" id="pass-input" placeholder="Password">
-        <button class="btn-os" onclick="handleAuth()">Sign In</button>
+        <h2 style="font-family:'Kanit'; color:var(--os-gold); margin-bottom:20px;">ประคบทอง ไทย/สปา</h2>
+        <input type="text" id="user-input" placeholder="ชื่อผู้ใช้งาน (admin/admin2)">
+        <input type="password" id="pass-input" placeholder="รหัสผ่าน">
+        <button class="btn-os" onclick="handleAuth()">เข้าสู่ระบบ</button>
     </div>
 </div>
 
@@ -75,9 +75,9 @@
     <div id="home">
         <div style="text-align:center; margin-bottom:15px;"><img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img"></div>
         <div class="balance-card">
-            <small>TODAY'S REVENUE (<span id="user-label"></span>)</small>
+            <small>ยอดรวมรายได้วันนี้ (<span id="user-label"></span>)</small>
             <h2 id="total-val">฿0</h2>
-            <div style="font-size:12px; opacity:0.6;">PROMPTPAY: <span id="pp-label" style="font-weight:700;"></span></div>
+            <div style="font-size:12px; opacity:0.6;">พร้อมเพย์: <span id="pp-label" style="font-weight:700;"></span></div>
         </div>
         <div class="menu-grid">
             <div class="menu-item" onclick="openPage('p-dr-status')"><span>👨‍⚕️</span><strong>สถานะหมอ</strong></div>
@@ -87,11 +87,11 @@
             <div class="menu-item" onclick="openPage('p-summary')"><span>📊</span><strong>สรุปรายงาน</strong></div>
             <div class="menu-item" onclick="openPage('p-settings')"><span>⚙️</span><strong>ตั้งค่าระบบ</strong></div>
         </div>
-        <button onclick="location.reload()" style="background:none; border:none; color:#AAA; width:100%; margin-top:35px; cursor:pointer; font-size:12px;">LOGOUT SYSTEM</button>
+        <button onclick="location.reload()" style="background:none; border:none; color:#AAA; width:100%; margin-top:35px; cursor:pointer; font-size:12px;">ออกจากระบบ</button>
     </div>
 
     <div id="p-dr-status" class="page">
-        <h3 style="text-align:center;">Staff Status</h3>
+        <h3>สถานะหมอนวด</h3>
         <div id="dr-status-list"></div>
         <button onclick="openPage('home')" class="btn-os" style="background:#8E8E93;">กลับหน้าหลัก</button>
     </div>
@@ -120,43 +120,44 @@
     </div>
 
     <div id="p-pay" class="page">
-        <h3>รับเงิน / Generate QR</h3>
+        <h3>รับเงิน / สร้าง QR</h3>
         <select id="pay-select" onchange="autoPay()"></select>
         <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
         <input type="number" id="pay-amt" placeholder="0" oninput="genQR()" style="font-size:35px; text-align:center; color:var(--os-gold); font-weight:bold; border:none; background:none;">
         <div id="qr-container" style="text-align:center; display:none;"><img id="qr-img" style="width:180px;"><p id="pp-text" style="font-size:12px;"></p></div>
-        <button class="btn-os" onclick="submitPay()">ยืนยันยอดเข้า</button>
+        <button class="btn-gold" onclick="submitPay()" style="border-radius:20px; padding:15px; margin-top:15px;">ยืนยันยอดเข้า</button>
         <button onclick="openPage('home')" class="btn-os" style="background:#8E8E93;">กลับ</button>
     </div>
 
     <div id="p-verify" class="page">
-        <h3>ยืนยันข้อมูลลงชีท</h3>
+        <h3>บันทึกลง Google Sheet</h3>
         <div id="v-list"></div>
         <button onclick="openPage('home')" class="btn-os" style="background:#8E8E93;">กลับ</button>
     </div>
 
     <div id="p-summary" class="page">
         <h3>สรุปรายงานยอดเงิน</h3>
-        <div class="dr-item"><span>รายได้วันนี้</span><strong id="sum-day">฿0</strong></div>
-        <button class="btn-os" style="background:var(--danger);" onclick="resetToZero()">รีเซ็ตยอดหน้าแรกเป็น 0</button>
+        <div class="dr-item"><span>รายได้รวมวันนี้</span><strong id="sum-day">฿0</strong></div>
+        <button class="btn-os" style="background:var(--danger);" onclick="resetToZero()">ล้างยอดหน้าแรกเป็น 0</button>
         <button onclick="openPage('home')" class="btn-os" style="background:#8E8E93; margin-top:15px;">กลับ</button>
     </div>
 
     <div id="p-settings" class="page">
-        <h3>System Settings</h3>
-        <label style="font-size:12px;">เบอร์พร้อมเพย์:</label>
+        <h3>ตั้งค่าระบบ</h3>
+        <label>เบอร์พร้อมเพย์:</label>
         <input type="text" id="set-pp">
-        <button class="btn-os" style="background:#34C759;" onclick="updatePP()">Save Number</button>
+        <button class="btn-os" style="background:#34C759;" onclick="updatePP()">บันทึกเบอร์</button>
         <hr style="margin:20px 0; opacity:0.1;">
-        <label style="font-size:12px;">จัดการรายชื่อหมอ:</label>
+        <label>จัดการรายชื่อหมอ:</label>
         <input type="text" id="new-dr-name" placeholder="ชื่อหมอคนใหม่">
-        <button class="btn-os" onclick="addDr()">Add Staff</button>
+        <button class="btn-os" onclick="addDr()">เพิ่มชื่อหมอ</button>
         <div id="manage-dr-list" style="margin-top:15px;"></div>
         <button onclick="openPage('home')" class="btn-os" style="background:#8E8E93;">กลับ</button>
     </div>
 </div>
 
 <script>
+    // 🚩 URL แอปเว็บมึง
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3acLTKEmqAutw19YgnUfs3viIZwLNF0me2nfM9ck4KyJv-Ulk8DAb5m3G12FtVQeFA/exec";
     
     let currentUser = "", db = {};
@@ -171,7 +172,7 @@
             document.getElementById('user-label').innerText = currentUser;
             document.getElementById('pp-label').innerText = db.pp;
             updateUI();
-        } else alert('Password Error');
+        } else alert('รหัสผ่านไม่ถูกต้อง');
     }
 
     function loadDB() {
@@ -210,7 +211,7 @@
     function renderDrStatus() {
         let l = document.getElementById('dr-status-list'); l.innerHTML = '';
         db.doctors.forEach((d, i) => {
-            l.innerHTML += `<div class="dr-item" onclick="toggleDr(${i})"><strong>${d.n}</strong> <span class="status-badge ${d.st==='free'?'bg-free':'bg-busy'}">${d.st==='free'?'AVAILABLE':'BUSY'}</span></div>`;
+            l.innerHTML += `<div class="dr-item" onclick="toggleDr(${i})"><strong>${d.n}</strong> <span class="status-badge ${d.st==='free'?'bg-free':'bg-busy'}">${d.st==='free'?'ว่าง':'ไม่ว่าง'}</span></div>`;
         });
     }
     function toggleDr(i) { db.doctors[i].st = db.doctors[i].st === 'free' ? 'busy' : 'free'; save(); renderDrStatus(); }
@@ -224,14 +225,14 @@
 
     function addQ() {
         let n=document.getElementById('q-name').value, p=parseInt(document.getElementById('q-price').value), d=document.getElementById('q-date').value, t=document.getElementById('q-type').value, dr=document.getElementById('q-doctor-select').value;
-        if(!n||!p||!d||!dr) return alert('Fill info!');
+        if(!n||!p||!d||!dr) return alert('กรอกข้อมูลให้ครบ');
         let drIdx = db.doctors.findIndex(x => x.n === dr); db.doctors[drIdx].st = 'busy';
         db.queues.push({id:Date.now(), n, p, d, s:document.getElementById('q-s').value, e:document.getElementById('q-e').value, type:t, dr});
-        save(); renderQ(); populateDrSelect();
+        save(); renderQ();
     }
     function renderQ() {
         let l=document.getElementById('q-list'); l.innerHTML='<strong>คิวปัจจุบัน:</strong>';
-        db.queues.forEach(q => l.innerHTML+=`<div class="list-item"><strong>${q.s}-${q.e} | ${q.n}</strong><br><small>${q.type} (หมอ${q.dr})</small><button onclick="delQ(${q.id}, '${q.dr}')" style="float:right; color:red; border:none; background:none;">X</button></div>`);
+        db.queues.forEach(q => l.innerHTML+=`<div class="list-item"><strong>${q.s}-${q.e} | ${q.n}</strong><br><small>หมอ${q.dr}</small><button onclick="delQ(${q.id}, '${q.dr}')" style="float:right; color:red; border:none; background:none;">X</button></div>`);
     }
     function delQ(id, drName) { 
         if(confirm('ลบ?')){
@@ -265,7 +266,7 @@
     }
 
     function renderV() {
-        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.5;">No items</p>';
+        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.5;">ไม่มีรายการ</p>';
         db.wait.forEach(v => l.innerHTML+=`<div class="list-item">฿${v.a} | ${v.n}<button onclick="confirmV(${v.id})" style="float:right; background:var(--os-gold); color:white; border:none; border-radius:12px; padding:6px 15px;">บันทึกสำเร็จ</button></div>`);
     }
     async function confirmV(id) {
@@ -282,7 +283,7 @@
         let l = document.getElementById('manage-dr-list'); l.innerHTML = '';
         db.doctors.forEach((d, i) => l.innerHTML += `<div class="dr-item">${d.n} <button onclick="delDr(${i})" style="color:red; border:none; background:none;">ลบ</button></div>`);
     }
-    function delDr(i) { db.doctors.splice(i, 1); save(); renderManageDr(); }
+    function delDr(i) { if(confirm('ลบหมอคนนี้?')){ db.doctors.splice(i, 1); save(); renderManageDr(); } }
     function runSummary() {
         let now = new Date(), dSum=0;
         db.history.forEach(h => { if(new Date(h.timestamp).toDateString() === now.toDateString()) dSum += h.a; });
