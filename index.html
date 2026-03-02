@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประคบทอง ไทย/สปา - Google Sheet Edition</title>
+    <title>ประคบทอง ไทย/สปา - บันทึกข้อมูล</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Kanit:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --main-gold: #996515; --bg-cream: #F5EEDC; --card-white: #FFFBF2; --text-dark: #433D35; --border-gold: #DED3BC; --success: #2E7D32; --danger: #D32F2F; }
@@ -132,7 +132,7 @@
 </div>
 
 <script>
-    // 🚩 เชื่อมต่อ URL แอปเว็บมึงเรียบร้อยแล้วเพื่อน!
+    // 🚩 เชื่อม URL แอปเว็บมึงให้เรียบร้อยแล้ว
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3acLTKEmqAutw19YgnUfs3viIZwLNF0me2nfM9ck4KyJv-Ulk8DAb5m3G12FtVQeFA/exec";
     
     let currentUser = "", db = {};
@@ -246,7 +246,7 @@
     }
 
     function renderV() {
-        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center;">ไม่มีรายการ</p>';
+        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center;">ไม่มีรายการค้าง</p>';
         db.wait.forEach(v => l.innerHTML+=`<div class="list-item">฿${v.a} | ${v.n}<br><small>หมอ${v.dr}</small><button onclick="confirmV(${v.id})" style="float:right; background:var(--main-gold); color:white; border:none; border-radius:10px; padding:5px 15px;">บันทึกสำเร็จ</button></div>`);
     }
     async function confirmV(id) {
