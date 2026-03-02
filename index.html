@@ -7,150 +7,110 @@
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Kanit:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --main-gold: #FFD700;
-            --glow-gold: rgba(255, 215, 0, 0.4);
-            --bg-dark: #1A1814;
-            --card-bg: rgba(40, 38, 32, 0.85);
-            --text-gold: #F4EBD0;
-            --border-white: rgba(255, 255, 255, 0.1);
+            --main-gold: #996515;
+            --glow-gold: rgba(212, 175, 55, 0.3);
+            --bg-cream: #F5EEDC;
+            --card-white: rgba(255, 251, 242, 0.9);
+            --text-dark: #433D35;
+            --border-gold: #DED3BC;
         }
 
         body {
             font-family: 'Sarabun', sans-serif;
-            background: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(153, 101, 21, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(153, 101, 21, 0.15) 0%, transparent 40%);
+            background: var(--bg-cream);
+            background-image: radial-gradient(circle at top right, #FFFFFF 0%, transparent 50%);
             margin: 0;
-            color: var(--text-gold);
+            color: var(--text-dark);
             display: flex;
             justify-content: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        .container {
-            width: 100%;
-            max-width: 460px;
-            padding: 20px;
-            box-sizing: border-box;
-            z-index: 1;
-        }
+        .container { width: 100%; max-width: 460px; padding: 20px; box-sizing: border-box; }
 
-        /* 🔒 Login Styled like Lavabux */
+        /* 🔒 Login Styled */
         #login-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 10, 10, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            backdrop-filter: blur(10px);
+            position: fixed; inset: 0; background: var(--bg-cream);
+            display: flex; align-items: center; justify-content: center; z-index: 2000;
         }
-
         .login-box {
-            width: 85%;
-            background: var(--card-bg);
-            padding: 40px 25px;
-            border-radius: 30px;
-            border: 1px solid var(--border-white);
-            text-align: center;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5), 0 0 15px var(--glow-gold);
+            width: 85%; background: var(--card-white); padding: 40px 25px; border-radius: 40px;
+            border: 2px solid var(--border-gold); text-align: center;
+            box-shadow: 0 15px 35px rgba(153, 101, 21, 0.1);
         }
 
         /* 🏠 Dashboard Header */
-        .brand-header { text-align: center; margin-bottom: 30px; }
-        .brand-header img { width: 100px; filter: drop-shadow(0 0 10px var(--main-gold)); }
+        .brand-header { text-align: center; margin-bottom: 25px; }
+        .brand-header img { width: 90px; filter: drop-shadow(0 4px 8px var(--glow-gold)); }
         .brand-header h1 { 
-            font-family: 'Kanit', sans-serif; font-size: 28px; margin: 10px 0 0; 
-            color: var(--main-gold); text-shadow: 0 0 15px var(--glow-gold);
+            font-family: 'Kanit', sans-serif; font-size: 26px; margin: 10px 0 0; 
+            color: var(--main-gold); text-shadow: 0 2px 4px var(--glow-gold);
         }
 
         .balance-card {
-            background: var(--card-bg);
-            padding: 35px 20px;
-            border-radius: 35px;
-            border: 1px solid var(--border-white);
-            text-align: center;
-            margin-bottom: 25px;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
+            background: var(--card-white); padding: 30px 20px; border-radius: 40px;
+            border: 2px solid var(--border-gold); text-align: center; margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
+        .balance-card h2 { font-family: 'Kanit', sans-serif; font-size: 48px; margin: 5px 0; color: var(--main-gold); }
 
-        .balance-card::after {
-            content: ""; position: absolute; inset: 0; border-radius: 35px;
-            padding: 2px; background: linear-gradient(135deg, var(--main-gold), transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
-        }
-
-        .balance-card h2 { font-family: 'Kanit', sans-serif; font-size: 52px; margin: 5px 0; color: #FFF; text-shadow: 0 0 20px var(--glow-gold); }
-
-        /* 🔘 Grid Menu Like Premium E-Commerce */
+        /* 🔘 Grid Menu */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-item {
-            background: linear-gradient(145deg, #2D2B24, #1E1C18);
-            padding: 25px 15px;
-            border-radius: 25px;
-            border: 1px solid var(--border-white);
-            cursor: pointer;
-            text-align: center;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
+            background: var(--card-white); padding: 25px 15px; border-radius: 30px;
+            border: 1px solid var(--border-gold); cursor: pointer; text-align: center;
+            transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
         .menu-item:hover { border-color: var(--main-gold); transform: translateY(-3px); }
-        .menu-item:active { transform: scale(0.95); }
         .menu-item span { font-size: 32px; display: block; margin-bottom: 10px; }
-        .menu-item strong { font-family: 'Kanit', sans-serif; font-size: 16px; color: var(--text-gold); letter-spacing: 0.5px; }
+        .menu-item strong { font-family: 'Kanit', sans-serif; font-size: 15px; }
 
-        /* 📄 UI Inputs & Pages */
-        .page { display: none; background: var(--card-bg); padding: 30px 20px; border-radius: 35px; border: 1px solid var(--border-white); animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-
-        h3 { font-family: 'Kanit', sans-serif; color: var(--main-gold); text-align: center; margin-top: 0; }
+        /* 📄 UI Pages */
+        .page { display: none; background: var(--card-white); padding: 30px 20px; border-radius: 40px; border: 2px solid var(--border-gold); animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         input, select, button.btn-gold {
-            width: 100%; padding: 18px; margin-top: 15px; border-radius: 18px;
-            border: 1px solid var(--border-white); background: rgba(0,0,0,0.3); color: #FFF;
-            font-size: 16px; font-family: 'Sarabun'; box-sizing: border-box; transition: 0.3s;
+            width: 100%; padding: 16px; margin-top: 12px; border-radius: 18px;
+            border: 1px solid var(--border-gold); background: #FFF; font-size: 16px; font-family: 'Sarabun'; box-sizing: border-box;
         }
+        button.btn-gold { background: var(--main-gold); color: #FFF; border: none; font-weight: 700; cursor: pointer; font-family: 'Kanit'; }
 
-        input:focus { border-color: var(--main-gold); outline: none; background: rgba(255,215,0,0.05); }
-
-        button.btn-gold { 
-            background: linear-gradient(90deg, #996515, var(--main-gold)); 
-            color: #000; border: none; font-weight: 700; cursor: pointer;
-            font-family: 'Kanit', sans-serif; box-shadow: 0 5px 15px rgba(255,215,0,0.2);
+        /* 🧮 Calculator Styles */
+        #calc-box { 
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #FFF; padding: 20px; border-radius: 30px; border: 3px solid var(--main-gold);
+            z-index: 3000; box-shadow: 0 0 50px rgba(0,0,0,0.2); width: 280px;
         }
+        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+        .calc-btn { padding: 15px; background: var(--bg-cream); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .calc-btn-op { background: var(--main-gold); color: #FFF; }
 
-        button.btn-gold:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--glow-gold); }
-
-        .list-item {
-            padding: 18px; background: rgba(255,255,255,0.03); border-radius: 20px;
-            margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;
-            border: 1px solid var(--border-white);
-        }
-
-        #qr-container { 
-            display: none; text-align: center; margin-top: 25px; 
-            padding: 20px; background: #FFF; border-radius: 25px;
-        }
-        #qr-img { width: 220px; border-radius: 15px; }
+        .list-item { padding: 15px; background: #FFF; border-radius: 15px; margin-bottom: 10px; border: 1px solid var(--border-gold); }
+        #qr-container { display: none; text-align: center; margin-top: 20px; padding: 15px; background: #FFF; border-radius: 20px; border: 1px solid var(--border-gold); }
+        #qr-img { width: 200px; }
     </style>
 </head>
 <body>
 
+<div id="calc-box">
+    <input type="text" id="calc-display" readonly style="text-align:right; font-size:24px; margin-bottom:10px;">
+    <div class="calc-grid">
+        <button class="calc-btn" onclick="calcInput('7')">7</button><button class="calc-btn" onclick="calcInput('8')">8</button><button class="calc-btn" onclick="calcInput('9')">9</button><button class="calc-btn calc-btn-op" onclick="calcInput('/')">÷</button>
+        <button class="calc-btn" onclick="calcInput('4')">4</button><button class="calc-btn" onclick="calcInput('5')">5</button><button class="calc-btn" onclick="calcInput('6')">6</button><button class="calc-btn calc-btn-op" onclick="calcInput('*')">×</button>
+        <button class="calc-btn" onclick="calcInput('1')">1</button><button class="calc-btn" onclick="calcInput('2')">2</button><button class="calc-btn" onclick="calcInput('3')">3</button><button class="calc-btn calc-btn-op" onclick="calcInput('-')">-</button>
+        <button class="calc-btn" onclick="calcInput('0')">0</button><button class="calc-btn" onclick="calcClear()">C</button><button class="calc-btn calc-btn-op" onclick="calcSolve()">=</button><button class="calc-btn calc-btn-op" onclick="calcInput('+')">+</button>
+    </div>
+    <button class="btn-gold" onclick="useCalcResult()" style="margin-top:15px;">ใช้ยอดเงินนี้</button>
+    <button onclick="document.getElementById('calc-box').style.display='none'" style="width:100%; border:none; background:none; margin-top:10px; color:#888;">ปิด</button>
+</div>
+
 <div id="login-overlay">
     <div class="login-box">
-        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" width="100">
-        <h2 style="color:var(--main-gold); font-family:'Kanit';">SYSTEM AUTH</h2>
+        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png">
+        <h1>ประคบทอง ไทย/สปา</h1>
         <input type="text" id="user-input" placeholder="User / Admin">
         <input type="password" id="pass-input" placeholder="Password">
-        <button class="btn-gold" onclick="handleAuth()">LOGIN SYSTEM</button>
+        <button class="btn-gold" onclick="handleAuth()">LOGIN</button>
     </div>
 </div>
 
@@ -160,56 +120,57 @@
             <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png">
             <h1>ประคบทอง ไทย/สปา</h1>
         </div>
-
         <div class="balance-card">
-            <small style="opacity:0.6; text-transform:uppercase; letter-spacing:2px;">Revenue Today</small>
+            <small>Revenue Today</small>
             <h2 id="total-val">฿0</h2>
-            <div style="font-size:12px; margin-top:10px; opacity:0.8;">
+            <div style="font-size:12px; margin-top:10px;">
                 <span id="current-user"></span> | <span style="color:red;">Pending: <b id="wait-count">0</b></span>
             </div>
         </div>
-
         <div class="menu-grid">
             <div class="menu-item" onclick="openPage('p-queue')"><span>📋</span><strong>ลงตารางจอง</strong></div>
-            <div class="menu-item" onclick="openPage('p-pay')"><span>🪙</span><strong>รับชำระเงิน</strong></div>
-            <div class="menu-item" onclick="openPage('p-verify')"><span>🔎</span><strong>ตรวจสอบยอด</strong></div>
+            <div class="menu-item" onclick="openPage('p-pay')"><span>💰</span><strong>รับชำระเงิน</strong></div>
+            <div class="menu-item" onclick="openPage('p-verify')"><span>🔍</span><strong>ตรวจสอบยอด</strong></div>
             <div class="menu-item" onclick="openPage('p-hist')"><span>📜</span><strong>ประวัติรายการ</strong></div>
         </div>
-        
-        <button onclick="if(confirm('ต้องการออกจากระบบ?')) location.reload();" style="background:none; border:none; color:rgba(255,255,255,0.2); width:100%; margin-top:50px; cursor:pointer;">LOGOUT</button>
+        <button onclick="location.reload();" style="background:none; border:none; color:#AAA; width:100%; margin-top:50px; cursor:pointer;">LOGOUT</button>
     </div>
 
     <div id="p-queue" class="page">
-        <h3>QUEUE MANAGEMENT</h3>
+        <h3>QUEUE BOOKING</h3>
+        <input type="date" id="q-date">
         <input type="text" id="q-name" placeholder="ชื่อลูกค้า">
-        <input type="number" id="q-price" placeholder="ราคาบริการ">
-        <div style="display:flex; gap:10px;"><input type="time" id="q-s"><input type="time" id="q-e"></div>
-        <button class="btn-gold" onclick="addQ()">ADD QUEUE</button>
+        <div style="display:flex; gap:10px; align-items:center;">
+            <input type="number" id="q-price" placeholder="ราคาบริการ">
+            <button onclick="document.getElementById('calc-box').style.display='block'" style="width:50px; padding:12px; border-radius:12px; border:1px solid var(--main-gold); background:var(--bg-cream);">🧮</button>
+        </div>
+        <div style="display:flex; gap:10px;"><input type="time" id="q-s"><span>ถึง</span><input type="time" id="q-e"></div>
+        <button class="btn-gold" onclick="addQ()">SAVE QUEUE</button>
         <div id="q-list" style="margin-top:20px;"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">BACK TO DASHBOARD</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">BACK</button>
     </div>
 
     <div id="p-pay" class="page">
-        <h3>PAYMENT PROCESS</h3>
+        <h3>PAYMENT</h3>
         <select id="pay-select" onchange="autoPay()"></select>
-        <input type="text" id="pay-name" placeholder="Customer Name">
-        <input type="number" id="pay-amt" placeholder="0" oninput="genQR()" style="font-size:42px; text-align:center; color:var(--main-gold);">
+        <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
+        <input type="number" id="pay-amt" placeholder="0" oninput="genQR()" style="font-size:42px; text-align:center; color:var(--main-gold); border:none; border-bottom:2px solid var(--main-gold); background:none;">
         <div id="qr-container">
             <img id="qr-img" src="">
-            <p style="font-size:12px; color:#000; margin-top:10px; font-weight:bold;">Scan: <span id="display-pp"></span></p>
+            <p style="font-size:12px; font-weight:bold; margin-top:10px;">พร้อมเพย์: <span id="display-pp"></span></p>
         </div>
-        <button class="btn-gold" onclick="submitPay()" style="margin-top:20px;">CONFIRM PAYMENT</button>
-        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">CANCEL</button>
+        <button class="btn-gold" onclick="submitPay()" style="margin-top:20px;">CONFIRM</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">BACK</button>
     </div>
 
     <div id="p-verify" class="page">
-        <h3>PENDING VERIFICATION</h3>
+        <h3>PENDING CHECK</h3>
         <div id="v-list"></div>
         <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">BACK</button>
     </div>
 
     <div id="p-hist" class="page">
-        <h3>TRANSACTION LOG</h3>
+        <h3>HISTORY</h3>
         <div id="hist-list"></div>
         <button onclick="openPage('home')" style="background:none; border:none; color:#AAA; margin-top:20px; width:100%;">BACK</button>
     </div>
@@ -217,103 +178,51 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-BRWBtHvZTJL2rJlyKNJWGJujoXmubwlWPWwpiQ7Qi3jNtfICqgn_-jQriMoRrfuIKQ/exec";
-    let activePP = "0863526387";
-    let db = {
-        total: parseInt(localStorage.getItem('bpt_total')) || 0,
-        queues: JSON.parse(localStorage.getItem('bpt_queues')) || [],
-        wait: JSON.parse(localStorage.getItem('bpt_wait')) || [],
-        history: JSON.parse(localStorage.getItem('bpt_history')) || []
-    };
+    let activePP = "0863526387", currentAdmin = "";
+    let db = { total: parseInt(localStorage.getItem('bpt_total')) || 0, queues: JSON.parse(localStorage.getItem('bpt_queues')) || [], wait: JSON.parse(localStorage.getItem('bpt_wait')) || [], history: JSON.parse(localStorage.getItem('bpt_history')) || [] };
+
+    // 🧮 Calculator Logic
+    function calcInput(v) { document.getElementById('calc-display').value += v; }
+    function calcClear() { document.getElementById('calc-display').value = ''; }
+    function calcSolve() { try { document.getElementById('calc-display').value = eval(document.getElementById('calc-display').value); } catch(e) { alert('รูปแบบผิดพลาด'); } }
+    function useCalcResult() { document.getElementById('q-price').value = document.getElementById('calc-display').value; document.getElementById('calc-box').style.display='none'; }
 
     function handleAuth() {
         let u = document.getElementById('user-input').value, p = document.getElementById('pass-input').value;
-        if (u === 'admin2' && p === '123456') {
-            activePP = "0812799119"; loginDone("ADMIN 2");
-        } else if (p === '123456') {
-            activePP = "0863526387"; loginDone(u.toUpperCase() || "ADMIN");
-        } else { alert('รหัสผ่านไม่ถูกต้อง'); }
+        if (u === 'admin2' && p === '123456') { activePP = "0812799119"; loginDone("ADMIN 2"); }
+        else if (p === '123456') { activePP = "0863526387"; loginDone(u.toUpperCase() || "ADMIN"); }
+        else { alert('รหัสผ่านไม่ถูกต้อง'); }
     }
-
-    function loginDone(u) {
-        document.getElementById('login-overlay').style.display='none';
-        document.getElementById('app').style.display='block';
-        document.getElementById('current-user').innerText = u;
-        document.getElementById('display-pp').innerText = activePP;
-        updateUI();
-    }
-
-    function openPage(id) { 
-        document.getElementById('home').style.display='none'; 
-        document.querySelectorAll('.page').forEach(p=>p.style.display='none'); 
-        document.getElementById(id).style.display='block'; 
-        if(id==='p-queue')renderQ(); if(id==='p-pay')updateDrop(); if(id==='p-verify')renderV(); if(id==='p-hist')renderH(); 
-    }
-
-    function updateUI() { 
-        document.getElementById('total-val').innerText=`฿${db.total.toLocaleString()}`; 
-        document.getElementById('wait-count').innerText=db.wait.length; 
-    }
-
-    function genQR() {
-        let a = document.getElementById('pay-amt').value;
-        if(a > 0) {
-            document.getElementById('qr-img').src = `https://promptpay.io/${activePP}/${a}.png?t=${Date.now()}`;
-            document.getElementById('qr-container').style.display='block';
-        } else document.getElementById('qr-container').style.display='none';
-    }
-
+    function loginDone(u) { document.getElementById('login-overlay').style.display='none'; document.getElementById('app').style.display='block'; document.getElementById('current-user').innerText = u; document.getElementById('display-pp').innerText = activePP; currentAdmin = u; updateUI(); }
+    function openPage(id) { document.getElementById('home').style.display='none'; document.querySelectorAll('.page').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='block'; if(id==='p-queue')renderQ(); if(id==='p-pay')updateDrop(); if(id==='p-verify')renderV(); if(id==='p-hist')renderH(); }
+    function updateUI() { document.getElementById('total-val').innerText=`฿${db.total.toLocaleString()}`; document.getElementById('wait-count').innerText=db.wait.length; }
+    function genQR() { let a = document.getElementById('pay-amt').value; if(a > 0) { document.getElementById('qr-img').src = `https://promptpay.io/${activePP}/${a}.png?t=${Date.now()}`; document.getElementById('qr-container').style.display='block'; } else document.getElementById('qr-container').style.display='none'; }
     function addQ() {
-        let n=document.getElementById('q-name').value, p=document.getElementById('q-price').value, s=document.getElementById('q-s').value, e=document.getElementById('q-e').value;
-        if(!n||!p) return;
-        db.queues.push({id:Date.now(), n, p, s, e}); save(); renderQ();
-        document.getElementById('q-name').value = ''; document.getElementById('q-price').value = '';
+        let n=document.getElementById('q-name').value, p=document.getElementById('q-price').value, s=document.getElementById('q-s').value, e=document.getElementById('q-e').value, d=document.getElementById('q-date').value;
+        if(!n||!p||!d) return alert('กรอกข้อมูลไม่ครบ');
+        db.queues.push({id:Date.now(), n, p, s, e, d}); save(); renderQ();
     }
-
     function renderQ() {
         let l=document.getElementById('q-list'); l.innerHTML='';
-        db.queues.forEach(q => { l.innerHTML+=`<div class="list-item"><div><strong>${q.n}</strong><br><small style="opacity:0.6;">${q.s} - ${q.e}</small></div><div style="color:var(--main-gold); font-weight:700;">฿${q.p} <span onclick="delQ(${q.id})" style="color:red; margin-left:12px; cursor:pointer;">×</span></div></div>`; });
+        db.queues.forEach(q => { l.innerHTML+=`<div class="list-item"><strong>📅 ${q.d} | ${q.s}-${q.e}</strong><br>${q.n} <span style="float:right; color:var(--main-gold); font-weight:bold;">฿${q.p} <button onclick="delQ(${q.id})" style="color:red; border:none; background:none;">×</button></span></div>`; });
     }
     function delQ(id) { if(confirm('ลบคิวนี้?')){ db.queues=db.queues.filter(x=>x.id!==id); save(); renderQ(); } }
-
-    function updateDrop() {
-        let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกรายการจากคิว --</option>';
-        db.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n}</option>`);
-    }
-
-    function autoPay() { 
-        let id=document.getElementById('pay-select').value; if(!id)return; 
-        let q=db.queues.find(x=>x.id==id); document.getElementById('pay-name').value=q.n; document.getElementById('pay-amt').value=q.p; genQR(); 
-    }
-
-    function submitPay() {
-        let a=parseInt(document.getElementById('pay-amt').value), n=document.getElementById('pay-name').value, qId=document.getElementById('pay-select').value;
-        if(!a||!n) return alert('กรอกชื่อและยอดเงิน');
-        db.wait.push({id:Date.now(), n, a, qId});
-        if(qId) db.queues=db.queues.filter(x=>x.id!=qId);
-        save(); alert('แจ้งชำระเงินแล้ว!'); openPage('home'); updateUI();
-    }
-
+    function updateDrop() { let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกรายการจากคิว --</option>'; db.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n}</option>`); }
+    function autoPay() { let id=document.getElementById('pay-select').value; if(!id)return; let q=db.queues.find(x=>x.id==id); document.getElementById('pay-name').value=q.n; document.getElementById('pay-amt').value=q.p; genQR(); }
+    function submitPay() { let a=parseInt(document.getElementById('pay-amt').value), n=document.getElementById('pay-name').value, qId=document.getElementById('pay-select').value; if(!a||!n) return alert('กรอกชื่อและยอดเงิน'); db.wait.push({id:Date.now(), n, a, qId}); if(qId) db.queues=db.queues.filter(x=>x.id!=qId); save(); alert('แจ้งชำระเงินแล้ว!'); openPage('home'); updateUI(); }
     function renderV() {
         let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.4;">ไม่มีรายการรอตรวจสอบ</p>';
-        db.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><div><strong>${v.n}</strong><br><b style="color:var(--main-gold)">฿${v.a}</b></div><button onclick="confirmV(${v.id})" style="background:var(--main-gold); color:#000; border:none; padding:10px 15px; border-radius:12px; font-weight:bold; cursor:pointer;">CHECK</button></div>`; });
+        db.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><strong>฿${v.a} | ${v.n}</strong><button onclick="confirmV(${v.id})" style="background:var(--main-gold); color:#FFF; border:none; padding:10px 15px; border-radius:12px; float:right;">เช็คเงินเข้า</button></div>`; });
     }
-
     async function confirmV(id) {
         let v = db.wait.find(x => x.id === id);
-        let record = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: v.n, a: v.a, user: document.getElementById('current-user').innerText };
+        let record = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: v.n, a: v.a, user: currentAdmin };
         db.total += v.a; db.history.push(record); db.wait = db.wait.filter(x => x.id !== id);
         save(); updateUI(); renderV();
         try { fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify([record]) }); } catch (e) {}
     }
-
-    function renderH() {
-        let l=document.getElementById('hist-list'); l.innerHTML='';
-        db.history.slice().reverse().forEach(h => { l.innerHTML+=`<div class="list-item"><div><strong>${h.n}</strong><br><small style="opacity:0.5;">${h.time}</small></div><div style="font-weight:700; color:#FFF;">฿${h.a}</div></div>`; });
-    }
-
-    function save() { 
-        localStorage.setItem('bpt_total', db.total); localStorage.setItem('bpt_queues', JSON.stringify(db.queues)); localStorage.setItem('bpt_wait', JSON.stringify(db.wait)); localStorage.setItem('bpt_history', JSON.stringify(db.history)); 
-    }
+    function renderH() { let l=document.getElementById('hist-list'); l.innerHTML=''; db.history.slice().reverse().forEach(h => { l.innerHTML+=`<div class="list-item"><strong>${h.n}</strong> | ฿${h.a}<br><small>${h.date} ${h.time}</small></div>`; }); }
+    function save() { localStorage.setItem('bpt_total', db.total); localStorage.setItem('bpt_queues', JSON.stringify(db.queues)); localStorage.setItem('bpt_wait', JSON.stringify(db.wait)); localStorage.setItem('bpt_history', JSON.stringify(db.history)); }
 </script>
 </body>
 </html>
