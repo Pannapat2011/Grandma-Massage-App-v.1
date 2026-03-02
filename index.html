@@ -3,90 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BPT - Minimal Auto-POS</title>
+    <title>BPT - Custom POS</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #B8860B; --bg: #FFFFFF; --surface: #FAFAFA; --text: #2D2D2D; --sub: #8E8E93; --border: #E5E5EA; }
-        body { font-family: 'Sarabun', sans-serif; background: var(--bg); margin: 0; color: var(--text); }
+        /* --- ระบบ Theme Configuration --- */
+        :root { --main: #B8860B; --bg: #FDFBF8; --card: #FFFFFF; --text: #2D2D2D; --border: #E5E5EA; }
+        
+        body.theme-green { --main: #2E7D32; --bg: #F1F8E9; --card: #FFFFFF; --text: #1B5E20; --border: #C8E6C9; }
+        body.theme-dark { --main: #D4AF37; --bg: #121212; --card: #1E1E1E; --text: #E0E0E0; --border: #333333; }
+
+        body { font-family: 'Sarabun', sans-serif; background: var(--bg); margin: 0; color: var(--text); transition: 0.3s; }
         .container { width: 100%; max-width: 450px; margin: auto; padding: 24px; box-sizing: border-box; }
         
         /* Dashboard Card */
-        .balance-card { background: var(--surface); padding: 32px 24px; border-radius: 24px; border: 1px solid var(--border); margin-bottom: 24px; text-align: center; }
-        .balance-card h2 { font-size: 42px; margin: 8px 0; color: var(--gold); }
+        .balance-card { 
+            background: var(--card); padding: 32px 24px; border-radius: 30px; 
+            border: 1px solid var(--border); margin-bottom: 24px; text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        }
+        .balance-card h2 { font-size: 48px; margin: 10px 0; color: var(--main); }
 
-        /* Menu Grid - 4 Main Items */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .menu-item { background: var(--surface); padding: 24px 16px; border-radius: 20px; border: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
-        .menu-item:active { background: #F2F2F7; }
-        .menu-item span { font-size: 24px; display: block; margin-bottom: 8px; }
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .menu-item { 
+            background: var(--card); padding: 24px 16px; border-radius: 25px; 
+            border: 1px solid var(--border); cursor: pointer; text-align: center;
+            transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+        .menu-item:active { transform: scale(0.95); background: var(--border); }
+        .menu-item span { font-size: 30px; display: block; margin-bottom: 10px; }
 
-        /* Pages & Components */
+        /* UI Components */
         .page { display: none; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        input, select, button.btn-black { width: 100%; padding: 18px; margin-top: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); font-size: 16px; font-family: 'Sarabun'; box-sizing: border-box; }
-        button.btn-black { background: #000; color: #fff; border: none; font-weight: 600; cursor: pointer; margin-top: 24px; }
-        .list-item { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        #qr-box { display: none; text-align: center; margin-top: 24px; }
-        #qr-img { width: 220px; border-radius: 16px; border: 1px solid var(--border); }
+        input, select, button.btn-main { 
+            width: 100%; padding: 16px; margin-top: 12px; border-radius: 15px; 
+            border: 1px solid var(--border); background: var(--card); color: var(--text);
+            font-size: 16px; font-family: 'Sarabun'; box-sizing: border-box; 
+        }
+        button.btn-main { background: var(--main); color: #fff; border: none; font-weight: 600; cursor: pointer; margin-top: 24px; }
+        .list-item { 
+            padding: 16px; background: var(--card); border-radius: 20px; 
+            margin-bottom: 10px; border: 1px solid var(--border); display: flex; 
+            justify-content: space-between; align-items: center; 
+        }
+        
+        /* Theme Selector */
+        .theme-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .dot { width: 35px; height: 35px; border-radius: 50%; border: 3px solid #fff; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        #qr-box { display: none; text-align: center; margin-top: 24px; background: #fff; padding: 15px; border-radius: 20px; }
+        #qr-img { width: 220px; }
     </style>
 </head>
 <body>
 
-<div id="login-overlay" style="position:fixed; inset:0; background:#FFF; display:flex; justify-content:center; align-items:center; z-index:2000;">
+<div id="login-overlay" style="position:fixed; inset:0; background:var(--bg); display:flex; justify-content:center; align-items:center; z-index:2000;">
     <div style="width:80%; text-align:center;">
-        <h1 style="margin-bottom:40px;">BPT POS</h1>
-        <input type="password" id="login-pass" style="text-align:center;" placeholder="รหัสผ่าน">
-        <button class="btn-black" onclick="auth()">เข้าใช้งาน</button>
+        <h1 style="color:var(--main); font-size:32px;">BPT POS</h1>
+        <input type="password" id="login-pass" style="text-align:center;" placeholder="ระบุรหัสผ่าน">
+        <button class="btn-main" onclick="auth()">เข้าใช้งานระบบ</button>
     </div>
 </div>
 
 <div class="container" id="app" style="display:none;">
     <div id="home">
-        <div style="margin-bottom:32px;"><h1>บ้านประคบทอง</h1></div>
-        <div class="balance-card">
-            <small style="color:var(--sub); letter-spacing:1px;">ยอดเงินรวมวันนี้</small>
-            <h2 id="total-val">฿0</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="margin:0;">บ้านประคบทอง</h2>
+            <div class="theme-selector">
+                <div class="dot" style="background:#B8860B;" onclick="changeTheme('gold')"></div>
+                <div class="dot" style="background:#2E7D32;" onclick="changeTheme('green')"></div>
+                <div class="dot" style="background:#333;" onclick="changeTheme('dark')"></div>
+            </div>
         </div>
+
+        <div class="balance-card">
+            <small style="opacity:0.7;">ยอดรายได้วันนี้</small>
+            <h2 id="total-val">฿0</h2>
+            <p style="font-size:12px; opacity:0.6;">รอยืนยันเงินเข้า: <span id="wait-count" style="color:red;">0</span></p>
+        </div>
+
         <div class="menu-grid">
             <div class="menu-item" onclick="openPage('p-queue')"><span>📅</span><strong>ลงคิว</strong></div>
             <div class="menu-item" onclick="openPage('p-pay')"><span>💰</span><strong>รับเงิน</strong></div>
-            <div class="menu-item" onclick="openPage('p-verify')"><span>🔍</span><strong>เช็คยอด <small id="wait-count" style="color:red;">(0)</small></strong></div>
+            <div class="menu-item" onclick="openPage('p-verify')"><span>🔍</span><strong>เช็คยอด</strong></div>
             <div class="menu-item" onclick="openPage('p-hist')"><span>📋</span><strong>ประวัติ</strong></div>
         </div>
-        <button onclick="if(confirm('รีเซ็ตยอดรายวัน?')) resetDay();" style="background:none; border:none; color:#D1D1D6; width:100%; margin-top:60px; font-size:11px;">RESET SYSTEM</button>
+        
+        <button onclick="if(confirm('ต้องการรีเซ็ตยอดรายวันหรือไม่?')) resetDay();" style="background:none; border:none; color:#ccc; width:100%; margin-top:60px; font-size:11px;">RESET SYSTEM</button>
     </div>
 
     <div id="p-queue" class="page">
-        <h3>ลงตารางคิว</h3>
+        <h3>ลงตารางคิวจอง</h3>
         <input type="text" id="q-name" placeholder="ชื่อลูกค้า">
-        <input type="number" id="q-price" placeholder="ราคา (บาท)">
-        <div style="display:flex; gap:8px;"><input type="time" id="q-s"><input type="time" id="q-e"></div>
-        <button class="btn-black" onclick="addQ()">บันทึกคิว</button>
+        <input type="number" id="q-price" placeholder="ยอดเงิน (บาท)">
+        <div style="display:flex; gap:10px;"><input type="time" id="q-s"><input type="time" id="q-e"></div>
+        <button class="btn-main" onclick="addQ()">บันทึกข้อมูลคิว</button>
         <div id="q-list" style="margin-top:20px;"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:var(--sub); width:100%; margin-top:20px;">ย้อนกลับ</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:var(--main); width:100%; margin-top:20px;">กลับหน้าแรก</button>
     </div>
 
     <div id="p-pay" class="page">
-        <h3>ชำระเงิน</h3>
+        <h3>บันทึกรับชำระเงิน</h3>
         <select id="pay-select" onchange="autoPay()"></select>
         <input type="text" id="pay-name" placeholder="ชื่อลูกค้า">
-        <input type="number" id="pay-amt" placeholder="ยอดเงิน" oninput="genQR()" style="font-size:32px; text-align:center; border:none; border-bottom:2px solid #000; border-radius:0;">
-        <div id="qr-box"><img id="qr-img" src=""><p style="font-size:12px; color:var(--sub); margin-top:10px;">PromptPay: 086-352-6387</p></div>
-        <button class="btn-black" onclick="submitPay()">แจ้งโอนแล้ว</button>
-        <button onclick="openPage('home')" style="background:none; border:none; color:var(--sub); width:100%; margin-top:20px;">ยกเลิก</button>
+        <input type="number" id="pay-amt" placeholder="ยอดเงิน" oninput="genQR()" style="font-size:32px; text-align:center; color:var(--main); font-weight:bold;">
+        <div id="qr-box">
+            <img id="qr-img" src="">
+            <p style="font-size:12px; color:#666; margin-top:10px;">พร้อมเพย์: 086-352-6387</p>
+        </div>
+        <button class="btn-main" onclick="submitPay()">แจ้งโอนเรียบร้อย</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:var(--main); width:100%; margin-top:20px;">ยกเลิก</button>
     </div>
 
     <div id="p-verify" class="page">
-        <h3>รอตรวจสอบเงินเข้า</h3>
+        <h3>รายการรอตรวจสอบ</h3>
         <div id="v-list"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:var(--sub); width:100%; margin-top:20px;">ย้อนกลับ</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:var(--main); width:100%; margin-top:20px;">กลับหน้าแรก</button>
     </div>
 
     <div id="p-hist" class="page">
-        <h3>ประวัติรับเงินวันนี้</h3>
+        <h3>ประวัติการรับเงินวันนี้</h3>
         <div id="hist-list"></div>
-        <button onclick="openPage('home')" style="background:none; border:none; color:var(--sub); width:100%; margin-top:20px;">ย้อนกลับ</button>
+        <button onclick="openPage('home')" style="background:none; border:none; color:var(--main); width:100%; margin-top:20px;">กลับหน้าแรก</button>
     </div>
 </div>
 
@@ -103,7 +143,12 @@
 
     function auth() { if(document.getElementById('login-pass').value==='123456') { document.getElementById('login-overlay').style.display='none'; document.getElementById('app').style.display='block'; updateUI(); } }
     function openPage(id) { document.getElementById('home').style.display='none'; document.querySelectorAll('.page').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='block'; if(id==='p-queue')renderQ(); if(id==='p-pay')updateDrop(); if(id==='p-verify')renderV(); if(id==='p-hist')renderH(); }
-    function updateUI() { document.getElementById('total-val').innerText=`฿${db.total.toLocaleString()}`; document.getElementById('wait-count').innerText=`(${db.wait.length})`; }
+    function updateUI() { document.getElementById('total-val').innerText=`฿${db.total.toLocaleString()}`; document.getElementById('wait-count').innerText=db.wait.length; }
+
+    function changeTheme(t) {
+        document.body.className = 'theme-' + t;
+        localStorage.setItem('bpt_theme', t);
+    }
 
     function genQR() {
         let a = document.getElementById('pay-amt').value;
@@ -114,19 +159,19 @@
     }
 
     function addQ() {
-        let n=document.getElementById('q-name').value, p=document.getElementById('q-price').value, s=document.getElementById('q-s').value, e=document.getElementById('q-end').value;
+        let n=document.getElementById('q-name').value, p=document.getElementById('q-price').value, s=document.getElementById('q-s').value, e=document.getElementById('q-e').value;
         if(!n||!p) return;
         db.queues.push({id:Date.now(), n, p, s, e}); save(); renderQ();
     }
 
     function renderQ() {
         let l=document.getElementById('q-list'); l.innerHTML='';
-        db.queues.forEach(q => { l.innerHTML+=`<div class="list-item"><div><strong>${q.n}</strong><br><small>${q.s}-${q.e}</small></div><div style="color:var(--gold); font-weight:600;">฿${q.p} <span onclick="delQ(${q.id})" style="color:red; margin-left:12px; cursor:pointer;">×</span></div></div>`; });
+        db.queues.forEach(q => { l.innerHTML+=`<div class="list-item"><div><strong>${q.n}</strong><br><small>${q.s}-${q.e}</small></div><div style="font-weight:600;">฿${q.p} <span onclick="delQ(${q.id})" style="color:red; margin-left:12px; cursor:pointer;">×</span></div></div>`; });
     }
     function delQ(id) { db.queues=db.queues.filter(x=>x.id!==id); save(); renderQ(); }
 
     function updateDrop() {
-        let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- เลือกจากคิวจอง --</option>';
+        let s = document.getElementById('pay-select'); s.innerHTML='<option value="">-- ดึงชื่อจากคิวจอง --</option>';
         db.queues.forEach(q => s.innerHTML+=`<option value="${q.id}">${q.n}</option>`);
     }
     function autoPay() { let id=document.getElementById('pay-select').value; if(!id)return; let q=db.queues.find(x=>x.id==id); document.getElementById('pay-name').value=q.n; document.getElementById('pay-amt').value=q.p; genQR(); }
@@ -140,36 +185,21 @@
     }
 
     function renderV() {
-        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.5; margin-top:40px;">ไม่มีรายการ</p>';
-        db.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><div><strong>${v.n}</strong><br><small style="color:var(--gold)">฿${v.a}</small></div><button onclick="confirmV(${v.id})" style="background:#000; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-size:12px;">เงินเข้าแล้ว</button></div>`; });
+        let l=document.getElementById('v-list'); l.innerHTML=db.wait.length?'':'<p style="text-align:center; opacity:0.5;">ไม่มีรายการรอยืนยัน</p>';
+        db.wait.forEach(v => { l.innerHTML+=`<div class="list-item"><div><strong>${v.n}</strong><br>฿${v.a}</div><button onclick="confirmV(${v.id})" style="background:var(--main); color:#fff; border:none; padding:10px 15px; border-radius:12px; font-size:12px;">เงินเข้าแล้ว</button></div>`; });
     }
 
-    // --- จุดยืนยันเงินเข้า + Auto Save to Sheet ---
     async function confirmV(id) {
         let v = db.wait.find(x => x.id === id);
-        let record = {
-            date: new Date().toLocaleDateString('th-TH'),
-            time: new Date().toLocaleTimeString('th-TH'),
-            n: v.n,
-            a: v.a
-        };
-
-        db.total += v.a;
-        db.history.push(record);
-        db.wait = db.wait.filter(x => x.id !== id);
-        save();
-        updateUI();
-        renderV();
-
-        // ยิงเข้า Google Sheet ทันที
-        try {
-            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify([record]) });
-        } catch (e) { console.log("Sheet Error"); }
+        let record = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: v.n, a: v.a };
+        db.total += v.a; db.history.push(record); db.wait = db.wait.filter(x => x.id !== id);
+        save(); updateUI(); renderV();
+        try { fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify([record]) }); } catch (e) { console.log("Sheet Error"); }
     }
 
     function renderH() {
         let l=document.getElementById('hist-list'); l.innerHTML='';
-        db.history.slice().reverse().forEach(h => { l.innerHTML+=`<div class="list-item"><div><strong>${h.n}</strong><br><small style="color:var(--sub)">${h.time}</small></div><div style="font-weight:600;">฿${h.a}</div></div>`; });
+        db.history.slice().reverse().forEach(h => { l.innerHTML+=`<div class="list-item"><div><strong>${h.n}</strong><br><small>${h.time}</small></div><div style="font-weight:600;">฿${h.a}</div></div>`; });
     }
 
     function resetDay() { localStorage.clear(); location.reload(); }
@@ -179,6 +209,9 @@
         localStorage.setItem('bpt_wait', JSON.stringify(db.wait)); 
         localStorage.setItem('bpt_history', JSON.stringify(db.history)); 
     }
+    
+    // Init Theme
+    changeTheme(localStorage.getItem('bpt_theme') || 'gold');
 </script>
 </body>
 </html>
