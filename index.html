@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทอง - Ultimate Fix</title>
+    <title>ประคบทอง - Queue & Dur Fix</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #F0F2F5; --gold: #B8860B; --shd: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff; --in: inset 3px 3px 6px #bebebe, inset -3px -3px 6px #ffffff; }
@@ -22,6 +22,9 @@
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; font-size: 12px; margin-top: 10px; }
         th { background: var(--gold); color: white; padding: 12px; text-align: left; }
         td { padding: 12px; border-bottom: 1px solid #eee; }
+        .status-txt { font-size: 14px; font-weight: bold; }
+        .free-txt { color: #28a745 !important; }
+        .busy-txt { color: #dc3545 !important; }
         .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 18px; background: var(--bg); border-radius: 25px; margin-bottom: 12px; box-shadow: var(--shd); }
         .switch { position: relative; width: 55px; height: 30px; appearance: none; background: #d1d1d1; border-radius: 20px; outline: none; transition: 0.3s; cursor: pointer; }
         .switch:checked { background: var(--gold); }
@@ -55,7 +58,6 @@
     <div id="p-q" class="page">
         <h3>ลงคิวจอง</h3>
         <input type="text" id="qn" placeholder="ชื่อลูกค้า" class="btn-neu" style="background:white;">
-        <small style="display:block; margin-top:10px;">เลือกประเภทงาน:</small>
         <div class="chip-group" id="prog-chips">
             <div class="chip active" onclick="selectType(this, 'thai')">นวดไทย</div>
             <div class="chip" onclick="selectType(this, 'foot')">นวดเท้า</div>
@@ -65,11 +67,10 @@
             <div class="chip" onclick="selectType(this, 'face')">นวดหน้า</div>
             <div class="chip" onclick="selectType(this, 'herb')">อบสมุนไพร</div>
         </div>
-        <small>เลือกระยะเวลา:</small>
+        <small>ระยะเวลา:</small>
         <div class="chip-group" id="dur-chips">
             <div class="chip dur-btn" id="dur-30" onclick="selectDur(this, 30)" style="display:none;">30น.</div>
             <div class="chip active dur-btn" id="dur-60" onclick="selectDur(this, 60)">1ชม.</div>
-            <div class="chip dur-btn" id="dur-90" onclick="selectDur(this, 90)">1.5ชม.</div>
             <div class="chip dur-btn" id="dur-120" onclick="selectDur(this, 120)">2ชม.</div>
         </div>
         <select id="qdr" class="btn-neu" style="background:white;"></select>
@@ -89,9 +90,9 @@
     </div>
 
     <div id="p-st" class="page"><h3>สถานะหมอนวด</h3><div id="st-list"></div><button class="btn-neu btn-gold" onclick="openP('home')">กลับ</button></div>
-    <div id="p-list" class="page"><h3>รายการคิว</h3><div style="overflow-x:auto;"><table><thead><tr><th>ลูกค้า</th><th>หมอ</th><th>เริ่ม</th><th>เสร็จ</th></tr></thead><tbody id="tb-list"></tbody></table></div><button class="btn-neu btn-gold" onclick="openP('home')" style="margin-top:15px;">กลับ</button></div>
+    <div id="p-list" class="page"><h3>รายการคิวทั้งหมด</h3><div style="overflow-x:auto;"><table><thead><tr><th>ลูกค้า</th><th>หมอ</th><th>เริ่ม</th><th>เสร็จ</th><th>สถานะ</th></tr></thead><tbody id="tb-list"></tbody></table></div><button class="btn-neu btn-gold" onclick="openP('home')" style="margin-top:15px;">กลับ</button></div>
     <div id="p-hist" class="page"><h3>ประวัติวันนี้</h3><div id="hist-list"></div><button class="btn-neu btn-gold" onclick="openP('home')">กลับ</button></div>
-    <div id="p-set" class="page"><h3>ตั้งค่า</h3><input type="text" id="ppp" class="btn-neu" placeholder="พร้อมเพย์"><button class="btn-neu btn-gold" onclick="setPP()">บันทึกเบอร์</button><hr><input type="text" id="ndr" class="btn-neu" placeholder="ชื่อหมอ"><button class="btn-neu" onclick="addDr()">+ เพิ่มหมอ</button><div id="mdr" style="margin-top:10px;"></div><hr><button class="btn-neu" style="color:red;" onclick="reset()">⚠️ ล้างข้อมูล</button><button class="btn-neu" onclick="openP('home')">กลับ</button></div>
+    <div id="p-set" class="page"><h3>ตั้งค่า</h3><input type="text" id="ppp" class="btn-neu" placeholder="พร้อมเพย์"><button class="btn-neu btn-gold" onclick="setPP()">บันทึกเบอร์</button><hr><input type="text" id="ndr" class="btn-neu" placeholder="ชื่อหมอ"><button class="btn-neu" onclick="addDr()">+ เพิ่มหมอ</button><div id="mdr" style="margin-top:10px;"></div><hr><button class="btn-neu" style="color:red;" onclick="reset()">⚠️ ล้างข้อมูลวันใหม่</button><button class="btn-neu" onclick="openP('home')">กลับ</button></div>
 </div>
 
 <script>
@@ -103,8 +104,8 @@
 
     function auth() { if(document.getElementById('pass').value==='123456'){ localStorage.setItem('isL','t'); location.reload(); } }
     function checkLogin() { if(localStorage.getItem('isL')==='t'){ document.getElementById('login-overlay').style.display='none'; document.getElementById('app').style.display='block'; init(); } }
-    function init() { let s = localStorage.getItem('prakob_vFull_Final'); if(s) db = JSON.parse(s); update(); setInterval(tick, 1000); updatePrice(); }
-    function save() { localStorage.setItem('prakob_vFull_Final', JSON.stringify(db)); update(); }
+    function init() { let s = localStorage.getItem('prakob_fix_final_v1'); if(s) db = JSON.parse(s); update(); setInterval(tick, 1000); updatePrice(); }
+    function save() { localStorage.setItem('prakob_fix_final_v1', JSON.stringify(db)); update(); }
     function openP(id) { document.querySelectorAll('.page, #home').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='block'; if(id==='p-q') { rdrD(); updatePrice(); } if(id==='p-st') rst(); if(id==='p-list') rt(); if(id==='p-pay') { rps(); genQR(); } if(id==='p-hist') rh(); if(id==='p-set') rm(); }
 
     function selectType(el, type) {
@@ -115,12 +116,12 @@
         updatePrice();
     }
     function selectDur(el, dur) { document.querySelectorAll('#dur-chips .chip').forEach(c => c.classList.remove('active')); el.classList.add('active'); curDur = dur; updatePrice(); }
-    function updatePrice() { let base = basePrices[curType]; let final = curType === 'herb' ? base : (curDur === 60 ? base : (curDur === 90 ? base*1.5 : base*2)); document.getElementById('qp').value = final; }
+    function updatePrice() { let base = basePrices[curType]; let final = curType === 'herb' ? base : (curDur === 60 ? base : base*2); document.getElementById('qp').value = final; }
 
     function saveQ() {
         let n = document.getElementById('qn').value, dr = document.getElementById('qdr').value, p = document.getElementById('qp').value;
         if(!n || !dr) return alert('ใส่ชื่อลูกค้าและเลือกหมอ!');
-        db.qs.push({id:Date.now(), n, dr, p, type:document.querySelector('#prog-chips .chip.active').innerText, s:false, t:'รอเริ่ม', e:'รอเริ่ม', dur:curDur});
+        db.qs.push({id:Date.now(), n, dr, p, type:document.querySelector('#prog-chips .chip.active').innerText, s:false, t:'รอเริ่ม', e:'รอเริ่ม', dur:curDur, paid:false});
         let i = db.drs.findIndex(x=>x.n===dr); if(i!==-1){ db.drs[i].st='busy'; db.drs[i].dur=curDur; db.drs[i].started=false; }
         save(); openP('home');
     }
@@ -134,9 +135,12 @@
 
     async function pay() {
         let id = document.getElementById('psel').value, a = document.getElementById('pa').value;
-        let q = db.qs.find(x=>x.id==id); if(!q) return alert('เลือกคิวลูกค้า!');
+        let qIdx = db.qs.findIndex(x=>x.id==id); if(qIdx===-1) return alert('เลือกคิวลูกค้า!');
+        let q = db.qs[qIdx];
         let rec = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: q.n, type: q.type, dr: q.dr, a: a, mode: mode };
-        db.total += parseInt(a); db.hist.push(rec); db.qs = db.qs.filter(x=>x.id!=id);
+        db.total += parseInt(a); db.hist.push(rec); 
+        // 🚩 แก้ไข: มาร์คว่าจ่ายเงินแล้ว แทนการลบทิ้งทันที
+        db.qs[qIdx].paid = true;
         let di = db.drs.findIndex(x=>x.n===q.dr); if(di!==-1){ db.drs[di].st='free'; db.drs[di].end=""; db.drs[di].started=false; }
         save(); fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body:JSON.stringify([rec]) });
         alert('รับเงินเรียบร้อย!'); openP('home');
@@ -147,12 +151,12 @@
         if(mode==='qr' && a > 0) { document.getElementById('qr-img').src = `https://promptpay.io/${db.pp}/${a}.png?t=${Date.now()}`; document.getElementById('pp-txt').innerText = "พร้อมเพย์: "+db.pp; d.style.display = 'block'; } 
         else { d.style.display = 'none'; }
     }
-    function setM(m) { mode=m; document.getElementById('mqr').classList.toggle('active', m==='qr'); document.getElementById('mcash').classList.toggle('active', m==='cash'); genQR(); }
-    function rst() { document.getElementById('st-list').innerHTML = db.drs.map((d,i)=>`<div class="switch-container list-item"><div><strong>${d.n}</strong><br><span>(${d.st==='free'?'ว่าง':'ไม่ว่าง'})</span></div><div style="display:flex; align-items:center; gap:10px;">${d.st==='busy' && !d.started ? `<button class="btn-neu btn-gold" onclick="startM(${i})">เริ่มนวด</button>` : (d.end?`⏰ ${d.end}`:'')}<input type="checkbox" class="switch" ${d.st==='busy'?'checked':''} onchange="db.drs[${i}].st=db.drs[${i}].st==='free'?'busy':'free';save();rst()"></div></div>`).join(''); }
-    function rt() { document.getElementById('tb-list').innerHTML = db.qs.map(q=>`<tr><td>${q.n}</td><td>${q.dr}</td><td>${q.t}</td><td>${q.e}</td></tr>`).join(''); }
+    function setM(m) { mode=m; document.getElementById('mqr').classList.toggle('active', m==='qr'); document.getElementById('mcash').classList.toggle('active', m==='cash'); if(m==='cash') document.getElementById('qr-area').style.display='none'; else genQR(); }
+    function rst() { document.getElementById('st-list').innerHTML = db.drs.map((d,i)=>`<div class="switch-container list-item"><div><strong>${d.n}</strong><br><span class="status-txt ${d.st==='free'?'free-txt':'busy-txt'}">(${d.st==='free'?'ว่าง':'ไม่ว่าง'})</span></div><div style="display:flex; align-items:center; gap:10px;">${d.st==='busy' && !d.started ? `<button class="btn-neu btn-gold" onclick="startM(${i})">เริ่มนวด</button>` : (d.end?`⏰ ${d.end}`:'')}<input type="checkbox" class="switch" ${d.st==='busy'?'checked':''} onchange="db.drs[${i}].st=db.drs[${i}].st==='free'?'busy':'free';save();rst()"></div></div>`).join(''); }
+    function rt() { document.getElementById('tb-list').innerHTML = db.qs.map(q=>`<tr><td>${q.n}</td><td>${q.dr}</td><td>${q.t}</td><td>${q.e}</td><td>${q.paid?'✅ จ่ายแล้ว':'⏳ รอดำเนินการ'}</td></tr>`).join(''); }
     function rh() { document.getElementById('hist-list').innerHTML = db.hist.map(h=>`<div class="list-item"><b>${h.n}</b> - ฿${h.a}<br><small>${h.time} | หมอ${h.dr} [${h.mode}]</small></div>`).reverse().join(''); }
     function rdrD() { document.getElementById('qdr').innerHTML = db.drs.filter(d=>d.st==='free').map(d=>`<option value="${d.n}">${d.n}</option>`).join(''); }
-    function rps() { document.getElementById('psel').innerHTML = '<option value="">-- เลือกคิว --</option>'+db.qs.map(q=>`<option value="${q.id}">${q.n}</option>`).join(''); }
+    function rps() { document.getElementById('psel').innerHTML = '<option value="">-- เลือกคิว --</option>'+db.qs.filter(x=>!x.paid).map(q=>`<option value="${q.id}">${q.n}</option>`).join(''); }
     function autoP() { let q = db.qs.find(x=>x.id==document.getElementById('psel').value); if(q) { document.getElementById('pa').value=q.p; genQR(); } }
     function setPP() { db.pp = document.getElementById('ppp').value; save(); alert('Saved!'); }
     function addDr() { let n = document.getElementById('ndr').value; if(n){ db.drs.push({n, st:'free', end:"", started:false}); save(); rm(); } }
