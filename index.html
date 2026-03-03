@@ -3,250 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทอง Master - QR Edition</title>
+    <title>ประคบทอง - Switch Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Kanit:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
             --os-bg: #F0F2F5; --os-gold: #B8860B; --os-text: #1D1D1F;
-            --shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
-            --inner-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+            --shadow: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+            --inner: inset 3px 3px 6px #bebebe, inset -3px -3px 6px #ffffff;
         }
-        body { font-family: 'Sarabun', sans-serif; background: var(--os-bg); margin: 0; transition: 0.3s; }
-        .container { width: 100%; max-width: 480px; padding: 20px; box-sizing: border-box; margin: auto; }
+        body { font-family: 'Sarabun', sans-serif; background: var(--os-bg); margin: 0; transition: 0.3s; color: var(--os-text); }
+        .container { width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; margin: auto; }
 
         .btn-neu { 
-            background: var(--os-bg); border: none; padding: 15px; border-radius: 20px;
+            background: var(--os-bg); border: none; padding: 14px; border-radius: 20px;
             box-shadow: var(--shadow); cursor: pointer; font-family: 'Kanit';
             color: var(--os-text); transition: 0.2s; font-weight: 600; width: 100%; margin-top: 10px;
         }
-        .btn-neu:active { box-shadow: var(--inner-shadow); transform: scale(0.98); }
+        .btn-neu:active { box-shadow: var(--inner); transform: scale(0.97); }
         .btn-gold { background: var(--os-gold) !important; color: white !important; }
 
-        .balance-card { background: var(--os-bg); padding: 25px; border-radius: 35px; box-shadow: var(--inner-shadow); text-align: center; margin-bottom: 25px; }
+        .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .chip { padding: 8px 16px; border-radius: 15px; background: var(--os-bg); box-shadow: var(--shadow); font-size: 13px; cursor: pointer; border: 1px solid transparent; }
+        .chip.active { box-shadow: var(--inner); color: var(--os-gold); border-color: var(--os-gold); font-weight: bold; }
+
+        .balance-card { background: var(--os-bg); padding: 25px; border-radius: 35px; box-shadow: var(--inner); text-align: center; margin-bottom: 25px; }
         .balance-card h2 { font-family: 'Kanit'; font-size: 42px; margin: 5px 0; color: var(--os-gold); }
 
-        .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--os-bg); border-radius: 20px; margin-bottom: 10px; box-shadow: var(--shadow); }
-        .switch { position: relative; width: 50px; height: 25px; appearance: none; background: #ccc; border-radius: 20px; outline: none; transition: 0.3s; cursor: pointer; }
+        /* 🎚️ สวิตช์ไฟสไตล์ OriginOS */
+        .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 18px; background: var(--os-bg); border-radius: 25px; margin-bottom: 12px; box-shadow: var(--shadow); }
+        .switch { position: relative; width: 55px; height: 30px; appearance: none; background: #d1d1d1; border-radius: 20px; outline: none; transition: 0.3s; cursor: pointer; }
         .switch:checked { background: var(--os-gold); }
-        .switch::before { content: ''; position: absolute; width: 21px; height: 21px; border-radius: 50%; top: 2px; left: 2px; background: white; transition: 0.3s; }
-        .switch:checked::before { left: 27px; }
+        .switch::before { content: ''; position: absolute; width: 24px; height: 24px; border-radius: 50%; top: 3px; left: 3px; background: white; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .switch:checked::before { left: 28px; }
 
-        .page { display: none; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        #numpad-modal { 
-            display: none; position: fixed; bottom: 0; left: 0; right: 0; 
-            background: var(--os-bg); padding: 20px; border-radius: 30px 30px 0 0;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.1); z-index: 4000;
-        }
-        .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .num-btn { padding: 20px; font-size: 20px; border-radius: 15px; background: var(--os-bg); box-shadow: var(--shadow); border: none; font-family: 'Kanit'; }
-
-        /* QR UI */
-        #qr-container { display: none; margin: 20px 0; text-align: center; animation: fadeIn 0.5s; }
-        #qr-img { width: 200px; border-radius: 15px; box-shadow: var(--shadow); border: 10px solid white; }
-
-        .theme-dot { width: 35px; height: 35px; border-radius: 50%; display: inline-block; cursor: pointer; margin: 5px; border: 3px solid white; box-shadow: var(--shadow); }
-        .logo-img { width: 70px; margin-bottom: 5px; }
+        .page { display: none; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        #qr-display-area { display: none; margin: 20px 0; text-align: center; }
+        #qr-img { width: 220px; height: 220px; border: 12px solid white; border-radius: 25px; box-shadow: var(--shadow); }
+
+        #time-picker-modal { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--os-bg); padding: 25px; border-radius: 30px 30px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.1); z-index: 7000; }
+        .time-wheel-container { display: flex; justify-content: center; gap: 20px; align-items: center; }
+        .wheel-select { background: var(--os-bg); border: none; box-shadow: var(--inner); padding: 15px; border-radius: 15px; font-size: 24px; font-weight: bold; font-family: 'Kanit'; width: 85px; text-align: center; outline: none; }
+
+        .list-item { padding: 15px; background: white; border-radius: 20px; margin-bottom: 10px; box-shadow: var(--shadow); font-size: 14px; }
     </style>
 </head>
 <body onload="checkLogin()">
 
-<div id="login-overlay" style="position:fixed; inset:0; background:var(--os-bg); display:flex; align-items:center; justify-content:center; z-index:5000;">
-    <div style="width:85%; text-align:center; padding:40px 20px; background:var(--os-bg); border-radius:40px; box-shadow: var(--shadow);">
-        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img">
+<div id="login-overlay" style="position:fixed; inset:0; background:var(--os-bg); display:flex; align-items:center; justify-content:center; z-index:8000;">
+    <div style="width:80%; text-align:center; padding:35px; background:var(--os-bg); border-radius:40px; box-shadow: var(--shadow);">
+        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" style="width:75px;">
         <h2 style="font-family:'Kanit'; color:var(--os-gold);">ประคบทอง ไทย/สปา</h2>
-        <input type="password" id="pass-input" placeholder="รหัสผ่าน (123456)" style="width:100%; padding:15px; border-radius:15px; border:none; box-shadow: var(--inner-shadow); outline:none; text-align:center; background:var(--os-bg); margin-top:15px;">
-        <button class="btn-neu btn-gold" onclick="handleAuth()">UNLOCK SYSTEM</button>
+        <input type="password" id="pass-input" placeholder="PASS: 123456" style="width:100%; padding:15px; border-radius:15px; border:none; box-shadow: var(--inner); outline:none; text-align:center; background:var(--os-bg); margin-top:15px;">
+        <button class="btn-neu btn-gold" onclick="handleAuth()">LOGIN</button>
     </div>
 </div>
 
 <div class="container" id="app" style="display:none;">
     <div id="home">
-        <div style="text-align:center;"><img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img"></div>
+        <div style="text-align:center; margin-bottom:15px;"><img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" style="width:65px;"></div>
         <div class="balance-card">
             <small>REVENUE TODAY</small>
             <h2 id="total-val">฿0</h2>
-            <small style="opacity:0.5;">PromptPay: <span id="pp-display"></span></small>
+            <small id="pp-display" style="opacity:0.6;"></small>
         </div>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-            <button class="btn-neu" onclick="openPage('p-status')">🧘‍♂️ สถานะหมอ</button>
             <button class="btn-neu" onclick="openPage('p-queue')">📅 ลงคิวจอง</button>
-            <button class="btn-neu" onclick="openPage('p-pay')">💰 รับเงิน</button>
+            <button class="btn-neu" onclick="openPage('p-pay')">💰 รับชำระเงิน</button>
+            <button class="btn-neu" onclick="openPage('p-status')">🧘‍♂️ สถานะหมอ</button>
             <button class="btn-neu" onclick="openPage('p-history')">📜 ประวัติงาน</button>
-            <button class="btn-neu" onclick="openPage('p-verify')">📊 ลงชีท</button>
-            <button class="btn-neu" onclick="openPage('p-settings')">⚙️ ตั้งค่า</button>
+            <button class="btn-neu" onclick="openPage('p-verify')">📊 บันทึกลงชีท</button>
+            <button class="btn-neu" onclick="openPage('p-settings')">⚙️ ตั้งค่าระบบ</button>
         </div>
+        <button onclick="logout()" style="background:none; border:none; color:#AAA; width:100%; margin-top:40px; cursor:pointer; font-size:12px;">SIGN OUT SYSTEM</button>
     </div>
 
-    <div id="p-queue" class="page">
-        <h3>Booking Form</h3>
-        <input type="date" id="q-date" class="btn-neu" style="background:white; text-align:left;">
-        <input type="text" id="q-name" placeholder="ชื่อลูกค้า" class="btn-neu" style="background:white; text-align:left;">
-        <select id="q-type" class="btn-neu">
-            <option value="นวดไทย">นวดไทย</option>
-            <option value="นวดไทยประคบ">นวดไทยประคบ</option>
-            <option value="นวดสปา">นวดสปา</option>
-            <option value="นวดฝ่าเท้า">นวดฝ่าเท้า</option>
-        </select>
-        <select id="q-dr-select" class="btn-neu"></select>
-        <input type="number" id="q-price" placeholder="ราคา" class="btn-neu" style="background:white; text-align:left;">
-        <input type="text" id="q-time" placeholder="กดเพื่อเลือกเวลา" readonly class="btn-neu" style="text-align:center; color:var(--os-gold);" onclick="openNumPad()">
-        <button class="btn-neu btn-gold" onclick="addQ()">Confirm Booking</button>
-        <button class="btn-neu" onclick="openPage('home')">Back</button>
+    <div id="p-status" class="page">
+        <h3>Staff Availability</h3>
+        <div id="dr-switch-list"></div>
+        <button class="btn-neu btn-gold" onclick="openPage('home')">กลับหน้าหลัก</button>
     </div>
 
     <div id="p-pay" class="page">
-        <h3>Payment Center</h3>
-        <select id="pay-select" class="btn-neu" onchange="autoPay()"></select>
-        <input type="number" id="pay-amt" placeholder="ระบุยอดเงิน" class="btn-neu" oninput="genQR()" style="font-size:30px; text-align:center; background:white;">
+        <h3>💰 ชำระเงิน</h3>
+        <select id="pay-select" class="btn-neu" style="background:white;" onchange="autoFillPay()"></select>
+        <input type="number" id="pay-amt" placeholder="ระบุยอดเงิน" class="btn-neu" style="text-align:center; font-size:30px; background:white;" oninput="refreshQR()">
         
-        <div id="qr-container">
-            <img id="qr-img" src="" alt="PromptPay QR">
-            <p style="font-size:12px; margin-top:10px; font-weight:bold;">สแกนเพื่อจ่ายให้ <span id="pp-qr-label"></span></p>
+        <div id="qr-display-area">
+            <img id="qr-img" src="">
+            <p style="font-size:12px; margin-top:8px; font-weight:bold;">สแกนเพื่อชำระเงิน (<span id="pp-tag"></span>)</p>
         </div>
 
         <button class="btn-neu btn-gold" onclick="submitPay()">ยืนยันรับเงิน</button>
-        <button class="btn-neu" onclick="openPage('home')">ยกเลิก</button>
+        <button class="btn-neu" onclick="openPage('home')">กลับหน้าหลัก</button>
+    </div>
+
+    <div id="p-queue" class="page">
+        <h3>ลงคิวจอง</h3>
+        <input type="text" id="q-name" placeholder="ชื่อลูกค้า" class="btn-neu" style="background:white; text-align:left;">
+        <div class="chip-group" id="program-chips">
+            <div class="chip" onclick="toggleChip(this, 'นวดไทย')">นวดไทย</div>
+            <div class="chip" onclick="toggleChip(this, 'นวดประคบ')">นวดประคบ</div>
+            <div class="chip" onclick="toggleChip(this, 'นวดออย')">นวดออย</div>
+            <div class="chip" onclick="toggleChip(this, 'นวดฝ่าเท้า')">นวดฝ่าเท้า</div>
+            <div class="chip" onclick="toggleChip(this, 'แก้อาการ')">แก้อาการ</div>
+        </div>
+        <select id="q-dr-select" class="btn-neu" style="background:white;"></select>
+        <input type="text" id="q-time-display" readonly class="btn-neu" style="text-align:center; color:var(--os-gold); font-size:22px;" placeholder="เลือกเวลา" onclick="document.getElementById('time-picker-modal').style.display='block'">
+        <input type="number" id="q-price" placeholder="ราคา" class="btn-neu" style="background:white; text-align:left;">
+        <button class="btn-neu btn-gold" onclick="addQ()">ยืนยันจอง</button>
+        <button class="btn-neu" onclick="openPage('home')">กลับ</button>
     </div>
 
     <div id="p-settings" class="page">
-        <h3>System Settings</h3>
-        <div class="balance-card">
-            <small>SELECT THEME</small><br>
-            <div class="theme-dot" style="background:#B8860B" onclick="setTheme('#B8860B')"></div>
-            <div class="theme-dot" style="background:#2196F3" onclick="setTheme('#2196F3')"></div>
-            <div class="theme-dot" style="background:#4CAF50" onclick="setTheme('#4CAF50')"></div>
-            <div class="theme-dot" style="background:#E91E63" onclick="setTheme('#E91E63')"></div>
-            <div class="theme-dot" style="background:#333" onclick="setTheme('#333')"></div>
-        </div>
-        <label>PromptPay Number:</label>
-        <input type="text" id="set-pp" class="btn-neu" style="background:white;">
-        <button class="btn-neu btn-gold" onclick="updatePP()">Save PromptPay</button>
+        <h3>Settings</h3>
+        <input type="text" id="set-pp" class="btn-neu" placeholder="เบอร์พร้อมเพย์" style="background:white;">
+        <button class="btn-neu btn-gold" onclick="updatePP()">Save PP</button>
         <hr style="margin:20px 0; opacity:0.1;">
-        <label>Add New Staff:</label>
-        <input type="text" id="new-dr-name" class="btn-neu" placeholder="ชื่อหมอคนใหม่" style="background:white;">
-        <button class="btn-neu" onclick="addDr()">+ Add Staff</button>
-        <div id="manage-dr-list" style="margin-top:15px;"></div>
-        <button class="btn-neu" onclick="openPage('home')">Back</button>
+        <input type="text" id="new-dr-name" class="btn-neu" placeholder="เพิ่มชื่อหมอ (ใส่ 'หมอนวด' เอง)" style="background:white;">
+        <button class="btn-neu" onclick="addDr()">+ เพิ่มหมอ</button>
+        <div id="manage-dr-list" style="margin-top:10px;"></div>
+        <button class="btn-neu" style="color:red; margin-top:20px;" onclick="resetAllData()">⚠️ ล้างข้อมูล</button>
+        <button class="btn-neu" onclick="openPage('home')">กลับ</button>
     </div>
 
-    <div id="p-status" class="page"><h3>Staff Switch</h3><div id="dr-switch-list"></div><button class="btn-neu btn-gold" onclick="openPage('home')">Back</button></div>
-    <div id="p-history" class="page"><h3>Work History</h3><div id="history-list"></div><button class="btn-neu btn-gold" onclick="openPage('home')">Back</button></div>
-    <div id="p-verify" class="page"><h3>Cloud Sync</h3><div id="v-list"></div><button class="btn-neu btn-gold" onclick="openPage('home')">Back</button></div>
+    <div id="p-history" class="page"><h3>History</h3><div id="history-list"></div><button class="btn-neu btn-gold" onclick="openPage('home')">กลับ</button></div>
+    <div id="p-verify" class="page"><h3>Sync</h3><div id="v-list"></div><button class="btn-neu btn-gold" onclick="openPage('home')">กลับ</button></div>
 </div>
 
-<div id="numpad-modal">
-    <div style="text-align:right;"><button onclick="closeNumPad()" style="border:none; background:none; color:var(--os-gold);">Close X</button></div>
-    <div class="numpad-grid">
-        <button class="num-btn" onclick="pressNum('1')">1</button><button class="num-btn" onclick="pressNum('2')">2</button><button class="num-btn" onclick="pressNum('3')">3</button>
-        <button class="num-btn" onclick="pressNum('4')">4</button><button class="num-btn" onclick="pressNum('5')">5</button><button class="num-btn" onclick="pressNum('6')">6</button>
-        <button class="num-btn" onclick="pressNum('7')">7</button><button class="num-btn" onclick="pressNum('8')">8</button><button class="num-btn" onclick="pressNum('9')">9</button>
-        <button class="num-btn" style="color:red" onclick="pressNum('C')">C</button><button class="num-btn" onclick="pressNum('0')">0</button><button class="num-btn" style="color:green" onclick="closeNumPad()">OK</button>
+<div id="time-picker-modal">
+    <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+        <strong>เลือกเวลา</strong><button onclick="saveTime()" style="border:none; background:none; color:var(--os-gold); font-weight:bold;">ตกลง</button>
+    </div>
+    <div class="time-wheel-container">
+        <select id="wheel-h" class="wheel-select">
+            <option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+            <option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option>
+            <option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option>
+        </select>
+        <span style="font-size:30px;">:</span>
+        <select id="wheel-m" class="wheel-select">
+            <option value="00">00</option><option value="15">15</option><option value="30">30</option><option value="45">45</option>
+        </select>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3acLTKEmqAutw19YgnUfs3viIZwLNF0me2nfM9ck4KyJv-Ulk8DAb5m3G12FtVQeFA/exec";
-    let db = { total:0, queues:[], doctors:[{n:"หมอนก", st:"free"}], wait:[], history:[], theme:'#B8860B', pp:'0863526387' };
-    let timeBuffer = "";
+    let db = { total:0, queues:[], doctors:[{n:"หมอนวดนก", st:"free"}], history:[], pp:'0863526387', wait:[] };
+    let selectedChips = [];
 
-    function handleAuth() { if(document.getElementById('pass-input').value === '123456') { localStorage.setItem('isLogged', 'true'); location.reload(); } else alert('Wrong!'); }
-    function checkLogin() { if(localStorage.getItem('isLogged') === 'true') { document.getElementById('login-overlay').style.display='none'; document.getElementById('app').style.display='block'; initApp(); } }
+    function handleAuth() { if(document.getElementById('pass-input').value==='123456'){ localStorage.setItem('isLogged','true'); location.reload(); } }
+    function checkLogin() { if(localStorage.getItem('isLogged')==='true'){ document.getElementById('login-overlay').style.display='none'; document.getElementById('app').style.display='block'; initApp(); } }
+    function logout() { localStorage.removeItem('isLogged'); location.reload(); }
     
     function initApp() {
-        let saved = localStorage.getItem('prakobthong_master');
+        let saved = localStorage.getItem('prakobthong_v12');
         if(saved) db = JSON.parse(saved);
-        setTheme(db.theme || '#B8860B');
-        document.getElementById('q-date').valueAsDate = new Date();
-        document.getElementById('set-pp').value = db.pp;
         updateUI();
     }
 
     function openPage(id) {
-        document.getElementById('home').style.display = 'none';
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
-        if(id==='p-status') renderDrSwitch();
-        if(id==='p-queue') populateDrSelect();
-        if(id==='p-pay') { updatePayDrop(); document.getElementById('qr-container').style.display='none'; }
-        if(id==='p-verify') renderVList();
-        if(id==='p-history') renderHistory();
+        document.getElementById('home').style.display='none';
+        document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+        document.getElementById(id).style.display='block';
+        if(id==='p-queue') { populateDrSelect(); selectedChips = []; document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); }
         if(id==='p-settings') renderManageDr();
+        if(id==='p-status') renderDrSwitch();
+        if(id==='p-pay') { updatePayDrop(); document.getElementById('qr-display-area').style.display='none'; }
+        if(id==='p-history') renderHistory();
+        if(id==='p-verify') renderVList();
     }
 
-    // 💰 ฟังก์ชันเจน QR Code
-    function genQR() {
+    // 🎚️ Staff Switch Logic
+    function renderDrSwitch() {
+        document.getElementById('dr-switch-list').innerHTML = db.doctors.map((d, i) => `
+            <div class="switch-container">
+                <strong>${d.n}</strong>
+                <input type="checkbox" class="switch" ${d.st === 'busy' ? 'checked' : ''} onchange="toggleDrStatus(${i})">
+            </div>
+        `).join('');
+    }
+    function toggleDrStatus(i) {
+        db.doctors[i].st = db.doctors[i].st === 'free' ? 'busy' : 'free';
+        save();
+        renderDrSwitch();
+    }
+
+    function refreshQR() {
         let amt = document.getElementById('pay-amt').value;
-        let pp = db.pp;
-        if(amt > 0 && pp) {
-            document.getElementById('qr-img').src = `https://promptpay.io/${pp}/${amt}.png`;
-            document.getElementById('pp-qr-label').innerText = pp;
-            document.getElementById('qr-container').style.display = 'block';
+        if(amt > 0) {
+            document.getElementById('qr-img').src = `https://promptpay.io/${db.pp}/${amt}.png?t=${Date.now()}`;
+            document.getElementById('pp-tag').innerText = db.pp;
+            document.getElementById('qr-display-area').style.display = 'block';
         } else {
-            document.getElementById('qr-container').style.display = 'none';
+            document.getElementById('qr-display-area').style.display = 'none';
         }
     }
 
-    function pressNum(n) { if(n==='C') timeBuffer=""; else if(timeBuffer.length<4) timeBuffer+=n; document.getElementById('q-time').value = timeBuffer.padEnd(4,'_').replace(/(.{2})/, '$1:'); }
-    function openNumPad() { document.getElementById('numpad-modal').style.display='block'; }
-    function closeNumPad() { document.getElementById('numpad-modal').style.display='none'; }
+    function autoFillPay() {
+        let q = db.queues.find(x => x.id == document.getElementById('pay-select').value);
+        if(q) { document.getElementById('pay-amt').value = q.price; refreshQR(); }
+    }
 
+    function toggleChip(el, val) {
+        el.classList.toggle('active');
+        if(el.classList.contains('active')) selectedChips.push(val);
+        else selectedChips = selectedChips.filter(c => c !== val);
+    }
+    function saveTime() {
+        document.getElementById('q-time-display').value = document.getElementById('wheel-h').value + ":" + document.getElementById('wheel-m').value;
+        document.getElementById('time-picker-modal').style.display='none';
+    }
     function addQ() {
-        let n = document.getElementById('q-name').value, dr = document.getElementById('q-dr-select').value, d = document.getElementById('q-date').value;
-        if(!n || timeBuffer.length < 4) return alert('กรอกข้อมูลให้ครบ!');
-        db.queues.push({ id:Date.now(), name:n, dr, type:document.getElementById('q-type').value, price:document.getElementById('q-price').value, time:document.getElementById('q-time').value, date:d });
-        let drIdx = db.doctors.findIndex(x=>x.n===dr); db.doctors[drIdx].st='busy';
-        save(); alert('Success!'); openPage('home');
+        let n = document.getElementById('q-name').value, t = document.getElementById('q-time-display').value, dr = document.getElementById('q-dr-select').value;
+        if(!n || !t || selectedChips.length === 0) return alert('กรอกให้ครบ!');
+        db.queues.push({ id:Date.now(), name:n, type:selectedChips.join('+'), dr, time:t, price:document.getElementById('q-price').value });
+        save(); alert('จองแล้ว!'); openPage('home');
     }
 
-    function renderDrSwitch() {
-        document.getElementById('dr-switch-list').innerHTML = db.doctors.map((d,i)=>`
-            <div class="switch-container"><strong>${d.n}</strong><input type="checkbox" class="switch" ${d.st==='busy'?'checked':''} onchange="toggleDr(${i})"></div>
-        `).join('');
-    }
-    function toggleDr(i) { db.doctors[i].st = db.doctors[i].st==='busy'?'free':'busy'; save(); }
-
-    function updatePayDrop() { document.getElementById('pay-select').innerHTML = '<option value="">-- เลือกคิวลูกค้า --</option>' + db.queues.map(q=>`<option value="${q.id}">${q.name} (หมอ${q.dr})</option>`).join(''); }
-    function autoPay() { 
-        let q = db.queues.find(x=>x.id==document.getElementById('pay-select').value); 
-        if(q) {
-            document.getElementById('pay-amt').value=q.price;
-            genQR(); // เจน QR ทันทีที่เลือกคิว
-        } 
-    }
-    
+    function addDr() { let n = document.getElementById('new-dr-name').value; if(n){ db.doctors.push({n, st:'free'}); save(); renderManageDr(); } }
+    function renderManageDr() { document.getElementById('manage-dr-list').innerHTML = db.doctors.map((d,i)=>`<div class="list-item">${d.n} <button onclick="delDr(${i})" style="float:right; color:red; border:none; background:none;">ลบ</button></div>`).join(''); }
+    function delDr(i) { if(confirm('ลบหมอคนนี้?')){ db.doctors.splice(i,1); save(); renderManageDr(); } }
+    function updatePayDrop() { document.getElementById('pay-select').innerHTML = '<option value="">-- เลือกคิวลูกค้า --</option>' + db.queues.map(q=>`<option value="${q.id}">${q.name} (${q.dr})</option>`).join(''); }
     function submitPay() {
         let qId = document.getElementById('pay-select').value; if(!qId) return;
         let q = db.queues.find(x=>x.id==qId);
-        db.wait.push({ id:Date.now(), a:document.getElementById('pay-amt').value, n:q.name, dr:q.dr, type:q.type, time:q.time, date:q.date });
-        db.queues = db.queues.filter(x=>x.id!=qId);
-        let drIdx = db.doctors.findIndex(x=>x.n===q.dr); if(drIdx!==-1) db.doctors[drIdx].st='free';
-        save(); openPage('home');
+        db.wait.push({ id:Date.now(), a:document.getElementById('pay-amt').value, n:q.name, dr:q.dr, type:q.type, time:q.time });
+        db.queues = db.queues.filter(x=>x.id!=qId); save(); openPage('home');
     }
-
+    function updatePP() { db.pp = document.getElementById('set-pp').value; save(); updateUI(); alert('Saved!'); }
+    function save() { localStorage.setItem('prakobthong_v12', JSON.stringify(db)); updateUI(); }
+    function updateUI() { document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`; document.getElementById('pp-display').innerText = db.pp; }
+    function renderHistory() { document.getElementById('history-list').innerHTML = db.history.map(h=>`<div class="list-item"><b>${h.n}</b> (${h.type})<br>฿${h.a} | ${h.dr}</div>`).join(''); }
+    function populateDrSelect() { document.getElementById('q-dr-select').innerHTML = db.doctors.map(d=>`<option value="${d.n}">${d.n}</option>`).join(''); }
     function renderVList() {
-        let l = document.getElementById('v-list'); l.innerHTML = db.wait.length?"":"No Pending Sync";
-        db.wait.forEach(v => l.innerHTML += `<div class="balance-card">${v.n} - ฿${v.a} <button onclick="confirmV(${v.id})" class="btn-neu btn-gold">Sync Sheet</button></div>`);
+        let l = document.getElementById('v-list'); l.innerHTML = db.wait.length?"":"No items";
+        db.wait.forEach(v => l.innerHTML += `<div class="list-item">${v.n} - ฿${v.a} <button onclick="confirmV(${v.id})" class="btn-neu btn-gold" style="width:auto; float:right; padding:5px 10px; margin:0;">Sync</button></div>`);
     }
     async function confirmV(id) {
         let v = db.wait.find(x=>x.id===id);
-        let rec = { date: v.date, time: v.time, n: v.n, dr: v.dr, a: v.a, user: "admin" };
-        db.total += parseInt(v.a); db.history.push(rec); db.wait = db.wait.filter(x=>x.id!==id);
+        let rec = { date: new Date().toLocaleDateString('th-TH'), time: v.time, n: v.n, type:v.type, dr: v.dr, a: v.a, user: "admin" };
+        db.total += parseInt(v.a); db.history.push(rec); db.wait = db.wait.filter(x => x.id !== id);
         save(); renderVList();
         try { fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body:JSON.stringify([rec]) }); } catch(e){}
     }
-
-    function renderHistory() { document.getElementById('history-list').innerHTML = db.history.map(h=>`<div class="balance-card" style="text-align:left;"><b>${h.n}</b> - ฿${h.a}<br><small>${h.date} | ${h.time} | หมอ${h.dr}</small></div>`).join(''); }
-    function populateDrSelect() { document.getElementById('q-dr-select').innerHTML = db.doctors.map(d=>`<option value="${d.n}" ${d.st==='busy'?'disabled':''}>หมอ${d.n}</option>`).join(''); }
-    function updatePP() { db.pp = document.getElementById('set-pp').value; save(); alert('Saved!'); }
-    function addDr() { let n = document.getElementById('new-dr-name').value; if(n){ db.doctors.push({n, st:'free'}); save(); renderManageDr(); } }
-    function renderManageDr() { document.getElementById('manage-dr-list').innerHTML = db.doctors.map((d,i)=>`<div class="switch-container">${d.n} <button onclick="delDr(${i})" style="color:red; border:none; background:none;">ลบ</button></div>`).join(''); }
-    function delDr(i) { db.doctors.splice(i,1); save(); renderManageDr(); }
-    function setTheme(c) { db.theme = c; document.documentElement.style.setProperty('--os-gold', c); save(); }
-    function save() { localStorage.setItem('prakobthong_master', JSON.stringify(db)); updateUI(); }
-    function updateUI() { document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`; document.getElementById('pp-display').innerText = db.pp; }
+    function resetAllData() { if(confirm('Reset?')){ localStorage.removeItem('prakobthong_v12'); location.reload(); } }
 </script>
 </body>
 </html>
