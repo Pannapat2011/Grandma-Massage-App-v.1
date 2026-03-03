@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทอง - The Master Piece</title>
+    <title>ประคบทอง - Ultimate Cloud v3</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #F0F2F5; --gold: #B8860B; --shd: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff; --in: inset 3px 3px 6px #bebebe, inset -3px -3px 6px #ffffff; }
@@ -15,27 +15,39 @@
         .card { background: var(--bg); padding: 25px; border-radius: 35px; box-shadow: var(--in); text-align: center; margin-bottom: 25px; }
         .page { display: none; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* 📜 รายการคิวตัวใหญ่  */
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; font-size: 16px; }
         th { background: var(--gold); color: white; padding: 12px 5px; font-size: 13px; }
         td { padding: 12px 5px; border-bottom: 1px solid #eee; text-align: center; }
+        
+        /* 🎨 สวิตช์สถานะหมอ  */
         .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg); border-radius: 25px; margin-bottom: 12px; box-shadow: var(--shd); }
         .switch { position: relative; width: 50px; height: 26px; appearance: none; background: #d1d1d1; border-radius: 20px; outline: none; transition: 0.3s; cursor: pointer; }
         .switch:checked { background: var(--gold); }
         .switch::before { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; top: 3px; left: 3px; background: white; transition: 0.3s; }
         .switch:checked::before { left: 27px; }
+        
+        .free-txt { color: #28a745 !important; }
+        .busy-txt { color: #dc3545 !important; }
+        
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; justify-content: center; }
         .chip { padding: 8px 12px; border-radius: 15px; background: var(--bg); box-shadow: var(--shd); font-size: 12px; cursor: pointer; border: 1px solid transparent; }
         .chip.active { box-shadow: var(--in); color: var(--gold); font-weight: bold; border: 1px solid var(--gold); }
+        
         #qr-area { display: none; margin: 15px 0; text-align: center; }
         #qr-img { width: 220px; border: 10px solid white; border-radius: 20px; box-shadow: var(--shd); }
+        #sync-load { position: fixed; top: 0; left: 0; right: 0; background: #B8860B; color: white; text-align: center; font-size: 11px; padding: 4px; display: none; z-index: 10000; }
     </style>
 </head>
 <body onload="checkLogin()">
 
+<div id="sync-load">🔄 กำลังซิงค์ข้อมูล Cloud...</div>
+
 <div id="login-overlay" style="position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:9999;">
     <div class="card" style="width:80%;">
-        <h2 style="color:var(--gold);">ประคบทอง</h2>
-        <input type="password" id="pass" placeholder="รหัสผ่าน" style="width:100%; padding:15px; border-radius:15px; border:none; box-shadow: var(--in); outline:none; text-align:center; background:var(--bg);">
+        <h2 style="color:var(--gold);">ADMIN LOGIN</h2>
+        <input type="password" id="pass" placeholder="รหัสผ่าน 123456" style="width:100%; padding:15px; border-radius:15px; border:none; box-shadow: var(--in); outline:none; text-align:center; background:var(--bg);">
         <button class="btn-neu btn-gold" onclick="auth()">เข้าสู่ระบบ</button>
     </div>
 </div>
@@ -48,13 +60,13 @@
             <button class="btn-neu" onclick="openP('p-pay')">💰 รับเงิน/QR</button>
             <button class="btn-neu" onclick="openP('p-st')">🧘‍♂️ สถานะหมอ</button>
             <button class="btn-neu btn-gold" onclick="openP('p-list')">📜 รายการคิว</button>
-            <button class="btn-neu" onclick="syncCloud()">🔄 ดึงข้อมูลใหม่</button>
+            <button class="btn-neu" onclick="syncCloud()">🔄 อัปเดตข้อมูล</button>
             <button class="btn-neu" onclick="resetToday()" style="color:red;">⚠️ ล้างวันใหม่</button>
         </div>
     </div>
 
     <div id="p-list" class="page">
-        <h3>รายการคิว (ลบได้ใช้รหัส)</h3>
+        <h3>รายการคิว (รหัสลบ: 123456)</h3>
         <div style="overflow-x:auto;"><table><thead><tr><th>ลูกค้า</th><th>หมอ</th><th>จ่าย</th><th>ลบ</th></tr></thead><tbody id="tb-list"></tbody></table></div>
         <button class="btn-neu btn-gold" onclick="openP('home')">กลับหน้าหลัก</button>
     </div>
@@ -86,7 +98,7 @@
     </div>
 
     <div id="p-pay" class="page">
-        <h3>💰 ชำระเงิน</h3>
+        <h3>💰 รับเงิน / QR Code</h3>
         <select id="psel" class="btn-neu" onchange="autoP()" style="background:white;"></select>
         <div class="chip-group">
             <div class="chip active" id="mqr" onclick="setM('qr')">📲 QR Code</div>
@@ -102,43 +114,33 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJlg4KO3oK3HbFvw3DcH0r_amC9jvFCAefeTVVv5GddE7W3UBPzWRIwMQK4h9nMjMGlg/exec";
     let db = { total:0, qs:[], drs:[], pp:'0863526387' };
-    
-    // 🚩 ตารางราคาฐานตามรูป
-    const priceTable = {
-        'thai': { 60: 250, 90: 400, 120: 500 },
-        'foot': { 60: 300 },
-        'back': { 60: 300, 90: 450, 120: 600 },
-        'oil':  { 60: 400 },
-        'spa':  { 60: 700 },
-        'face': { 60: 400 },
-        'herb': { 30: 200 }
-    };
-
+    const priceTable = { 'thai': { 60: 250, 90: 400, 120: 500 }, 'foot': { 60: 300 }, 'back': { 60: 300, 90: 450, 120: 600 }, 'oil':  { 60: 400 }, 'spa':  { 60: 700 }, 'face': { 60: 400 }, 'herb': { 30: 200 } };
     let curType = 'thai', curDur = 60, payMode = 'qr';
 
     function auth() { if(document.getElementById('pass').value==='123456'){ localStorage.setItem('isL','t'); location.reload(); } }
     function checkLogin() { if(localStorage.getItem('isL')==='t'){ document.getElementById('login-overlay').style.display='none'; document.getElementById('app').style.display='block'; syncCloud(); } }
 
     async function syncCloud() {
+        document.getElementById('sync-load').style.display='block';
         try {
             const r = await fetch(SCRIPT_URL + "?t=" + Date.now());
             db = await r.json();
             updateUI();
-        } catch(e) { alert("ซิงค์ล้มเหลว!"); }
+        } catch(e) { console.log(e); }
+        document.getElementById('sync-load').style.display='none';
     }
 
     async function pushCloud(log = null) {
+        document.getElementById('sync-load').style.display='block';
         try {
             await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body:JSON.stringify({...db, log}) });
-            setTimeout(syncCloud, 800);
-        } catch(e) { alert("ส่งข้อมูลไม่สำเร็จ!"); }
+            setTimeout(syncCloud, 1000);
+        } catch(e) { alert("ส่งข้อมูลล้มเหลว!"); }
     }
 
     function selectType(el, type) {
         document.querySelectorAll('#prog-chips .chip').forEach(c=>c.classList.remove('active'));
         el.classList.add('active'); curType = type;
-        
-        // กรองตัวเลือกเวลาตามที่สั่ง
         ['dur-30','dur-60','dur-90','dur-120'].forEach(id=>document.getElementById(id).style.display='none');
         if(type === 'herb') {
             ['dur-30','dur-60','dur-120'].forEach(id=>document.getElementById(id).style.display='inline-block');
@@ -158,61 +160,36 @@
     }
 
     function updatePrice() {
-        let table = priceTable[curType];
-        let price = 0;
-        if(table[curDur]) {
-            price = table[curDur];
-        } else {
-            // Logic คูณราคาอัตโนมัติถ้าไม่มีในตารางพิเศษ
-            if(curDur === 120) price = table[60] * 2;
-            if(curDur === 60 && curType === 'herb') price = table[30] * 2;
-        }
-        document.getElementById('qp').value = price;
+        let table = priceTable[curType]; let p = table[curDur] ? table[curDur] : (curDur === 120 ? table[60] * 2 : (curDur === 60 && curType === 'herb' ? table[30] * 2 : 0));
+        document.getElementById('qp').value = p;
     }
 
     function saveQ() {
         let n = document.getElementById('qn').value, dr = document.getElementById('qdr').value, p = document.getElementById('qp').value;
-        if(!n || !dr) return alert('กรอกชื่อลูกค้าและหมอ!');
+        if(!n || !dr) return alert('กรอกชื่อลูกค้าและเลือกหมอ!');
         db.qs.push({id:Date.now(), n, dr, p, t:curType, paid:false});
         let i = db.drs.findIndex(x=>x.n===dr); if(i!==-1) db.drs[i].st='busy';
         pushCloud(); openP('home');
     }
 
-    function deleteQ(id) {
-        if(prompt("ใส่รหัสเพื่อลบรายการ") === "123456") {
-            db.qs = db.qs.filter(q => q.id !== id);
-            pushCloud();
-        } else { alert("รหัสผิด!"); }
-    }
-
-    function setM(m) { payMode = m; document.getElementById('mqr').classList.toggle('active', m==='qr'); document.getElementById('mcash').classList.toggle('active', m==='cash'); genQR(); }
-    function genQR() {
-        let a = document.getElementById('pa').value; let d = document.getElementById('qr-area');
-        if(payMode==='qr' && a > 0) {
-            document.getElementById('qr-img').src = `https://promptpay.io/${db.pp}/${a}.png?t=${Date.now()}`;
-            document.getElementById('pp-txt').innerText = "พร้อมเพย์: "+db.pp; d.style.display = 'block';
-        } else { d.style.display = 'none'; }
-    }
-
-    async function confirmPay() {
-        let id = document.getElementById('psel').value, a = document.getElementById('pa').value;
-        let qIdx = db.qs.findIndex(x=>x.id==id); if(qIdx===-1) return;
-        let q = db.qs[qIdx];
-        let log = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: q.n, dr: q.dr, a: a, mode: payMode };
-        db.total += parseInt(a); db.qs[qIdx].paid = true;
-        let di = db.drs.findIndex(x=>x.n===q.dr); if(di!==-1) db.drs[di].st='free';
-        await pushCloud(log); openP('home');
-    }
+    function deleteQ(id) { if(prompt("ใส่รหัสเพื่อลบรายการ") === "123456") { db.qs = db.qs.filter(q => q.id !== id); pushCloud(); } else { alert("รหัสผิด!"); } }
 
     function updateUI() {
         document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`;
-        document.getElementById('tb-list').innerHTML = db.qs.map(q=>`<tr><td>${q.n}</td><td>${q.dr}</td><td>${q.paid?'✅':'⏳'}</td><td><button onclick="deleteQ(${q.id})" style="border:none; background:none; cursor:pointer;">🗑️</button></td></tr>`).join('');
-        document.getElementById('st-list').innerHTML = db.drs.map(d=>`<div class="switch-container"><strong>${d.n}</strong><input type="checkbox" class="switch" ${d.st==='busy'?'checked':''} onchange="toggleDR('${d.n}')"></div>`).join('');
+        document.getElementById('tb-list').innerHTML = db.qs.map(q=>`<tr><td>${q.n}</td><td>${q.dr}</td><td>${q.paid?'✅':'⏳'}</td><td><button onclick="deleteQ(${q.id})" style="border:none; background:none;">🗑️</button></td></tr>`).join('');
+        document.getElementById('st-list').innerHTML = db.drs.map(d=>`
+            <div class="switch-container">
+                <div><strong>${d.n}</strong><br><span style="font-size:12px; font-weight:bold;" class="${d.st==='free'?'free-txt':'busy-txt'}">(${d.st==='free'?'ว่าง':'ไม่ว่าง'})</span></div>
+                <input type="checkbox" class="switch" ${d.st==='busy'?'checked':''} onchange="toggleDR('${d.n}')">
+            </div>`).join('');
         document.getElementById('psel').innerHTML = '<option value="">-- เลือกคิว --</option>'+db.qs.filter(x=>!x.paid).map(q=>`<option value="${q.id}">${q.n} (${q.p}.-)</option>`).join('');
-        document.getElementById('qdr').innerHTML = db.drs.map(d=>`<option value="${d.n}">${d.n} (${d.st==='free'?'ว่าง':'ไม่ว่าง'})</option>`).join('');
+        document.getElementById('qdr').innerHTML = '<option value="">-- เลือกหมอที่ว่าง --</option>' + db.drs.filter(d=>d.st==='free').map(d=>`<option value="${d.n}">${d.n}</option>`).join('');
     }
 
     function toggleDR(name) { let i = db.drs.findIndex(d=>d.n===name); if(i!==-1) { db.drs[i].st = (db.drs[i].st === 'free') ? 'busy' : 'free'; pushCloud(); } }
+    function setM(m) { payMode = m; document.getElementById('mqr').classList.toggle('active', m==='qr'); document.getElementById('mcash').classList.toggle('active', m==='cash'); genQR(); }
+    function genQR() { let a = document.getElementById('pa').value; let d = document.getElementById('qr-area'); if(payMode==='qr' && a > 0) { document.getElementById('qr-img').src = `https://promptpay.io/${db.pp}/${a}.png?t=${Date.now()}`; document.getElementById('pp-txt').innerText = "พร้อมเพย์: "+db.pp; d.style.display = 'block'; } else { d.style.display = 'none'; } }
+    async function confirmPay() { let id = document.getElementById('psel').value, a = document.getElementById('pa').value; let qIdx = db.qs.findIndex(x=>x.id==id); if(qIdx===-1) return; let q = db.qs[qIdx]; let log = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: q.n, dr: q.dr, a: a, mode: payMode }; db.total += parseInt(a); db.qs[qIdx].paid = true; let di = db.drs.findIndex(x=>x.n===q.dr); if(di!==-1) db.drs[di].st='free'; await pushCloud(log); openP('home'); }
     function autoP() { let q = db.qs.find(x=>x.id==document.getElementById('psel').value); if(q) { document.getElementById('pa').value=q.p; genQR(); } }
     function openP(id) { document.querySelectorAll('.page, #home').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='block'; if(id==='home') syncCloud(); }
     function resetToday() { if(confirm("เริ่มวันใหม่?")){ db.total=0; db.qs=[]; pushCloud(); } }
