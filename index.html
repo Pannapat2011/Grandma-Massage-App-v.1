@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทอง - Cloud Master Sync</title>
+    <title>ประคบทอง - Ultimate Cloud Sync</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #F0F2F5; --gold: #B8860B; --shd: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff; --in: inset 3px 3px 6px #bebebe, inset -3px -3px 6px #ffffff; }
@@ -15,21 +15,27 @@
         .card { background: var(--bg); padding: 25px; border-radius: 35px; box-shadow: var(--in); text-align: center; margin-bottom: 25px; }
         .page { display: none; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; font-size: 18px; } /* ตัวหนังสือใหญ่สะใจ */
+        
+        /* 📜 รายการคิวตัวใหญ่ */
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; font-size: 18px; }
         th { background: var(--gold); color: white; padding: 15px 10px; }
         td { padding: 15px 10px; border-bottom: 1px solid #eee; text-align: center; }
+        
+        /* 🎨 สวิตช์และสีสถานะ */
         .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg); border-radius: 25px; margin-bottom: 12px; box-shadow: var(--shd); }
-        .free-txt { color: #28a745; font-weight: bold; }
-        .busy-txt { color: #dc3545; font-weight: bold; }
+        .free-txt { color: #28a745 !important; font-weight: bold; }
+        .busy-txt { color: #dc3545 !important; font-weight: bold; }
+        
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; justify-content: center; }
-        .chip { padding: 8px 12px; border-radius: 15px; background: var(--bg); box-shadow: var(--shd); font-size: 12px; cursor: pointer; }
+        .chip { padding: 8px 12px; border-radius: 15px; background: var(--bg); box-shadow: var(--shd); font-size: 12px; cursor: pointer; border: 1px solid transparent; }
         .chip.active { box-shadow: var(--in); color: var(--gold); font-weight: bold; border: 1px solid var(--gold); }
-        #sync-banner { position: fixed; top: 0; left: 0; right: 0; background: #28a745; color: white; text-align: center; font-size: 12px; padding: 5px; display: none; z-index: 10000; }
+        
+        #sync-banner { position: fixed; top: 0; left: 0; right: 0; background: #B8860B; color: white; text-align: center; font-size: 12px; padding: 8px; display: none; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body onload="checkLogin()">
 
-<div id="sync-banner">อัปเดตข้อมูลสำเร็จ!</div>
+<div id="sync-banner">กำลังซิงค์ข้อมูลกับระบบ Cloud...</div>
 
 <div id="login-overlay" style="position:fixed; inset:0; background:var(--bg); display:flex; align-items:center; justify-content:center; z-index:9999;">
     <div class="card" style="width:80%;">
@@ -41,19 +47,19 @@
 
 <div class="container" id="app" style="display:none;">
     <div id="home">
-        <div class="card"><small>ยอดเงินรวม Cloud (ทุกเครื่อง)</small><h2 id="total-val" style="font-size:38px; color:var(--gold);">฿0</h2></div>
+        <div class="card"><small>ยอดเงินรวม Cloud (ซิงค์ทุกเครื่อง)</small><h2 id="total-val" style="font-size:38px; color:var(--gold);">฿0</h2></div>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
             <button class="btn-neu" onclick="openP('p-q')">📅 ลงคิวจอง</button>
             <button class="btn-neu" onclick="openP('p-pay')">💰 รับเงิน</button>
             <button class="btn-neu" onclick="openP('p-st')">🧘‍♂️ สถานะหมอ</button>
             <button class="btn-neu btn-gold" onclick="openP('p-list')">📜 รายการคิว</button>
-            <button class="btn-neu" onclick="syncCloud()">🔄 อัปเดตข้อมูล</button>
-            <button class="btn-neu" onclick="resetToday()" style="color:red;">⚠️ ล้างวันใหม่</button>
+            <button class="btn-neu" onclick="syncCloud()">🔄 ดึงข้อมูลใหม่</button>
+            <button class="btn-neu" onclick="resetToday()" style="color:red;">⚠️ เริ่มวันใหม่</button>
         </div>
     </div>
 
     <div id="p-list" class="page">
-        <h3>รายการคิว (ตัวหนังสือใหญ่)</h3>
+        <h3>รายการคิววันนี้</h3>
         <div style="overflow-x:auto;"><table><thead><tr><th>ลูกค้า</th><th>หมอ</th><th>จ่าย</th></tr></thead><tbody id="tb-list"></tbody></table></div>
         <button class="btn-neu btn-gold" onclick="openP('home')">กลับหน้าหลัก</button>
     </div>
@@ -76,12 +82,12 @@
         </div>
         <select id="qdr" class="btn-neu" style="background:white;"></select>
         <input type="number" id="qp" class="btn-neu" style="text-align:center; background:white; font-size:24px; color:var(--gold);">
-        <button class="btn-neu btn-gold" onclick="saveQ()">บันทึกและซิงค์</button>
+        <button class="btn-neu btn-gold" onclick="saveQ()">บันทึกข้อมูลและซิงค์</button>
         <button class="btn-neu" onclick="openP('home')">กลับ</button>
     </div>
 
     <div id="p-pay" class="page">
-        <h3>💰 รับเงิน</h3>
+        <h3>รับเงิน</h3>
         <select id="psel" class="btn-neu" onchange="autoFillPrice()" style="background:white;"></select>
         <input type="number" id="pa" placeholder="ยอดเงิน" class="btn-neu" style="text-align:center; font-size:30px; background:white;">
         <button class="btn-neu btn-gold" onclick="confirmPay()">ยืนยันรับเงิน</button>
@@ -90,10 +96,10 @@
 </div>
 
 <script>
-    // 🚩 URL ของมึงที่ส่งมาให้กูแล้ว
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3acLTKEmqAutw19YgnUfs3viIZwLNF0me2nfM9ck4KyJv-Ulk8DAb5m3G12FtVQeFA/exec";
+    // 🚩 URL ที่มึงให้กูมาล่าสุด
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJlg4KO3oK3HbFvw3DcH0r_amC9jvFCAefeTVVv5GddE7W3UBPzWRIwMQK4h9nMjMGlg/exec";
     
-    let db = { total:0, qs:[], drs:[], hist:[], pp:'' };
+    let db = { total:0, qs:[], drs:[], hist:[] };
     const basePrices = { 'thai': 250, 'back': 300, 'oil': 400, 'herb': 200 };
     let curType = 'thai', curDur = 60;
 
@@ -101,15 +107,17 @@
     function checkLogin() { if(localStorage.getItem('isL')==='t'){ document.getElementById('login-overlay').style.display='none'; document.getElementById('app').style.display='block'; syncCloud(); } }
 
     async function syncCloud() {
+        document.getElementById('sync-banner').style.display = 'block';
         try {
             const r = await fetch(SCRIPT_URL + "?t=" + Date.now());
             db = await r.json();
             updateUI();
-            showSync();
-        } catch(e) { alert("ล้มเหลว! เช็ก Deployment ว่าตั้งเป็น 'Anyone' หรือยัง"); }
+        } catch(e) { alert("ล้มเหลว! เช็กเน็ตหรือการตั้งค่า Deployment ของ Google Sheet"); }
+        document.getElementById('sync-banner').style.display = 'none';
     }
 
     async function pushCloud(log = null) {
+        document.getElementById('sync-banner').style.display = 'block';
         try {
             await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body:JSON.stringify({...db, log}) });
             setTimeout(syncCloud, 1000);
@@ -135,7 +143,7 @@
 
     function saveQ() {
         let n = document.getElementById('qn').value, dr = document.getElementById('qdr').value, p = document.getElementById('qp').value;
-        if(!n || !dr) return alert('กรอกชื่อลูกค้าและหมอ!');
+        if(!n || !dr || !p) return alert('กรอกข้อมูลให้ครบ!');
         db.qs.push({id:Date.now(), n, dr, p, paid:false});
         let i = db.drs.findIndex(x=>x.n===dr); if(i!==-1) db.drs[i].st='busy';
         pushCloud(); openP('home');
@@ -154,15 +162,14 @@
     function updateUI() {
         document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`;
         document.getElementById('tb-list').innerHTML = db.qs.map(q=>`<tr><td>${q.n}</td><td>${q.dr}</td><td>${q.paid?'✅':'⏳'}</td></tr>`).join('');
-        document.getElementById('st-list').innerHTML = db.drs.map(d=>`<div class="switch-container"><strong>${d.n}</strong> <span class="${d.st==='free'?'free-txt':'busy-txt'}">(${d.st==='free'?'ว่าง':'ไม่ว่าง'})</span></div>`).join('');
+        document.getElementById('st-list').innerHTML = db.drs.map(d=>`<div class="switch-container list-item"><strong>${d.n}</strong> <span class="${d.st==='free'?'free-txt':'busy-txt'}">(${d.st==='free'?'ว่าง':'ไม่ว่าง'})</span></div>`).join('');
         document.getElementById('psel').innerHTML = '<option value="">-- เลือกคิว --</option>'+db.qs.filter(x=>!x.paid).map(q=>`<option value="${q.id}">${q.n}</option>`).join('');
         document.getElementById('qdr').innerHTML = db.drs.filter(d=>d.st==='free').map(d=>`<option value="${d.n}">${d.n}</option>`).join('');
     }
 
     function autoFillPrice() { let q = db.qs.find(x=>x.id==document.getElementById('psel').value); if(q) document.getElementById('pa').value=q.p; }
     function openP(id) { document.querySelectorAll('.page, #home').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='block'; if(id==='home') syncCloud(); }
-    function showSync() { let s = document.getElementById('sync-banner'); s.style.display='block'; setTimeout(()=>s.style.display='none', 2000); }
-    function resetToday() { if(confirm("เริ่มวันใหม่? ข้อมูลรายได้จะล้างใหม่หมด")){ db.total=0; db.qs=[]; db.drs.forEach(d=>d.st='free'); pushCloud(); } }
+    function resetToday() { if(confirm("เริ่มวันใหม่? (ยอดเงินและคิวจะถูกล้างทั้งหมด)")){ db.total=0; db.qs=[]; db.drs.forEach(d=>d.st='free'); pushCloud(); } }
 </script>
 </body>
 </html>
