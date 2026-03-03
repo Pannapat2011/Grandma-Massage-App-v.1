@@ -3,70 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทอง Ultimate - OriginOS 6</title>
+    <title>ประคบทอง - OriginOS 6 Fixed</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Kanit:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --os-bg: #F0F2F5; --os-card: rgba(255, 255, 255, 0.9); 
-            --os-gold: #B8860B; --os-text: #1D1D1F;
-            --main-color: var(--os-gold);
+            --os-bg: #F0F2F5; --os-gold: #B8860B; --os-text: #1D1D1F;
             --shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
             --inner-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
         }
-        
-        body { font-family: 'Sarabun', sans-serif; background: var(--os-bg); margin: 0; transition: 0.3s; overflow-x: hidden; }
+        body { font-family: 'Sarabun', sans-serif; background: var(--os-bg); margin: 0; transition: 0.3s; }
         .container { width: 100%; max-width: 480px; padding: 20px; box-sizing: border-box; margin: auto; }
 
-        /* 🔘 Neumorphic Buttons (ไม่ใช่ปุ่มโง่ๆ) */
+        /* 🔘 UI Neumorphism */
         .btn-neu { 
             background: var(--os-bg); border: none; padding: 15px; border-radius: 20px;
             box-shadow: var(--shadow); cursor: pointer; font-family: 'Kanit';
-            color: var(--os-text); transition: 0.2s; font-weight: 600;
+            color: var(--os-text); transition: 0.2s; font-weight: 600; width: 100%; margin-top: 10px;
         }
         .btn-neu:active { box-shadow: var(--inner-shadow); transform: scale(0.98); }
-        .btn-gold { background: var(--main-color); color: white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .btn-gold { background: var(--os-gold) !important; color: white !important; }
 
-        /* 🔒 Easy Login */
-        #login-overlay { position: fixed; inset: 0; background: var(--os-bg); display: flex; align-items: center; justify-content: center; z-index: 3000; }
-        .login-box { width: 80%; background: var(--os-bg); padding: 40px 20px; border-radius: 40px; box-shadow: var(--shadow); text-align: center; }
+        /* 🏠 Home Styles */
+        .balance-card { background: var(--os-bg); padding: 30px; border-radius: 40px; box-shadow: var(--inner-shadow); text-align: center; margin-bottom: 25px; }
+        .balance-card h2 { font-family: 'Kanit'; font-size: 45px; margin: 5px 0; color: var(--os-gold); }
 
-        /* 🏠 Home Cards */
-        .balance-card { 
-            background: var(--os-bg); padding: 30px 20px; border-radius: 40px; 
-            box-shadow: var(--inner-shadow); text-align: center; margin-bottom: 25px; 
-        }
-        .balance-card h2 { font-family: 'Kanit'; font-size: 45px; margin: 5px 0; color: var(--main-color); }
-
-        /* 🎚️ Switch UI (เหมือนสวิตช์ไฟ) */
+        /* 🎚️ Switch UI */
         .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--os-bg); border-radius: 20px; margin-bottom: 10px; box-shadow: var(--shadow); }
-        .switch { position: relative; width: 60px; height: 30px; appearance: none; background: #ddd; border-radius: 20px; outline: none; transition: 0.3s; cursor: pointer; }
-        .switch:checked { background: var(--main-color); }
-        .switch::before { content: ''; position: absolute; width: 26px; height: 26px; border-radius: 50%; top: 2px; left: 2px; background: white; transition: 0.3s; }
-        .switch:checked::before { left: 32px; }
+        .switch { position: relative; width: 50px; height: 25px; appearance: none; background: #ccc; border-radius: 20px; outline: none; transition: 0.3s; cursor: pointer; }
+        .switch:checked { background: var(--os-gold); }
+        .switch::before { content: ''; position: absolute; width: 21px; height: 21px; border-radius: 50%; top: 2px; left: 2px; background: white; transition: 0.3s; }
+        .switch:checked::before { left: 27px; }
 
-        /* 📄 Pages */
-        .page { display: none; animation: slideUp 0.4s ease-out; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .page { display: none; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* 🔢 NumPad Time (เครื่องคิดเลขเวลา) */
-        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        /* 🔢 NumPad Modal (โผล่เฉพาะตอนกดเวลา) */
+        #numpad-modal { 
+            display: none; position: fixed; bottom: 0; left: 0; right: 0; 
+            background: var(--os-bg); padding: 20px; border-top-radius: 30px; 
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1); z-index: 4000; border-radius: 30px 30px 0 0;
+        }
+        .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
         .num-btn { padding: 20px; font-size: 20px; border-radius: 15px; background: var(--os-bg); box-shadow: var(--shadow); border: none; font-family: 'Kanit'; }
+        .num-btn:active { box-shadow: var(--inner-shadow); }
 
-        /* 🎨 Theme Styles */
-        .theme-dot { width: 30px; height: 30px; border-radius: 50%; display: inline-block; cursor: pointer; margin: 5px; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
-        .logo-img { width: 80px; margin-bottom: 15px; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1)); }
+        .logo-img { width: 80px; margin-bottom: 10px; }
+        .theme-dot { width: 30px; height: 30px; border-radius: 50%; display: inline-block; cursor: pointer; margin: 5px; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body onload="checkLogin()">
 
-<div id="login-overlay">
-    <div class="login-box">
-        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img">
+<div id="login-overlay" style="position:fixed; inset:0; background:var(--os-bg); display:flex; align-items:center; justify-content:center; z-index:5000;">
+    <div style="width:80%; text-align:center; padding:40px; background:var(--os-bg); border-radius:40px; box-shadow: var(--shadow);">
+        <img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" style="width:80px;">
         <h2 style="font-family:'Kanit'; color:var(--os-gold);">ประคบทอง ไทย/สปา</h2>
-        <p style="font-size: 12px; opacity: 0.6;">ระบบล็อกอินอัจฉริยะ</p>
-        <input type="password" id="pass-input" placeholder="รหัสผ่าน" style="width:80%; padding:15px; border-radius:15px; border:none; box-shadow: var(--inner-shadow); outline:none; text-align:center;">
-        <button class="btn-neu btn-gold" style="width:80%; margin-top:20px;" onclick="handleAuth()">ปลดล็อกระบบ</button>
+        <input type="password" id="pass-input" placeholder="รหัสผ่าน" style="width:100%; padding:15px; border-radius:15px; border:none; box-shadow: var(--inner-shadow); outline:none; text-align:center; background:var(--os-bg); margin-top:20px;">
+        <button class="btn-neu btn-gold" onclick="handleAuth()">เข้าสู่ระบบ</button>
     </div>
 </div>
 
@@ -74,202 +66,198 @@
     <div id="home">
         <div style="text-align:center;"><img src="https://img2.pic.in.th/image-removebg-preview3aa3c214982fe6cd.png" class="logo-img"></div>
         <div class="balance-card">
-            <small>ยอดรายได้วันนี้</small>
+            <small>รายได้วันนี้</small>
             <h2 id="total-val">฿0</h2>
         </div>
-        <div class="menu-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-            <button class="btn-neu" onclick="openPage('p-dr-status')">👨‍⚕️ สถานะหมอ</button>
-            <button class="btn-neu" onclick="openPage('p-queue')">📅 จองนวด</button>
-            <button class="btn-neu" onclick="openPage('p-pay')">💰 รับเงิน</button>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+            <button class="btn-neu" onclick="openPage('p-status')">🧘‍♂️ สถานะหมอ</button>
+            <button class="btn-neu" onclick="openPage('p-queue')">📋 ลงคิวจอง</button>
+            <button class="btn-neu" onclick="openPage('p-pay')">💰 รับชำระเงิน</button>
             <button class="btn-neu" onclick="openPage('p-history')">📜 ประวัติงาน</button>
-            <button class="btn-neu" onclick="openPage('p-verify')">🔍 ลงชีท</button>
+            <button class="btn-neu" onclick="openPage('p-verify')">📊 ลงชีท</button>
             <button class="btn-neu" onclick="openPage('p-settings')">⚙️ ตั้งค่า</button>
         </div>
         <button onclick="logout()" style="background:none; border:none; color:#AAA; width:100%; margin-top:40px; cursor:pointer;">ออกจากระบบ</button>
     </div>
 
-    <div id="p-dr-status" class="page">
-        <h3 style="font-family:'Kanit';">สถานะสวิตช์ไฟหมอ</h3>
-        <div id="dr-switch-list"></div>
-        <button class="btn-neu btn-gold" style="width:100%; margin-top:20px;" onclick="openPage('home')">กลับ</button>
+    <div id="p-queue" class="page">
+        <h3>ลงคิวจองใหม่</h3>
+        <input type="text" id="q-name" placeholder="ชื่อลูกค้า" class="btn-neu" style="text-align:left; background:white;">
+        
+        <select id="q-type" class="btn-neu">
+            <option value="">-- เลือกโปรแกรมการนวด --</option>
+            <option value="นวดไทย">นวดไทย</option>
+            <option value="นวดไทยประคบ">นวดไทยประคบ</option>
+            <option value="นวดไทยออย">นวดไทยออย</option>
+            <option value="นวดสปา+ขัดผิว">นวดสปา+ขัดผิว</option>
+            <option value="นวดแก้อาการ">นวดแก้อาการ</option>
+        </select>
+
+        <select id="q-dr-select" class="btn-neu"></select>
+        
+        <input type="number" id="q-price" placeholder="ราคา (บาท)" class="btn-neu" style="text-align:left; background:white;">
+        
+        <input type="text" id="q-time" placeholder="จิ้มเพื่อเลือกเวลา" readonly class="btn-neu" style="text-align:center; font-size:20px; color:var(--os-gold);" onclick="openNumPad()">
+        
+        <button class="btn-neu btn-gold" onclick="addQ()">บันทึกการจอง</button>
+        <button class="btn-neu" onclick="openPage('home')">กลับ</button>
     </div>
 
-    <div id="p-queue" class="page">
-        <h3>ลงคิวจองนวด</h3>
-        <input type="text" id="q-name" placeholder="ชื่อลูกค้า" class="btn-neu" style="width:100%; text-align:left; background:white;">
-        <select id="q-dr-select" class="btn-neu" style="width:100%; margin-top:10px;"></select>
-        
-        <p style="margin-top:15px; font-size:13px;">🕒 <b>กรอกเวลาเริ่ม (เช่น 1230):</b></p>
-        <input type="text" id="time-input" readonly class="btn-neu" style="width:100%; font-size:24px; text-align:center; color:var(--main-color);">
-        
-        <div class="numpad">
-            <button class="num-btn" onclick="pressNum('1')">1</button>
-            <button class="num-btn" onclick="pressNum('2')">2</button>
-            <button class="num-btn" onclick="pressNum('3')">3</button>
-            <button class="num-btn" onclick="pressNum('4')">4</button>
-            <button class="num-btn" onclick="pressNum('5')">5</button>
-            <button class="num-btn" onclick="pressNum('6')">6</button>
-            <button class="num-btn" onclick="pressNum('7')">7</button>
-            <button class="num-btn" onclick="pressNum('8')">8</button>
-            <button class="num-btn" onclick="pressNum('9')">9</button>
-            <button class="num-btn" style="color:red" onclick="pressNum('C')">C</button>
-            <button class="num-btn" onclick="pressNum('0')">0</button>
-            <button class="num-btn" style="color:green" onclick="addQ()">OK</button>
-        </div>
-        <button class="btn-neu" style="width:100%; margin-top:15px;" onclick="openPage('home')">ยกเลิก</button>
+    <div id="p-status" class="page">
+        <h3>สถานะสวิตช์หมอนวด</h3>
+        <div id="dr-switch-list"></div>
+        <button class="btn-neu btn-gold" onclick="openPage('home')">กลับ</button>
     </div>
 
     <div id="p-history" class="page">
-        <h3>ประวัติการนวดวันนี้</h3>
+        <h3>ประวัติงานละเอียด</h3>
         <div id="history-list"></div>
-        <button class="btn-neu btn-gold" style="width:100%; margin-top:20px;" onclick="openPage('home')">กลับ</button>
+        <button class="btn-neu btn-gold" onclick="openPage('home')">กลับ</button>
     </div>
 
     <div id="p-settings" class="page">
-        <h3>ตั้งค่าระบบ</h3>
-        <p>เลือกโทนสีแอป:</p>
-        <div class="theme-dot" style="background:#B8860B" onclick="setTheme('#B8860B')"></div>
-        <div class="theme-dot" style="background:#2196F3" onclick="setTheme('#2196F3')"></div>
-        <div class="theme-dot" style="background:#4CAF50" onclick="setTheme('#4CAF50')"></div>
-        <div class="theme-dot" style="background:#E91E63" onclick="setTheme('#E91E63')"></div>
-        <div class="theme-dot" style="background:#333333" onclick="setTheme('#333333')"></div>
-        <hr>
-        <button class="btn-neu danger-btn" onclick="resetAllData()" style="width:100%; color:red;">ล้างข้อมูลทั้งหมด</button>
-        <button class="btn-neu" style="width:100%; margin-top:20px;" onclick="openPage('home')">กลับ</button>
+        <h3>ตั้งค่าธีมและระบบ</h3>
+        <div class="balance-card">
+            <div class="theme-dot" style="background:#B8860B" onclick="setTheme('#B8860B')"></div>
+            <div class="theme-dot" style="background:#2196F3" onclick="setTheme('#2196F3')"></div>
+            <div class="theme-dot" style="background:#4CAF50" onclick="setTheme('#4CAF50')"></div>
+            <div class="theme-dot" style="background:#E91E63" onclick="setTheme('#E91E63')"></div>
+            <div class="theme-dot" style="background:#333" onclick="setTheme('#333')"></div>
+        </div>
+        <button class="btn-neu" style="color:red" onclick="resetAllData()">⚠️ ล้างข้อมูลทั้งหมด</button>
+        <button class="btn-neu" onclick="openPage('home')">กลับ</button>
     </div>
 
+    <div id="p-pay" class="page"><select id="pay-select" class="btn-neu" onchange="autoPay()"></select><input type="number" id="pay-amt" class="btn-neu" style="text-align:center; font-size:30px;"><button class="btn-neu btn-gold" onclick="submitPay()">ยืนยัน</button><button class="btn-neu" onclick="openPage('home')">กลับ</button></div>
+    <div id="p-verify" class="page"><div id="v-list"></div><button class="btn-neu btn-gold" onclick="openPage('home')">กลับ</button></div>
+</div>
+
+<div id="numpad-modal">
+    <div style="text-align:right; margin-bottom:10px;"><button onclick="closeNumPad()" style="border:none; background:none; font-weight:bold; color:var(--os-gold);">ปิด X</button></div>
+    <div class="numpad-grid">
+        <button class="num-btn" onclick="pressNum('1')">1</button>
+        <button class="num-btn" onclick="pressNum('2')">2</button>
+        <button class="num-btn" onclick="pressNum('3')">3</button>
+        <button class="num-btn" onclick="pressNum('4')">4</button>
+        <button class="num-btn" onclick="pressNum('5')">5</button>
+        <button class="num-btn" onclick="pressNum('6')">6</button>
+        <button class="num-btn" onclick="pressNum('7')">7</button>
+        <button class="num-btn" onclick="pressNum('8')">8</button>
+        <button class="num-btn" onclick="pressNum('9')">9</button>
+        <button class="num-btn" style="color:red" onclick="pressNum('C')">ล้าง</button>
+        <button class="num-btn" onclick="pressNum('0')">0</button>
+        <button class="num-btn" style="color:green; font-weight:bold;" onclick="closeNumPad()">ตกลง</button>
     </div>
+</div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyS3acLTKEmqAutw19YgnUfs3viIZwLNF0me2nfM9ck4KyJv-Ulk8DAb5m3G12FtVQeFA/exec";
-    let db = { total:0, queues:[], doctors:[{n:"หมอไก่", st:"free"}], history:[], theme:'#B8860B', pp:'0863526387' };
+    let db = { total:0, queues:[], doctors:[{n:"หมอนก", st:"free"}, {n:"หมอแมว", st:"free"}], wait:[], history:[], theme:'#B8860B' };
     let timeBuffer = "";
-
-    function checkLogin() {
-        if(localStorage.getItem('isLogged') === 'true') {
-            document.getElementById('login-overlay').style.display = 'none';
-            document.getElementById('app').style.display = 'block';
-            initApp();
-        }
-    }
 
     function handleAuth() {
         if(document.getElementById('pass-input').value === '123456') {
             localStorage.setItem('isLogged', 'true');
             location.reload();
-        } else alert('รหัสผิดเพื่อน!');
+        } else alert('รหัสผิด!');
     }
-
+    function checkLogin() { if(localStorage.getItem('isLogged') === 'true') { document.getElementById('login-overlay').style.display = 'none'; document.getElementById('app').style.display = 'block'; initApp(); } }
     function logout() { localStorage.removeItem('isLogged'); location.reload(); }
 
     function initApp() {
-        let saved = localStorage.getItem('prakobthong_db');
+        let saved = localStorage.getItem('prakobthong_fixed');
         if(saved) db = JSON.parse(saved);
         setTheme(db.theme || '#B8860B');
         updateUI();
-    }
-
-    function setTheme(color) {
-        db.theme = color;
-        document.documentElement.style.setProperty('--main-color', color);
-        document.documentElement.style.setProperty('--os-gold', color);
-        save();
     }
 
     function openPage(id) {
         document.getElementById('home').style.display = 'none';
         document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
         document.getElementById(id).style.display = 'block';
-        if(id === 'p-dr-status') renderDrSwitch();
-        if(id === 'p-queue') { populateDrSelect(); timeBuffer = ""; updateTimeDisplay(); }
+        if(id === 'p-status') renderDrSwitch();
+        if(id === 'p-queue') { populateDrSelect(); timeBuffer = ""; document.getElementById('q-time').value = ""; }
+        if(id === 'p-pay') updatePayDrop();
+        if(id === 'p-verify') renderVList();
         if(id === 'p-history') renderHistory();
     }
 
-    // 🔢 NumPad Logic
+    // --- NumPad Logic ---
+    function openNumPad() { document.getElementById('numpad-modal').style.display = 'block'; }
+    function closeNumPad() { document.getElementById('numpad-modal').style.display = 'none'; }
     function pressNum(n) {
         if(n === 'C') timeBuffer = "";
         else if(timeBuffer.length < 4) timeBuffer += n;
-        updateTimeDisplay();
-    }
-    function updateTimeDisplay() {
-        let formatted = timeBuffer.padEnd(4, '_');
-        document.getElementById('time-input').value = formatted.substring(0,2) + ":" + formatted.substring(2,4);
-    }
-
-    // 🕒 Smart Time Check (กันเวลาถอยหลัง)
-    function validateTime(inputTime) {
-        let now = new Date();
-        let currentH = now.getHours();
-        let currentM = now.getMinutes();
-        let inH = parseInt(inputTime.substring(0,2));
-        let inM = parseInt(inputTime.substring(2,4));
-
-        if(inH > 23 || inM > 59) return {ok:false, msg:"เวลาเพี้ยนแล้วมึง!"};
-        if(inH < currentH || (inH === currentH && inM < currentM)) {
-            return {ok:false, msg:"มึงเลือกเวลาในอดีตไม่ได้!"};
-        }
-        return {ok:true};
+        let f = timeBuffer.padEnd(4, '_');
+        document.getElementById('q-time').value = f.substring(0,2) + ":" + f.substring(2,4);
     }
 
     function addQ() {
         let name = document.getElementById('q-name').value;
+        let type = document.getElementById('q-type').value;
         let dr = document.getElementById('q-dr-select').value;
-        let timeCheck = validateTime(timeBuffer);
-
-        if(!name || !dr || timeBuffer.length < 4) return alert('กรอกให้ครบ!');
-        if(!timeCheck.ok) return alert(timeCheck.msg);
-
-        let newQ = { id:Date.now(), name, dr, time:document.getElementById('time-input').value };
-        db.queues.push(newQ);
-        // Toggle Dr Status
-        let idx = db.doctors.findIndex(d => d.n === dr);
-        db.doctors[idx].st = 'busy';
+        let price = document.getElementById('q-price').value;
+        if(!name || !type || !dr || timeBuffer.length < 4) return alert('กรอกให้ครบทุกหัวข้อเพื่อน!');
         
-        save();
-        alert('จองสำเร็จ!');
-        openPage('home');
+        // กันเวลาถอยหลัง
+        let now = new Date();
+        let h = parseInt(timeBuffer.substring(0,2)), m = parseInt(timeBuffer.substring(2,4));
+        if(h < now.getHours() || (h === now.getHours() && m < now.getMinutes())) return alert('เลือกเวลาในอดีตไม่ได้นะมึง!');
+
+        db.queues.push({ id:Date.now(), name, type, dr, price, time:document.getElementById('q-time').value });
+        let drIdx = db.doctors.findIndex(d => d.n === dr); db.doctors[drIdx].st = 'busy';
+        save(); alert('จองสำเร็จ!'); openPage('home');
     }
 
     function renderDrSwitch() {
-        let list = document.getElementById('dr-switch-list');
-        list.innerHTML = "";
-        db.doctors.forEach((d, i) => {
-            list.innerHTML += `
-                <div class="switch-container">
-                    <strong>${d.n}</strong>
-                    <input type="checkbox" class="switch" ${d.st==='busy'?'checked':''} onchange="toggleDrStatus(${i})">
-                </div>
-            `;
-        });
+        document.getElementById('dr-switch-list').innerHTML = db.doctors.map((d, i) => `
+            <div class="switch-container">
+                <strong>${d.n}</strong>
+                <input type="checkbox" class="switch" ${d.st==='busy'?'checked':''} onchange="toggleDr(${i})">
+            </div>`).join('');
     }
-    function toggleDrStatus(i) {
-        db.doctors[i].st = db.doctors[i].st === 'free' ? 'busy' : 'free';
-        save();
+    function toggleDr(i) { db.doctors[i].st = db.doctors[i].st === 'busy' ? 'free' : 'busy'; save(); }
+
+    function updatePayDrop() {
+        document.getElementById('pay-select').innerHTML = '<option value="">-- เลือกคิวลูกค้า --</option>' + db.queues.map(q => `<option value="${q.id}">${q.name} (หมอ${q.dr})</option>`).join('');
+    }
+    function autoPay() {
+        let q = db.queues.find(x => x.id == document.getElementById('pay-select').value);
+        if(q) document.getElementById('pay-amt').value = q.price;
+    }
+    function submitPay() {
+        let qId = document.getElementById('pay-select').value;
+        if(!qId) return;
+        let q = db.queues.find(x => x.id == qId);
+        db.wait.push({ id:Date.now(), a:document.getElementById('pay-amt').value, n:q.name, dr:q.dr, type:q.type, time:q.time });
+        db.queues = db.queues.filter(x => x.id != qId);
+        let drIdx = db.doctors.findIndex(d => d.n === q.dr); db.doctors[drIdx].st = 'free';
+        save(); openPage('home');
+    }
+
+    function renderVList() {
+        let l = document.getElementById('v-list'); l.innerHTML = db.wait.length ? "" : "ไม่มีรายการ";
+        db.wait.forEach(v => l.innerHTML += `<div class="balance-card" style="padding:15px; margin-bottom:10px;">${v.n} - ฿${v.a} <button onclick="confirmV(${v.id})" class="btn-neu btn-gold" style="width:auto; float:right; margin:0;">ลงชีท</button></div>`);
+    }
+    async function confirmV(id) {
+        let v = db.wait.find(x => x.id === id);
+        let rec = { date: new Date().toLocaleDateString('th-TH'), time: v.time, n: v.n, type:v.type, dr: v.dr, a: v.a, user: "admin" };
+        db.total += parseInt(v.a); db.history.push(rec); db.wait = db.wait.filter(x => x.id !== id);
+        save(); renderVList();
+        try { fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body:JSON.stringify([rec]) }); } catch(e){}
     }
 
     function renderHistory() {
-        let list = document.getElementById('history-list');
-        list.innerHTML = db.history.length ? "" : "ไม่มีประวัติวันนี้";
-        db.history.forEach(h => {
-            list.innerHTML += `
-                <div class="switch-container" style="flex-direction:column; align-items:flex-start;">
-                    <div style="width:100%; display:flex; justify-content:space-between;">
-                        <b>${h.n}</b> <span style="color:var(--main-color)">฿${h.a}</span>
-                    </div>
-                    <small>🕒 ${h.time} | 👨‍⚕️ ${h.dr} | 👤 โดย: ${h.user}</small>
-                </div>
-            `;
-        });
+        document.getElementById('history-list').innerHTML = db.history.map(h => `<div class="balance-card" style="text-align:left; padding:15px; font-size:13px;"><b>${h.n}</b> (${h.type}) - ฿${h.a}<br><small>🕒 ${h.time} | 👨‍⚕️ หมอ${h.dr}</small></div>`).join('');
     }
 
     function populateDrSelect() {
-        let s = document.getElementById('q-dr-select');
-        s.innerHTML = db.doctors.map(d => `<option value="${d.n}" ${d.st==='busy'?'disabled':''}>${d.n} ${d.st==='busy'?'(ไม่ว่าง)':''}</option>`).join('');
+        document.getElementById('q-dr-select').innerHTML = db.doctors.map(d => `<option value="${d.n}" ${d.st==='busy'?'disabled':''}>-- หมอ${d.n} ${d.st==='busy'?'(ไม่ว่าง)':''} --</option>`).join('');
     }
-
-    function save() { localStorage.setItem('prakobthong_db', JSON.stringify(db)); updateUI(); }
+    function setTheme(c) { db.theme = c; document.documentElement.style.setProperty('--os-gold', c); save(); }
+    function save() { localStorage.setItem('prakobthong_fixed', JSON.stringify(db)); updateUI(); }
     function updateUI() { document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`; }
-    function resetAllData() { if(confirm('จะล้างจริงดิ? หายหมดเลยนะ!')) { localStorage.removeItem('prakobthong_db'); location.reload(); } }
+    function resetAllData() { if(confirm('หายหมดนะ?')) { localStorage.removeItem('prakobthong_fixed'); location.reload(); } }
 </script>
 </body>
 </html>
