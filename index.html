@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทองไทยสปา - OriginOS Style</title>
+    <title>ประคบทองไทยสปา - OriginOS Style (V.Pro Max)</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
+        /* =========================================
+           ระบบตัวแปร CSS (รองรับการเปลี่ยนธีม)
+           ========================================= */
         :root {
+            /* ค่าสีเริ่มต้น (Light Theme) */
             --bg-color: #F2F4F7;
             --card-bg: rgba(255, 255, 255, 0.85);
+            --input-bg: #ffffff;
+            --table-bg: #ffffff;
+            --text-main: #1C1C1E;
+            --text-muted: #8E8E93;
+            
+            /* สีทองหลักของร้าน */
             --gold-light: #EED28A;
             --gold-primary: #D4AF37;
             --gold-dark: #B8860B;
-            --text-main: #1C1C1E;
-            --text-muted: #8E8E93;
+            
+            /* สีแจ้งเตือนสถานะต่างๆ */
             --danger: #FF3B30;
             --success: #34C759;
             --warning: #FF9500;
+            
+            /* เอฟเฟกต์แสงเงาและส่วนโค้ง */
             --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
             --shadow-float: 0 16px 40px rgba(212, 175, 55, 0.2);
             --radius-card: 28px;
@@ -29,25 +41,27 @@
         body {
             font-family: 'Kanit', sans-serif;
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 0%, #ffffff 0%, #F2F4F7 60%);
             margin: 0;
             padding: 0;
             color: var(--text-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.5s ease;
         }
 
         .container { width: 100%; max-width: 750px; padding: 24px; box-sizing: border-box; margin: 0 auto; }
 
+        /* การ์ดสไตล์กระจก */
         .card { 
             background: var(--card-bg); padding: 30px 25px; border-radius: var(--radius-card); 
             box-shadow: var(--shadow-soft); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6); text-align: center; margin-bottom: 24px; transition: var(--transition-fluid);
+            border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; margin-bottom: 24px; transition: var(--transition-fluid);
         }
         .card:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06); }
 
+        /* ปุ่มกด */
         .btn-modern {
-            background: #ffffff; color: var(--text-main); border: none; padding: 16px 20px;
+            background: var(--input-bg); color: var(--text-main); border: none; padding: 16px 20px;
             border-radius: var(--radius-btn); box-shadow: 0 4px 14px rgba(0,0,0,0.03); cursor: pointer;
             font-family: 'Kanit', sans-serif; font-weight: 500; font-size: 16px; width: 100%;
             margin-top: 12px; transition: var(--transition-fluid); display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -59,48 +73,54 @@
 
         .page { display: none; animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
         @keyframes slideUp { 0% { opacity: 0; transform: translateY(20px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .table-responsive { overflow-x: auto; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); margin-top: 20px; background: white; padding: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        /* ตารางคิว */
+        .table-responsive { overflow-x: auto; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); margin-top: 20px; background: var(--table-bg); padding: 8px; transition: var(--transition-fluid); }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; color: var(--text-main); }
         th { background-color: rgba(212, 175, 55, 0.1); color: var(--gold-dark); padding: 14px 10px; font-weight: 600; white-space: nowrap; border-radius: 12px; }
-        td { padding: 16px 10px; border-bottom: 1px solid #F2F4F7; text-align: center; vertical-align: middle; }
+        td { padding: 16px 10px; border-bottom: 1px solid var(--bg-color); text-align: center; vertical-align: middle; }
         tr:last-child td { border-bottom: none; }
-        tr:hover td { background-color: #fafafa; }
 
-        .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: white; border-radius: var(--radius-card); margin-bottom: 12px; box-shadow: var(--shadow-soft); transition: var(--transition-fluid); }
+        /* สวิตช์ปิดเปิด */
+        .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: var(--card-bg); border-radius: var(--radius-card); margin-bottom: 12px; box-shadow: var(--shadow-soft); transition: var(--transition-fluid); border: 1px solid rgba(255,255,255,0.05); }
         .switch-container:active { transform: scale(0.98); }
         .switch { position: relative; width: 54px; height: 30px; appearance: none; background: #E5E5EA; border-radius: 30px; outline: none; transition: 0.3s; cursor: pointer; }
         .switch:checked { background: var(--success); }
         .switch::before { content: ''; position: absolute; width: 26px; height: 26px; border-radius: 50%; top: 2px; left: 2px; background: white; transition: 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
         .switch:checked::before { left: 26px; }
 
+        /* ป้ายสถานะ */
         .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; display: inline-block; letter-spacing: 0.3px; }
-        .status-free { background-color: rgba(52, 199, 89, 0.15); color: #248A3D; }
-        .status-busy { background-color: rgba(255, 149, 0, 0.15); color: #B26800; }
-        .status-danger { background-color: rgba(255, 59, 48, 0.15); color: #C22015; }
+        .status-free { background-color: rgba(52, 199, 89, 0.15); color: var(--success); }
+        .status-busy { background-color: rgba(255, 149, 0, 0.15); color: var(--warning); }
+        .status-danger { background-color: rgba(255, 59, 48, 0.15); color: var(--danger); }
 
+        /* ปุ่มเลือกประเภท */
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; justify-content: center; }
-        .chip { padding: 10px 18px; border-radius: 24px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.03); font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: var(--transition-fluid); color: var(--text-muted); }
+        .chip { padding: 10px 18px; border-radius: 24px; background: var(--input-bg); box-shadow: 0 2px 8px rgba(0,0,0,0.03); font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: var(--transition-fluid); color: var(--text-muted); }
         .chip:hover { transform: translateY(-2px); color: var(--text-main); }
         .chip.active { background: rgba(212, 175, 55, 0.1); color: var(--gold-dark); font-weight: 600; border: 2px solid var(--gold-primary); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2); }
 
-        .form-control { width: 100%; padding: 16px 20px; border-radius: var(--radius-input); border: 2px solid transparent; background: white; font-family: 'Kanit', sans-serif; font-size: 16px; box-sizing: border-box; margin-bottom: 16px; outline: none; transition: var(--transition-fluid); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .form-control:focus { border: 2px solid var(--gold-primary); background: #fff; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1); }
+        /* ช่องกรอกข้อมูล */
+        .form-control { width: 100%; padding: 16px 20px; border-radius: var(--radius-input); border: 2px solid transparent; background: var(--input-bg); color: var(--text-main); font-family: 'Kanit', sans-serif; font-size: 16px; box-sizing: border-box; margin-bottom: 16px; outline: none; transition: var(--transition-fluid); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .form-control:focus { border: 2px solid var(--gold-primary); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1); }
         
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
 
+        /* QR Code */
         #qr-area { display: none; margin: 24px 0; text-align: center; animation: slideUp 0.4s ease forwards; }
-        #qr-img { width: 220px; border: 12px solid white; border-radius: 24px; box-shadow: var(--shadow-soft); }
+        #qr-img { width: 220px; border: 12px solid var(--input-bg); border-radius: 24px; box-shadow: var(--shadow-soft); }
         
+        /* โหลดเดอร์ */
         #sync-load { position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, var(--gold-primary), var(--gold-dark)); color: white; text-align: center; font-size: 13px; padding: 6px; display: none; z-index: 10000; font-weight: 500; letter-spacing: 1px; }
 
         #doctor-screen { display: block; }
         #admin-panel { display: none; }
-        
-        #login-overlay { position: fixed; inset: 0; background: rgba(28, 28, 30, 0.4); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
+        #login-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
 
         .srv-text { font-size: 12px; color: var(--text-muted); display: block; margin-top: 4px; font-weight: 400; }
-        .stat-box { background: white; padding: 24px; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); text-align: center; margin-bottom: 16px; transition: var(--transition-fluid); }
+        .stat-box { background: var(--card-bg); padding: 24px; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); text-align: center; margin-bottom: 16px; transition: var(--transition-fluid); }
         .stat-box:hover { transform: translateY(-4px); }
         .stat-val { font-size: 36px; font-weight: 600; color: var(--gold-dark); margin: 8px 0 0 0; }
         .icon { font-size: 18px; margin-right: 4px; }
@@ -108,26 +128,18 @@
 </head>
 <body onload="initApp()">
 
-<div id="sync-load">🔄 ซิงค์ข้อมูล...</div>
+<div id="sync-load">🔄 ซิงค์ข้อมูลอัตโนมัติ...</div>
 
 <div id="doctor-screen" class="container">
     <div class="card">
         <h1 style="color:var(--gold-dark); margin:0 0 8px 0; font-size: 28px; font-weight: 600;">ประคบทองสปา</h1>
         <h2 style="margin:0; font-size: 18px; color: var(--text-main); font-weight: 500;">คิวงานวันนี้</h2>
-        <small style="color: var(--text-muted); margin-top: 4px; display: block;">อัปเดตเวลาอัตโนมัติ 🕒</small>
+        <small style="color: var(--text-muted); margin-top: 4px; display: block;">ระบบจับเวลา & เคลียร์หมออัตโนมัติ 🕒</small>
     </div>
     
     <div class="table-responsive">
         <table>
-            <thead>
-                <tr>
-                    <th>เวลา</th>
-                    <th>ลูกค้า</th>
-                    <th>บริการ</th>
-                    <th>หมอผู้ดูแล</th>
-                    <th>สถานะ</th>
-                </tr>
-            </thead>
+            <thead><tr><th>เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอผู้ดูแล</th><th>สถานะ</th></tr></thead>
             <tbody id="tb-doctor-view"></tbody>
         </table>
     </div>
@@ -136,7 +148,7 @@
         <span class="icon">⚙️</span> เข้าระบบแอดมิน
     </button>
     <button class="btn-modern" onclick="fetchData()">
-        <span class="icon">🔄</span> โหลดข้อมูลล่าสุด
+        <span class="icon">🔄</span> ดึงข้อมูลล่าสุด
     </button>
 </div>
 
@@ -166,8 +178,8 @@
                 <button class="btn-modern" onclick="openPage('p-st')"><span class="icon">🧘‍♂️</span> สถานะหมอ</button>
                 <button class="btn-modern btn-gold" onclick="openPage('p-list')"><span class="icon">📜</span> ดูคิวทั้งหมด</button>
                 <button class="btn-modern" onclick="openPage('p-dash')"><span class="icon">📊</span> สถิติร้าน</button>
-                <button class="btn-modern" onclick="openPage('p-settings')"><span class="icon">⚙️</span> ตั้งค่า</button>
-                <button class="btn-modern" style="grid-column: span 2;" onclick="fetchData()"><span class="icon">🔄</span> ดึงข้อมูลจากคลาวด์</button>
+                <button class="btn-modern" onclick="openPage('p-settings')"><span class="icon">⚙️</span> ตั้งค่าร้าน</button>
+                <button class="btn-modern" style="grid-column: span 2;" onclick="fetchData()"><span class="icon">🔄</span> ซิงค์คลาวด์</button>
                 <button class="btn-modern" style="color:var(--danger); grid-column: span 2; background: rgba(255, 59, 48, 0.05);" onclick="resetToday()">⚠️ ปิดยอดสิ้นวัน (ล้างข้อมูล)</button>
             </div>
         </div>
@@ -176,11 +188,7 @@
             <h2 style="color: var(--gold-dark); font-weight: 600;">📜 รายการคิว</h2>
             <div class="table-responsive">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>ราคา</th><th>ชำระเงิน</th><th>สถานะนวด</th><th>ลบ</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>ราคา</th><th>ชำระเงิน</th><th>สถานะนวด</th><th>ลบ</th></tr></thead>
                     <tbody id="tb-list"></tbody>
                 </table>
             </div>
@@ -189,7 +197,7 @@
         
         <div id="p-st" class="page">
             <h2 style="color: var(--gold-dark); font-weight: 600;">🧘‍♂️ สถานะหมอนวด</h2>
-            <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">เปิด-ปิดสวิตช์เมื่อนวดเสร็จ</p>
+            <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">ระบบจะปรับ "ว่าง" ให้อัตโนมัติเมื่อหมดเวลา</p>
             <div id="st-list"></div>
             <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
@@ -197,6 +205,7 @@
         <div id="p-q" class="page">
             <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิวจอง</h2>
             <input type="text" id="qn" class="form-control" placeholder="ชื่อลูกค้า...">
+            
             <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ประเภทบริการ</label>
             <div class="chip-group" id="prog-chips">
                 <div class="chip active" onclick="selectType(this, 'thai')">นวดไทย</div>
@@ -218,7 +227,7 @@
             
             <select id="qdr" class="form-control" style="margin-top: 8px;"></select>
             
-            <div style="background: white; padding: 16px; border-radius: var(--radius-input); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
+            <div style="background: var(--card-bg); padding: 16px; border-radius: var(--radius-input); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
                 <label style="font-size: 14px; color: var(--text-muted);">ราคาประเมิน</label>
                 <input type="number" id="qp" style="text-align:center; font-size:32px; color:var(--gold-dark); font-weight: 600; border:none; outline:none; width: 100%; background: transparent; margin-top: 8px;" readonly>
             </div>
@@ -236,7 +245,7 @@
                 <div class="chip" id="mcash" onclick="setPaymentMode('cash')">💵 เงินสด</div>
             </div>
             
-            <div style="background: white; padding: 24px; border-radius: var(--radius-card); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
+            <div style="background: var(--card-bg); padding: 24px; border-radius: var(--radius-card); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
                 <input type="number" id="pa" placeholder="0" style="text-align:center; font-size:48px; font-weight: 600; color: var(--gold-dark); border:none; outline:none; width: 100%; background: transparent;" oninput="generateQRCode()">
                 <div id="qr-area">
                     <img id="qr-img" src="">
@@ -257,12 +266,21 @@
         </div>
 
         <div id="p-settings" class="page">
-            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">⚙️ ตั้งค่าหมอนวด</h2>
+            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">⚙️ ตั้งค่าระบบ</h2>
+            
+            <h3 style="margin-top: 16px; font-size: 16px; color: var(--text-main); padding-left: 8px;">🎨 เลือกธีมสี (Theme)</h3>
+            <div class="chip-group" style="margin-bottom: 24px;">
+                <div class="chip active" id="th-light" onclick="setTheme('light')">☀️ สว่าง</div>
+                <div class="chip" id="th-dark" onclick="setTheme('dark')">🌙 มืด</div>
+                <div class="chip" id="th-nature" onclick="setTheme('nature')">🌿 ธรรมชาติ</div>
+            </div>
+
+            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">👥 จัดการพนักงาน</h3>
             <div class="card" style="padding: 24px;">
                 <input type="text" id="new-dr-name" class="form-control" placeholder="ชื่อหมอนวดใหม่...">
                 <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="addDoctor()">➕ เพิ่มพนักงาน</button>
             </div>
-            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-muted); padding-left: 8px;">รายชื่อพนักงานในระบบ</h3>
+            
             <div id="dr-manage-list"></div>
             <button class="btn-modern btn-gold" style="margin-top: 32px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
@@ -270,18 +288,89 @@
 </div>
 
 <script>
-    // 🚨 ใส่ URL ของมึงตรงนี้เรียบร้อยแล้ว
+    // 🚨 URL ของมึง
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeed4VHbOWGkrn0Kxdl7R9wulIIa6qYjXdwq_u4Rc4_pb1kj4DYcfU_r4SICHlUMVd/exec"; 
 
     let db = { total: 0, qs: [], drs: [], pp: '0863526387' };
     const priceTable = { 'thai': { 60: 250, 90: 400, 120: 500 }, 'foot': { 60: 300 }, 'back': { 60: 300, 90: 450, 120: 600 }, 'oil':  { 60: 400 }, 'spa':  { 60: 700 }, 'face': { 60: 400 }, 'herb': { 30: 200 } };
     const typeNames = { 'thai': 'นวดแผนไทย', 'foot': 'นวดฝ่าเท้า', 'back': 'นวดรีดเส้น', 'oil': 'นวดน้ำมันอโรม่า', 'spa': 'สปาขัดผิว', 'face': 'นวดหน้า', 'herb': 'นวดประคบสมุนไพร' };
-    
     let curType = 'thai', curDur = 60, payMode = 'qr';
 
+    // ชุดสี Theme
+    const themes = {
+        light: {
+            '--bg-color': '#F2F4F7', '--card-bg': 'rgba(255, 255, 255, 0.85)',
+            '--input-bg': '#ffffff', '--table-bg': '#ffffff',
+            '--text-main': '#1C1C1E', '--text-muted': '#8E8E93',
+            '--gold-primary': '#D4AF37', '--gold-dark': '#B8860B'
+        },
+        dark: {
+            '--bg-color': '#121212', '--card-bg': 'rgba(30, 30, 30, 0.85)',
+            '--input-bg': '#2C2C2E', '--table-bg': '#1C1C1E',
+            '--text-main': '#F2F4F7', '--text-muted': '#A0A0A5',
+            '--gold-primary': '#D4AF37', '--gold-dark': '#C59A28'
+        },
+        nature: {
+            '--bg-color': '#E8F5E9', '--card-bg': 'rgba(255, 255, 255, 0.9)',
+            '--input-bg': '#ffffff', '--table-bg': '#ffffff',
+            '--text-main': '#1B5E20', '--text-muted': '#4CAF50',
+            '--gold-primary': '#43A047', '--gold-dark': '#2E7D32'
+        }
+    };
+
     async function initApp() { 
+        // โหลดธีมที่เคยตั้งไว้ตอนเปิดแอป
+        let savedTheme = localStorage.getItem('spaTheme') || 'light';
+        setTheme(savedTheme);
+
         await fetchData(); 
-        setInterval(() => { renderTables(); }, 60000);
+        
+        // ทีเด็ด: รันเช็คเวลาทุกๆ 10 วินาที เพื่อปลดล็อกหมออัตโนมัติ
+        setInterval(() => { 
+            autoClearDoctors();
+            renderTables(); 
+        }, 10000); 
+    }
+
+    // ฟังก์ชันใหม่: เช็คเวลาและปลดล็อกหมออัตโนมัติ
+    function autoClearDoctors() {
+        let now = Date.now();
+        let shouldSave = false;
+
+        db.qs.forEach(q => {
+            // คำนวณเวลาหมดอายุ (มิลลิวินาที)
+            let endTime = q.id + (q.d * 60000); 
+            
+            // ถ้าเวลาปัจจุบันเลยเวลาหมดอายุ และยังไม่เคยถูกมาร์คว่าจบคิว (isFinished)
+            if (now >= endTime && !q.isFinished) {
+                q.isFinished = true; // มาร์คว่าจบแล้ว เพื่อไม่ให้ทำซ้ำ
+                
+                // ไปหาชื่อหมอคนนี้ แล้วเปลี่ยนสถานะเป็น 'free'
+                let docIndex = db.drs.findIndex(doc => doc.n === q.dr);
+                if(docIndex !== -1 && db.drs[docIndex].st === 'busy') {
+                    db.drs[docIndex].st = 'free';
+                    shouldSave = true; // สั่งให้รู้ว่าต้องเซฟนะ
+                }
+            }
+        });
+
+        // ถ้ามีการเตะหมอเป็นว่างจริงๆ ค่อยสั่งเซฟขึ้น Google Sheet
+        if(shouldSave) {
+            saveDataToCloud();
+        }
+    }
+
+    // ระบบเปลี่ยนธีม
+    function setTheme(themeName) {
+        const theme = themes[themeName];
+        for (let key in theme) {
+            document.documentElement.style.setProperty(key, theme[key]);
+        }
+        localStorage.setItem('spaTheme', themeName);
+        
+        // อัปเดตปุ่มไฮไลต์
+        document.querySelectorAll('#th-light, #th-dark, #th-nature').forEach(el => el.classList.remove('active'));
+        document.getElementById('th-' + themeName).classList.add('active');
     }
 
     async function fetchData() {
@@ -289,9 +378,8 @@
         try {
             let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
             db = await res.json();
-            
             if(!db.drs || db.drs.length === 0) {
-                db.drs = [{n: 'หมอเอ', st: 'free'}, {n: 'หมอบี', st: 'free'}, {n: 'หมอซี', st: 'free'}];
+                db.drs = [{n: 'หมอเอ', st: 'free'}, {n: 'หมอบี', st: 'free'}];
                 saveDataToCloud(); 
             }
             renderUI(); 
@@ -305,7 +393,7 @@
         document.getElementById('sync-load').style.display = 'block';
         try {
             await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(db) });
-        } catch(error) { alert("บันทึกข้อมูลล้มเหลว"); }
+        } catch(error) { console.log(error); }
         document.getElementById('sync-load').style.display = 'none';
     }
 
@@ -331,7 +419,7 @@
     }
 
     function selectType(element, typeCode) {
-        document.querySelectorAll('#prog-chips .chip').forEach(chip => chip.classList.remove('active')); 
+        document.querySelectorAll('#prog-chips .chip').forEach(c => c.classList.remove('active')); 
         element.classList.add('active'); curType = typeCode;
         ['dur-30','dur-60','dur-90','dur-120'].forEach(id => document.getElementById(id).style.display = 'none');
         if(typeCode === 'herb') { ['dur-30','dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-30'), 30); }
@@ -340,7 +428,7 @@
     }
 
     function selectDur(element, minutes) { 
-        document.querySelectorAll('#dur-chips .chip').forEach(chip => chip.classList.remove('active')); 
+        document.querySelectorAll('#dur-chips .chip').forEach(c => c.classList.remove('active')); 
         element.classList.add('active'); curDur = minutes; calculatePrice(); 
     }
 
@@ -354,19 +442,22 @@
         let custName = document.getElementById('qn').value;
         let doctorName = document.getElementById('qdr').value;
         let price = document.getElementById('qp').value;
-        if(!custName || !doctorName) return alert('⚠️ กรุณากรอกชื่อลูกค้าและเลือกหมอให้ครบถ้วน!');
+        if(!custName || !doctorName) return alert('⚠️ กรอกข้อมูลให้ครบถ้วน!');
         let timeStr = new Date().toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
-        db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false, pm: '' });
+        
+        // เพิ่ม isFinished: false เข้าไปตอนสร้างคิว เพื่อใช้ระบบปลดล็อกหมอ
+        db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false, pm: '', isFinished: false });
+        
         let docIndex = db.drs.findIndex(doc => doc.n === doctorName); 
         if(docIndex !== -1) db.drs[docIndex].st = 'busy';
+        
         document.getElementById('qn').value = ''; 
         saveDataToCloud(); 
         openPage('home'); 
     }
     
     function deleteQueue(id) { 
-        if(prompt("ใส่รหัสผ่านเพื่อลบ (123456):") === "123456") { db.qs = db.qs.filter(queue => queue.id !== id); saveDataToCloud(); } 
-        else { alert("❌ รหัสผ่านผิด!"); } 
+        if(prompt("รหัสผ่านลบ (123456):") === "123456") { db.qs = db.qs.filter(queue => queue.id !== id); saveDataToCloud(); } 
     }
 
     function renderUI() {
@@ -427,7 +518,7 @@
             if (timeLeft > 0) {
                 massageStatusHTML = `<span class="status-badge status-busy">นวดอยู่ (${timeLeft} น.)</span>`;
             } else {
-                massageStatusHTML = `<span class="status-badge status-free">ครบเวลา</span>`;
+                massageStatusHTML = `<span class="status-badge status-free">✅ ครบเวลา</span>`;
             }
 
             adminTableHTML += `<tr>
@@ -493,30 +584,30 @@
         db.qs[qIndex].paid = true; 
         db.qs[qIndex].pm = payMode; 
         document.getElementById('pa').value = ''; 
-        alert(`✅ รับชำระเงิน ${amount} บาท สำเร็จ!\n(อย่าลืมไปปรับสถานะหมอเมื่อนวดเสร็จ)`);
+        alert(`✅ รับชำระเงิน ${amount} บาท สำเร็จ!`);
         saveDataToCloud(); 
         openPage('home'); 
     }
 
     function addDoctor() {
         let newName = document.getElementById('new-dr-name').value.trim();
-        if(!newName) return alert("กรุณาพิมพ์ชื่อหมอ!");
+        if(!newName) return alert("กรุณาพิมพ์ชื่อพนักงาน!");
         let exists = db.drs.find(d => d.n === newName);
-        if(exists) return alert("มีชื่อหมอคนนี้ในระบบแล้ว!");
+        if(exists) return alert("มีชื่อนี้ในระบบแล้ว!");
         db.drs.push({ n: newName, st: 'free' });
         document.getElementById('new-dr-name').value = '';
         saveDataToCloud();
     }
 
     function removeDoctor(docName) {
-        if(confirm(`ต้องการลบ ${docName} ออกจากระบบใช่หรือไม่?`)) { db.drs = db.drs.filter(d => d.n !== docName); saveDataToCloud(); }
+        if(confirm(`ต้องการลบ ${docName} ออกจากระบบ?`)) { db.drs = db.drs.filter(d => d.n !== docName); saveDataToCloud(); }
     }
 
     function resetToday() { 
-        if(prompt("⚠️ ล้างข้อมูลคิวและยอดเงินทั้งหมด!\nใส่รหัสผ่าน (123456):") === "123456"){ 
+        if(prompt("⚠️ ล้างข้อมูลคิวและยอดเงินทั้งหมด!\nใส่รหัส (123456):") === "123456"){ 
             db.total = 0; db.qs = []; db.drs.forEach(doc => doc.st = 'free'); 
             alert("✅ เคลียร์ยอดวันใหม่เรียบร้อย"); saveDataToCloud(); 
-        } else { alert("❌ รหัสผ่านผิด!"); }
+        } else { alert("❌ รหัสผิด!"); }
     }
 </script>
 </body>
