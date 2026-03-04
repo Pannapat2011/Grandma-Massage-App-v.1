@@ -3,116 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทองไทยสปา - ระบบบริหารจัดการร้าน (V.Final)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>ประคบทองไทยสปา - OriginOS Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* =========================================
-           ส่วนของ CSS: จัดการหน้าตาและสีสัน
-           ========================================= */
         :root {
-            --bg-color: #F0F2F5;
-            --gold-primary: #B8860B;
-            --gold-hover: #DAA520;
-            --text-dark: #1D1D1F;
-            --text-light: #ffffff;
-            --danger: #dc3545;
-            --success: #28a745;
-            --warning: #fd7e14;
-            --shadow-out: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
-            --shadow-in: inset 3px 3px 6px #bebebe, inset -3px -3px 6px #ffffff;
+            --bg-color: #F2F4F7;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --gold-light: #EED28A;
+            --gold-primary: #D4AF37;
+            --gold-dark: #B8860B;
+            --text-main: #1C1C1E;
+            --text-muted: #8E8E93;
+            --danger: #FF3B30;
+            --success: #34C759;
+            --warning: #FF9500;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --shadow-float: 0 16px 40px rgba(212, 175, 55, 0.2);
+            --radius-card: 28px;
+            --radius-btn: 22px;
+            --radius-input: 18px;
+            --transition-fluid: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         body {
             font-family: 'Kanit', sans-serif;
             background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, #ffffff 0%, #F2F4F7 60%);
             margin: 0;
             padding: 0;
-            color: var(--text-dark);
+            color: var(--text-main);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            width: 100%;
-            max-width: 750px; 
-            padding: 20px;
-            box-sizing: border-box;
-            margin: 0 auto;
+        .container { width: 100%; max-width: 750px; padding: 24px; box-sizing: border-box; margin: 0 auto; }
+
+        .card { 
+            background: var(--card-bg); padding: 30px 25px; border-radius: var(--radius-card); 
+            box-shadow: var(--shadow-soft); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6); text-align: center; margin-bottom: 24px; transition: var(--transition-fluid);
         }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06); }
 
-        .btn-neu {
-            background: var(--bg-color);
-            border: none;
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: var(--shadow-out);
-            cursor: pointer;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 15px;
-            transition: all 0.2s ease;
+        .btn-modern {
+            background: #ffffff; color: var(--text-main); border: none; padding: 16px 20px;
+            border-radius: var(--radius-btn); box-shadow: 0 4px 14px rgba(0,0,0,0.03); cursor: pointer;
+            font-family: 'Kanit', sans-serif; font-weight: 500; font-size: 16px; width: 100%;
+            margin-top: 12px; transition: var(--transition-fluid); display: flex; align-items: center; justify-content: center; gap: 8px;
         }
+        .btn-modern:active { transform: scale(0.96); opacity: 0.8; }
+        
+        .btn-gold { background: linear-gradient(135deg, var(--gold-light), var(--gold-dark)); color: white !important; box-shadow: var(--shadow-float); font-weight: 600; border: none; }
+        .btn-gold:hover { filter: brightness(1.05); }
 
-        .btn-neu:active { box-shadow: var(--shadow-in); transform: scale(0.98); }
-        .btn-gold { background-color: var(--gold-primary) !important; color: var(--text-light) !important; }
-        .btn-gold:hover { background-color: var(--gold-hover) !important; }
+        .page { display: none; animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
+        @keyframes slideUp { 0% { opacity: 0; transform: translateY(20px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
 
-        .card { background: var(--bg-color); padding: 30px 25px; border-radius: 30px; box-shadow: var(--shadow-in); text-align: center; margin-bottom: 25px; }
-
-        .page { display: none; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .table-responsive { overflow-x: auto; border-radius: 15px; box-shadow: var(--shadow-out); margin-top: 20px; background: white; padding: 5px; }
+        .table-responsive { overflow-x: auto; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); margin-top: 20px; background: white; padding: 8px; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th { background-color: var(--gold-primary); color: var(--text-light); padding: 12px 8px; font-weight: 600; white-space: nowrap; }
-        td { padding: 12px 8px; border-bottom: 1px solid #f0f0f0; text-align: center; vertical-align: middle; }
+        th { background-color: rgba(212, 175, 55, 0.1); color: var(--gold-dark); padding: 14px 10px; font-weight: 600; white-space: nowrap; border-radius: 12px; }
+        td { padding: 16px 10px; border-bottom: 1px solid #F2F4F7; text-align: center; vertical-align: middle; }
         tr:last-child td { border-bottom: none; }
+        tr:hover td { background-color: #fafafa; }
 
-        .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg-color); border-radius: 20px; margin-bottom: 15px; box-shadow: var(--shadow-out); }
-        .switch { position: relative; width: 60px; height: 30px; appearance: none; background: #d1d1d1; border-radius: 30px; outline: none; transition: 0.3s; cursor: pointer; box-shadow: inset 0 0 5px rgba(0,0,0,0.2); }
-        .switch:checked { background: var(--gold-primary); }
-        .switch::before { content: ''; position: absolute; width: 24px; height: 24px; border-radius: 50%; top: 3px; left: 3px; background: white; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .switch:checked::before { left: 33px; }
+        .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: white; border-radius: var(--radius-card); margin-bottom: 12px; box-shadow: var(--shadow-soft); transition: var(--transition-fluid); }
+        .switch-container:active { transform: scale(0.98); }
+        .switch { position: relative; width: 54px; height: 30px; appearance: none; background: #E5E5EA; border-radius: 30px; outline: none; transition: 0.3s; cursor: pointer; }
+        .switch:checked { background: var(--success); }
+        .switch::before { content: ''; position: absolute; width: 26px; height: 26px; border-radius: 50%; top: 2px; left: 2px; background: white; transition: 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .switch:checked::before { left: 26px; }
 
-        .status-badge { padding: 4px 8px; border-radius: 10px; font-size: 12px; font-weight: bold; white-space: nowrap; display: inline-block;}
-        .status-free { background-color: #e6f4ea; color: var(--success); }
-        .status-busy { background-color: #fff3cd; color: var(--warning); }
-        .status-danger { background-color: #fce8e6; color: var(--danger); }
+        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; display: inline-block; letter-spacing: 0.3px; }
+        .status-free { background-color: rgba(52, 199, 89, 0.15); color: #248A3D; }
+        .status-busy { background-color: rgba(255, 149, 0, 0.15); color: #B26800; }
+        .status-danger { background-color: rgba(255, 59, 48, 0.15); color: #C22015; }
 
-        .chip-group { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; justify-content: center; }
-        .chip { padding: 10px 15px; border-radius: 20px; background: var(--bg-color); box-shadow: var(--shadow-out); font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
-        .chip:hover { transform: translateY(-2px); }
-        .chip.active { box-shadow: var(--shadow-in); color: var(--gold-primary); font-weight: bold; border: 2px solid var(--gold-primary); }
+        .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; justify-content: center; }
+        .chip { padding: 10px 18px; border-radius: 24px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.03); font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: var(--transition-fluid); color: var(--text-muted); }
+        .chip:hover { transform: translateY(-2px); color: var(--text-main); }
+        .chip.active { background: rgba(212, 175, 55, 0.1); color: var(--gold-dark); font-weight: 600; border: 2px solid var(--gold-primary); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2); }
 
-        .form-control { width: 100%; padding: 15px; border-radius: 20px; border: none; background: #ffffff; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05); font-family: 'Kanit', sans-serif; font-size: 16px; box-sizing: border-box; margin-bottom: 15px; outline: none; }
-        .form-control:focus { border: 2px solid var(--gold-primary); }
-        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+        .form-control { width: 100%; padding: 16px 20px; border-radius: var(--radius-input); border: 2px solid transparent; background: white; font-family: 'Kanit', sans-serif; font-size: 16px; box-sizing: border-box; margin-bottom: 16px; outline: none; transition: var(--transition-fluid); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .form-control:focus { border: 2px solid var(--gold-primary); background: #fff; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1); }
+        
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
 
-        #qr-area { display: none; margin: 20px 0; text-align: center; }
-        #qr-img { width: 250px; border: 10px solid white; border-radius: 20px; box-shadow: var(--shadow-out); }
-        #sync-load { position: fixed; top: 0; left: 0; right: 0; background: var(--gold-primary); color: white; text-align: center; font-size: 14px; padding: 10px; display: none; z-index: 10000; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        #qr-area { display: none; margin: 24px 0; text-align: center; animation: slideUp 0.4s ease forwards; }
+        #qr-img { width: 220px; border: 12px solid white; border-radius: 24px; box-shadow: var(--shadow-soft); }
+        
+        #sync-load { position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, var(--gold-primary), var(--gold-dark)); color: white; text-align: center; font-size: 13px; padding: 6px; display: none; z-index: 10000; font-weight: 500; letter-spacing: 1px; }
 
         #doctor-screen { display: block; }
         #admin-panel { display: none; }
-        #login-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(5px); }
+        
+        #login-overlay { position: fixed; inset: 0; background: rgba(28, 28, 30, 0.4); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
 
-        .srv-text { font-size: 11px; color: #777; display: block; margin-top: 4px; }
-
-        .stat-box { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--shadow-out); text-align: center; margin-bottom: 15px; }
-        .stat-val { font-size: 32px; font-weight: bold; color: var(--gold-primary); margin: 10px 0; }
+        .srv-text { font-size: 12px; color: var(--text-muted); display: block; margin-top: 4px; font-weight: 400; }
+        .stat-box { background: white; padding: 24px; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); text-align: center; margin-bottom: 16px; transition: var(--transition-fluid); }
+        .stat-box:hover { transform: translateY(-4px); }
+        .stat-val { font-size: 36px; font-weight: 600; color: var(--gold-dark); margin: 8px 0 0 0; }
+        .icon { font-size: 18px; margin-right: 4px; }
     </style>
 </head>
 <body onload="initApp()">
 
-<div id="sync-load">🔄 กำลังซิงค์ข้อมูลกับคลาวด์...</div>
+<div id="sync-load">🔄 ซิงค์ข้อมูล...</div>
 
 <div id="doctor-screen" class="container">
     <div class="card">
-        <h1 style="color:var(--gold-primary); margin:0 0 10px 0; font-size: 28px;">ประคบทองสปา</h1>
-        <h2 style="margin:0; font-size: 20px;">📋 คิวงานวันนี้</h2>
-        <small style="color: #666;">ระบบอัปเดตเวลาอัตโนมัติ 🕒</small>
+        <h1 style="color:var(--gold-dark); margin:0 0 8px 0; font-size: 28px; font-weight: 600;">ประคบทองสปา</h1>
+        <h2 style="margin:0; font-size: 18px; color: var(--text-main); font-weight: 500;">คิวงานวันนี้</h2>
+        <small style="color: var(--text-muted); margin-top: 4px; display: block;">อัปเดตเวลาอัตโนมัติ 🕒</small>
     </div>
     
     <div class="table-responsive">
@@ -123,24 +125,27 @@
                     <th>ลูกค้า</th>
                     <th>บริการ</th>
                     <th>หมอผู้ดูแล</th>
-                    <th>สถานะการนวด</th>
+                    <th>สถานะ</th>
                 </tr>
             </thead>
-            <tbody id="tb-doctor-view">
-            </tbody>
+            <tbody id="tb-doctor-view"></tbody>
         </table>
     </div>
 
-    <button class="btn-neu" onclick="document.getElementById('login-overlay').style.display='flex'">⚙️ เข้าสู่ระบบผู้ดูแล (Admin)</button>
-    <button class="btn-neu" onclick="fetchData()">🔄 ดึงข้อมูลล่าสุด</button>
+    <button class="btn-modern" onclick="document.getElementById('login-overlay').style.display='flex'">
+        <span class="icon">⚙️</span> เข้าระบบแอดมิน
+    </button>
+    <button class="btn-modern" onclick="fetchData()">
+        <span class="icon">🔄</span> โหลดข้อมูลล่าสุด
+    </button>
 </div>
 
 <div id="login-overlay">
-    <div class="card" style="width:90%; max-width: 350px;">
-        <h2 style="color:var(--gold-primary); margin-bottom: 20px;">ADMIN LOGIN</h2>
-        <input type="password" id="admin-pass" class="form-control" placeholder="รหัสผ่านเข้าหลังบ้าน (123456)">
-        <button class="btn-neu btn-gold" onclick="authAdmin()">🔓 เข้าสู่ระบบ</button>
-        <button class="btn-neu" onclick="document.getElementById('login-overlay').style.display='none'">❌ ยกเลิก</button>
+    <div class="card" style="width:90%; max-width: 340px; border-radius: 32px;">
+        <h2 style="color:var(--gold-dark); margin-bottom: 24px; font-weight: 600;">ADMIN LOGIN</h2>
+        <input type="password" id="admin-pass" class="form-control" placeholder="ใส่รหัสผ่าน (123456)" style="text-align: center;">
+        <button class="btn-modern btn-gold" onclick="authAdmin()">🔓 เข้าสู่ระบบ</button>
+        <button class="btn-modern" style="color: var(--danger);" onclick="document.getElementById('login-overlay').style.display='none'">ยกเลิก</button>
     </div>
 </div>
 
@@ -149,60 +154,50 @@
         <div id="home" class="page" style="display: block;">
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items: center;">
-                    <span style="font-weight: 600; color: #555;">💰 ยอดรายรับรวมวันนี้</span>
-                    <button onclick="logoutAdmin()" style="border:none; background:none; color:var(--danger); font-size:14px; font-weight:bold; cursor:pointer;">[ ออกจากระบบ ]</button>
+                    <span style="font-weight: 500; color: var(--text-muted); font-size: 14px;">ยอดรายรับวันนี้</span>
+                    <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer;">ออกระบบ</button>
                 </div>
-                <h1 id="total-val" style="font-size:46px; color:var(--gold-primary); margin:15px 0;">฿0</h1>
+                <h1 id="total-val" style="font-size:48px; font-weight: 600; color:var(--gold-dark); margin:12px 0;">฿0</h1>
             </div>
 
             <div class="menu-grid">
-                <button class="btn-neu" onclick="openPage('p-q')">📅 ลงคิวจองใหม่</button>
-                <button class="btn-neu" onclick="openPage('p-pay')">💸 รับชำระเงิน/QR</button>
-                <button class="btn-neu" onclick="openPage('p-st')">🧘‍♂️ สถานะหมอนวด</button>
-                <button class="btn-neu btn-gold" onclick="openPage('p-list')">📜 รายการคิวทั้งหมด</button>
-                <button class="btn-neu" onclick="openPage('p-dash')">📊 สถิติร้าน</button>
-                <button class="btn-neu" onclick="openPage('p-settings')">⚙️ ตั้งค่าร้าน</button>
-                <button class="btn-neu" onclick="fetchData()" style="grid-column: span 2;">🔄 อัปเดตข้อมูลจากคลาวด์</button>
-                <button class="btn-neu" onclick="resetToday()" style="color:var(--danger); grid-column: span 2;">⚠️ ปิดยอดสิ้นวัน (ล้างข้อมูล)</button>
+                <button class="btn-modern" onclick="openPage('p-q')"><span class="icon">📅</span> ลงคิวใหม่</button>
+                <button class="btn-modern" onclick="openPage('p-pay')"><span class="icon">💸</span> รับเงิน/QR</button>
+                <button class="btn-modern" onclick="openPage('p-st')"><span class="icon">🧘‍♂️</span> สถานะหมอ</button>
+                <button class="btn-modern btn-gold" onclick="openPage('p-list')"><span class="icon">📜</span> ดูคิวทั้งหมด</button>
+                <button class="btn-modern" onclick="openPage('p-dash')"><span class="icon">📊</span> สถิติร้าน</button>
+                <button class="btn-modern" onclick="openPage('p-settings')"><span class="icon">⚙️</span> ตั้งค่า</button>
+                <button class="btn-modern" style="grid-column: span 2;" onclick="fetchData()"><span class="icon">🔄</span> ดึงข้อมูลจากคลาวด์</button>
+                <button class="btn-modern" style="color:var(--danger); grid-column: span 2; background: rgba(255, 59, 48, 0.05);" onclick="resetToday()">⚠️ ปิดยอดสิ้นวัน (ล้างข้อมูล)</button>
             </div>
         </div>
 
         <div id="p-list" class="page">
-            <h2 style="color: var(--gold-primary);">📜 รายการคิวแบบละเอียด</h2>
+            <h2 style="color: var(--gold-dark); font-weight: 600;">📜 รายการคิว</h2>
             <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
-                            <th>เวลาลงคิว</th>
-                            <th>ชื่อลูกค้า</th>
-                            <th>รายการบริการ</th>
-                            <th>หมอนวด</th>
-                            <th>ราคา</th>
-                            <th>สถานะเงิน</th>
-                            <th>สถานะนวด 🕒</th> 
-                            <th>จัดการ</th>
+                            <th>เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>ราคา</th><th>ชำระเงิน</th><th>สถานะนวด</th><th>ลบ</th>
                         </tr>
                     </thead>
-                    <tbody id="tb-list">
-                    </tbody>
+                    <tbody id="tb-list"></tbody>
                 </table>
             </div>
-            <button class="btn-neu btn-gold" style="margin-top: 20px;" onclick="openPage('home')">⬅️ กลับหน้าเมนูหลัก</button>
+            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
         
         <div id="p-st" class="page">
-            <h2 style="color: var(--gold-primary);">🧘‍♂️ อัปเดตสถานะหมอนวด</h2>
-            <p style="text-align: center; color: #666; font-size: 14px;">สถานะหมอต้องปรับเองเมื่อนวดจบ ป้องกันการข้ามคิว</p>
-            <div id="st-list" style="margin-top: 20px;"></div>
-            <button class="btn-neu btn-gold" onclick="openPage('home')">⬅️ กลับหน้าเมนูหลัก</button>
+            <h2 style="color: var(--gold-dark); font-weight: 600;">🧘‍♂️ สถานะหมอนวด</h2>
+            <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">เปิด-ปิดสวิตช์เมื่อนวดเสร็จ</p>
+            <div id="st-list"></div>
+            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
 
         <div id="p-q" class="page">
-            <h2 style="color: var(--gold-primary); text-align: center;">📅 ลงข้อมูลคิวจอง</h2>
-            <label style="font-weight: bold; margin-left: 10px;">ชื่อลูกค้า:</label>
-            <input type="text" id="qn" class="form-control" placeholder="กรอกชื่อลูกค้าที่นี่...">
-            
-            <label style="font-weight: bold; margin-left: 10px;">เลือกประเภทบริการ:</label>
+            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิวจอง</h2>
+            <input type="text" id="qn" class="form-control" placeholder="ชื่อลูกค้า...">
+            <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ประเภทบริการ</label>
             <div class="chip-group" id="prog-chips">
                 <div class="chip active" onclick="selectType(this, 'thai')">นวดไทย</div>
                 <div class="chip" onclick="selectType(this, 'foot')">นวดเท้า</div>
@@ -213,7 +208,7 @@
                 <div class="chip" onclick="selectType(this, 'herb')">อบสมุนไพร</div>
             </div>
 
-            <label style="font-weight: bold; margin-left: 10px;">เลือกระยะเวลา (เพื่อใช้จับเวลา):</label>
+            <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ระยะเวลา</label>
             <div class="chip-group" id="dur-chips">
                 <div class="chip" id="dur-30" onclick="selectDur(this, 30)">30 นาที</div>
                 <div class="chip active" id="dur-60" onclick="selectDur(this, 60)">1 ชม.</div>
@@ -221,62 +216,61 @@
                 <div class="chip" id="dur-120" onclick="selectDur(this, 120)">2 ชม.</div>
             </div>
             
-            <label style="font-weight: bold; margin-left: 10px;">เลือกหมอนวดที่ว่าง:</label>
-            <select id="qdr" class="form-control"></select>
+            <select id="qdr" class="form-control" style="margin-top: 8px;"></select>
             
-            <label style="font-weight: bold; margin-left: 10px;">ราคาประเมิน (บาท):</label>
-            <input type="number" id="qp" class="form-control" style="text-align:center; font-size:24px; color:var(--gold-primary); font-weight: bold;" readonly>
+            <div style="background: white; padding: 16px; border-radius: var(--radius-input); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
+                <label style="font-size: 14px; color: var(--text-muted);">ราคาประเมิน</label>
+                <input type="number" id="qp" style="text-align:center; font-size:32px; color:var(--gold-dark); font-weight: 600; border:none; outline:none; width: 100%; background: transparent; margin-top: 8px;" readonly>
+            </div>
             
-            <button class="btn-neu btn-gold" onclick="saveQueue()">💾 บันทึกลงคิว</button>
-            <button class="btn-neu" onclick="openPage('home')">⬅️ ยกเลิกและกลับ</button>
+            <button class="btn-modern btn-gold" onclick="saveQueue()">💾 บันทึกคิว</button>
+            <button class="btn-modern" onclick="openPage('home')">ยกเลิก</button>
         </div>
 
         <div id="p-pay" class="page">
-            <h2 style="color: var(--gold-primary); text-align: center;">💰 รับชำระค่าบริการ</h2>
-            <label style="font-weight: bold; margin-left: 10px;">เลือกคิวที่ต้องการชำระเงิน:</label>
+            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">💰 รับชำระเงิน</h2>
             <select id="psel" class="form-control" onchange="autoFillPrice()"></select>
-            <label style="font-weight: bold; margin-left: 10px;">ช่องทางการรับเงิน:</label>
-            <div class="chip-group">
-                <div class="chip active" id="mqr" onclick="setPaymentMode('qr')">📲 โอนผ่าน QR Code</div>
-                <div class="chip" id="mcash" onclick="setPaymentMode('cash')">💵 รับเป็นเงินสด</div>
-            </div>
-            <label style="font-weight: bold; margin-left: 10px;">ระบุยอดเงิน (บาท):</label>
-            <input type="number" id="pa" class="form-control" placeholder="0.00" style="text-align:center; font-size:36px; font-weight: bold; color: var(--gold-primary);" oninput="generateQRCode()">
             
-            <div id="qr-area">
-                <p style="font-size: 14px; color: #666; margin-bottom: 5px;">ให้ลูกค้าสแกนภาพด้านล่างนี้</p>
-                <img id="qr-img" src="">
-                <p id="pp-txt" style="font-weight:bold; font-size:16px; margin-top: 10px;"></p>
+            <div class="chip-group" style="margin-top: 8px; margin-bottom: 24px;">
+                <div class="chip active" id="mqr" onclick="setPaymentMode('qr')">📲 โอน QR Code</div>
+                <div class="chip" id="mcash" onclick="setPaymentMode('cash')">💵 เงินสด</div>
             </div>
             
-            <button class="btn-neu btn-gold" onclick="confirmPayment()">✅ ยืนยันว่าได้รับเงินแล้ว</button>
-            <button class="btn-neu" onclick="openPage('home')">⬅️ ยกเลิกและกลับ</button>
+            <div style="background: white; padding: 24px; border-radius: var(--radius-card); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
+                <input type="number" id="pa" placeholder="0" style="text-align:center; font-size:48px; font-weight: 600; color: var(--gold-dark); border:none; outline:none; width: 100%; background: transparent;" oninput="generateQRCode()">
+                <div id="qr-area">
+                    <img id="qr-img" src="">
+                    <p id="pp-txt" style="font-weight:500; font-size:14px; margin-top: 12px; color: var(--text-muted);"></p>
+                </div>
+            </div>
+            
+            <button class="btn-modern btn-gold" onclick="confirmPayment()">✅ ยืนยันรับเงิน</button>
+            <button class="btn-modern" onclick="openPage('home')">ยกเลิก</button>
         </div>
 
         <div id="p-dash" class="page">
-            <h2 style="color: var(--gold-primary); text-align: center;">📊 สถิติร้านประจำวัน</h2>
-            <div class="stat-box"><p style="margin: 0; color: #666;">จำนวนลูกค้าทั้งหมด (คน)</p><div id="dash-cust" class="stat-val">0</div></div>
-            <div class="stat-box"><p style="margin: 0; color: #666;">ลูกค้าที่ชำระเงินแล้ว (คน)</p><div id="dash-paid" class="stat-val" style="color: var(--success);">0</div></div>
-            <div class="stat-box"><p style="margin: 0; color: #666;">คิวที่ยังค้างชำระ (คน)</p><div id="dash-unpaid" class="stat-val" style="color: var(--danger);">0</div></div>
-            <button class="btn-neu btn-gold" style="margin-top: 20px;" onclick="openPage('home')">⬅️ กลับหน้าเมนูหลัก</button>
+            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📊 สถิติร้าน</h2>
+            <div class="stat-box"><p style="margin: 0; color: var(--text-muted); font-size: 14px;">จำนวนลูกค้าทั้งหมด</p><div id="dash-cust" class="stat-val">0</div></div>
+            <div class="stat-box"><p style="margin: 0; color: var(--text-muted); font-size: 14px;">ชำระเงินแล้ว</p><div id="dash-paid" class="stat-val" style="color: var(--success);">0</div></div>
+            <div class="stat-box"><p style="margin: 0; color: var(--text-muted); font-size: 14px;">ค้างชำระ</p><div id="dash-unpaid" class="stat-val" style="color: var(--danger);">0</div></div>
+            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
 
         <div id="p-settings" class="page">
-            <h2 style="color: var(--gold-primary); text-align: center;">⚙️ จัดการพนักงานหมอนวด</h2>
-            <div class="card" style="padding: 15px;">
-                <label style="font-weight: bold; display: block; text-align: left; margin-bottom: 10px;">เพิ่มชื่อหมอนวดใหม่:</label>
-                <input type="text" id="new-dr-name" class="form-control" placeholder="ชื่อหมอนวด...">
-                <button class="btn-neu btn-gold" style="padding: 10px; margin-top: 0;" onclick="addDoctor()">➕ เพิ่มหมอ</button>
+            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">⚙️ ตั้งค่าหมอนวด</h2>
+            <div class="card" style="padding: 24px;">
+                <input type="text" id="new-dr-name" class="form-control" placeholder="ชื่อหมอนวดใหม่...">
+                <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="addDoctor()">➕ เพิ่มพนักงาน</button>
             </div>
-            <h3 style="margin-top: 20px;">รายชื่อหมอในระบบ</h3>
+            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-muted); padding-left: 8px;">รายชื่อพนักงานในระบบ</h3>
             <div id="dr-manage-list"></div>
-            <button class="btn-neu btn-gold" style="margin-top: 30px;" onclick="openPage('home')">⬅️ กลับหน้าเมนูหลัก</button>
+            <button class="btn-modern btn-gold" style="margin-top: 32px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
     </div>
 </div>
 
 <script>
-    // 🚨 ใส่ URL ที่มึงให้มาเรียบร้อยแล้ว! 🚨
+    // 🚨 ใส่ URL ของมึงตรงนี้เรียบร้อยแล้ว
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeed4VHbOWGkrn0Kxdl7R9wulIIa6qYjXdwq_u4Rc4_pb1kj4DYcfU_r4SICHlUMVd/exec"; 
 
     let db = { total: 0, qs: [], drs: [], pp: '0863526387' };
@@ -362,7 +356,7 @@
         let price = document.getElementById('qp').value;
         if(!custName || !doctorName) return alert('⚠️ กรุณากรอกชื่อลูกค้าและเลือกหมอให้ครบถ้วน!');
         let timeStr = new Date().toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
-        db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false });
+        db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false, pm: '' });
         let docIndex = db.drs.findIndex(doc => doc.n === doctorName); 
         if(docIndex !== -1) db.drs[docIndex].st = 'busy';
         document.getElementById('qn').value = ''; 
@@ -386,8 +380,8 @@
             <div class="switch-container">
                 <div>
                     <strong style="font-size: 16px;">${doc.n}</strong><br>
-                    <span class="status-badge ${isBusy ? 'status-danger' : 'status-free'}" style="margin-top:5px;">
-                        ${isBusy ? '❌ ติดเคสลูกค้า' : '✅ ว่างรับแขก'}
+                    <span class="status-badge ${isBusy ? 'status-danger' : 'status-free'}" style="margin-top:6px;">
+                        ${isBusy ? 'ติดเคสลูกค้า' : 'ว่างรับแขก'}
                     </span>
                 </div>
                 <input type="checkbox" class="switch" ${isBusy ? 'checked' : ''} onchange="toggleDoctorStatus('${doc.n}')">
@@ -412,9 +406,9 @@
         let settingsDrHTML = '';
         db.drs.forEach(doc => {
             settingsDrHTML += `
-            <div class="switch-container" style="padding: 10px 15px;">
+            <div class="switch-container" style="padding: 12px 20px;">
                 <strong>${doc.n}</strong>
-                <button onclick="removeDoctor('${doc.n}')" style="background:var(--danger); color:white; border:none; padding:5px 10px; border-radius:10px; cursor:pointer;">ลบออก</button>
+                <button onclick="removeDoctor('${doc.n}')" style="background:rgba(255, 59, 48, 0.1); color:var(--danger); border:none; padding:6px 14px; border-radius:14px; cursor:pointer; font-weight:500;">ลบพนักงาน</button>
             </div>`;
         });
         document.getElementById('dr-manage-list').innerHTML = settingsDrHTML;
@@ -431,27 +425,27 @@
             
             let massageStatusHTML = '';
             if (timeLeft > 0) {
-                massageStatusHTML = `<span class="status-badge status-busy">⏳ นวดอยู่ (${timeLeft} นาที)</span>`;
+                massageStatusHTML = `<span class="status-badge status-busy">นวดอยู่ (${timeLeft} น.)</span>`;
             } else {
-                massageStatusHTML = `<span class="status-badge status-free">✅ ครบเวลา</span>`;
+                massageStatusHTML = `<span class="status-badge status-free">ครบเวลา</span>`;
             }
 
             adminTableHTML += `<tr>
-                <td style="font-size:12px; color: #666;">${q.time || '-'}</td>
-                <td><strong>${q.n}</strong></td>
-                <td>${typeNames[q.t] || q.t}<span class="srv-text">(${q.d || '-'} นาที)</span></td>
-                <td style="color: var(--gold-primary);">${q.dr}</td>
-                <td style="font-weight:bold;">${q.p}.-</td>
+                <td style="font-size:12px; color: var(--text-muted);">${q.time || '-'}</td>
+                <td><strong style="font-weight: 500;">${q.n}</strong></td>
+                <td>${typeNames[q.t] || q.t}<span class="srv-text">${q.d || '-'} นาที</span></td>
+                <td style="color: var(--gold-dark); font-weight: 500;">${q.dr}</td>
+                <td style="font-weight:600;">${q.p}.-</td>
                 <td><span class="status-badge ${q.paid ? 'status-free' : 'status-danger'}">${q.paid ? 'จ่ายแล้ว' : 'ค้างชำระ'}</span></td>
                 <td>${massageStatusHTML}</td>
-                <td><button onclick="deleteQueue(${q.id})" style="border:none; background:none; cursor:pointer; font-size:18px;">🗑️</button></td>
+                <td><button onclick="deleteQueue(${q.id})" style="border:none; background:none; cursor:pointer; font-size:18px; opacity: 0.6;">🗑️</button></td>
             </tr>`;
 
             doctorTableHTML += `<tr>
-                <td style="font-size:12px; color: #666;">${q.time || '-'}</td>
-                <td style="font-size:16px;"><strong>${q.n}</strong></td>
-                <td>${typeNames[q.t] || q.t}<span class="srv-text">(${q.d || '-'} นาที)</span></td>
-                <td style="color: var(--gold-primary); font-weight: 600;">${q.dr}</td>
+                <td style="font-size:12px; color: var(--text-muted);">${q.time || '-'}</td>
+                <td style="font-size:15px; font-weight: 500;">${q.n}</td>
+                <td>${typeNames[q.t] || q.t}<span class="srv-text">${q.d || '-'} นาที</span></td>
+                <td style="color: var(--gold-dark); font-weight: 600;">${q.dr}</td>
                 <td>${massageStatusHTML}</td>
             </tr>`;
         });
@@ -477,7 +471,7 @@
         let qrContainer = document.getElementById('qr-area'); 
         if(payMode === 'qr' && amount > 0) { 
             document.getElementById('qr-img').src = `https://promptpay.io/${db.pp}/${amount}.png?t=${Date.now()}`; 
-            document.getElementById('pp-txt').innerText = "สแกนโอนเข้าพร้อมเพย์: " + db.pp; 
+            document.getElementById('pp-txt').innerText = "พร้อมเพย์: " + db.pp; 
             qrContainer.style.display = 'block'; 
         } else { qrContainer.style.display = 'none'; } 
     }
@@ -497,6 +491,7 @@
         if(qIndex === -1) return; 
         db.total += parseInt(amount); 
         db.qs[qIndex].paid = true; 
+        db.qs[qIndex].pm = payMode; 
         document.getElementById('pa').value = ''; 
         alert(`✅ รับชำระเงิน ${amount} บาท สำเร็จ!\n(อย่าลืมไปปรับสถานะหมอเมื่อนวดเสร็จ)`);
         saveDataToCloud(); 
