@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทองไทยสปา - OriginOS Style (V.Pro Max)</title>
+    <title>ประคบทองไทยสปา - OriginOS Style (V.Pro Max Smooth)</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
@@ -11,7 +11,6 @@
            ระบบตัวแปร CSS (รองรับการเปลี่ยนธีม)
            ========================================= */
         :root {
-            /* ค่าสีเริ่มต้น (Light Theme) */
             --bg-color: #F2F4F7;
             --card-bg: rgba(255, 255, 255, 0.85);
             --input-bg: #ffffff;
@@ -19,23 +18,23 @@
             --text-main: #1C1C1E;
             --text-muted: #8E8E93;
             
-            /* สีทองหลักของร้าน */
             --gold-light: #EED28A;
             --gold-primary: #D4AF37;
             --gold-dark: #B8860B;
             
-            /* สีแจ้งเตือนสถานะต่างๆ */
             --danger: #FF3B30;
             --success: #34C759;
             --warning: #FF9500;
+            --info: #0A84FF; 
             
-            /* เอฟเฟกต์แสงเงาและส่วนโค้ง */
             --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
             --shadow-float: 0 16px 40px rgba(212, 175, 55, 0.2);
             --radius-card: 28px;
             --radius-btn: 22px;
             --radius-input: 18px;
-            --transition-fluid: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            
+            /* อนิเมชันไหลลื่นขั้นสุด */
+            --transition-fluid: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         body {
@@ -49,30 +48,31 @@
             transition: background-color 0.5s ease;
         }
 
-        .container { width: 100%; max-width: 750px; padding: 24px; box-sizing: border-box; margin: 0 auto; }
+        .container { width: 100%; max-width: 800px; padding: 24px; box-sizing: border-box; margin: 0 auto; }
 
         /* การ์ดสไตล์กระจก */
         .card { 
             background: var(--card-bg); padding: 30px 25px; border-radius: var(--radius-card); 
-            box-shadow: var(--shadow-soft); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; margin-bottom: 24px; transition: var(--transition-fluid);
+            box-shadow: var(--shadow-soft); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2); text-align: center; margin-bottom: 24px; transition: var(--transition-fluid);
         }
         .card:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06); }
 
-        /* ปุ่มกด */
+        /* ปุ่มกด Neumorphic */
         .btn-modern {
             background: var(--input-bg); color: var(--text-main); border: none; padding: 16px 20px;
-            border-radius: var(--radius-btn); box-shadow: 0 4px 14px rgba(0,0,0,0.03); cursor: pointer;
+            border-radius: var(--radius-btn); box-shadow: 0 4px 14px rgba(0,0,0,0.04); cursor: pointer;
             font-family: 'Kanit', sans-serif; font-weight: 500; font-size: 16px; width: 100%;
             margin-top: 12px; transition: var(--transition-fluid); display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn-modern:active { transform: scale(0.96); opacity: 0.8; }
+        .btn-modern:active { transform: scale(0.95); opacity: 0.9; }
         
         .btn-gold { background: linear-gradient(135deg, var(--gold-light), var(--gold-dark)); color: white !important; box-shadow: var(--shadow-float); font-weight: 600; border: none; }
-        .btn-gold:hover { filter: brightness(1.05); }
+        .btn-gold:hover { filter: brightness(1.05); transform: translateY(-1px); }
 
-        .page { display: none; animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
-        @keyframes slideUp { 0% { opacity: 0; transform: translateY(20px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+        /* อนิเมชันการเปลี่ยนหน้า */
+        .page { display: none; animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
+        @keyframes slideUp { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* ตารางคิว */
@@ -90,16 +90,17 @@
         .switch::before { content: ''; position: absolute; width: 26px; height: 26px; border-radius: 50%; top: 2px; left: 2px; background: white; transition: 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
         .switch:checked::before { left: 26px; }
 
-        /* ป้ายสถานะ */
+        /* ป้ายสถานะทรงแคปซูล */
         .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; display: inline-block; letter-spacing: 0.3px; }
         .status-free { background-color: rgba(52, 199, 89, 0.15); color: var(--success); }
         .status-busy { background-color: rgba(255, 149, 0, 0.15); color: var(--warning); }
         .status-danger { background-color: rgba(255, 59, 48, 0.15); color: var(--danger); }
+        .status-info { background-color: rgba(10, 132, 255, 0.15); color: var(--info); } 
 
         /* ปุ่มเลือกประเภท */
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; justify-content: center; }
-        .chip { padding: 10px 18px; border-radius: 24px; background: var(--input-bg); box-shadow: 0 2px 8px rgba(0,0,0,0.03); font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: var(--transition-fluid); color: var(--text-muted); }
-        .chip:hover { transform: translateY(-2px); color: var(--text-main); }
+        .chip { padding: 10px 18px; border-radius: 24px; background: var(--input-bg); box-shadow: 0 2px 8px rgba(0,0,0,0.03); font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: var(--transition-fluid); color: var(--text-muted); user-select: none; }
+        .chip:active { transform: scale(0.95); }
         .chip.active { background: rgba(212, 175, 55, 0.1); color: var(--gold-dark); font-weight: 600; border: 2px solid var(--gold-primary); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2); }
 
         /* ช่องกรอกข้อมูล */
@@ -109,15 +110,22 @@
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
 
         /* QR Code */
-        #qr-area { display: none; margin: 24px 0; text-align: center; animation: slideUp 0.4s ease forwards; }
+        #qr-area { display: none; margin: 24px 0; text-align: center; animation: slideUp 0.3s ease forwards; }
         #qr-img { width: 220px; border: 12px solid var(--input-bg); border-radius: 24px; box-shadow: var(--shadow-soft); }
         
-        /* โหลดเดอร์ */
+        /* โหลดเดอร์ด้านบนสุด */
         #sync-load { position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, var(--gold-primary), var(--gold-dark)); color: white; text-align: center; font-size: 13px; padding: 6px; display: none; z-index: 10000; font-weight: 500; letter-spacing: 1px; }
 
         #doctor-screen { display: block; }
         #admin-panel { display: none; }
-        #login-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; }
+        
+        /* Modal ซ้อนทับ (Login & Extend Time) */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: fadeIn 0.2s ease; }
+        .modal-content { animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+
+        /* ระบบ Toast (การแจ้งเตือนแบบแอป) */
+        .toast { position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 14px 28px; border-radius: 30px; font-weight: 500; font-size: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: bottom 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease; opacity: 0; z-index: 10001; pointer-events: none; }
+        .toast.show { bottom: 40px; opacity: 1; }
 
         .srv-text { font-size: 12px; color: var(--text-muted); display: block; margin-top: 4px; font-weight: 400; }
         .stat-box { background: var(--card-bg); padding: 24px; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); text-align: center; margin-bottom: 16px; transition: var(--transition-fluid); }
@@ -128,18 +136,19 @@
 </head>
 <body onload="initApp()">
 
-<div id="sync-load">🔄 ซิงค์ข้อมูลอัตโนมัติ...</div>
+<div id="sync-load">🔄 กำลังเชื่อมต่อข้อมูล...</div>
+<div id="toast" class="toast">แจ้งเตือน</div>
 
 <div id="doctor-screen" class="container">
     <div class="card">
         <h1 style="color:var(--gold-dark); margin:0 0 8px 0; font-size: 28px; font-weight: 600;">ประคบทองสปา</h1>
         <h2 style="margin:0; font-size: 18px; color: var(--text-main); font-weight: 500;">คิวงานวันนี้</h2>
-        <small style="color: var(--text-muted); margin-top: 4px; display: block;">ระบบจับเวลา & เคลียร์หมออัตโนมัติ 🕒</small>
+        <small style="color: var(--text-muted); margin-top: 4px; display: block;">อัปเดตเรียลไทม์ 🕒</small>
     </div>
     
     <div class="table-responsive">
         <table>
-            <thead><tr><th>เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอผู้ดูแล</th><th>สถานะ</th></tr></thead>
+            <thead><tr><th>เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>สถานะ</th></tr></thead>
             <tbody id="tb-doctor-view"></tbody>
         </table>
     </div>
@@ -152,12 +161,25 @@
     </button>
 </div>
 
-<div id="login-overlay">
-    <div class="card" style="width:90%; max-width: 340px; border-radius: 32px;">
+<div id="login-overlay" class="modal-overlay">
+    <div class="card modal-content" style="width:90%; max-width: 340px; border-radius: 32px;">
         <h2 style="color:var(--gold-dark); margin-bottom: 24px; font-weight: 600;">ADMIN LOGIN</h2>
         <input type="password" id="admin-pass" class="form-control" placeholder="ใส่รหัสผ่าน (123456)" style="text-align: center;">
-        <button class="btn-modern btn-gold" onclick="authAdmin()">🔓 เข้าสู่ระบบ</button>
+        <button class="btn-modern btn-gold" onclick="authAdmin()">🔓 เข้าสู่ระบบ (จำ 24 ชม.)</button>
         <button class="btn-modern" style="color: var(--danger);" onclick="document.getElementById('login-overlay').style.display='none'">ยกเลิก</button>
+    </div>
+</div>
+
+<div id="extend-overlay" class="modal-overlay">
+    <div class="card modal-content" style="width:90%; max-width: 340px; border-radius: 32px;">
+        <h2 style="color:var(--info); margin-bottom: 12px; font-weight: 600;">⏳ ขอต่อเวลานวด</h2>
+        <p id="extend-name" style="color: var(--text-muted); margin-bottom: 24px; font-size: 14px;">ลูกค้า: -</p>
+        
+        <input type="number" id="extend-mins" class="form-control" placeholder="เพิ่มเวลากี่นาที? (เช่น 30, 60)" style="text-align: center;">
+        <input type="number" id="extend-price" class="form-control" placeholder="เก็บเงินเพิ่มเท่าไหร่? (บาท)" style="text-align: center;">
+        
+        <button class="btn-modern" style="background: var(--info); color: white;" onclick="confirmExtend()">💾 บันทึกการต่อเวลา</button>
+        <button class="btn-modern" style="color: var(--danger);" onclick="closeExtendModal()">ยกเลิก</button>
     </div>
 </div>
 
@@ -167,7 +189,7 @@
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items: center;">
                     <span style="font-weight: 500; color: var(--text-muted); font-size: 14px;">ยอดรายรับวันนี้</span>
-                    <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer;">ออกระบบ</button>
+                    <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer; transition: 0.2s;">ออกระบบ</button>
                 </div>
                 <h1 id="total-val" style="font-size:48px; font-weight: 600; color:var(--gold-dark); margin:12px 0;">฿0</h1>
             </div>
@@ -185,10 +207,10 @@
         </div>
 
         <div id="p-list" class="page">
-            <h2 style="color: var(--gold-dark); font-weight: 600;">📜 รายการคิว</h2>
+            <h2 style="color: var(--gold-dark); font-weight: 600;">📜 รายการคิวทั้งหมด</h2>
             <div class="table-responsive">
                 <table>
-                    <thead><tr><th>เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>ราคา</th><th>ชำระเงิน</th><th>สถานะนวด</th><th>ลบ</th></tr></thead>
+                    <thead><tr><th>เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>ราคา</th><th>ชำระเงิน</th><th>สถานะนวด</th><th>จัดการ</th></tr></thead>
                     <tbody id="tb-list"></tbody>
                 </table>
             </div>
@@ -288,93 +310,144 @@
 </div>
 
 <script>
-    // 🚨 URL ของมึง
+    // 🚨 ใส่ URL ของมึงตรงนี้
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeed4VHbOWGkrn0Kxdl7R9wulIIa6qYjXdwq_u4Rc4_pb1kj4DYcfU_r4SICHlUMVd/exec"; 
 
     let db = { total: 0, qs: [], drs: [], pp: '0863526387' };
-    const priceTable = { 'thai': { 60: 250, 90: 400, 120: 500 }, 'foot': { 60: 300 }, 'back': { 60: 300, 90: 450, 120: 600 }, 'oil':  { 60: 400 }, 'spa':  { 60: 700 }, 'face': { 60: 400 }, 'herb': { 30: 200 } };
+    
+    // 🔥 แก้บั๊กราคาเรียบร้อย: ตารางราคาสมบูรณ์ ครอบคลุมทุกนาที ไม่มีบั๊กแสดง 0 บาทแล้ว
+    const priceTable = { 
+        'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 
+        'foot': { 30: 150, 60: 300, 90: 450, 120: 600 }, 
+        'back': { 30: 150, 60: 300, 90: 450, 120: 600 }, 
+        'oil':  { 30: 200, 60: 400, 90: 600, 120: 800 }, 
+        'spa':  { 30: 350, 60: 700, 90: 1050, 120: 1400 }, 
+        'face': { 30: 200, 60: 400, 90: 600, 120: 800 }, 
+        'herb': { 30: 200, 60: 400, 90: 600, 120: 800 } 
+    };
     const typeNames = { 'thai': 'นวดแผนไทย', 'foot': 'นวดฝ่าเท้า', 'back': 'นวดรีดเส้น', 'oil': 'นวดน้ำมันอโรม่า', 'spa': 'สปาขัดผิว', 'face': 'นวดหน้า', 'herb': 'นวดประคบสมุนไพร' };
+    
     let curType = 'thai', curDur = 60, payMode = 'qr';
+    let currentExtendId = null;
 
     // ชุดสี Theme
     const themes = {
-        light: {
-            '--bg-color': '#F2F4F7', '--card-bg': 'rgba(255, 255, 255, 0.85)',
-            '--input-bg': '#ffffff', '--table-bg': '#ffffff',
-            '--text-main': '#1C1C1E', '--text-muted': '#8E8E93',
-            '--gold-primary': '#D4AF37', '--gold-dark': '#B8860B'
-        },
-        dark: {
-            '--bg-color': '#121212', '--card-bg': 'rgba(30, 30, 30, 0.85)',
-            '--input-bg': '#2C2C2E', '--table-bg': '#1C1C1E',
-            '--text-main': '#F2F4F7', '--text-muted': '#A0A0A5',
-            '--gold-primary': '#D4AF37', '--gold-dark': '#C59A28'
-        },
-        nature: {
-            '--bg-color': '#E8F5E9', '--card-bg': 'rgba(255, 255, 255, 0.9)',
-            '--input-bg': '#ffffff', '--table-bg': '#ffffff',
-            '--text-main': '#1B5E20', '--text-muted': '#4CAF50',
-            '--gold-primary': '#43A047', '--gold-dark': '#2E7D32'
-        }
+        light: { '--bg-color': '#F2F4F7', '--card-bg': 'rgba(255, 255, 255, 0.85)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1C1C1E', '--text-muted': '#8E8E93', '--gold-primary': '#D4AF37', '--gold-dark': '#B8860B' },
+        dark: { '--bg-color': '#121212', '--card-bg': 'rgba(30, 30, 30, 0.85)', '--input-bg': '#2C2C2E', '--table-bg': '#1C1C1E', '--text-main': '#F2F4F7', '--text-muted': '#A0A0A5', '--gold-primary': '#D4AF37', '--gold-dark': '#C59A28' },
+        nature: { '--bg-color': '#E8F5E9', '--card-bg': 'rgba(255, 255, 255, 0.9)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1B5E20', '--text-muted': '#4CAF50', '--gold-primary': '#43A047', '--gold-dark': '#2E7D32' }
     };
 
+    // ฟังก์ชันโชว์แจ้งเตือนแบบสมูทๆ (Toast) แทน Alert เดิม
+    function showToast(msg, isError = false) {
+        let toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.style.background = isError ? 'var(--danger)' : 'var(--success)';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
     async function initApp() { 
-        // โหลดธีมที่เคยตั้งไว้ตอนเปิดแอป
         let savedTheme = localStorage.getItem('spaTheme') || 'light';
         setTheme(savedTheme);
-
         await fetchData(); 
-        
-        // ทีเด็ด: รันเช็คเวลาทุกๆ 10 วินาที เพื่อปลดล็อกหมออัตโนมัติ
+        checkPersistentLogin();
         setInterval(() => { 
             autoClearDoctors();
             renderTables(); 
         }, 10000); 
     }
 
-    // ฟังก์ชันใหม่: เช็คเวลาและปลดล็อกหมออัตโนมัติ
-    function autoClearDoctors() {
-        let now = Date.now();
-        let shouldSave = false;
-
-        db.qs.forEach(q => {
-            // คำนวณเวลาหมดอายุ (มิลลิวินาที)
-            let endTime = q.id + (q.d * 60000); 
-            
-            // ถ้าเวลาปัจจุบันเลยเวลาหมดอายุ และยังไม่เคยถูกมาร์คว่าจบคิว (isFinished)
-            if (now >= endTime && !q.isFinished) {
-                q.isFinished = true; // มาร์คว่าจบแล้ว เพื่อไม่ให้ทำซ้ำ
-                
-                // ไปหาชื่อหมอคนนี้ แล้วเปลี่ยนสถานะเป็น 'free'
-                let docIndex = db.drs.findIndex(doc => doc.n === q.dr);
-                if(docIndex !== -1 && db.drs[docIndex].st === 'busy') {
-                    db.drs[docIndex].st = 'free';
-                    shouldSave = true; // สั่งให้รู้ว่าต้องเซฟนะ
-                }
-            }
-        });
-
-        // ถ้ามีการเตะหมอเป็นว่างจริงๆ ค่อยสั่งเซฟขึ้น Google Sheet
-        if(shouldSave) {
-            saveDataToCloud();
+    function checkPersistentLogin() {
+        let authTime = localStorage.getItem('adminAuthTimestamp');
+        if (authTime) {
+            let elapsed = Date.now() - parseInt(authTime);
+            if (elapsed < 24 * 60 * 60 * 1000) {
+                document.getElementById('doctor-screen').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+            } else { localStorage.removeItem('adminAuthTimestamp'); }
         }
     }
 
-    // ระบบเปลี่ยนธีม
+    function authAdmin() {
+        if(document.getElementById('admin-pass').value === '123456'){
+            localStorage.setItem('adminAuthTimestamp', Date.now().toString());
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('doctor-screen').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            document.getElementById('admin-pass').value = '';
+            showToast('เข้าสู่ระบบสำเร็จ');
+        } else { showToast("❌ รหัสผ่านไม่ถูกต้อง!", true); }
+    }
+
+    function logoutAdmin() {
+        if(confirm("ออกจากระบบ?")) {
+            localStorage.removeItem('adminAuthTimestamp'); 
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('doctor-screen').style.display = 'block';
+        }
+    }
+
+    function autoClearDoctors() {
+        let now = Date.now();
+        let shouldSave = false;
+        db.qs.forEach(q => {
+            let endTime = q.id + (q.d * 60000); 
+            if (now >= endTime && !q.isFinished) {
+                q.isFinished = true; 
+                let docIndex = db.drs.findIndex(doc => doc.n === q.dr);
+                if(docIndex !== -1 && db.drs[docIndex].st === 'busy') {
+                    db.drs[docIndex].st = 'free';
+                    shouldSave = true; 
+                }
+            }
+        });
+        if(shouldSave) saveDataToCloud();
+    }
+
+    function openExtendModal(id, name) {
+        currentExtendId = id;
+        document.getElementById('extend-name').innerText = `ลูกค้า: ${name}`;
+        document.getElementById('extend-overlay').style.display = 'flex';
+    }
+
+    function closeExtendModal() {
+        document.getElementById('extend-overlay').style.display = 'none';
+        document.getElementById('extend-mins').value = '';
+        document.getElementById('extend-price').value = '';
+        currentExtendId = null;
+    }
+
+    function confirmExtend() {
+        let addedMins = parseInt(document.getElementById('extend-mins').value);
+        let addedPrice = parseInt(document.getElementById('extend-price').value);
+        if(!addedMins || !addedPrice) return showToast("⚠️ กรุณาใส่เวลาและราคา", true);
+
+        let qIndex = db.qs.findIndex(x => x.id === currentExtendId);
+        if(qIndex !== -1) {
+            let q = db.qs[qIndex];
+            q.d += addedMins; 
+            q.p = parseInt(q.p) + addedPrice; 
+            q.paid = false;
+            q.pm = '';
+            q.isFinished = false;
+            let docIndex = db.drs.findIndex(doc => doc.n === q.dr);
+            if(docIndex !== -1) db.drs[docIndex].st = 'busy';
+
+            saveDataToCloud();
+            closeExtendModal();
+            showToast(`✅ ต่อเวลาเรียบร้อย ค้างชำระเพิ่ม ${addedPrice}฿`);
+        }
+    }
+
     function setTheme(themeName) {
         const theme = themes[themeName];
-        for (let key in theme) {
-            document.documentElement.style.setProperty(key, theme[key]);
-        }
+        for (let key in theme) { document.documentElement.style.setProperty(key, theme[key]); }
         localStorage.setItem('spaTheme', themeName);
-        
-        // อัปเดตปุ่มไฮไลต์
         document.querySelectorAll('#th-light, #th-dark, #th-nature').forEach(el => el.classList.remove('active'));
         document.getElementById('th-' + themeName).classList.add('active');
     }
 
     async function fetchData() {
-        document.getElementById('sync-load').style.display = 'block';
         try {
             let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
             db = await res.json();
@@ -385,32 +458,13 @@
             renderUI(); 
             calculatePrice(); 
         } catch(error) { console.error(error); }
-        document.getElementById('sync-load').style.display = 'none';
     }
 
     async function saveDataToCloud() {
         renderUI(); 
-        document.getElementById('sync-load').style.display = 'block';
         try {
             await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(db) });
         } catch(error) { console.log(error); }
-        document.getElementById('sync-load').style.display = 'none';
-    }
-
-    function authAdmin() {
-        if(document.getElementById('admin-pass').value === '123456'){
-            document.getElementById('login-overlay').style.display = 'none';
-            document.getElementById('doctor-screen').style.display = 'none';
-            document.getElementById('admin-panel').style.display = 'block';
-        } else { alert("❌ รหัสผ่านไม่ถูกต้อง!"); }
-    }
-
-    function logoutAdmin() {
-        if(confirm("ออกจากระบบ?")) {
-            document.getElementById('admin-panel').style.display = 'none';
-            document.getElementById('doctor-screen').style.display = 'block';
-            document.getElementById('admin-pass').value = ''; 
-        }
     }
 
     function openPage(pageId) { 
@@ -422,7 +476,7 @@
         document.querySelectorAll('#prog-chips .chip').forEach(c => c.classList.remove('active')); 
         element.classList.add('active'); curType = typeCode;
         ['dur-30','dur-60','dur-90','dur-120'].forEach(id => document.getElementById(id).style.display = 'none');
-        if(typeCode === 'herb') { ['dur-30','dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-30'), 30); }
+        if(typeCode === 'herb') { ['dur-30','dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-60'), 60); }
         else if(typeCode === 'thai' || typeCode === 'back') { ['dur-60','dur-90','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-60'), 60); }
         else { ['dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-60'), 60); }
     }
@@ -433,8 +487,8 @@
     }
 
     function calculatePrice() { 
-        let table = priceTable[curType]; 
-        let price = table[curDur] ? table[curDur] : (curDur === 120 ? table[60] * 2 : (curDur === 60 && curType === 'herb' ? table[30] * 2 : 0)); 
+        // อัปเดตให้ดึงจากตารางราคาโดยตรง ไม่มีบั๊กอีกต่อไป
+        let price = priceTable[curType][curDur] || 0; 
         document.getElementById('qp').value = price; 
     }
 
@@ -442,22 +496,25 @@
         let custName = document.getElementById('qn').value;
         let doctorName = document.getElementById('qdr').value;
         let price = document.getElementById('qp').value;
-        if(!custName || !doctorName) return alert('⚠️ กรอกข้อมูลให้ครบถ้วน!');
+        if(!custName || !doctorName) return showToast('⚠️ กรอกข้อมูลให้ครบถ้วน!', true);
         let timeStr = new Date().toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
         
-        // เพิ่ม isFinished: false เข้าไปตอนสร้างคิว เพื่อใช้ระบบปลดล็อกหมอ
         db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false, pm: '', isFinished: false });
-        
         let docIndex = db.drs.findIndex(doc => doc.n === doctorName); 
         if(docIndex !== -1) db.drs[docIndex].st = 'busy';
         
         document.getElementById('qn').value = ''; 
         saveDataToCloud(); 
+        showToast('✅ บันทึกคิวสำเร็จ');
         openPage('home'); 
     }
     
     function deleteQueue(id) { 
-        if(prompt("รหัสผ่านลบ (123456):") === "123456") { db.qs = db.qs.filter(queue => queue.id !== id); saveDataToCloud(); } 
+        if(prompt("รหัสผ่านลบ (123456):") === "123456") { 
+            db.qs = db.qs.filter(queue => queue.id !== id); 
+            saveDataToCloud(); 
+            showToast('ลบคิวเรียบร้อย');
+        } 
     }
 
     function renderUI() {
@@ -529,7 +586,10 @@
                 <td style="font-weight:600;">${q.p}.-</td>
                 <td><span class="status-badge ${q.paid ? 'status-free' : 'status-danger'}">${q.paid ? 'จ่ายแล้ว' : 'ค้างชำระ'}</span></td>
                 <td>${massageStatusHTML}</td>
-                <td><button onclick="deleteQueue(${q.id})" style="border:none; background:none; cursor:pointer; font-size:18px; opacity: 0.6;">🗑️</button></td>
+                <td style="white-space: nowrap;">
+                    <button onclick="openExtendModal(${q.id}, '${q.n}')" style="border:none; background:none; cursor:pointer; font-size:18px; margin-right:5px; transition:0.2s;" title="ต่อเวลา">⏳</button>
+                    <button onclick="deleteQueue(${q.id})" style="border:none; background:none; cursor:pointer; font-size:18px; opacity: 0.6; transition:0.2s;" title="ลบคิว">🗑️</button>
+                </td>
             </tr>`;
 
             doctorTableHTML += `<tr>
@@ -547,7 +607,11 @@
 
     function toggleDoctorStatus(docName) { 
         let index = db.drs.findIndex(doc => doc.n === docName); 
-        if(index !== -1) { db.drs[index].st = (db.drs[index].st === 'free') ? 'busy' : 'free'; saveDataToCloud(); } 
+        if(index !== -1) { 
+            db.drs[index].st = (db.drs[index].st === 'free') ? 'busy' : 'free'; 
+            saveDataToCloud(); 
+            showToast('ปรับสถานะหมอแล้ว');
+        } 
     }
 
     function setPaymentMode(mode) { 
@@ -577,37 +641,43 @@
     function confirmPayment() { 
         let selectedId = document.getElementById('psel').value;
         let amount = document.getElementById('pa').value; 
-        if(!selectedId || !amount) return alert("⚠️ กรุณาเลือกลูกค้าและตรวจสอบยอดเงิน"); 
+        if(!selectedId || !amount) return showToast("⚠️ กรุณาเลือกลูกค้าและตรวจสอบยอดเงิน", true); 
         let qIndex = db.qs.findIndex(item => item.id == selectedId); 
         if(qIndex === -1) return; 
-        db.total += parseInt(amount); 
+        if(!db.qs[qIndex].paid) { db.total += parseInt(amount); }
         db.qs[qIndex].paid = true; 
         db.qs[qIndex].pm = payMode; 
         document.getElementById('pa').value = ''; 
-        alert(`✅ รับชำระเงิน ${amount} บาท สำเร็จ!`);
+        showToast(`✅ รับเงิน ${amount} บาท สำเร็จ!`);
         saveDataToCloud(); 
         openPage('home'); 
     }
 
     function addDoctor() {
         let newName = document.getElementById('new-dr-name').value.trim();
-        if(!newName) return alert("กรุณาพิมพ์ชื่อพนักงาน!");
+        if(!newName) return showToast("กรุณาพิมพ์ชื่อพนักงาน!", true);
         let exists = db.drs.find(d => d.n === newName);
-        if(exists) return alert("มีชื่อนี้ในระบบแล้ว!");
+        if(exists) return showToast("มีชื่อนี้ในระบบแล้ว!", true);
         db.drs.push({ n: newName, st: 'free' });
         document.getElementById('new-dr-name').value = '';
         saveDataToCloud();
+        showToast('เพิ่มพนักงานสำเร็จ');
     }
 
     function removeDoctor(docName) {
-        if(confirm(`ต้องการลบ ${docName} ออกจากระบบ?`)) { db.drs = db.drs.filter(d => d.n !== docName); saveDataToCloud(); }
+        if(confirm(`ต้องการลบ ${docName} ออกจากระบบ?`)) { 
+            db.drs = db.drs.filter(d => d.n !== docName); 
+            saveDataToCloud(); 
+            showToast('ลบพนักงานแล้ว');
+        }
     }
 
     function resetToday() { 
         if(prompt("⚠️ ล้างข้อมูลคิวและยอดเงินทั้งหมด!\nใส่รหัส (123456):") === "123456"){ 
             db.total = 0; db.qs = []; db.drs.forEach(doc => doc.st = 'free'); 
-            alert("✅ เคลียร์ยอดวันใหม่เรียบร้อย"); saveDataToCloud(); 
-        } else { alert("❌ รหัสผิด!"); }
+            saveDataToCloud(); 
+            showToast("✅ เคลียร์ยอดวันใหม่เรียบร้อย");
+        } else { showToast("❌ รหัสผิด!", true); }
     }
 </script>
 </body>
