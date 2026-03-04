@@ -3,106 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทอง - Smart View</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
+    <title>ประคบทองไทยสปา - ระบบบริหารจัดการร้าน (V.Final)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- CSS เดิมของมึงทั้งหมด --- */
-        :root { --bg: #F0F2F5; --gold: #B8860B; --shd: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff; --in: inset 3px 3px 6px #bebebe, inset -3px -3px 6px #ffffff; }
-        body { font-family: 'Kanit', sans-serif; background: var(--bg); margin: 0; color: #1D1D1F; overflow-x: hidden; }
-        .container { width: 100%; max-width: 500px; padding: 15px; box-sizing: border-box; margin: auto; }
-        .btn-neu { background: var(--bg); border: none; padding: 15px; border-radius: 20px; box-shadow: var(--shd); cursor: pointer; font-family: 'Kanit'; font-weight: 600; width: 100%; margin-top: 12px; transition: 0.2s; }
-        .btn-neu:active { box-shadow: var(--in); transform: scale(0.98); }
-        .btn-gold { background: var(--gold) !important; color: white !important; }
-        .card { background: var(--bg); padding: 25px; border-radius: 35px; box-shadow: var(--in); text-align: center; margin-bottom: 25px; }
-        .page { display: none; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; font-size: 16px; }
-        th { background: var(--gold); color: white; padding: 12px 5px; font-size: 13px; }
-        td { padding: 12px 5px; border-bottom: 1px solid #eee; text-align: center; }
-        .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg); border-radius: 25px; margin-bottom: 12px; box-shadow: var(--shd); }
-        .switch { position: relative; width: 50px; height: 26px; appearance: none; background: #d1d1d1; border-radius: 20px; outline: none; transition: 0.3s; cursor: pointer; }
-        .switch:checked { background: var(--gold); }
-        .switch::before { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; top: 3px; left: 3px; background: white; transition: 0.3s; }
-        .switch:checked::before { left: 27px; }
-        .free-txt { color: #28a745 !important; }
-        .busy-txt { color: #dc3545 !important; }
-        .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; justify-content: center; }
-        .chip { padding: 8px 12px; border-radius: 15px; background: var(--bg); box-shadow: var(--shd); font-size: 12px; cursor: pointer; border: 1px solid transparent; }
-        .chip.active { box-shadow: var(--in); color: var(--gold); font-weight: bold; border: 1px solid var(--gold); }
-        #qr-area { display: none; margin: 15px 0; text-align: center; }
-        #qr-img { width: 220px; border: 10px solid white; border-radius: 20px; box-shadow: var(--shd); }
-        #sync-load { position: fixed; top: 0; left: 0; right: 0; background: #B8860B; color: white; text-align: center; font-size: 11px; padding: 4px; display: none; z-index: 10000; }
+        /* =========================================
+           ส่วนของ CSS: จัดการหน้าตาและสีสัน
+           ========================================= */
+        :root {
+            --bg-color: #F0F2F5;
+            --gold-primary: #B8860B;
+            --gold-hover: #DAA520;
+            --text-dark: #1D1D1F;
+            --text-light: #ffffff;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #fd7e14;
+            --shadow-out: 5px 5px 10px #bebebe, -5px -5px 10px #ffffff;
+            --shadow-in: inset 3px 3px 6px #bebebe, inset -3px -3px 6px #ffffff;
+        }
 
-        /* --- ส่วนที่กูเพิ่มให้: คุมการสลับหน้า --- */
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px; 
+            padding: 20px;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        .btn-neu {
+            background: var(--bg-color);
+            border: none;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-out);
+            cursor: pointer;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-neu:active { box-shadow: var(--shadow-in); transform: scale(0.98); }
+        .btn-gold { background-color: var(--gold-primary) !important; color: var(--text-light) !important; }
+        .btn-gold:hover { background-color: var(--gold-hover) !important; }
+
+        .card { background: var(--bg-color); padding: 30px 25px; border-radius: 30px; box-shadow: var(--shadow-in); text-align: center; margin-bottom: 25px; }
+
+        .page { display: none; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .table-responsive { overflow-x: auto; border-radius: 15px; box-shadow: var(--shadow-out); margin-top: 20px; background: white; padding: 5px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { background-color: var(--gold-primary); color: var(--text-light); padding: 12px 8px; font-weight: 600; white-space: nowrap; }
+        td { padding: 12px 8px; border-bottom: 1px solid #f0f0f0; text-align: center; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+
+        .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg-color); border-radius: 20px; margin-bottom: 15px; box-shadow: var(--shadow-out); }
+        .switch { position: relative; width: 60px; height: 30px; appearance: none; background: #d1d1d1; border-radius: 30px; outline: none; transition: 0.3s; cursor: pointer; box-shadow: inset 0 0 5px rgba(0,0,0,0.2); }
+        .switch:checked { background: var(--gold-primary); }
+        .switch::before { content: ''; position: absolute; width: 24px; height: 24px; border-radius: 50%; top: 3px; left: 3px; background: white; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .switch:checked::before { left: 33px; }
+
+        .status-badge { padding: 4px 8px; border-radius: 10px; font-size: 12px; font-weight: bold; white-space: nowrap; display: inline-block;}
+        .status-free { background-color: #e6f4ea; color: var(--success); }
+        .status-busy { background-color: #fff3cd; color: var(--warning); }
+        .status-danger { background-color: #fce8e6; color: var(--danger); }
+
+        .chip-group { display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0; justify-content: center; }
+        .chip { padding: 10px 15px; border-radius: 20px; background: var(--bg-color); box-shadow: var(--shadow-out); font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
+        .chip:hover { transform: translateY(-2px); }
+        .chip.active { box-shadow: var(--shadow-in); color: var(--gold-primary); font-weight: bold; border: 2px solid var(--gold-primary); }
+
+        .form-control { width: 100%; padding: 15px; border-radius: 20px; border: none; background: #ffffff; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05); font-family: 'Kanit', sans-serif; font-size: 16px; box-sizing: border-box; margin-bottom: 15px; outline: none; }
+        .form-control:focus { border: 2px solid var(--gold-primary); }
+        .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+
+        #qr-area { display: none; margin: 20px 0; text-align: center; }
+        #qr-img { width: 250px; border: 10px solid white; border-radius: 20px; box-shadow: var(--shadow-out); }
+        #sync-load { position: fixed; top: 0; left: 0; right: 0; background: var(--gold-primary); color: white; text-align: center; font-size: 14px; padding: 10px; display: none; z-index: 10000; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+
         #doctor-screen { display: block; }
         #admin-panel { display: none; }
-        #login-overlay { 
-            position:fixed; inset:0; background:rgba(0,0,0,0.8); 
-            display:none; align-items:center; justify-content:center; z-index:9999; 
-        }
+        #login-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(5px); }
+
+        .srv-text { font-size: 11px; color: #777; display: block; margin-top: 4px; }
+
+        .stat-box { background: white; padding: 20px; border-radius: 20px; box-shadow: var(--shadow-out); text-align: center; margin-bottom: 15px; }
+        .stat-val { font-size: 32px; font-weight: bold; color: var(--gold-primary); margin: 10px 0; }
     </style>
 </head>
-<body onload="checkLogin()">
+<body onload="initApp()">
 
-<div id="sync-load">🔄 กำลังซิงค์ข้อมูล Cloud...</div>
+<div id="sync-load">🔄 กำลังซิงค์ข้อมูลกับคลาวด์...</div>
 
 <div id="doctor-screen" class="container">
     <div class="card">
-        <h2 style="color:var(--gold); margin:0;">📋 คิวงานวันนี้</h2>
-        <small>อัปเดตล่าสุด: <span id="last-sync">-</span></small>
+        <h1 style="color:var(--gold-primary); margin:0 0 10px 0; font-size: 28px;">ประคบทองสปา</h1>
+        <h2 style="margin:0; font-size: 20px;">📋 คิวงานวันนี้</h2>
+        <small style="color: #666;">ระบบอัปเดตเวลาอัตโนมัติ 🕒</small>
     </div>
     
-    <div style="overflow-x:auto; box-shadow: var(--shd); border-radius: 15px;">
+    <div class="table-responsive">
         <table>
-            <thead><tr><th>ลูกค้า</th><th>หมอ</th><th>สถานะ</th></tr></thead>
-            <tbody id="tb-doctor-view"></tbody>
+            <thead>
+                <tr>
+                    <th>เวลา</th>
+                    <th>ลูกค้า</th>
+                    <th>บริการ</th>
+                    <th>หมอผู้ดูแล</th>
+                    <th>สถานะการนวด</th>
+                </tr>
+            </thead>
+            <tbody id="tb-doctor-view">
+            </tbody>
         </table>
     </div>
 
-    <button class="btn-neu" onclick="document.getElementById('login-overlay').style.display='flex'">⚙️ เข้าสู่ระบบหลังบ้าน (Admin)</button>
-    <button class="btn-neu" onclick="syncCloud()">🔄 รีเฟรชข้อมูลคิว</button>
+    <button class="btn-neu" onclick="document.getElementById('login-overlay').style.display='flex'">⚙️ เข้าสู่ระบบผู้ดูแล (Admin)</button>
+    <button class="btn-neu" onclick="fetchData()">🔄 ดึงข้อมูลล่าสุด</button>
 </div>
 
 <div id="login-overlay">
-    <div class="card" style="width:80%;">
-        <h2 style="color:var(--gold);">ADMIN LOGIN</h2>
-        <input type="password" id="admin-pass" placeholder="รหัสผ่าน" style="width:100%; padding:15px; border-radius:15px; border:none; box-shadow: var(--in); outline:none; text-align:center; background:var(--bg);">
-        <button class="btn-neu btn-gold" onclick="authAdmin()">ตกลง</button>
-        <button class="btn-neu" onclick="document.getElementById('login-overlay').style.display='none'">ยกเลิก</button>
+    <div class="card" style="width:90%; max-width: 350px;">
+        <h2 style="color:var(--gold-primary); margin-bottom: 20px;">ADMIN LOGIN</h2>
+        <input type="password" id="admin-pass" class="form-control" placeholder="รหัสผ่านเข้าหลังบ้าน (123456)">
+        <button class="btn-neu btn-gold" onclick="authAdmin()">🔓 เข้าสู่ระบบ</button>
+        <button class="btn-neu" onclick="document.getElementById('login-overlay').style.display='none'">❌ ยกเลิก</button>
     </div>
 </div>
 
 <div id="admin-panel">
     <div class="container" id="app">
-        <div id="home">
+        <div id="home" class="page" style="display: block;">
             <div class="card">
-                <div style="display:flex; justify-content:space-between;">
-                    <small>ยอดเงินรวม Cloud</small>
-                    <button onclick="logoutAdmin()" style="border:none; background:none; color:red; font-size:12px; font-weight:bold;">[ ออกจากระบบ ]</button>
+                <div style="display:flex; justify-content:space-between; align-items: center;">
+                    <span style="font-weight: 600; color: #555;">💰 ยอดรายรับรวมวันนี้</span>
+                    <button onclick="logoutAdmin()" style="border:none; background:none; color:var(--danger); font-size:14px; font-weight:bold; cursor:pointer;">[ ออกจากระบบ ]</button>
                 </div>
-                <h2 id="total-val" style="font-size:38px; color:var(--gold);">฿0</h2>
+                <h1 id="total-val" style="font-size:46px; color:var(--gold-primary); margin:15px 0;">฿0</h1>
             </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-                <button class="btn-neu" onclick="openP('p-q')">📅 ลงคิวจอง</button>
-                <button class="btn-neu" onclick="openP('p-pay')">💰 รับเงิน/QR</button>
-                <button class="btn-neu" onclick="openP('p-st')">🧘‍♂️ สถานะหมอ</button>
-                <button class="btn-neu btn-gold" onclick="openP('p-list')">📜 รายการคิว</button>
-                <button class="btn-neu" onclick="syncCloud()">🔄 อัปเดตข้อมูล</button>
-                <button class="btn-neu" onclick="resetToday()" style="color:red;">⚠️ ล้างวันใหม่</button>
+
+            <div class="menu-grid">
+                <button class="btn-neu" onclick="openPage('p-q')">📅 ลงคิวจองใหม่</button>
+                <button class="btn-neu" onclick="openPage('p-pay')">💸 รับชำระเงิน/QR</button>
+                <button class="btn-neu" onclick="openPage('p-st')">🧘‍♂️ สถานะหมอนวด</button>
+                <button class="btn-neu btn-gold" onclick="openPage('p-list')">📜 รายการคิวทั้งหมด</button>
+                <button class="btn-neu" onclick="openPage('p-dash')">📊 สถิติร้าน</button>
+                <button class="btn-neu" onclick="openPage('p-settings')">⚙️ ตั้งค่าร้าน</button>
+                <button class="btn-neu" onclick="fetchData()" style="grid-column: span 2;">🔄 อัปเดตข้อมูลจากคลาวด์</button>
+                <button class="btn-neu" onclick="resetToday()" style="color:var(--danger); grid-column: span 2;">⚠️ ปิดยอดสิ้นวัน (ล้างข้อมูล)</button>
             </div>
         </div>
 
         <div id="p-list" class="page">
-            <h3>รายการคิว (รหัสลบ: 123456)</h3>
-            <div style="overflow-x:auto;"><table><thead><tr><th>ลูกค้า</th><th>หมอ</th><th>จ่าย</th><th>ลบ</th></tr></thead><tbody id="tb-list"></tbody></table></div>
-            <button class="btn-neu btn-gold" onclick="openP('home')">กลับหน้าหลัก</button>
+            <h2 style="color: var(--gold-primary);">📜 รายการคิวแบบละเอียด</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>เวลาลงคิว</th>
+                            <th>ชื่อลูกค้า</th>
+                            <th>รายการบริการ</th>
+                            <th>หมอนวด</th>
+                            <th>ราคา</th>
+                            <th>สถานะเงิน</th>
+                            <th>สถานะนวด 🕒</th> 
+                            <th>จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb-list">
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn-neu btn-gold" style="margin-top: 20px;" onclick="openPage('home')">⬅️ กลับหน้าเมนูหลัก</button>
+        </div>
+        
+        <div id="p-st" class="page">
+            <h2 style="color: var(--gold-primary);">🧘‍♂️ อัปเดตสถานะหมอนวด</h2>
+            <p style="text-align: center; color: #666; font-size: 14px;">สถานะหมอต้องปรับเองเมื่อนวดจบ ป้องกันการข้ามคิว</p>
+            <div id="st-list" style="margin-top: 20px;"></div>
+            <button class="btn-neu btn-gold" onclick="openPage('home')">⬅️ กลับหน้าเมนูหลัก</button>
         </div>
 
-        <div id="p-st" class="page"><h3>สถานะหมอนวด</h3><div id="st-list"></div><button class="btn-neu btn-gold" onclick="openP('home')">กลับหน้าหลัก</button></div>
-
         <div id="p-q" class="page">
-            <h3>ลงคิวจอง</h3>
-            <input type="text" id="qn" placeholder="ชื่อลูกค้า" class="btn-neu" style="background:white;">
+            <h2 style="color: var(--gold-primary); text-align: center;">📅 ลงข้อมูลคิวจอง</h2>
+            <label style="font-weight: bold; margin-left: 10px;">ชื่อลูกค้า:</label>
+            <input type="text" id="qn" class="form-control" placeholder="กรอกชื่อลูกค้าที่นี่...">
+            
+            <label style="font-weight: bold; margin-left: 10px;">เลือกประเภทบริการ:</label>
             <div class="chip-group" id="prog-chips">
                 <div class="chip active" onclick="selectType(this, 'thai')">นวดไทย</div>
                 <div class="chip" onclick="selectType(this, 'foot')">นวดเท้า</div>
@@ -112,144 +212,317 @@
                 <div class="chip" onclick="selectType(this, 'face')">นวดหน้า</div>
                 <div class="chip" onclick="selectType(this, 'herb')">อบสมุนไพร</div>
             </div>
+
+            <label style="font-weight: bold; margin-left: 10px;">เลือกระยะเวลา (เพื่อใช้จับเวลา):</label>
             <div class="chip-group" id="dur-chips">
-                <div class="chip" id="dur-30" onclick="selectDur(this, 30)">30น.</div>
-                <div class="chip active" id="dur-60" onclick="selectDur(this, 60)">1ชม.</div>
-                <div class="chip" id="dur-90" onclick="selectDur(this, 90)">1.5ชม.</div>
-                <div class="chip" id="dur-120" onclick="selectDur(this, 120)">2ชม.</div>
+                <div class="chip" id="dur-30" onclick="selectDur(this, 30)">30 นาที</div>
+                <div class="chip active" id="dur-60" onclick="selectDur(this, 60)">1 ชม.</div>
+                <div class="chip" id="dur-90" onclick="selectDur(this, 90)">1.5 ชม.</div>
+                <div class="chip" id="dur-120" onclick="selectDur(this, 120)">2 ชม.</div>
             </div>
-            <select id="qdr" class="btn-neu" style="background:white;"></select>
-            <input type="number" id="qp" class="btn-neu" style="text-align:center; background:white; font-size:24px; color:var(--gold);">
-            <button class="btn-neu btn-gold" onclick="saveQ()">บันทึกข้อมูล</button>
-            <button class="btn-neu" onclick="openP('home')">กลับ</button>
+            
+            <label style="font-weight: bold; margin-left: 10px;">เลือกหมอนวดที่ว่าง:</label>
+            <select id="qdr" class="form-control"></select>
+            
+            <label style="font-weight: bold; margin-left: 10px;">ราคาประเมิน (บาท):</label>
+            <input type="number" id="qp" class="form-control" style="text-align:center; font-size:24px; color:var(--gold-primary); font-weight: bold;" readonly>
+            
+            <button class="btn-neu btn-gold" onclick="saveQueue()">💾 บันทึกลงคิว</button>
+            <button class="btn-neu" onclick="openPage('home')">⬅️ ยกเลิกและกลับ</button>
         </div>
 
         <div id="p-pay" class="page">
-            <h3>💰 รับเงิน / QR Code</h3>
-            <select id="psel" class="btn-neu" onchange="autoP()" style="background:white;"></select>
+            <h2 style="color: var(--gold-primary); text-align: center;">💰 รับชำระค่าบริการ</h2>
+            <label style="font-weight: bold; margin-left: 10px;">เลือกคิวที่ต้องการชำระเงิน:</label>
+            <select id="psel" class="form-control" onchange="autoFillPrice()"></select>
+            <label style="font-weight: bold; margin-left: 10px;">ช่องทางการรับเงิน:</label>
             <div class="chip-group">
-                <div class="chip active" id="mqr" onclick="setM('qr')">📲 QR Code</div>
-                <div class="chip" id="mcash" onclick="setM('cash')">💵 เงินสด</div>
+                <div class="chip active" id="mqr" onclick="setPaymentMode('qr')">📲 โอนผ่าน QR Code</div>
+                <div class="chip" id="mcash" onclick="setPaymentMode('cash')">💵 รับเป็นเงินสด</div>
             </div>
-            <input type="number" id="pa" placeholder="ยอดเงิน" class="btn-neu" style="text-align:center; font-size:30px; background:white;" oninput="genQR()">
-            <div id="qr-area"><img id="qr-img" src=""><p id="pp-txt" style="font-weight:bold; font-size:12px;"></p></div>
-            <button class="btn-neu btn-gold" onclick="confirmPay()">ยืนยันรับเงิน</button>
-            <button class="btn-neu" onclick="openP('home')">กลับ</button>
+            <label style="font-weight: bold; margin-left: 10px;">ระบุยอดเงิน (บาท):</label>
+            <input type="number" id="pa" class="form-control" placeholder="0.00" style="text-align:center; font-size:36px; font-weight: bold; color: var(--gold-primary);" oninput="generateQRCode()">
+            
+            <div id="qr-area">
+                <p style="font-size: 14px; color: #666; margin-bottom: 5px;">ให้ลูกค้าสแกนภาพด้านล่างนี้</p>
+                <img id="qr-img" src="">
+                <p id="pp-txt" style="font-weight:bold; font-size:16px; margin-top: 10px;"></p>
+            </div>
+            
+            <button class="btn-neu btn-gold" onclick="confirmPayment()">✅ ยืนยันว่าได้รับเงินแล้ว</button>
+            <button class="btn-neu" onclick="openPage('home')">⬅️ ยกเลิกและกลับ</button>
+        </div>
+
+        <div id="p-dash" class="page">
+            <h2 style="color: var(--gold-primary); text-align: center;">📊 สถิติร้านประจำวัน</h2>
+            <div class="stat-box"><p style="margin: 0; color: #666;">จำนวนลูกค้าทั้งหมด (คน)</p><div id="dash-cust" class="stat-val">0</div></div>
+            <div class="stat-box"><p style="margin: 0; color: #666;">ลูกค้าที่ชำระเงินแล้ว (คน)</p><div id="dash-paid" class="stat-val" style="color: var(--success);">0</div></div>
+            <div class="stat-box"><p style="margin: 0; color: #666;">คิวที่ยังค้างชำระ (คน)</p><div id="dash-unpaid" class="stat-val" style="color: var(--danger);">0</div></div>
+            <button class="btn-neu btn-gold" style="margin-top: 20px;" onclick="openPage('home')">⬅️ กลับหน้าเมนูหลัก</button>
+        </div>
+
+        <div id="p-settings" class="page">
+            <h2 style="color: var(--gold-primary); text-align: center;">⚙️ จัดการพนักงานหมอนวด</h2>
+            <div class="card" style="padding: 15px;">
+                <label style="font-weight: bold; display: block; text-align: left; margin-bottom: 10px;">เพิ่มชื่อหมอนวดใหม่:</label>
+                <input type="text" id="new-dr-name" class="form-control" placeholder="ชื่อหมอนวด...">
+                <button class="btn-neu btn-gold" style="padding: 10px; margin-top: 0;" onclick="addDoctor()">➕ เพิ่มหมอ</button>
+            </div>
+            <h3 style="margin-top: 20px;">รายชื่อหมอในระบบ</h3>
+            <div id="dr-manage-list"></div>
+            <button class="btn-neu btn-gold" style="margin-top: 30px;" onclick="openPage('home')">⬅️ กลับหน้าเมนูหลัก</button>
         </div>
     </div>
 </div>
 
 <script>
-    /* --- Logic เดิมของมึงเป๊ะๆ --- */
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJlg4KO3oK3HbFvw3DcH0r_amC9jvFCAefeTVVv5GddE7W3UBPzWRIwMQK4h9nMjMGlg/exec";
-    let db = { total:0, qs:[], drs:[], pp:'0863526387' };
+    // 🚨 ใส่ URL ที่มึงให้มาเรียบร้อยแล้ว! 🚨
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeed4VHbOWGkrn0Kxdl7R9wulIIa6qYjXdwq_u4Rc4_pb1kj4DYcfU_r4SICHlUMVd/exec"; 
+
+    let db = { total: 0, qs: [], drs: [], pp: '0863526387' };
     const priceTable = { 'thai': { 60: 250, 90: 400, 120: 500 }, 'foot': { 60: 300 }, 'back': { 60: 300, 90: 450, 120: 600 }, 'oil':  { 60: 400 }, 'spa':  { 60: 700 }, 'face': { 60: 400 }, 'herb': { 30: 200 } };
+    const typeNames = { 'thai': 'นวดแผนไทย', 'foot': 'นวดฝ่าเท้า', 'back': 'นวดรีดเส้น', 'oil': 'นวดน้ำมันอโรม่า', 'spa': 'สปาขัดผิว', 'face': 'นวดหน้า', 'herb': 'นวดประคบสมุนไพร' };
+    
     let curType = 'thai', curDur = 60, payMode = 'qr';
 
-    // เช็ค Login ครั้งแรก (เปิดแอปมาเจอหน้าหมอ)
-    function checkLogin() { syncCloud(); }
+    async function initApp() { 
+        await fetchData(); 
+        setInterval(() => { renderTables(); }, 60000);
+    }
 
-    // ฟังก์ชันเข้าหลังบ้าน
+    async function fetchData() {
+        document.getElementById('sync-load').style.display = 'block';
+        try {
+            let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
+            db = await res.json();
+            
+            if(!db.drs || db.drs.length === 0) {
+                db.drs = [{n: 'หมอเอ', st: 'free'}, {n: 'หมอบี', st: 'free'}, {n: 'หมอซี', st: 'free'}];
+                saveDataToCloud(); 
+            }
+            renderUI(); 
+            calculatePrice(); 
+        } catch(error) { console.error(error); }
+        document.getElementById('sync-load').style.display = 'none';
+    }
+
+    async function saveDataToCloud() {
+        renderUI(); 
+        document.getElementById('sync-load').style.display = 'block';
+        try {
+            await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(db) });
+        } catch(error) { alert("บันทึกข้อมูลล้มเหลว"); }
+        document.getElementById('sync-load').style.display = 'none';
+    }
+
     function authAdmin() {
-        if(document.getElementById('admin-pass').value==='123456'){
-            document.getElementById('login-overlay').style.display='none';
-            document.getElementById('doctor-screen').style.display='none';
-            document.getElementById('admin-panel').style.display='block';
-            document.getElementById('app').style.display='block';
-        } else {
-            alert("รหัสผ่านไม่ถูกต้อง!");
-        }
+        if(document.getElementById('admin-pass').value === '123456'){
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('doctor-screen').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+        } else { alert("❌ รหัสผ่านไม่ถูกต้อง!"); }
     }
 
     function logoutAdmin() {
-        if(confirm("ต้องการกลับไปหน้าหมอนวด?")) {
-            document.getElementById('admin-panel').style.display='none';
-            document.getElementById('doctor-screen').style.display='block';
-            document.getElementById('admin-pass').value = '';
+        if(confirm("ออกจากระบบ?")) {
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('doctor-screen').style.display = 'block';
+            document.getElementById('admin-pass').value = ''; 
         }
     }
 
-    async function syncCloud() {
-        document.getElementById('sync-load').style.display='block';
-        try {
-            const r = await fetch(SCRIPT_URL + "?t=" + Date.now());
-            db = await r.json();
-            updateUI();
-            document.getElementById('last-sync').innerText = new Date().toLocaleTimeString('th-TH');
-        } catch(e) { console.log(e); }
-        document.getElementById('sync-load').style.display='none';
+    function openPage(pageId) { 
+        document.querySelectorAll('.page').forEach(page => page.style.display = 'none'); 
+        document.getElementById(pageId).style.display = 'block'; 
     }
 
-    async function pushCloud(log = null) {
-        document.getElementById('sync-load').style.display='block';
-        try {
-            await fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', body:JSON.stringify({...db, log}) });
-            setTimeout(syncCloud, 1000);
-        } catch(e) { alert("ส่งข้อมูลล้มเหลว!"); }
+    function selectType(element, typeCode) {
+        document.querySelectorAll('#prog-chips .chip').forEach(chip => chip.classList.remove('active')); 
+        element.classList.add('active'); curType = typeCode;
+        ['dur-30','dur-60','dur-90','dur-120'].forEach(id => document.getElementById(id).style.display = 'none');
+        if(typeCode === 'herb') { ['dur-30','dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-30'), 30); }
+        else if(typeCode === 'thai' || typeCode === 'back') { ['dur-60','dur-90','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-60'), 60); }
+        else { ['dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-60'), 60); }
     }
 
-    function selectType(el, type) {
-        document.querySelectorAll('#prog-chips .chip').forEach(c=>c.classList.remove('active'));
-        el.classList.add('active'); curType = type;
-        ['dur-30','dur-60','dur-90','dur-120'].forEach(id=>document.getElementById(id).style.display='none');
-        if(type === 'herb') {
-            ['dur-30','dur-60','dur-120'].forEach(id=>document.getElementById(id).style.display='inline-block');
-            selectDur(document.getElementById('dur-30'), 30);
-        } else if(type === 'thai' || type === 'back') {
-            ['dur-60','dur-90','dur-120'].forEach(id=>document.getElementById(id).style.display='inline-block');
-            selectDur(document.getElementById('dur-60'), 60);
-        } else {
-            ['dur-60','dur-120'].forEach(id=>document.getElementById(id).style.display='inline-block');
-            selectDur(document.getElementById('dur-60'), 60);
-        }
+    function selectDur(element, minutes) { 
+        document.querySelectorAll('#dur-chips .chip').forEach(chip => chip.classList.remove('active')); 
+        element.classList.add('active'); curDur = minutes; calculatePrice(); 
     }
 
-    function selectDur(el, dur) {
-        document.querySelectorAll('#dur-chips .chip').forEach(c=>c.classList.remove('active'));
-        el.classList.add('active'); curDur = dur; updatePrice();
+    function calculatePrice() { 
+        let table = priceTable[curType]; 
+        let price = table[curDur] ? table[curDur] : (curDur === 120 ? table[60] * 2 : (curDur === 60 && curType === 'herb' ? table[30] * 2 : 0)); 
+        document.getElementById('qp').value = price; 
     }
 
-    function updatePrice() {
-        let table = priceTable[curType]; let p = table[curDur] ? table[curDur] : (curDur === 120 ? table[60] * 2 : (curDur === 60 && curType === 'herb' ? table[30] * 2 : 0));
-        document.getElementById('qp').value = p;
+    function saveQueue() {
+        let custName = document.getElementById('qn').value;
+        let doctorName = document.getElementById('qdr').value;
+        let price = document.getElementById('qp').value;
+        if(!custName || !doctorName) return alert('⚠️ กรุณากรอกชื่อลูกค้าและเลือกหมอให้ครบถ้วน!');
+        let timeStr = new Date().toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
+        db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false });
+        let docIndex = db.drs.findIndex(doc => doc.n === doctorName); 
+        if(docIndex !== -1) db.drs[docIndex].st = 'busy';
+        document.getElementById('qn').value = ''; 
+        saveDataToCloud(); 
+        openPage('home'); 
+    }
+    
+    function deleteQueue(id) { 
+        if(prompt("ใส่รหัสผ่านเพื่อลบ (123456):") === "123456") { db.qs = db.qs.filter(queue => queue.id !== id); saveDataToCloud(); } 
+        else { alert("❌ รหัสผ่านผิด!"); } 
     }
 
-    function saveQ() {
-        let n = document.getElementById('qn').value, dr = document.getElementById('qdr').value, p = document.getElementById('qp').value;
-        if(!n || !dr) return alert('กรอกชื่อลูกค้าและเลือกหมอ!');
-        db.qs.push({id:Date.now(), n, dr, p, t:curType, paid:false});
-        let i = db.drs.findIndex(x=>x.n===dr); if(i!==-1) db.drs[i].st='busy';
-        pushCloud(); openP('home');
-    }
-
-    function deleteQ(id) { if(prompt("ใส่รหัสเพื่อลบรายการ") === "123456") { db.qs = db.qs.filter(q => q.id !== id); pushCloud(); } else { alert("รหัสผิด!"); } }
-
-    function updateUI() {
-        // อัปเดตยอดเงินหลังบ้าน
+    function renderUI() {
         document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`;
+        renderTables();
         
-        // อัปเดตตารางหลังบ้าน
-        document.getElementById('tb-list').innerHTML = db.qs.map(q=>`<tr><td>${q.n}</td><td>${q.dr}</td><td>${q.paid?'✅':'⏳'}</td><td><button onclick="deleteQ(${q.id})" style="border:none; background:none;">🗑️</button></td></tr>`).join('');
-        
-        // --- 🚩 อัปเดตตารางหน้าหมอนวด (ด่านหน้า) ---
-        document.getElementById('tb-doctor-view').innerHTML = db.qs.map(q=>`<tr><td>${q.n}</td><td>${q.dr}</td><td><span style="color:${q.paid?'green':'orange'}; font-weight:bold;">${q.paid?'เสร็จแล้ว':'กำลังนวด'}</span></td></tr>`).join('');
-
-        document.getElementById('st-list').innerHTML = db.drs.map(d=>`
+        let doctorSwitchHTML = '';
+        db.drs.forEach(doc => {
+            let isBusy = doc.st === 'busy';
+            doctorSwitchHTML += `
             <div class="switch-container">
-                <div><strong>${d.n}</strong><br><span style="font-size:12px; font-weight:bold;" class="${d.st==='free'?'free-txt':'busy-txt'}">(${d.st==='free'?'ว่าง':'ไม่ว่าง'})</span></div>
-                <input type="checkbox" class="switch" ${d.st==='busy'?'checked':''} onchange="toggleDR('${d.n}')">
-            </div>`).join('');
-        document.getElementById('psel').innerHTML = '<option value="">-- เลือกคิว --</option>'+db.qs.filter(x=>!x.paid).map(q=>`<option value="${q.id}">${q.n} (${q.p}.-)</option>`).join('');
-        document.getElementById('qdr').innerHTML = '<option value="">-- เลือกหมอที่ว่าง --</option>' + db.drs.filter(d=>d.st==='free').map(d=>`<option value="${d.n}">${d.n}</option>`).join('');
+                <div>
+                    <strong style="font-size: 16px;">${doc.n}</strong><br>
+                    <span class="status-badge ${isBusy ? 'status-danger' : 'status-free'}" style="margin-top:5px;">
+                        ${isBusy ? '❌ ติดเคสลูกค้า' : '✅ ว่างรับแขก'}
+                    </span>
+                </div>
+                <input type="checkbox" class="switch" ${isBusy ? 'checked' : ''} onchange="toggleDoctorStatus('${doc.n}')">
+            </div>`;
+        });
+        document.getElementById('st-list').innerHTML = doctorSwitchHTML;
+
+        let unpaidQueues = db.qs.filter(queue => queue.paid === false);
+        let paymentOptions = '<option value="" disabled selected>-- เลือกลูกค้าที่ต้องการชำระเงิน --</option>';
+        unpaidQueues.forEach(q => { paymentOptions += `<option value="${q.id}">คุณ ${q.n} (ยอด: ${q.p} บาท)</option>`; });
+        document.getElementById('psel').innerHTML = paymentOptions;
+
+        let freeDoctors = db.drs.filter(doc => doc.st === 'free');
+        let doctorOptions = '<option value="" disabled selected>-- เลือกหมอนวดที่ว่าง --</option>';
+        freeDoctors.forEach(doc => { doctorOptions += `<option value="${doc.n}">${doc.n}</option>`; });
+        document.getElementById('qdr').innerHTML = doctorOptions;
+
+        document.getElementById('dash-cust').innerText = db.qs.length;
+        document.getElementById('dash-paid').innerText = db.qs.filter(q => q.paid).length;
+        document.getElementById('dash-unpaid').innerText = db.qs.filter(q => !q.paid).length;
+
+        let settingsDrHTML = '';
+        db.drs.forEach(doc => {
+            settingsDrHTML += `
+            <div class="switch-container" style="padding: 10px 15px;">
+                <strong>${doc.n}</strong>
+                <button onclick="removeDoctor('${doc.n}')" style="background:var(--danger); color:white; border:none; padding:5px 10px; border-radius:10px; cursor:pointer;">ลบออก</button>
+            </div>`;
+        });
+        document.getElementById('dr-manage-list').innerHTML = settingsDrHTML;
     }
 
-    function toggleDR(name) { let i = db.drs.findIndex(d=>d.n===name); if(i!==-1) { db.drs[i].st = (db.drs[i].st === 'free') ? 'busy' : 'free'; pushCloud(); } }
-    function setM(m) { payMode = m; document.getElementById('mqr').classList.toggle('active', m==='qr'); document.getElementById('mcash').classList.toggle('active', m==='cash'); genQR(); }
-    function genQR() { let a = document.getElementById('pa').value; let d = document.getElementById('qr-area'); if(payMode==='qr' && a > 0) { document.getElementById('qr-img').src = `https://promptpay.io/${db.pp}/${a}.png?t=${Date.now()}`; document.getElementById('pp-txt').innerText = "พร้อมเพย์: "+db.pp; d.style.display = 'block'; } else { d.style.display = 'none'; } }
-    async function confirmPay() { let id = document.getElementById('psel').value, a = document.getElementById('pa').value; let qIdx = db.qs.findIndex(x=>x.id==id); if(qIdx===-1) return; let q = db.qs[qIdx]; let log = { date: new Date().toLocaleDateString('th-TH'), time: new Date().toLocaleTimeString('th-TH'), n: q.n, dr: q.dr, a: a, mode: payMode }; db.total += parseInt(a); db.qs[qIdx].paid = true; let di = db.drs.findIndex(x=>x.n===q.dr); if(di!==-1) db.drs[di].st='free'; await pushCloud(log); openP('home'); }
-    function autoP() { let q = db.qs.find(x=>x.id==document.getElementById('psel').value); if(q) { document.getElementById('pa').value=q.p; genQR(); } }
-    function openP(id) { document.querySelectorAll('.page, #home').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='block'; if(id==='home') syncCloud(); }
-    function resetToday() { if(confirm("เริ่มวันใหม่?")){ db.total=0; db.qs=[]; pushCloud(); } }
+    function renderTables() {
+        let now = Date.now();
+        let adminTableHTML = '';
+        let doctorTableHTML = '';
+
+        db.qs.forEach(q => {
+            let endTime = q.id + (q.d * 60000); 
+            let timeLeft = Math.ceil((endTime - now) / 60000);
+            
+            let massageStatusHTML = '';
+            if (timeLeft > 0) {
+                massageStatusHTML = `<span class="status-badge status-busy">⏳ นวดอยู่ (${timeLeft} นาที)</span>`;
+            } else {
+                massageStatusHTML = `<span class="status-badge status-free">✅ ครบเวลา</span>`;
+            }
+
+            adminTableHTML += `<tr>
+                <td style="font-size:12px; color: #666;">${q.time || '-'}</td>
+                <td><strong>${q.n}</strong></td>
+                <td>${typeNames[q.t] || q.t}<span class="srv-text">(${q.d || '-'} นาที)</span></td>
+                <td style="color: var(--gold-primary);">${q.dr}</td>
+                <td style="font-weight:bold;">${q.p}.-</td>
+                <td><span class="status-badge ${q.paid ? 'status-free' : 'status-danger'}">${q.paid ? 'จ่ายแล้ว' : 'ค้างชำระ'}</span></td>
+                <td>${massageStatusHTML}</td>
+                <td><button onclick="deleteQueue(${q.id})" style="border:none; background:none; cursor:pointer; font-size:18px;">🗑️</button></td>
+            </tr>`;
+
+            doctorTableHTML += `<tr>
+                <td style="font-size:12px; color: #666;">${q.time || '-'}</td>
+                <td style="font-size:16px;"><strong>${q.n}</strong></td>
+                <td>${typeNames[q.t] || q.t}<span class="srv-text">(${q.d || '-'} นาที)</span></td>
+                <td style="color: var(--gold-primary); font-weight: 600;">${q.dr}</td>
+                <td>${massageStatusHTML}</td>
+            </tr>`;
+        });
+
+        document.getElementById('tb-list').innerHTML = adminTableHTML;
+        document.getElementById('tb-doctor-view').innerHTML = doctorTableHTML;
+    }
+
+    function toggleDoctorStatus(docName) { 
+        let index = db.drs.findIndex(doc => doc.n === docName); 
+        if(index !== -1) { db.drs[index].st = (db.drs[index].st === 'free') ? 'busy' : 'free'; saveDataToCloud(); } 
+    }
+
+    function setPaymentMode(mode) { 
+        payMode = mode; 
+        document.getElementById('mqr').classList.toggle('active', mode === 'qr'); 
+        document.getElementById('mcash').classList.toggle('active', mode === 'cash'); 
+        generateQRCode(); 
+    }
+
+    function generateQRCode() { 
+        let amount = document.getElementById('pa').value; 
+        let qrContainer = document.getElementById('qr-area'); 
+        if(payMode === 'qr' && amount > 0) { 
+            document.getElementById('qr-img').src = `https://promptpay.io/${db.pp}/${amount}.png?t=${Date.now()}`; 
+            document.getElementById('pp-txt').innerText = "สแกนโอนเข้าพร้อมเพย์: " + db.pp; 
+            qrContainer.style.display = 'block'; 
+        } else { qrContainer.style.display = 'none'; } 
+    }
+
+    function autoFillPrice() { 
+        let selectedId = document.getElementById('psel').value;
+        let queueData = db.qs.find(item => item.id == selectedId); 
+        if(queueData) { document.getElementById('pa').value = queueData.p; generateQRCode(); } 
+        else { document.getElementById('pa').value = ''; generateQRCode(); } 
+    }
+
+    function confirmPayment() { 
+        let selectedId = document.getElementById('psel').value;
+        let amount = document.getElementById('pa').value; 
+        if(!selectedId || !amount) return alert("⚠️ กรุณาเลือกลูกค้าและตรวจสอบยอดเงิน"); 
+        let qIndex = db.qs.findIndex(item => item.id == selectedId); 
+        if(qIndex === -1) return; 
+        db.total += parseInt(amount); 
+        db.qs[qIndex].paid = true; 
+        document.getElementById('pa').value = ''; 
+        alert(`✅ รับชำระเงิน ${amount} บาท สำเร็จ!\n(อย่าลืมไปปรับสถานะหมอเมื่อนวดเสร็จ)`);
+        saveDataToCloud(); 
+        openPage('home'); 
+    }
+
+    function addDoctor() {
+        let newName = document.getElementById('new-dr-name').value.trim();
+        if(!newName) return alert("กรุณาพิมพ์ชื่อหมอ!");
+        let exists = db.drs.find(d => d.n === newName);
+        if(exists) return alert("มีชื่อหมอคนนี้ในระบบแล้ว!");
+        db.drs.push({ n: newName, st: 'free' });
+        document.getElementById('new-dr-name').value = '';
+        saveDataToCloud();
+    }
+
+    function removeDoctor(docName) {
+        if(confirm(`ต้องการลบ ${docName} ออกจากระบบใช่หรือไม่?`)) { db.drs = db.drs.filter(d => d.n !== docName); saveDataToCloud(); }
+    }
+
+    function resetToday() { 
+        if(prompt("⚠️ ล้างข้อมูลคิวและยอดเงินทั้งหมด!\nใส่รหัสผ่าน (123456):") === "123456"){ 
+            db.total = 0; db.qs = []; db.drs.forEach(doc => doc.st = 'free'); 
+            alert("✅ เคลียร์ยอดวันใหม่เรียบร้อย"); saveDataToCloud(); 
+        } else { alert("❌ รหัสผ่านผิด!"); }
+    }
 </script>
 </body>
 </html>
