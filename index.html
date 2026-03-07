@@ -3,135 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทองไทยสปา - OriginOS Style (V.Pro Max Smooth)</title>
+    <title>ประคบทองไทยสปา - Premium System</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         /* =========================================
-           ระบบตัวแปร CSS (รองรับการเปลี่ยนธีม)
+           ระบบตัวแปร CSS (OriginOS Fluid Style)
            ========================================= */
         :root {
-            --bg-color: #F2F4F7;
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --input-bg: #ffffff;
-            --table-bg: #ffffff;
-            --text-main: #1C1C1E;
-            --text-muted: #8E8E93;
-            
-            --gold-light: #EED28A;
-            --gold-primary: #D4AF37;
-            --gold-dark: #B8860B;
-            
-            --danger: #FF3B30;
-            --success: #34C759;
-            --warning: #FF9500;
-            --info: #0A84FF; 
-            
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
-            --shadow-float: 0 16px 40px rgba(212, 175, 55, 0.2);
-            --radius-card: 28px;
-            --radius-btn: 22px;
-            --radius-input: 18px;
-            
-            /* อนิเมชันไหลลื่นขั้นสุด */
+            --bg-color: #F2F4F7; --card-bg: rgba(255, 255, 255, 0.85); --input-bg: #ffffff; --table-bg: #ffffff;
+            --text-main: #1C1C1E; --text-muted: #8E8E93;
+            --gold-light: #EED28A; --gold-primary: #D4AF37; --gold-dark: #B8860B;
+            --danger: #FF3B30; --success: #34C759; --warning: #FF9500; --info: #0A84FF; 
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04); --shadow-float: 0 16px 40px rgba(212, 175, 55, 0.2);
+            --radius-card: 28px; --radius-btn: 22px; --radius-input: 18px;
             --transition-fluid: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        body {
-            font-family: 'Kanit', sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 0;
-            color: var(--text-main);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            transition: background-color 0.5s ease;
-        }
-
+        body { font-family: 'Kanit', sans-serif; background-color: var(--bg-color); margin: 0; padding: 0; color: var(--text-main); overflow-x: hidden; -webkit-font-smoothing: antialiased; transition: background-color 0.5s ease; }
         .container { width: 100%; max-width: 800px; padding: 24px; box-sizing: border-box; margin: 0 auto; }
 
-        /* การ์ดสไตล์กระจก */
-        .card { 
-            background: var(--card-bg); padding: 30px 25px; border-radius: var(--radius-card); 
-            box-shadow: var(--shadow-soft); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2); text-align: center; margin-bottom: 24px; transition: var(--transition-fluid);
-        }
+        .card { background: var(--card-bg); padding: 30px 25px; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); text-align: center; margin-bottom: 24px; transition: var(--transition-fluid); }
         .card:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06); }
 
-        /* ปุ่มกด Neumorphic */
-        .btn-modern {
-            background: var(--input-bg); color: var(--text-main); border: none; padding: 16px 20px;
-            border-radius: var(--radius-btn); box-shadow: 0 4px 14px rgba(0,0,0,0.04); cursor: pointer;
-            font-family: 'Kanit', sans-serif; font-weight: 500; font-size: 16px; width: 100%;
-            margin-top: 12px; transition: var(--transition-fluid); display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
+        .btn-modern { background: var(--input-bg); color: var(--text-main); border: none; padding: 16px 20px; border-radius: var(--radius-btn); box-shadow: 0 4px 14px rgba(0,0,0,0.04); cursor: pointer; font-family: 'Kanit', sans-serif; font-weight: 500; font-size: 16px; width: 100%; margin-top: 12px; transition: var(--transition-fluid); display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-modern:active { transform: scale(0.95); opacity: 0.9; }
-        
         .btn-gold { background: linear-gradient(135deg, var(--gold-light), var(--gold-dark)); color: white !important; box-shadow: var(--shadow-float); font-weight: 600; border: none; }
         .btn-gold:hover { filter: brightness(1.05); transform: translateY(-1px); }
 
-        /* อนิเมชันการเปลี่ยนหน้า */
         .page { display: none; animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; }
         @keyframes slideUp { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* ตารางคิว */
         .table-responsive { overflow-x: auto; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); margin-top: 20px; background: var(--table-bg); padding: 8px; transition: var(--transition-fluid); }
         table { width: 100%; border-collapse: collapse; font-size: 14px; color: var(--text-main); }
         th { background-color: rgba(212, 175, 55, 0.1); color: var(--gold-dark); padding: 14px 10px; font-weight: 600; white-space: nowrap; border-radius: 12px; }
         td { padding: 16px 10px; border-bottom: 1px solid var(--bg-color); text-align: center; vertical-align: middle; }
         tr:last-child td { border-bottom: none; }
 
-        /* สวิตช์ปิดเปิด */
         .switch-container { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: var(--card-bg); border-radius: var(--radius-card); margin-bottom: 12px; box-shadow: var(--shadow-soft); transition: var(--transition-fluid); border: 1px solid rgba(255,255,255,0.05); }
-        .switch-container:active { transform: scale(0.98); }
         .switch { position: relative; width: 54px; height: 30px; appearance: none; background: #E5E5EA; border-radius: 30px; outline: none; transition: 0.3s; cursor: pointer; }
         .switch:checked { background: var(--success); }
         .switch::before { content: ''; position: absolute; width: 26px; height: 26px; border-radius: 50%; top: 2px; left: 2px; background: white; transition: 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
         .switch:checked::before { left: 26px; }
 
-        /* ป้ายสถานะทรงแคปซูล */
         .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 500; white-space: nowrap; display: inline-block; letter-spacing: 0.3px; }
         .status-free { background-color: rgba(52, 199, 89, 0.15); color: var(--success); }
         .status-busy { background-color: rgba(255, 149, 0, 0.15); color: var(--warning); }
         .status-danger { background-color: rgba(255, 59, 48, 0.15); color: var(--danger); }
-        .status-info { background-color: rgba(10, 132, 255, 0.15); color: var(--info); } 
-
-        /* ปุ่มเลือกประเภท */
+        
         .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; justify-content: center; }
         .chip { padding: 10px 18px; border-radius: 24px; background: var(--input-bg); box-shadow: 0 2px 8px rgba(0,0,0,0.03); font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: var(--transition-fluid); color: var(--text-muted); user-select: none; }
-        .chip:active { transform: scale(0.95); }
         .chip.active { background: rgba(212, 175, 55, 0.1); color: var(--gold-dark); font-weight: 600; border: 2px solid var(--gold-primary); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2); }
 
-        /* ช่องกรอกข้อมูล */
         .form-control { width: 100%; padding: 16px 20px; border-radius: var(--radius-input); border: 2px solid transparent; background: var(--input-bg); color: var(--text-main); font-family: 'Kanit', sans-serif; font-size: 16px; box-sizing: border-box; margin-bottom: 16px; outline: none; transition: var(--transition-fluid); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
         .form-control:focus { border: 2px solid var(--gold-primary); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1); }
         
         .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
-
-        /* QR Code */
         #qr-area { display: none; margin: 24px 0; text-align: center; animation: slideUp 0.3s ease forwards; }
         #qr-img { width: 220px; border: 12px solid var(--input-bg); border-radius: 24px; box-shadow: var(--shadow-soft); }
         
-        /* โหลดเดอร์ด้านบนสุด */
         #sync-load { position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, var(--gold-primary), var(--gold-dark)); color: white; text-align: center; font-size: 13px; padding: 6px; display: none; z-index: 10000; font-weight: 500; letter-spacing: 1px; }
 
-        #doctor-screen { display: block; }
-        #admin-panel { display: none; }
-        
-        /* Modal ซ้อนทับ (Login & Extend Time) */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: fadeIn 0.2s ease; }
-        .modal-content { animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: fadeIn 0.2s ease; padding: 20px; }
+        .modal-content { animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; width: 100%; max-width: 380px; }
 
-        /* ระบบ Toast (การแจ้งเตือนแบบแอป) */
         .toast { position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 14px 28px; border-radius: 30px; font-weight: 500; font-size: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: bottom 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease; opacity: 0; z-index: 10001; pointer-events: none; }
         .toast.show { bottom: 40px; opacity: 1; }
 
         .srv-text { font-size: 12px; color: var(--text-muted); display: block; margin-top: 4px; font-weight: 400; }
         .stat-box { background: var(--card-bg); padding: 24px; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); text-align: center; margin-bottom: 16px; transition: var(--transition-fluid); }
-        .stat-box:hover { transform: translateY(-4px); }
         .stat-val { font-size: 36px; font-weight: 600; color: var(--gold-dark); margin: 8px 0 0 0; }
         .icon { font-size: 18px; margin-right: 4px; }
+
+        /* ดีไซน์หน้าใบเสร็จ (Mini Receipt) */
+        .receipt-paper {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            color: #333;
+            font-family: 'Courier New', Courier, monospace; /* ฟอนต์สไตล์เครื่องปริ้น */
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            position: relative;
+            text-align: center;
+        }
+        .receipt-paper::before {
+            content: ''; position: absolute; top: -5px; left: 0; right: 0; height: 10px;
+            background: radial-gradient(circle, transparent 4px, #fff 5px) repeat-x; background-size: 10px 10px;
+        }
+        .receipt-divider { border-top: 2px dashed #ccc; margin: 15px 0; }
+        .receipt-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; text-align: left; }
+        
+        /* ซ่อนสิ่งที่ไม่จำเป็นตอนกดพิมพ์ (Print) */
+        @media print {
+            body * { visibility: hidden; }
+            #receipt-modal, #receipt-modal * { visibility: visible; }
+            #receipt-modal { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
     </style>
 </head>
 <body onload="initApp()">
@@ -162,7 +131,7 @@
 </div>
 
 <div id="login-overlay" class="modal-overlay">
-    <div class="card modal-content" style="width:90%; max-width: 340px; border-radius: 32px;">
+    <div class="card modal-content">
         <h2 style="color:var(--gold-dark); margin-bottom: 24px; font-weight: 600;">ADMIN LOGIN</h2>
         <input type="password" id="admin-pass" class="form-control" placeholder="ใส่รหัสผ่าน (123456)" style="text-align: center;">
         <button class="btn-modern btn-gold" onclick="authAdmin()">🔓 เข้าสู่ระบบ (จำ 24 ชม.)</button>
@@ -171,25 +140,51 @@
 </div>
 
 <div id="extend-overlay" class="modal-overlay">
-    <div class="card modal-content" style="width:90%; max-width: 340px; border-radius: 32px;">
+    <div class="card modal-content">
         <h2 style="color:var(--info); margin-bottom: 12px; font-weight: 600;">⏳ ขอต่อเวลานวด</h2>
         <p id="extend-name" style="color: var(--text-muted); margin-bottom: 24px; font-size: 14px;">ลูกค้า: -</p>
-        
         <input type="number" id="extend-mins" class="form-control" placeholder="เพิ่มเวลากี่นาที? (เช่น 30, 60)" style="text-align: center;">
         <input type="number" id="extend-price" class="form-control" placeholder="เก็บเงินเพิ่มเท่าไหร่? (บาท)" style="text-align: center;">
-        
         <button class="btn-modern" style="background: var(--info); color: white;" onclick="confirmExtend()">💾 บันทึกการต่อเวลา</button>
         <button class="btn-modern" style="color: var(--danger);" onclick="closeExtendModal()">ยกเลิก</button>
     </div>
 </div>
 
-<div id="admin-panel">
+<div id="receipt-overlay" class="modal-overlay">
+    <div class="receipt-paper" id="receipt-modal">
+        <h2 style="margin: 0 0 5px 0;">ประคบทองสปา</h2>
+        <p style="margin: 0; font-size: 12px; color: #666;">โทร: 08X-XXX-XXXX</p>
+        <div class="receipt-divider"></div>
+        
+        <div class="receipt-row"><span>วันที่:</span><span id="rc-date">-</span></div>
+        <div class="receipt-row"><span>เวลา:</span><span id="rc-time">-</span></div>
+        <div class="receipt-row"><span>ลูกค้า:</span><span id="rc-name">-</span></div>
+        <div class="receipt-row"><span>พนักงาน:</span><span id="rc-dr">-</span></div>
+        
+        <div class="receipt-divider"></div>
+        <div class="receipt-row" style="font-weight: bold;"><span>รายการ</span><span>ราคา</span></div>
+        <div class="receipt-row"><span id="rc-service">-</span><span id="rc-price">-</span></div>
+        
+        <div class="receipt-divider"></div>
+        <div class="receipt-row" style="font-size: 18px; font-weight: bold;"><span>ยอดสุทธิ:</span><span id="rc-total">฿0</span></div>
+        <div class="receipt-row"><span>วิธีชำระเงิน:</span><span id="rc-pm">-</span></div>
+        
+        <p style="margin-top: 20px; font-size: 12px; text-align: center;">ขอบคุณที่ใช้บริการครับ/ค่ะ 🙏</p>
+        
+        <div class="no-print">
+            <button class="btn-modern btn-gold" style="margin-top: 20px; border-radius: 8px;" onclick="window.print()">🖨️ พิมพ์ใบเสร็จ</button>
+            <button class="btn-modern" style="border-radius: 8px;" onclick="document.getElementById('receipt-overlay').style.display='none'">❌ ปิดหน้าต่าง</button>
+        </div>
+    </div>
+</div>
+
+<div id="admin-panel" style="display: none;">
     <div class="container" id="app">
         <div id="home" class="page" style="display: block;">
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items: center;">
                     <span style="font-weight: 500; color: var(--text-muted); font-size: 14px;">ยอดรายรับวันนี้</span>
-                    <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer; transition: 0.2s;">ออกระบบ</button>
+                    <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer;">ออกระบบ</button>
                 </div>
                 <h1 id="total-val" style="font-size:48px; font-weight: 600; color:var(--gold-dark); margin:12px 0;">฿0</h1>
             </div>
@@ -219,7 +214,6 @@
         
         <div id="p-st" class="page">
             <h2 style="color: var(--gold-dark); font-weight: 600;">🧘‍♂️ สถานะหมอนวด</h2>
-            <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">ระบบจะปรับ "ว่าง" ให้อัตโนมัติเมื่อหมดเวลา</p>
             <div id="st-list"></div>
             <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
@@ -227,6 +221,7 @@
         <div id="p-q" class="page">
             <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิวจอง</h2>
             <input type="text" id="qn" class="form-control" placeholder="ชื่อลูกค้า...">
+            <input type="text" id="qnote" class="form-control" placeholder="หมายเหตุ (เช่น เน้นบ่าไหล่, แพ้ยา)...">
             
             <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ประเภทบริการ</label>
             <div class="chip-group" id="prog-chips">
@@ -275,7 +270,7 @@
                 </div>
             </div>
             
-            <button class="btn-modern btn-gold" onclick="confirmPayment()">✅ ยืนยันรับเงิน</button>
+            <button class="btn-modern btn-gold" onclick="confirmPayment()">✅ ยืนยันรับเงิน (ออกใบเสร็จ)</button>
             <button class="btn-modern" onclick="openPage('home')">ยกเลิก</button>
         </div>
 
@@ -315,14 +310,11 @@
 
     let db = { total: 0, qs: [], drs: [], pp: '0863526387' };
     
-    // 🔥 แก้บั๊กราคาเรียบร้อย: ตารางราคาสมบูรณ์ ครอบคลุมทุกนาที ไม่มีบั๊กแสดง 0 บาทแล้ว
+    // ตารางราคา
     const priceTable = { 
-        'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 
-        'foot': { 30: 150, 60: 300, 90: 450, 120: 600 }, 
-        'back': { 30: 150, 60: 300, 90: 450, 120: 600 }, 
-        'oil':  { 30: 200, 60: 400, 90: 600, 120: 800 }, 
-        'spa':  { 30: 350, 60: 700, 90: 1050, 120: 1400 }, 
-        'face': { 30: 200, 60: 400, 90: 600, 120: 800 }, 
+        'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 'foot': { 30: 150, 60: 300, 90: 450, 120: 600 }, 
+        'back': { 30: 150, 60: 300, 90: 450, 120: 600 }, 'oil':  { 30: 200, 60: 400, 90: 600, 120: 800 }, 
+        'spa':  { 30: 350, 60: 700, 90: 1050, 120: 1400 }, 'face': { 30: 200, 60: 400, 90: 600, 120: 800 }, 
         'herb': { 30: 200, 60: 400, 90: 600, 120: 800 } 
     };
     const typeNames = { 'thai': 'นวดแผนไทย', 'foot': 'นวดฝ่าเท้า', 'back': 'นวดรีดเส้น', 'oil': 'นวดน้ำมันอโรม่า', 'spa': 'สปาขัดผิว', 'face': 'นวดหน้า', 'herb': 'นวดประคบสมุนไพร' };
@@ -337,7 +329,6 @@
         nature: { '--bg-color': '#E8F5E9', '--card-bg': 'rgba(255, 255, 255, 0.9)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1B5E20', '--text-muted': '#4CAF50', '--gold-primary': '#43A047', '--gold-dark': '#2E7D32' }
     };
 
-    // ฟังก์ชันโชว์แจ้งเตือนแบบสมูทๆ (Toast) แทน Alert เดิม
     function showToast(msg, isError = false) {
         let toast = document.getElementById('toast');
         toast.innerText = msg;
@@ -351,10 +342,7 @@
         setTheme(savedTheme);
         await fetchData(); 
         checkPersistentLogin();
-        setInterval(() => { 
-            autoClearDoctors();
-            renderTables(); 
-        }, 10000); 
+        setInterval(() => { autoClearDoctors(); renderTables(); }, 10000); 
     }
 
     function checkPersistentLogin() {
@@ -388,32 +376,26 @@
     }
 
     function autoClearDoctors() {
-        let now = Date.now();
-        let shouldSave = false;
+        let now = Date.now(); let shouldSave = false;
         db.qs.forEach(q => {
             let endTime = q.id + (q.d * 60000); 
             if (now >= endTime && !q.isFinished) {
                 q.isFinished = true; 
                 let docIndex = db.drs.findIndex(doc => doc.n === q.dr);
-                if(docIndex !== -1 && db.drs[docIndex].st === 'busy') {
-                    db.drs[docIndex].st = 'free';
-                    shouldSave = true; 
-                }
+                if(docIndex !== -1 && db.drs[docIndex].st === 'busy') { db.drs[docIndex].st = 'free'; shouldSave = true; }
             }
         });
         if(shouldSave) saveDataToCloud();
     }
 
     function openExtendModal(id, name) {
-        currentExtendId = id;
-        document.getElementById('extend-name').innerText = `ลูกค้า: ${name}`;
+        currentExtendId = id; document.getElementById('extend-name').innerText = `ลูกค้า: ${name}`;
         document.getElementById('extend-overlay').style.display = 'flex';
     }
 
     function closeExtendModal() {
         document.getElementById('extend-overlay').style.display = 'none';
-        document.getElementById('extend-mins').value = '';
-        document.getElementById('extend-price').value = '';
+        document.getElementById('extend-mins').value = ''; document.getElementById('extend-price').value = '';
         currentExtendId = null;
     }
 
@@ -425,16 +407,12 @@
         let qIndex = db.qs.findIndex(x => x.id === currentExtendId);
         if(qIndex !== -1) {
             let q = db.qs[qIndex];
-            q.d += addedMins; 
-            q.p = parseInt(q.p) + addedPrice; 
-            q.paid = false;
-            q.pm = '';
-            q.isFinished = false;
+            q.d += addedMins; q.p = parseInt(q.p) + addedPrice; 
+            q.paid = false; q.pm = ''; q.isFinished = false;
             let docIndex = db.drs.findIndex(doc => doc.n === q.dr);
             if(docIndex !== -1) db.drs[docIndex].st = 'busy';
 
-            saveDataToCloud();
-            closeExtendModal();
+            saveDataToCloud(); closeExtendModal();
             showToast(`✅ ต่อเวลาเรียบร้อย ค้างชำระเพิ่ม ${addedPrice}฿`);
         }
     }
@@ -451,19 +429,14 @@
         try {
             let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
             db = await res.json();
-            if(!db.drs || db.drs.length === 0) {
-                db.drs = [{n: 'หมอเอ', st: 'free'}, {n: 'หมอบี', st: 'free'}];
-                saveDataToCloud(); 
-            }
-            renderUI(); 
-            calculatePrice(); 
+            if(!db.drs || db.drs.length === 0) { db.drs = [{n: 'หมอเอ', st: 'free'}, {n: 'หมอบี', st: 'free'}]; saveDataToCloud(); }
+            renderUI(); calculatePrice(); 
         } catch(error) { console.error(error); }
     }
 
     async function saveDataToCloud() {
         renderUI(); 
-        try {
-            await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(db) });
+        try { await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(db) });
         } catch(error) { console.log(error); }
     }
 
@@ -487,7 +460,6 @@
     }
 
     function calculatePrice() { 
-        // อัปเดตให้ดึงจากตารางราคาโดยตรง ไม่มีบั๊กอีกต่อไป
         let price = priceTable[curType][curDur] || 0; 
         document.getElementById('qp').value = price; 
     }
@@ -496,25 +468,24 @@
         let custName = document.getElementById('qn').value;
         let doctorName = document.getElementById('qdr').value;
         let price = document.getElementById('qp').value;
+        let note = document.getElementById('qnote').value; // รับค่าจากช่องหมายเหตุ
+        
         if(!custName || !doctorName) return showToast('⚠️ กรอกข้อมูลให้ครบถ้วน!', true);
         let timeStr = new Date().toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
         
-        db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false, pm: '', isFinished: false });
+        // ยัด note เข้าไปในก้อนข้อมูล
+        db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false, pm: '', note: note, isFinished: false });
         let docIndex = db.drs.findIndex(doc => doc.n === doctorName); 
         if(docIndex !== -1) db.drs[docIndex].st = 'busy';
         
-        document.getElementById('qn').value = ''; 
+        document.getElementById('qn').value = ''; document.getElementById('qnote').value = ''; 
         saveDataToCloud(); 
         showToast('✅ บันทึกคิวสำเร็จ');
         openPage('home'); 
     }
     
     function deleteQueue(id) { 
-        if(prompt("รหัสผ่านลบ (123456):") === "123456") { 
-            db.qs = db.qs.filter(queue => queue.id !== id); 
-            saveDataToCloud(); 
-            showToast('ลบคิวเรียบร้อย');
-        } 
+        if(prompt("รหัสผ่านลบ (123456):") === "123456") { db.qs = db.qs.filter(queue => queue.id !== id); saveDataToCloud(); showToast('ลบคิวเรียบร้อย'); } 
     }
 
     function renderUI() {
@@ -526,12 +497,7 @@
             let isBusy = doc.st === 'busy';
             doctorSwitchHTML += `
             <div class="switch-container">
-                <div>
-                    <strong style="font-size: 16px;">${doc.n}</strong><br>
-                    <span class="status-badge ${isBusy ? 'status-danger' : 'status-free'}" style="margin-top:6px;">
-                        ${isBusy ? 'ติดเคสลูกค้า' : 'ว่างรับแขก'}
-                    </span>
-                </div>
+                <div><strong style="font-size: 16px;">${doc.n}</strong><br><span class="status-badge ${isBusy ? 'status-danger' : 'status-free'}" style="margin-top:6px;">${isBusy ? 'ติดเคสลูกค้า' : 'ว่างรับแขก'}</span></div>
                 <input type="checkbox" class="switch" ${isBusy ? 'checked' : ''} onchange="toggleDoctorStatus('${doc.n}')">
             </div>`;
         });
@@ -555,8 +521,7 @@
         db.drs.forEach(doc => {
             settingsDrHTML += `
             <div class="switch-container" style="padding: 12px 20px;">
-                <strong>${doc.n}</strong>
-                <button onclick="removeDoctor('${doc.n}')" style="background:rgba(255, 59, 48, 0.1); color:var(--danger); border:none; padding:6px 14px; border-radius:14px; cursor:pointer; font-weight:500;">ลบพนักงาน</button>
+                <strong>${doc.n}</strong><button onclick="removeDoctor('${doc.n}')" style="background:rgba(255, 59, 48, 0.1); color:var(--danger); border:none; padding:6px 14px; border-radius:14px; cursor:pointer; font-weight:500;">ลบพนักงาน</button>
             </div>`;
         });
         document.getElementById('dr-manage-list').innerHTML = settingsDrHTML;
@@ -572,15 +537,15 @@
             let timeLeft = Math.ceil((endTime - now) / 60000);
             
             let massageStatusHTML = '';
-            if (timeLeft > 0) {
-                massageStatusHTML = `<span class="status-badge status-busy">นวดอยู่ (${timeLeft} น.)</span>`;
-            } else {
-                massageStatusHTML = `<span class="status-badge status-free">✅ ครบเวลา</span>`;
-            }
+            if (timeLeft > 0) { massageStatusHTML = `<span class="status-badge status-busy">นวดอยู่ (${timeLeft} น.)</span>`; } 
+            else { massageStatusHTML = `<span class="status-badge status-free">✅ ครบเวลา</span>`; }
+
+            // เช็คว่ามีโน้ตไหม ถ้ามีก็โชว์ใต้ชื่อลูกค้า
+            let noteHTML = q.note ? `<br><span style="font-size:11px; color:var(--warning);">📝 ${q.note}</span>` : '';
 
             adminTableHTML += `<tr>
                 <td style="font-size:12px; color: var(--text-muted);">${q.time || '-'}</td>
-                <td><strong style="font-weight: 500;">${q.n}</strong></td>
+                <td><strong style="font-weight: 500;">${q.n}</strong>${noteHTML}</td>
                 <td>${typeNames[q.t] || q.t}<span class="srv-text">${q.d || '-'} นาที</span></td>
                 <td style="color: var(--gold-dark); font-weight: 500;">${q.dr}</td>
                 <td style="font-weight:600;">${q.p}.-</td>
@@ -594,7 +559,7 @@
 
             doctorTableHTML += `<tr>
                 <td style="font-size:12px; color: var(--text-muted);">${q.time || '-'}</td>
-                <td style="font-size:15px; font-weight: 500;">${q.n}</td>
+                <td style="font-size:15px; font-weight: 500;">${q.n}${noteHTML}</td>
                 <td>${typeNames[q.t] || q.t}<span class="srv-text">${q.d || '-'} นาที</span></td>
                 <td style="color: var(--gold-dark); font-weight: 600;">${q.dr}</td>
                 <td>${massageStatusHTML}</td>
@@ -607,11 +572,7 @@
 
     function toggleDoctorStatus(docName) { 
         let index = db.drs.findIndex(doc => doc.n === docName); 
-        if(index !== -1) { 
-            db.drs[index].st = (db.drs[index].st === 'free') ? 'busy' : 'free'; 
-            saveDataToCloud(); 
-            showToast('ปรับสถานะหมอแล้ว');
-        } 
+        if(index !== -1) { db.drs[index].st = (db.drs[index].st === 'free') ? 'busy' : 'free'; saveDataToCloud(); showToast('ปรับสถานะหมอแล้ว'); } 
     }
 
     function setPaymentMode(mode) { 
@@ -644,13 +605,30 @@
         if(!selectedId || !amount) return showToast("⚠️ กรุณาเลือกลูกค้าและตรวจสอบยอดเงิน", true); 
         let qIndex = db.qs.findIndex(item => item.id == selectedId); 
         if(qIndex === -1) return; 
-        if(!db.qs[qIndex].paid) { db.total += parseInt(amount); }
-        db.qs[qIndex].paid = true; 
-        db.qs[qIndex].pm = payMode; 
+        
+        let q = db.qs[qIndex];
+        if(!q.paid) { db.total += parseInt(amount); }
+        q.paid = true; 
+        q.pm = payMode; 
+        
+        // ก่อนปิดหน้า ให้ยิงข้อมูลเข้าใบเสร็จ (Mini Receipt)
+        let dateObj = new Date();
+        document.getElementById('rc-date').innerText = dateObj.toLocaleDateString('th-TH');
+        document.getElementById('rc-time').innerText = dateObj.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
+        document.getElementById('rc-name').innerText = q.n;
+        document.getElementById('rc-dr').innerText = q.dr;
+        document.getElementById('rc-service').innerText = `${typeNames[q.t]} (${q.d} นาที)`;
+        document.getElementById('rc-price').innerText = `${amount} บาท`;
+        document.getElementById('rc-total').innerText = `฿${amount}`;
+        document.getElementById('rc-pm').innerText = payMode === 'qr' ? 'โอนเงิน (QR)' : 'เงินสด';
+
         document.getElementById('pa').value = ''; 
-        showToast(`✅ รับเงิน ${amount} บาท สำเร็จ!`);
         saveDataToCloud(); 
         openPage('home'); 
+        
+        // เด้งหน้าต่างใบเสร็จขึ้นมาโชว์!
+        document.getElementById('receipt-overlay').style.display = 'flex';
+        showToast(`✅ รับเงิน ${amount} บาท สำเร็จ!`);
     }
 
     function addDoctor() {
@@ -660,23 +638,17 @@
         if(exists) return showToast("มีชื่อนี้ในระบบแล้ว!", true);
         db.drs.push({ n: newName, st: 'free' });
         document.getElementById('new-dr-name').value = '';
-        saveDataToCloud();
-        showToast('เพิ่มพนักงานสำเร็จ');
+        saveDataToCloud(); showToast('เพิ่มพนักงานสำเร็จ');
     }
 
     function removeDoctor(docName) {
-        if(confirm(`ต้องการลบ ${docName} ออกจากระบบ?`)) { 
-            db.drs = db.drs.filter(d => d.n !== docName); 
-            saveDataToCloud(); 
-            showToast('ลบพนักงานแล้ว');
-        }
+        if(confirm(`ต้องการลบ ${docName} ออกจากระบบ?`)) { db.drs = db.drs.filter(d => d.n !== docName); saveDataToCloud(); showToast('ลบพนักงานแล้ว'); }
     }
 
     function resetToday() { 
         if(prompt("⚠️ ล้างข้อมูลคิวและยอดเงินทั้งหมด!\nใส่รหัส (123456):") === "123456"){ 
             db.total = 0; db.qs = []; db.drs.forEach(doc => doc.st = 'free'); 
-            saveDataToCloud(); 
-            showToast("✅ เคลียร์ยอดวันใหม่เรียบร้อย");
+            saveDataToCloud(); showToast("✅ เคลียร์ยอดวันใหม่เรียบร้อย");
         } else { showToast("❌ รหัสผิด!", true); }
     }
 </script>
