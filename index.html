@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทองไทยสปา - Premium System</title>
+    <title>ประคบทองไทยสปา - Course System Beta</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* =========================================
-           ระบบตัวแปร CSS (OriginOS Fluid Style)
-           ========================================= */
         :root {
             --bg-color: #F2F4F7; --card-bg: rgba(255, 255, 255, 0.85); --input-bg: #ffffff; --table-bg: #ffffff;
             --text-main: #1C1C1E; --text-muted: #8E8E93;
@@ -75,32 +72,13 @@
         .stat-box { background: var(--card-bg); padding: 24px; border-radius: var(--radius-card); box-shadow: var(--shadow-soft); text-align: center; margin-bottom: 16px; transition: var(--transition-fluid); }
         .stat-val { font-size: 36px; font-weight: 600; color: var(--gold-dark); margin: 8px 0 0 0; }
         .icon { font-size: 18px; margin-right: 4px; }
-
-        /* ดีไซน์หน้าใบเสร็จ (Mini Receipt) */
-        .receipt-paper {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            color: #333;
-            font-family: 'Courier New', Courier, monospace; /* ฟอนต์สไตล์เครื่องปริ้น */
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            position: relative;
-            text-align: center;
-        }
-        .receipt-paper::before {
-            content: ''; position: absolute; top: -5px; left: 0; right: 0; height: 10px;
-            background: radial-gradient(circle, transparent 4px, #fff 5px) repeat-x; background-size: 10px 10px;
-        }
+        
+        /* สไตล์ใบเสร็จ */
+        .receipt-paper { background: #fff; padding: 30px; border-radius: 12px; color: #333; font-family: 'Courier New', Courier, monospace; box-shadow: 0 5px 25px rgba(0,0,0,0.2); position: relative; text-align: center; }
+        .receipt-paper::before { content: ''; position: absolute; top: -5px; left: 0; right: 0; height: 10px; background: radial-gradient(circle, transparent 4px, #fff 5px) repeat-x; background-size: 10px 10px; }
         .receipt-divider { border-top: 2px dashed #ccc; margin: 15px 0; }
         .receipt-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; text-align: left; }
-        
-        /* ซ่อนสิ่งที่ไม่จำเป็นตอนกดพิมพ์ (Print) */
-        @media print {
-            body * { visibility: hidden; }
-            #receipt-modal, #receipt-modal * { visibility: visible; }
-            #receipt-modal { position: absolute; left: 0; top: 0; width: 100%; }
-            .no-print { display: none !important; }
-        }
+        @media print { body * { visibility: hidden; } #receipt-modal, #receipt-modal * { visibility: visible; } #receipt-modal { position: absolute; left: 0; top: 0; width: 100%; } .no-print { display: none !important; } }
     </style>
 </head>
 <body onload="initApp()">
@@ -155,22 +133,17 @@
         <h2 style="margin: 0 0 5px 0;">ประคบทองสปา</h2>
         <p style="margin: 0; font-size: 12px; color: #666;">โทร: 08X-XXX-XXXX</p>
         <div class="receipt-divider"></div>
-        
         <div class="receipt-row"><span>วันที่:</span><span id="rc-date">-</span></div>
         <div class="receipt-row"><span>เวลา:</span><span id="rc-time">-</span></div>
         <div class="receipt-row"><span>ลูกค้า:</span><span id="rc-name">-</span></div>
         <div class="receipt-row"><span>พนักงาน:</span><span id="rc-dr">-</span></div>
-        
         <div class="receipt-divider"></div>
         <div class="receipt-row" style="font-weight: bold;"><span>รายการ</span><span>ราคา</span></div>
         <div class="receipt-row"><span id="rc-service">-</span><span id="rc-price">-</span></div>
-        
         <div class="receipt-divider"></div>
         <div class="receipt-row" style="font-size: 18px; font-weight: bold;"><span>ยอดสุทธิ:</span><span id="rc-total">฿0</span></div>
         <div class="receipt-row"><span>วิธีชำระเงิน:</span><span id="rc-pm">-</span></div>
-        
         <p style="margin-top: 20px; font-size: 12px; text-align: center;">ขอบคุณที่ใช้บริการครับ/ค่ะ 🙏</p>
-        
         <div class="no-print">
             <button class="btn-modern btn-gold" style="margin-top: 20px; border-radius: 8px;" onclick="window.print()">🖨️ พิมพ์ใบเสร็จ</button>
             <button class="btn-modern" style="border-radius: 8px;" onclick="document.getElementById('receipt-overlay').style.display='none'">❌ ปิดหน้าต่าง</button>
@@ -193,12 +166,36 @@
                 <button class="btn-modern" onclick="openPage('p-q')"><span class="icon">📅</span> ลงคิวใหม่</button>
                 <button class="btn-modern" onclick="openPage('p-pay')"><span class="icon">💸</span> รับเงิน/QR</button>
                 <button class="btn-modern" onclick="openPage('p-st')"><span class="icon">🧘‍♂️</span> สถานะหมอ</button>
-                <button class="btn-modern btn-gold" onclick="openPage('p-list')"><span class="icon">📜</span> ดูคิวทั้งหมด</button>
-                <button class="btn-modern" onclick="openPage('p-dash')"><span class="icon">📊</span> สถิติร้าน</button>
-                <button class="btn-modern" onclick="openPage('p-settings')"><span class="icon">⚙️</span> ตั้งค่าร้าน</button>
+                <button class="btn-modern" onclick="openPage('p-list')"><span class="icon">📜</span> ดูคิวทั้งหมด</button>
+                
+                <button class="btn-modern btn-gold" onclick="openPage('p-course')"><span class="icon">🎟️</span> ระบบคอร์สสมาชิก</button>
+                <button class="btn-modern" onclick="openPage('p-settings')"><span class="icon">⚙️</span> ตั้งค่า</button>
+                
                 <button class="btn-modern" style="grid-column: span 2;" onclick="fetchData()"><span class="icon">🔄</span> ซิงค์คลาวด์</button>
                 <button class="btn-modern" style="color:var(--danger); grid-column: span 2; background: rgba(255, 59, 48, 0.05);" onclick="resetToday()">⚠️ ปิดยอดสิ้นวัน (ล้างข้อมูล)</button>
             </div>
+        </div>
+
+        <div id="p-course" class="page">
+            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">🎟️ ระบบคอร์สสมาชิก</h2>
+            
+            <div class="card" style="padding: 24px; text-align: left;">
+                <label style="font-size: 14px; font-weight: bold; color: var(--text-main);">เพิ่มแพ็กเกจใหม่ให้ลูกค้า</label>
+                <input type="text" id="mem-name" class="form-control" style="margin-top: 10px;" placeholder="ชื่อลูกค้า">
+                <input type="tel" id="mem-phone" class="form-control" placeholder="เบอร์โทรศัพท์ (ใส่เพื่อเป็นรหัส)">
+                <input type="text" id="mem-pkg" class="form-control" placeholder="ชื่อคอร์ส (เช่น นวด 10 ชม.)">
+                <input type="number" id="mem-quota" class="form-control" placeholder="จำนวนครั้งทั้งหมด (เช่น 10)">
+                <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="registerMember()">💾 บันทึกแพ็กเกจสมาชิก</button>
+            </div>
+
+            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">รายชื่อสมาชิกคอร์ส</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>ชื่อลูกค้า</th><th>เบอร์โทร</th><th>คอร์ส</th><th>โควต้า</th><th>จัดการ</th></tr></thead>
+                    <tbody id="tb-members"></tbody>
+                </table>
+            </div>
+            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
 
         <div id="p-list" class="page">
@@ -221,7 +218,7 @@
         <div id="p-q" class="page">
             <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิวจอง</h2>
             <input type="text" id="qn" class="form-control" placeholder="ชื่อลูกค้า...">
-            <input type="text" id="qnote" class="form-control" placeholder="หมายเหตุ (เช่น เน้นบ่าไหล่, แพ้ยา)...">
+            <input type="text" id="qnote" class="form-control" placeholder="หมายเหตุ (เช่น นวดเบาๆ, แพ้ยา)...">
             
             <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ประเภทบริการ</label>
             <div class="chip-group" id="prog-chips">
@@ -274,14 +271,6 @@
             <button class="btn-modern" onclick="openPage('home')">ยกเลิก</button>
         </div>
 
-        <div id="p-dash" class="page">
-            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📊 สถิติร้าน</h2>
-            <div class="stat-box"><p style="margin: 0; color: var(--text-muted); font-size: 14px;">จำนวนลูกค้าทั้งหมด</p><div id="dash-cust" class="stat-val">0</div></div>
-            <div class="stat-box"><p style="margin: 0; color: var(--text-muted); font-size: 14px;">ชำระเงินแล้ว</p><div id="dash-paid" class="stat-val" style="color: var(--success);">0</div></div>
-            <div class="stat-box"><p style="margin: 0; color: var(--text-muted); font-size: 14px;">ค้างชำระ</p><div id="dash-unpaid" class="stat-val" style="color: var(--danger);">0</div></div>
-            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
-        </div>
-
         <div id="p-settings" class="page">
             <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">⚙️ ตั้งค่าระบบ</h2>
             
@@ -297,7 +286,6 @@
                 <input type="text" id="new-dr-name" class="form-control" placeholder="ชื่อหมอนวดใหม่...">
                 <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="addDoctor()">➕ เพิ่มพนักงาน</button>
             </div>
-            
             <div id="dr-manage-list"></div>
             <button class="btn-modern btn-gold" style="margin-top: 32px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
@@ -308,9 +296,9 @@
     // 🚨 ใส่ URL ของมึงตรงนี้
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeed4VHbOWGkrn0Kxdl7R9wulIIa6qYjXdwq_u4Rc4_pb1kj4DYcfU_r4SICHlUMVd/exec"; 
 
-    let db = { total: 0, qs: [], drs: [], pp: '0863526387' };
+    // เพิ่ม members: [] ไว้เก็บข้อมูลคอร์ส
+    let db = { total: 0, qs: [], drs: [], members: [], pp: '0863526387' };
     
-    // ตารางราคา
     const priceTable = { 
         'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 'foot': { 30: 150, 60: 300, 90: 450, 120: 600 }, 
         'back': { 30: 150, 60: 300, 90: 450, 120: 600 }, 'oil':  { 30: 200, 60: 400, 90: 600, 120: 800 }, 
@@ -322,7 +310,6 @@
     let curType = 'thai', curDur = 60, payMode = 'qr';
     let currentExtendId = null;
 
-    // ชุดสี Theme
     const themes = {
         light: { '--bg-color': '#F2F4F7', '--card-bg': 'rgba(255, 255, 255, 0.85)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1C1C1E', '--text-muted': '#8E8E93', '--gold-primary': '#D4AF37', '--gold-dark': '#B8860B' },
         dark: { '--bg-color': '#121212', '--card-bg': 'rgba(30, 30, 30, 0.85)', '--input-bg': '#2C2C2E', '--table-bg': '#1C1C1E', '--text-main': '#F2F4F7', '--text-muted': '#A0A0A5', '--gold-primary': '#D4AF37', '--gold-dark': '#C59A28' },
@@ -331,10 +318,8 @@
 
     function showToast(msg, isError = false) {
         let toast = document.getElementById('toast');
-        toast.innerText = msg;
-        toast.style.background = isError ? 'var(--danger)' : 'var(--success)';
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
+        toast.innerText = msg; toast.style.background = isError ? 'var(--danger)' : 'var(--success)';
+        toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
     async function initApp() { 
@@ -430,6 +415,7 @@
             let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
             db = await res.json();
             if(!db.drs || db.drs.length === 0) { db.drs = [{n: 'หมอเอ', st: 'free'}, {n: 'หมอบี', st: 'free'}]; saveDataToCloud(); }
+            if(!db.members) db.members = []; // รับรองอาร์เรย์ของสมาชิก
             renderUI(); calculatePrice(); 
         } catch(error) { console.error(error); }
     }
@@ -449,7 +435,7 @@
         document.querySelectorAll('#prog-chips .chip').forEach(c => c.classList.remove('active')); 
         element.classList.add('active'); curType = typeCode;
         ['dur-30','dur-60','dur-90','dur-120'].forEach(id => document.getElementById(id).style.display = 'none');
-        if(typeCode === 'herb') { ['dur-30','dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-60'), 60); }
+        if(typeCode === 'herb') { ['dur-30','dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-30'), 30); }
         else if(typeCode === 'thai' || typeCode === 'back') { ['dur-60','dur-90','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-60'), 60); }
         else { ['dur-60','dur-120'].forEach(id => document.getElementById(id).style.display = 'inline-block'); selectDur(document.getElementById('dur-60'), 60); }
     }
@@ -468,12 +454,11 @@
         let custName = document.getElementById('qn').value;
         let doctorName = document.getElementById('qdr').value;
         let price = document.getElementById('qp').value;
-        let note = document.getElementById('qnote').value; // รับค่าจากช่องหมายเหตุ
+        let note = document.getElementById('qnote').value; 
         
         if(!custName || !doctorName) return showToast('⚠️ กรอกข้อมูลให้ครบถ้วน!', true);
         let timeStr = new Date().toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
         
-        // ยัด note เข้าไปในก้อนข้อมูล
         db.qs.push({ id: Date.now(), time: timeStr, n: custName, dr: doctorName, p: price, t: curType, d: curDur, paid: false, pm: '', note: note, isFinished: false });
         let docIndex = db.drs.findIndex(doc => doc.n === doctorName); 
         if(docIndex !== -1) db.drs[docIndex].st = 'busy';
@@ -488,9 +473,61 @@
         if(prompt("รหัสผ่านลบ (123456):") === "123456") { db.qs = db.qs.filter(queue => queue.id !== id); saveDataToCloud(); showToast('ลบคิวเรียบร้อย'); } 
     }
 
+    // -----------------------------------------
+    // ฟังก์ชันระบบคอร์สสมาชิก (ใหม่)
+    // -----------------------------------------
+    function registerMember() {
+        let n = document.getElementById('mem-name').value;
+        let phone = document.getElementById('mem-phone').value;
+        let pkg = document.getElementById('mem-pkg').value;
+        let quota = parseInt(document.getElementById('mem-quota').value);
+        
+        if(!n || !phone || !pkg || !quota) return showToast("กรอกข้อมูลให้ครบ!", true);
+        if(!db.members) db.members = [];
+        
+        db.members.push({ id: Date.now(), n: n, phone: phone, pkg: pkg, total: quota, used: 0 });
+        
+        document.getElementById('mem-name').value = ''; document.getElementById('mem-phone').value = '';
+        document.getElementById('mem-pkg').value = ''; document.getElementById('mem-quota').value = '';
+        
+        saveDataToCloud();
+        showToast("✅ สมัครคอร์สสำเร็จ!");
+    }
+
+    function deductCourse(id) {
+        let idx = db.members.findIndex(m => m.id === id);
+        if(idx !== -1) {
+            if(db.members[idx].used < db.members[idx].total) {
+                if(confirm(`ยืนยันการตัดคอร์สของคุณ ${db.members[idx].n} 1 ครั้ง?`)) {
+                    db.members[idx].used += 1;
+                    saveDataToCloud();
+                    showToast("✅ ตัดคอร์ส 1 ครั้ง สำเร็จ!");
+                }
+            } else {
+                showToast("❌ โควต้าคอร์สนี้ใช้หมดแล้ว!", true);
+            }
+        }
+    }
+
     function renderUI() {
         document.getElementById('total-val').innerText = `฿${db.total.toLocaleString()}`;
         renderTables();
+        
+        // อัปเดตตารางระบบคอร์สสมาชิก (ใหม่)
+        if(!db.members) db.members = [];
+        let memHTML = '';
+        db.members.forEach(m => {
+            let remain = m.total - m.used;
+            let statusColor = remain > 0 ? 'var(--success)' : 'var(--danger)';
+            memHTML += `<tr>
+                <td><strong style="font-weight:500;">${m.n}</strong></td>
+                <td style="color:var(--text-muted); font-size:12px;">${m.phone}</td>
+                <td>${m.pkg}</td>
+                <td style="color:${statusColor}; font-weight:bold;">${remain} / ${m.total}</td>
+                <td><button onclick="deductCourse(${m.id})" style="background:var(--info); color:white; border:none; padding:6px 12px; border-radius:12px; cursor:pointer;" ${remain === 0 ? 'disabled' : ''}>ตัดคอร์ส</button></td>
+            </tr>`;
+        });
+        document.getElementById('tb-members').innerHTML = memHTML;
         
         let doctorSwitchHTML = '';
         db.drs.forEach(doc => {
@@ -540,7 +577,6 @@
             if (timeLeft > 0) { massageStatusHTML = `<span class="status-badge status-busy">นวดอยู่ (${timeLeft} น.)</span>`; } 
             else { massageStatusHTML = `<span class="status-badge status-free">✅ ครบเวลา</span>`; }
 
-            // เช็คว่ามีโน้ตไหม ถ้ามีก็โชว์ใต้ชื่อลูกค้า
             let noteHTML = q.note ? `<br><span style="font-size:11px; color:var(--warning);">📝 ${q.note}</span>` : '';
 
             adminTableHTML += `<tr>
@@ -611,7 +647,7 @@
         q.paid = true; 
         q.pm = payMode; 
         
-        // ก่อนปิดหน้า ให้ยิงข้อมูลเข้าใบเสร็จ (Mini Receipt)
+        // ข้อมูลสำหรับใบเสร็จ
         let dateObj = new Date();
         document.getElementById('rc-date').innerText = dateObj.toLocaleDateString('th-TH');
         document.getElementById('rc-time').innerText = dateObj.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
@@ -626,7 +662,6 @@
         saveDataToCloud(); 
         openPage('home'); 
         
-        // เด้งหน้าต่างใบเสร็จขึ้นมาโชว์!
         document.getElementById('receipt-overlay').style.display = 'flex';
         showToast(`✅ รับเงิน ${amount} บาท สำเร็จ!`);
     }
