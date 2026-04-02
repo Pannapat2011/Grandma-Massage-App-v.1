@@ -384,10 +384,9 @@
 
     let db = { qs: [], drs: [], members: [], pp: '0863526387' };
     
-    // 🚀 ตัวแปรจัดการ Auto Sync 
     let syncInterval = null;
     let isAutoSync = true;
-    let isTyping = false; // ป้องกันการเซฟทับระหว่างพิมพ์
+    let isTyping = false; 
     
     const priceTable = { 
         'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 
@@ -412,7 +411,6 @@
         nature: { '--bg-color': '#E8F5E9', '--card-bg': 'rgba(255, 255, 255, 0.9)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1B5E20', '--text-muted': '#4CAF50', '--gold-primary': '#43A047', '--gold-dark': '#2E7D32' }
     };
 
-    // 🚀 ระบบตรวจจับการพิมพ์ (ถ้าแอดมินพิมพ์อยู่ ห้าม Auto Sync เด็ดขาด!)
     document.addEventListener('focusin', function(e) {
         if(['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
             isTyping = true;
@@ -446,9 +444,9 @@
         if(syncInterval) clearInterval(syncInterval);
         syncInterval = setInterval(() => {
             if(isAutoSync && !isAppBusy()) {
-                fetchData('light', true); // true = แอบโหลด ไม่บังจอ
+                fetchData('light', true);
             }
-        }, 30000); // 🚀 ดึงทุก 30 วิ พอดีๆ ไม่สูบโควต้า
+        }, 30000); 
     }
 
     function showConfirm(icon, title, msg, btnText, btnColor, actionCallback) {
@@ -481,9 +479,9 @@
         if(!savedTheme || !themes[savedTheme]) savedTheme = 'light';
         setTheme(savedTheme);
 
-        await fetchData('all', false); // โหลดครั้งแรกโชว์ Loading
+        await fetchData('all', false); 
         checkPersistentLogin();
-        startAutoSync(); // เริ่มนับเวลา Auto Sync
+        startAutoSync(); 
     }
 
     function checkPersistentLogin() {
@@ -563,7 +561,6 @@
         if(themeBtn) themeBtn.classList.add('active');
     }
 
-    // 🚀 ปรับฟังก์ชัน fetchData ให้มี isBackground
     async function fetchData(fetchType = 'all', isBackground = false) {
         try {
             if(!isBackground && db.qs.length === 0) {
@@ -614,7 +611,6 @@
         await executeSheetAction('SAVE_DB', { data: lightDb });
         document.getElementById('sync-load').style.display = 'none';
         
-        // 🚀 Debounce: รีเซ็ตเวลานับ Auto Sync ใหม่
         startAutoSync();
     }
 
@@ -734,7 +730,7 @@
         let logData = [
             qId, dateObj.toLocaleDateString('th-TH'), rounded.timeStr, 
             custName, doctorName, `${typeNames[curType]} (${curDur} นาที)`, 
-            price, '-', 'ยังไม่จ่าย', note || '-', 0 
+            price, '-', `ค้างชำระ (${price} บาท)`, note || '-', 0 
         ];
         executeSheetAction('LOG_QUEUE', { data: logData, serviceType: curType, duration: curDur });
         
@@ -819,7 +815,7 @@
                 let dateObj = new Date();
                 executeSheetAction('LOG_QUEUE', { 
                     data: [extQId, dateObj.toLocaleDateString('th-TH'), getRoundedStartTime().timeStr, 
-                    `[ต่อเวลา] ${q.n}`, q.dr, `${typeNames[extType]} (${extDur} นาที)`, extraPrice, '-', 'ยังไม่จ่าย', 'ค่าต่อเวลาเพิ่มเติม', 0],
+                    `[ต่อเวลา] ${q.n}`, q.dr, `${typeNames[extType]} (${extDur} นาที)`, extraPrice, '-', `ค้างชำระ (${extraPrice} บาท)`, 'ค่าต่อเวลาเพิ่มเติม', 0],
                     serviceType: extType, duration: extDur
                 });
                 
@@ -829,7 +825,9 @@
                     id: currentExtendId,
                     newServiceStr: `${typeNames[q.t] || q.t} (${q.d} นาที)`,
                     newPrice: q.p,
-                    newNote: q.note
+                    newNote: q.note,
+                    serviceType: q.t,
+                    newDuration: q.d
                 });
             }
 
@@ -875,7 +873,7 @@
         let dateObj = new Date();
         executeSheetAction('LOG_QUEUE', { 
             data: [qId, dateObj.toLocaleDateString('th-TH'), getRoundedStartTime().timeStr, 
-            `[สมัครคอร์ส] ${n}`, '-', pkgName, price, '-', 'ยังไม่จ่าย', 'ค่าสมัครคอร์สสมาชิก', 0],
+            `[สมัครคอร์ส] ${n}`, '-', pkgName, price, '-', `ค้างชำระ (${price} บาท)`, 'ค่าสมัครคอร์สสมาชิก', 0],
             serviceType: 'course', duration: 0
         });
 
@@ -971,7 +969,6 @@
         
         renderTables();
         
-        // 🚀 หน้าเว็บโหลดก็อย่าให้ Table member ว่าง
         let tbMem = document.getElementById('tb-members');
         if(tbMem && db.members.length > 0) renderMembers(); 
         
