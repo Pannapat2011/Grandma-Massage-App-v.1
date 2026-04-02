@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ประคบทองไทยสปา - Course System Beta</title>
+    <title>ประคบทองไทยสปา - Course System Ultimate</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -99,8 +99,8 @@
     <button class="btn-modern" onclick="document.getElementById('login-overlay').style.display='flex'">
         <span class="icon">⚙️</span> เข้าระบบแอดมิน
     </button>
-    <button class="btn-modern" onclick="fetchData()">
-        <span class="icon">🔄</span> โหลดข้อมูลล่าสุด
+    <button class="btn-modern" onclick="fetchData('light')">
+        <span class="icon">🔄</span> โหลดข้อมูลล่าสุด (Manual)
     </button>
 </div>
 
@@ -168,7 +168,7 @@
     </div>
 </div>
 
-<div id="receipt-overlay" class="modal-overlay">
+<div id="receipt-overlay" class="modal-overlay" style="z-index: 10020;">
     <div class="receipt-paper" id="receipt-modal">
         <h2 style="margin: 0 0 5px 0;">บ้านประคบทองไทยสปา</h2>
         <p style="margin: 0; font-size: 12px; color: #666;">สาขา 1 | โทร: 08X-XXX-XXXX</p>
@@ -185,7 +185,7 @@
         <p style="margin-top: 20px; font-size: 12px; text-align: center;">ขอบคุณที่ใช้บริการครับ/ค่ะ 🙏</p>
         <div class="no-print">
             <button class="btn-modern btn-gold" style="margin-top: 20px; border-radius: 8px;" onclick="window.print()">🖨️ พิมพ์ใบเสร็จ</button>
-            <button class="btn-modern" style="border-radius: 8px;" onclick="document.getElementById('receipt-overlay').style.display='none'">❌ ปิดหน้าต่าง</button>
+            <button class="btn-modern" style="border-radius: 8px;" onclick="document.getElementById('receipt-overlay').style.display='none'; openPage('home');">❌ ปิดหน้าต่าง</button>
         </div>
     </div>
 </div>
@@ -214,7 +214,7 @@
                 <button class="btn-modern" onclick="openPage('p-pay')"><span class="icon">💸</span> รับเงิน/QR</button>
                 <button class="btn-modern" onclick="openPage('p-list')"><span class="icon">📜</span> จัดการคิว</button>
                 <button class="btn-modern btn-gold" onclick="openPage('p-course')"><span class="icon">🎟️</span> คอร์สสมาชิก</button>
-                <button class="btn-modern" style="grid-column: span 2;" onclick="openPage('p-settings')"><span class="icon">⚙️</span> ตั้งค่า / จัดการพนักงาน</button>
+                <button class="btn-modern" style="grid-column: span 2;" onclick="openPage('p-settings')"><span class="icon">⚙️</span> ตั้งค่าระบบ / ปิดยอดวัน</button>
             </div>
         </div>
 
@@ -237,15 +237,18 @@
                 
                 <select id="mem-pkg-sel" class="form-control" style="margin-bottom: 16px;">
                     <option value="" disabled selected>-- เลือกแพ็กเกจคอร์ส --</option>
-                    <option value="นวดไทย 20 ชม.|10|4000">นวดไทย 20 ชม. (ครั้งละ 2ชม.) - 4,000 บาท</option>
-                    <option value="นวดรีดเส้น 20 ชม.|10|5000">นวดรีดเส้น 20 ชม. (ครั้งละ 2ชม.) - 5,000 บาท</option>
+                    <option value="นวดไทย 20 ชม. (ครั้งละ 2 ชม.)|10|4000">นวดไทย 20 ชม. (ครั้งละ 2 ชม.) - 4,000 บาท</option>
+                    <option value="นวดรีดเส้น 20 ชม. (ครั้งละ 2 ชม.)|10|5000">นวดรีดเส้น 20 ชม. (ครั้งละ 2 ชม.) - 5,000 บาท</option>
                 </select>
 
                 <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="registerMember()">💾 บันทึกและชำระเงินค่าสมัคร</button>
             </div>
 
             <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">รายชื่อสมาชิกคอร์ส</h3>
-            <input type="text" id="search-mem" class="form-control" placeholder="🔍 ค้นหาชื่อ, รหัส, เบอร์โทร..." style="margin-bottom: 12px; border-radius: 12px;" onkeyup="renderMembers()">
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="search-mem" class="form-control" placeholder="🔍 ค้นหาชื่อ, รหัส, เบอร์โทร..." style="margin-bottom: 12px; border-radius: 12px; flex: 1;" onkeyup="renderMembers()">
+                <button class="btn-modern btn-sm" style="margin-bottom: 12px; border-radius: 12px; background:var(--gold-light); color:#fff;" onclick="fetchData('members')">🔄 โหลด</button>
+            </div>
             
             <div class="table-responsive">
                 <table>
@@ -326,6 +329,26 @@
         <div id="p-settings" class="page">
             <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">⚙️ ตั้งค่าระบบ</h2>
             
+            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">🔄 ระบบอัปเดตอัตโนมัติ (Auto Sync)</h3>
+            <div class="card" style="padding: 16px;">
+                <div class="switch-container" style="padding: 10px 16px; margin-bottom: 0;">
+                    <div><strong style="font-size: 15px;">Auto Sync (ทุก 30 วิ)</strong><span style="display:block; font-size:12px; color:var(--text-muted);">ดึงคิว/สถานะหมอแบบไม่หน่วงจอ</span></div>
+                    <input type="checkbox" id="auto-sync-toggle" class="switch" checked onchange="toggleAutoSync()">
+                </div>
+            </div>
+
+            <h3 style="margin-top: 24px; font-size: 16px; color: var(--danger); padding-left: 8px;">🛑 ระบบปิดยอดประจำวัน</h3>
+            <div class="card" style="padding: 24px; border: 1px solid rgba(255, 59, 48, 0.3);">
+                <p style="font-size:13px; color:var(--text-muted); margin-top:0;">*การกดปิดยอดจะเคลียร์คิวทั้งหมดออกจากหน้าจอวันนี้ หมอทุกคนจะกลับมาว่าง และลดอาการเว็บอืด (ข้อมูลรายรับถูกบันทึกใน Sheet หมดแล้ว ไม่หายแน่นอน)</p>
+                <button class="btn-modern" style="background: var(--danger); color: white; margin-top: 0;" onclick="endOfDay()">🌙 ปิดยอดจบวัน (เคลียร์คิวหน้าจอ)</button>
+            </div>
+
+            <h3 style="margin-top: 32px; font-size: 16px; color: var(--text-main); padding-left: 8px;">💰 เปลี่ยนเบอร์พร้อมเพย์</h3>
+            <div class="card" style="padding: 24px;">
+                <input type="text" id="set-pp" class="form-control" placeholder="เบอร์โทร / เลขนิติบุคคล">
+                <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="updatePP()">อัปเดตพร้อมเพย์</button>
+            </div>
+
             <h3 style="margin-top: 32px; font-size: 16px; color: var(--text-main); padding-left: 8px;">👥 เพิ่ม/ลบ พนักงาน</h3>
             <div class="card" style="padding: 24px;">
                 <input type="text" id="new-dr-name" class="form-control" placeholder="ชื่อหมอนวดใหม่...">
@@ -356,11 +379,15 @@
 </div>
 
 <script>
-    const ADMIN_PASSWORD = "123"; 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0mlNpEdpiHe9wLPb_LgPopHFtC8GYchP7wImRRGx4YMb0k4zgPBDWUsZq2RhoXSXW/exec"; 
     const LOCAL_KEY = "spa_db_backup";
 
     let db = { qs: [], drs: [], members: [], pp: '0863526387' };
+    
+    // 🚀 ตัวแปรจัดการ Auto Sync 
+    let syncInterval = null;
+    let isAutoSync = true;
+    let isTyping = false; // ป้องกันการเซฟทับระหว่างพิมพ์
     
     const priceTable = { 
         'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 
@@ -385,10 +412,43 @@
         nature: { '--bg-color': '#E8F5E9', '--card-bg': 'rgba(255, 255, 255, 0.9)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1B5E20', '--text-muted': '#4CAF50', '--gold-primary': '#43A047', '--gold-dark': '#2E7D32' }
     };
 
-    function getCommission(type, duration, price) {
-        if (type === 'thai') return (duration / 60) * 100; 
-        if (type === 'herb') return 50; 
-        return price / 2; 
+    // 🚀 ระบบตรวจจับการพิมพ์ (ถ้าแอดมินพิมพ์อยู่ ห้าม Auto Sync เด็ดขาด!)
+    document.addEventListener('focusin', function(e) {
+        if(['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+            isTyping = true;
+        }
+    });
+    document.addEventListener('focusout', function(e) {
+        isTyping = false;
+    });
+
+    function isAppBusy() {
+        if(isTyping) return true;
+        let modals = document.querySelectorAll('.modal-overlay');
+        for(let i=0; i<modals.length; i++) {
+            if(modals[i].style.display === 'flex') return true;
+        }
+        return false;
+    }
+
+    function toggleAutoSync() {
+        isAutoSync = document.getElementById('auto-sync-toggle').checked;
+        if(isAutoSync) {
+            startAutoSync();
+            showToast("✅ เปิด Auto Sync แล้ว");
+        } else {
+            clearInterval(syncInterval);
+            showToast("⚠️ ปิด Auto Sync (ระบบโหลดแบบ Manual)");
+        }
+    }
+
+    function startAutoSync() {
+        if(syncInterval) clearInterval(syncInterval);
+        syncInterval = setInterval(() => {
+            if(isAutoSync && !isAppBusy()) {
+                fetchData('light', true); // true = แอบโหลด ไม่บังจอ
+            }
+        }, 30000); // 🚀 ดึงทุก 30 วิ พอดีๆ ไม่สูบโควต้า
     }
 
     function showConfirm(icon, title, msg, btnText, btnColor, actionCallback) {
@@ -421,9 +481,9 @@
         if(!savedTheme || !themes[savedTheme]) savedTheme = 'light';
         setTheme(savedTheme);
 
-        await fetchData(); 
+        await fetchData('all', false); // โหลดครั้งแรกโชว์ Loading
         checkPersistentLogin();
-        setInterval(() => { renderTables(); }, 10000); 
+        startAutoSync(); // เริ่มนับเวลา Auto Sync
     }
 
     function checkPersistentLogin() {
@@ -437,15 +497,33 @@
         }
     }
 
-    function authAdmin() {
-        if(document.getElementById('admin-pass').value === ADMIN_PASSWORD){
-            localStorage.setItem('adminAuthTimestamp', Date.now().toString());
-            document.getElementById('login-overlay').style.display = 'none';
-            document.getElementById('doctor-screen').style.display = 'none';
-            document.getElementById('admin-panel').style.display = 'block';
-            document.getElementById('admin-pass').value = '';
-            showToast('เข้าสู่ระบบสำเร็จ');
-        } else { showToast("❌ รหัสผ่านไม่ถูกต้อง!", true); }
+    async function authAdmin() {
+        let passInput = document.getElementById('admin-pass').value;
+        if(!passInput) return showToast("⚠️ กรุณาใส่รหัสผ่าน", true);
+        
+        document.getElementById('sync-load').style.display = 'block';
+        try {
+            let res = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'LOGIN', password: passInput })
+            });
+            let txt = await res.text();
+            document.getElementById('sync-load').style.display = 'none';
+            
+            if(txt === 'LOGIN_SUCCESS') {
+                localStorage.setItem('adminAuthTimestamp', Date.now().toString());
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('doctor-screen').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                document.getElementById('admin-pass').value = '';
+                showToast('เข้าสู่ระบบสำเร็จ');
+            } else {
+                showToast("❌ รหัสผ่านไม่ถูกต้อง!", true);
+            }
+        } catch(e) {
+            document.getElementById('sync-load').style.display = 'none';
+            showToast("❌ ขัดข้อง เชื่อมต่อไม่สำเร็จ", true);
+        }
     }
 
     function logoutAdmin() {
@@ -454,6 +532,24 @@
             document.getElementById('admin-panel').style.display = 'none';
             document.getElementById('doctor-screen').style.display = 'block';
         });
+    }
+
+    function endOfDay() {
+        showConfirm("🌙", "ปิดยอดประจำวัน?", "ระบบจะเคลียร์คิววันนี้ทั้งหมดทิ้ง หมอจะกลับมาว่าง", "✅ ยืนยันปิดยอด", "var(--danger)", () => {
+            db.qs = []; 
+            db.drs.forEach(d => d.st = 'free'); 
+            saveDataToCloud();
+            showToast("🌙 ปิดยอดประจำวัน เคลียร์คิวเรียบร้อย!");
+        });
+    }
+
+    function updatePP() {
+        let newPP = document.getElementById('set-pp').value.trim();
+        if(!newPP) return showToast("⚠️ กรุณาใส่เบอร์พร้อมเพย์", true);
+        db.pp = newPP;
+        document.getElementById('set-pp').value = '';
+        saveDataToCloud();
+        showToast("✅ เปลี่ยนเบอร์พร้อมเพย์สำเร็จ!");
     }
 
     function setTheme(themeName) {
@@ -467,30 +563,35 @@
         if(themeBtn) themeBtn.classList.add('active');
     }
 
-    async function fetchData() {
+    // 🚀 ปรับฟังก์ชัน fetchData ให้มี isBackground
+    async function fetchData(fetchType = 'all', isBackground = false) {
         try {
-            let localDb = localStorage.getItem(LOCAL_KEY);
-            if(localDb) { db = JSON.parse(localDb); renderUI(); }
+            if(!isBackground && db.qs.length === 0) {
+                let localDb = localStorage.getItem(LOCAL_KEY);
+                if(localDb) { db = JSON.parse(localDb); renderUI(); }
+            }
 
-            document.getElementById('sync-load').style.display = 'block';
-            let res = await fetch(SCRIPT_URL + "?t=" + Date.now());
+            if(!isBackground) document.getElementById('sync-load').style.display = 'block';
+            let res = await fetch(SCRIPT_URL + `?t=${Date.now()}&type=${fetchType}`);
             let data = await res.json();
             
             if(data.qs) db.qs = data.qs;
             if(data.drs) db.drs = data.drs;
+            if(data.pp) db.pp = data.pp;
             
-            // 🚀 โหลด Member ทับด้วยของใหม่ที่ดึงจาก Sheet ตรงๆ เสมอ
-            if(data.members) db.members = data.members;
+            if(fetchType === 'all' || fetchType === 'members') {
+                if(data.members) db.members = data.members;
+            }
+
             if(!db.drs || db.drs.length === 0) { db.drs = [{n: 'หมอเอ', st: 'free'}]; }
             
             localStorage.setItem(LOCAL_KEY, JSON.stringify(db));
             
             renderUI(); calculatePrice(); 
-            document.getElementById('sync-load').style.display = 'none';
+            if(!isBackground) document.getElementById('sync-load').style.display = 'none';
         } catch(error) { 
             console.error(error); 
-            document.getElementById('sync-load').style.display = 'none';
-            showToast("⚠️ โหลดจากเน็ตไม่สำเร็จ ใช้ข้อมูลสำรองในเครื่อง", true);
+            if(!isBackground) document.getElementById('sync-load').style.display = 'none';
         }
     }
 
@@ -508,14 +609,23 @@
         localStorage.setItem(LOCAL_KEY, JSON.stringify(db));
         renderUI(); 
         document.getElementById('sync-load').style.display = 'block';
-        await executeSheetAction('SAVE_DB', { data: db });
+        
+        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp };
+        await executeSheetAction('SAVE_DB', { data: lightDb });
         document.getElementById('sync-load').style.display = 'none';
+        
+        // 🚀 Debounce: รีเซ็ตเวลานับ Auto Sync ใหม่
+        startAutoSync();
     }
 
     function openPage(pageId) { 
         document.querySelectorAll('.page').forEach(page => page.style.display = 'none'); 
         document.getElementById(pageId).style.display = 'block'; 
-        if(pageId === 'p-course') renderMembers(); // รีเฟรชตารางสมาชิกเวลากดเข้ามา
+        
+        if(pageId === 'p-course') {
+            fetchData('members', false);
+        } 
+        if(pageId === 'p-settings') document.getElementById('set-pp').placeholder = `เบอร์ปัจจุบัน: ${db.pp}`;
     }
 
     function openCheckinModal() {
@@ -531,14 +641,31 @@
         let drName = document.getElementById('checkin-dr').value;
         if(!drName) return showToast("⚠️ กรุณาเลือกชื่อพนักงาน!", true);
         
-        showConfirm("⏱️", "ลงเวลาเข้างาน?", `ยืนยันลงเวลาเข้างานให้คุณ ${drName} ใช่หรือไม่?`, "✅ ยืนยัน", "var(--success)", () => {
+        showConfirm("⏱️", "ลงเวลาเข้างาน?", `ยืนยันลงเวลาเข้างานให้คุณ ${drName} ใช่หรือไม่?`, "✅ ยืนยัน", "var(--success)", async () => {
             let dateObj = new Date();
             let dStr = dateObj.toLocaleDateString('th-TH');
             let tStr = dateObj.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'});
 
-            executeSheetAction('LOG_CHECKIN', { dr: drName, dateStr: dStr, timeStr: tStr });
-            document.getElementById('checkin-overlay').style.display = 'none';
-            showToast(`✅ ลงเวลาเข้างานให้ ${drName} สำเร็จ! (พ.ศ. ตรงเป๊ะ)`);
+            document.getElementById('sync-load').style.display = 'block';
+            try {
+                let res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'LOG_CHECKIN', dr: drName, dateStr: dStr, timeStr: tStr })
+                });
+                let txt = await res.text();
+                document.getElementById('sync-load').style.display = 'none';
+
+                if(txt === 'ALREADY_CHECKED_IN') {
+                    showToast(`⚠️ ${drName} ตอกบัตรเข้างานไปแล้วของวันนี้!`, true);
+                } else {
+                    document.getElementById('checkin-overlay').style.display = 'none';
+                    showToast(`✅ ลงเวลาเข้างานให้ ${drName} สำเร็จ!`);
+                }
+            } catch(e) {
+                document.getElementById('sync-load').style.display = 'none';
+                showToast("❌ ขัดข้อง เชื่อมต่อไม่สำเร็จ", true);
+            }
         });
     }
 
@@ -605,23 +732,15 @@
         
         let dateObj = new Date();
         let logData = [
-            qId, 
-            dateObj.toLocaleDateString('th-TH'), 
-            rounded.timeStr, 
-            custName, 
-            doctorName, 
-            `${typeNames[curType]} (${curDur} นาที)`, 
-            price, 
-            '-', 
-            'ยังไม่จ่าย', 
-            note || '-', 
-            0 
+            qId, dateObj.toLocaleDateString('th-TH'), rounded.timeStr, 
+            custName, doctorName, `${typeNames[curType]} (${curDur} นาที)`, 
+            price, '-', 'ยังไม่จ่าย', note || '-', 0 
         ];
-        executeSheetAction('LOG_QUEUE', { data: logData });
+        executeSheetAction('LOG_QUEUE', { data: logData, serviceType: curType, duration: curDur });
         
         document.getElementById('qn').value = ''; document.getElementById('qnote').value = ''; 
         saveDataToCloud(); 
-        showToast('✅ บันทึกคิว (พร้อมลง Sheet สถานะยังไม่จ่าย)');
+        showToast('✅ บันทึกคิวลง Sheet (สถานะยังไม่จ่าย)');
         openPage('home'); 
     }
 
@@ -630,10 +749,11 @@
             let q = db.qs.find(x => String(x.id) === String(id));
             if(q) { 
                 q.status = 'done'; 
+                q.doneTime = Date.now(); 
                 let drIndex = db.drs.findIndex(d => d.n === q.dr);
                 if(drIndex !== -1) { db.drs[drIndex].st = 'free'; }
                 saveDataToCloud(); 
-                showToast('✅ จบเคสเรียบร้อย'); 
+                showToast('✅ จบเคสเรียบร้อย (ชื่อจะหายใน 5 นาทีสำหรับจอลูกค้า)'); 
             }
         });
     }
@@ -647,7 +767,6 @@
                     let drIndex = db.drs.findIndex(d => d.n === q.dr);
                     if(drIndex !== -1) { db.drs[drIndex].st = 'free'; }
                 }
-
                 db.qs = db.qs.filter(queue => String(queue.id) !== currentDeleteId);
                 currentDeleteId = null;
                 saveDataToCloud(); 
@@ -656,18 +775,14 @@
         });
     }
 
-    // 🚀 ระบบคำนวณเงินต่อเวลาออโต้
     function openExtendModal(id, name) {
         currentExtendId = String(id);
         document.getElementById('extend-name').innerText = `ลูกค้า: ${name}`;
         
-        // ดึงประเภทบริการเดิมมาเป็นค่าเริ่มต้น
         let q = db.qs.find(x => String(x.id) === String(id));
-        if(q) {
-            document.getElementById('ext-type-sel').value = q.t || 'thai';
-        }
+        if(q) document.getElementById('ext-type-sel').value = q.t || 'thai';
         document.getElementById('ext-dur-sel').value = "60";
-        autoCalcExtendPrice(); // คำนวณราคาให้เห็นเลย
+        autoCalcExtendPrice(); 
 
         document.getElementById('extend-overlay').style.display = 'flex';
     }
@@ -679,7 +794,6 @@
         document.getElementById('ext-price').value = p;
     }
 
-    // 🚀 อัปเกรดยืนยันการต่อเวลา แยกบิลถ้าจ่ายแล้ว
     function confirmExtend() {
         let extType = document.getElementById('ext-type-sel').value;
         let extDur = parseInt(document.getElementById('ext-dur-sel').value);
@@ -695,7 +809,6 @@
             q.d += extDur;
 
             if(q.paid) {
-                // ถ้าบิลหลักจ่ายแล้ว ให้ดันบิลค่าต่อเวลาไปรอที่หน้ารับชำระเงินใหม่ (สถานะยังไม่จ่าย)
                 let extQId = "Q" + Date.now();
                 db.qs.push({ 
                     id: extQId, time: getRoundedStartTime().timeStr, n: `[ต่อเวลา] ${q.n}`, dr: q.dr, 
@@ -703,22 +816,18 @@
                     status: 'done', startTime: 0 
                 });
                 
-                // ลงชีตบิลใหม่
                 let dateObj = new Date();
-                let logData = [
-                    extQId, dateObj.toLocaleDateString('th-TH'), getRoundedStartTime().timeStr, 
-                    `[ต่อเวลา] ${q.n}`, q.dr, `${typeNames[extType]} (${extDur} นาที)`, extraPrice, '-', 'ยังไม่จ่าย', 'ค่าต่อเวลาเพิ่มเติม', 0 
-                ];
-                executeSheetAction('LOG_QUEUE', { data: logData });
+                executeSheetAction('LOG_QUEUE', { 
+                    data: [extQId, dateObj.toLocaleDateString('th-TH'), getRoundedStartTime().timeStr, 
+                    `[ต่อเวลา] ${q.n}`, q.dr, `${typeNames[extType]} (${extDur} นาที)`, extraPrice, '-', 'ยังไม่จ่าย', 'ค่าต่อเวลาเพิ่มเติม', 0],
+                    serviceType: extType, duration: extDur
+                });
                 
             } else {
-                // ถ้าบิลหลักยังไม่จ่าย ก็แค่บวกราคาเพิ่มในบิลเดิม
                 q.p = parseInt(q.p) + extraPrice;
-                
-                let serviceFullName = typeNames[q.t] || q.t;
                 executeSheetAction('UPDATE_EXTENSION', {
                     id: currentExtendId,
-                    newServiceStr: `${serviceFullName} (${q.d} นาที)`,
+                    newServiceStr: `${typeNames[q.t] || q.t} (${q.d} นาที)`,
                     newPrice: q.p,
                     newNote: q.note
                 });
@@ -726,7 +835,7 @@
 
             saveDataToCloud();
             document.getElementById('extend-overlay').style.display = 'none';
-            showToast('✅ ต่อเวลาสำเร็จ และส่งข้อมูลชำระเงินแล้ว!');
+            showToast('✅ ต่อเวลาสำเร็จ บิลไปรอที่รับชำระเงินแล้ว!');
         }
     }
 
@@ -739,7 +848,6 @@
         } 
     }
 
-    // 🚀 ลงทะเบียนสมาชิก ส่งไปหน้ารอรับเงิน 
     function registerMember() {
         let code = document.getElementById('mem-code').value.trim();
         let n = document.getElementById('mem-name').value.trim();
@@ -747,23 +855,16 @@
         let pkgSel = document.getElementById('mem-pkg-sel').value;
         
         if(!code || !n || !phone || !pkgSel) return showToast("กรอกข้อมูลและเลือกคอร์สให้ครบ!", true);
-        
-        // กันรหัสซ้ำ
-        if(db.members.some(m => String(m.code) === code)) {
-            return showToast("⚠️ รหัสสมาชิกนี้มีในระบบแล้ว!", true);
-        }
+        if(db.members.some(m => String(m.code) === code)) return showToast("⚠️ รหัสสมาชิกนี้มีในระบบแล้ว!", true);
 
         let pkgParts = pkgSel.split('|');
         let pkgName = pkgParts[0];
         let quota = parseInt(pkgParts[1]);
         let price = parseInt(pkgParts[2]);
         
-        db.members.push({ id: Date.now(), code: code, n: n, phone: phone, pkg: pkgName, total: quota, used: 0 });
-        
-        // ลงชีตสมาชิก
+        db.members.push({ id: code, code: code, n: n, phone: phone, pkg: pkgName, total: quota, used: 0 });
         executeSheetAction('LOG_MEMBER', { data: [code, n, phone, pkgName, quota] });
 
-        // 🚀 สร้างคิวจำลองส่งไปรอเก็บตังค์ที่หน้ารับชำระเงิน
         let qId = "Q" + Date.now();
         db.qs.push({ 
             id: qId, time: getRoundedStartTime().timeStr, n: `[สมัครคอร์ส] ${n}`, dr: '-', 
@@ -771,23 +872,21 @@
             status: 'done', startTime: 0 
         });
 
-        // ลงชีตบิลรอรับเงิน
         let dateObj = new Date();
-        let logData = [
-            qId, dateObj.toLocaleDateString('th-TH'), getRoundedStartTime().timeStr, 
-            `[สมัครคอร์ส] ${n}`, '-', pkgName, price, '-', 'ยังไม่จ่าย', 'ค่าสมัครคอร์สสมาชิก', 0 
-        ];
-        executeSheetAction('LOG_QUEUE', { data: logData });
+        executeSheetAction('LOG_QUEUE', { 
+            data: [qId, dateObj.toLocaleDateString('th-TH'), getRoundedStartTime().timeStr, 
+            `[สมัครคอร์ส] ${n}`, '-', pkgName, price, '-', 'ยังไม่จ่าย', 'ค่าสมัครคอร์สสมาชิก', 0],
+            serviceType: 'course', duration: 0
+        });
 
         document.getElementById('mem-code').value = ''; document.getElementById('mem-name').value = '';
         document.getElementById('mem-phone').value = ''; document.getElementById('mem-pkg-sel').value = ''; 
         
         saveDataToCloud(); 
-        renderMembers(); // รีเฟรชตารางค้นหา
+        renderMembers(); 
         showToast("✅ สมัครคอร์สสำเร็จ! กรุณาไปเก็บเงินที่เมนูรับชำระเงิน");
     }
 
-    // 🚀 ระบบค้นหาสมาชิก
     function renderMembers() {
         let keyword = document.getElementById('search-mem') ? document.getElementById('search-mem').value.toLowerCase() : "";
         let memHTML = '';
@@ -813,7 +912,6 @@
 
     function openDeductModal(id, name, code) {
         currentDeductId = String(id);
-        // แอบฝากโค้ดสมาชิกไว้ด้วย
         document.getElementById('deduct-name').innerText = `ลูกค้า: ${name}`;
         document.getElementById('deduct-name').setAttribute('data-code', code);
         
@@ -839,8 +937,6 @@
             }
 
             db.members[idx].used += qty; 
-            
-            // 🚀 ส่งไปอัปเดตช่อง "ใช้ไปแล้ว" ใน Google Sheet เลย
             executeSheetAction('UPDATE_MEMBER_USED', { code: mCode, qty: qty });
             
             let rounded = getRoundedStartTime();
@@ -857,24 +953,15 @@
             if(drIndex !== -1) { db.drs[drIndex].st = 'busy'; }
 
             let dateObj = new Date();
-            let logData = [
-                qId,
-                dateObj.toLocaleDateString('th-TH'),
-                rounded.timeStr,
-                db.members[idx].n,
-                dr,
-                `${serviceName} (ตัด ${qty} ครั้ง)`,
-                0,
-                'ตัดคอร์ส',
-                'จ่ายแล้ว',
-                `หักจากคอร์สสมาชิก ${qty} ครั้ง`,
-                getCommission('course', 60, 0)
-            ];
-            executeSheetAction('LOG_QUEUE', { data: logData });
+            executeSheetAction('LOG_QUEUE', { 
+                data: [qId, dateObj.toLocaleDateString('th-TH'), rounded.timeStr, db.members[idx].n, dr,
+                `${serviceName} (ตัด ${qty} ครั้ง)`, 0, 'ตัดคอร์ส', 'จ่ายแล้ว', `หักจากคอร์สสมาชิก ${qty} ครั้ง`, 0],
+                serviceType: 'course', duration: 120
+            });
 
             saveDataToCloud();
             document.getElementById('deduct-overlay').style.display = 'none';
-            showToast(`✅ ตัดคอร์ส ${qty} ครั้ง และสร้างคิวงานให้หมอแล้ว!`);
+            showToast(`✅ ตัดคอร์ส ${qty} ครั้ง และให้ค่ามือหมอแล้ว!`);
         }
     }
 
@@ -883,7 +970,10 @@
         document.getElementById('total-val').innerText = `฿${totalIncome.toLocaleString()}`;
         
         renderTables();
-        renderMembers(); // เรียกวาดตารางสมาชิกพร้อมค้นหา
+        
+        // 🚀 หน้าเว็บโหลดก็อย่าให้ Table member ว่าง
+        let tbMem = document.getElementById('tb-members');
+        if(tbMem && db.members.length > 0) renderMembers(); 
         
         let unpaidQueues = db.qs.filter(q => q.paid === false);
         let paymentOptions = '<option value="" disabled selected>-- เลือกลูกค้าที่ต้องการชำระเงิน --</option>';
@@ -930,6 +1020,7 @@
         db.qs.forEach(q => {
             let massageStatusHTML = '';
             let actionBtnHTML = '';
+            let isDoneAndHide = false;
 
             if (q.status === 'active') {
                 let endTime = q.startTime + (q.d * 60000); 
@@ -938,17 +1029,18 @@
                 else { massageStatusHTML = `<span class="status-badge status-danger">⏳ หมดเวลาแล้ว</span>`; }
                 actionBtnHTML = `<button onclick="finishMassage('${q.id}')" class="btn-modern btn-sm" style="background:var(--success); color:white;">🛑 กดเมื่อนวดจบ</button>`;
             } else if (q.status === 'done') {
-                // บิลสมัครคอร์สและต่อเวลา จะมีสถานะ done ตั้งแต่แรก ซ่อนไว้ให้สวยงาม
                 if(q.note && (q.note.includes("ค่าสมัคร") || q.note.includes("ค่าต่อเวลา"))) return; 
                 massageStatusHTML = `<span class="status-badge" style="background:#E5E5EA; color:#8E8E93;">✅ เสร็จสิ้น</span>`;
                 actionBtnHTML = `-`;
+                
+                if(q.doneTime && (now - q.doneTime > 300000)) {
+                    isDoneAndHide = true;
+                }
             }
 
             let noteHTML = q.note ? `<br><span style="font-size:11px; color:var(--warning);">📝 ${q.note}</span>` : '';
             let paymentText = q.paid ? (q.pm === 'course' ? 'คอร์ส' : 'จ่ายแล้ว') : ('ค้าง ' + q.p + '฿');
             let methodStr = q.pm === 'qr' ? 'สแกน' : (q.pm === 'cash' ? 'เงินสด' : (q.pm === 'course' ? 'คอร์ส' : '-'));
-            
-            let drCommission = getCommission(q.t, q.d, q.p);
 
             adminTableHTML += `<tr>
                 <td style="font-size:12px; color: var(--text-muted);">${q.time || '-'}</td>
@@ -957,7 +1049,7 @@
                 <td style="color: var(--gold-dark); font-weight: 500;">${q.dr}</td>
                 <td>${massageStatusHTML}</td>
                 <td><span class="status-badge ${q.paid ? 'status-free' : 'status-danger'}">${paymentText}</span><div style="font-size:10px; color:#666;">${methodStr}</div></td>
-                <td><strong style="color:var(--gold-dark);">${drCommission} ฿</strong></td>
+                <td><strong style="color:var(--gold-dark);">-</strong></td>
                 <td style="white-space: nowrap;">
                     <button onclick="openExtendModal('${q.id}', '${q.n}')" class="btn-modern btn-sm" style="background:var(--info); color:white; margin-right:4px;">⏱️ เพิ่มเวลา</button>
                     ${actionBtnHTML}
@@ -965,13 +1057,15 @@
                 </td>
             </tr>`;
 
-            doctorTableHTML += `<tr>
-                <td style="font-size:12px; color: var(--text-muted);">${q.time || '-'}</td>
-                <td style="font-size:15px; font-weight: 500;">${q.n}${noteHTML}</td>
-                <td>${typeNames[q.t] || q.t}<span class="srv-text">${q.d} นาที</span></td>
-                <td style="color: var(--gold-dark); font-weight: 600;">${q.dr}</td>
-                <td>${massageStatusHTML}</td>
-            </tr>`;
+            if(!isDoneAndHide) {
+                doctorTableHTML += `<tr>
+                    <td style="font-size:12px; color: var(--text-muted);">${q.time || '-'}</td>
+                    <td style="font-size:15px; font-weight: 500;">${q.n}${noteHTML}</td>
+                    <td>${typeNames[q.t] || q.t}<span class="srv-text">${q.d} นาที</span></td>
+                    <td style="color: var(--gold-dark); font-weight: 600;">${q.dr}</td>
+                    <td>${massageStatusHTML}</td>
+                </tr>`;
+            }
         });
 
         document.getElementById('tb-list').innerHTML = adminTableHTML;
@@ -1012,25 +1106,18 @@
         
         let q = db.qs[qIndex];
         
-        showConfirm("💰", "ยืนยันรับเงิน?", `ยืนยันรับเงินจาก ${q.n} จำนวน ${amount} บาท ใช่หรือไม่?`, "✅ ยืนยันรับเงิน", "var(--success)", () => {
+        showConfirm("💰", "ยืนยันรับเงิน?", `ยืนยันรับเงินจาก ${q.n} จำนวน ${amount} บาท ใช่หรือไม่?`, "✅ ยืนยัน", "var(--success)", () => {
             q.paid = true; 
             q.p = amount; 
             q.pm = payMode; 
             
             let dateObj = new Date();
             let serviceFullName = typeNames[q.t] || q.t;
-            let drCommission = getCommission(q.t, q.d, amount);
 
-            let updatePayload = {
-                id: q.id,
-                price: amount,
-                pm: payMode === 'qr' ? 'สแกนโอน (QR)' : 'เงินสด',
-                note: q.note || '-',
-                commission: drCommission
-            };
-            
-            // 🚀 ส่ง Q-ID ไปอัปเดต มั่นใจ 100% ว่าเจอ
-            executeSheetAction('UPDATE_PAYMENT', updatePayload);
+            executeSheetAction('UPDATE_PAYMENT', {
+                id: q.id, price: amount, pm: payMode === 'qr' ? 'สแกนโอน (QR)' : 'เงินสด', note: q.note || '-',
+                serviceType: q.t, duration: q.d
+            });
 
             document.getElementById('rc-date').innerText = dateObj.toLocaleDateString('th-TH');
             document.getElementById('rc-name').innerText = q.n;
@@ -1042,20 +1129,21 @@
 
             document.getElementById('pa').value = ''; 
             saveDataToCloud(); 
-            openPage('home'); 
-            
-            document.getElementById('receipt-overlay').style.display = 'flex';
-            showToast(`✅ รับเงิน ${amount} บาท และบันทึกลง Sheet สำเร็จ!`);
+
+            setTimeout(() => {
+                showConfirm("🖨️", "รับใบเสร็จไหม?", "ต้องการพิมพ์ใบเสร็จให้ลูกค้าหรือไม่?", "🧾 เปิดใบเสร็จ", "var(--info)", () => {
+                    document.getElementById('receipt-overlay').style.display = 'flex';
+                });
+                openPage('home'); 
+                showToast(`✅ รับเงิน ${amount} บาท สำเร็จ!`);
+            }, 400);
         });
     }
 
     function addDoctor() {
         let newName = document.getElementById('new-dr-name').value.trim();
         if(!newName) return showToast("กรุณาพิมพ์ชื่อพนักงาน!", true);
-        
-        if(db.drs.some(d => d.n === newName)) {
-            return showToast("⚠️ มีชื่อหมอนี้ในระบบแล้ว!", true);
-        }
+        if(db.drs.some(d => d.n === newName)) return showToast("⚠️ มีชื่อหมอนี้ในระบบแล้ว!", true);
 
         db.drs.push({ n: newName, st: 'free' });
         document.getElementById('new-dr-name').value = '';
@@ -1063,6 +1151,10 @@
     }
 
     function removeDoctor(docName) {
+        if(db.qs.some(q => q.dr === docName && q.status === 'active')) {
+            return showToast("⚠️ ลบไม่ได้! พนักงานคนนี้กำลังติดเคสลูกค้าอยู่", true);
+        }
+        
         showConfirm("🗑️", "ลบพนักงาน?", `ต้องการลบ ${docName} ออกจากระบบ?`, "✅ ยืนยันลบพนักงาน", "var(--danger)", () => {
             db.drs = db.drs.filter(d => d.n !== docName); 
             saveDataToCloud(); 
