@@ -75,12 +75,26 @@
         .receipt-divider { border-top: 2px dashed #ccc; margin: 15px 0; }
         .receipt-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; text-align: left; }
         @media print { body * { visibility: hidden; } #receipt-modal, #receipt-modal * { visibility: visible; } #receipt-modal { position: absolute; left: 0; top: 0; width: 100%; } .no-print { display: none !important; } }
+        
+        /* 🚨 สไตล์สำหรับแอดมินโดนเรียกตัว */
+        #admin-call-overlay { display: none; position: fixed; inset: 0; background: rgba(255, 59, 48, 0.9); z-index: 10030; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px; text-align: center; animation: flashBgAdmin 1s infinite alternate; }
+        @keyframes flashBgAdmin { 0% { background: rgba(255, 59, 48, 0.9); } 100% { background: rgba(204, 0, 0, 0.95); } }
     </style>
 </head>
 <body onload="initApp()">
 
 <div id="sync-load">🔄 กำลังเชื่อมต่อข้อมูล...</div>
 <div id="toast" class="toast">แจ้งเตือน</div>
+
+<div id="admin-call-overlay">
+    <div class="card" style="background: white; color: var(--text-main); max-width: 350px;">
+        <div style="font-size: 60px; margin-bottom: 10px; animation: slideUp 0.5s infinite alternate;">🆘</div>
+        <h1 style="color:var(--danger); margin: 0 0 8px 0;">พนักงานเรียก!</h1>
+        <p style="font-size: 18px; margin-bottom: 4px;"><strong>ห้อง/หมอ:</strong> <span id="call-dr-name" style="color:var(--gold-dark);"></span></p>
+        <p style="font-size: 14px; color:var(--text-muted); margin-bottom: 24px;">เวลาที่เรียก: <span id="call-time"></span></p>
+        <button class="btn-modern btn-gold" id="btn-clear-call" style="width: 100%;">✅ รับทราบและไปดู</button>
+    </div>
+</div>
 
 <div id="doctor-screen" class="container">
     <div class="card">
@@ -380,15 +394,15 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0mlNpEdpiHe9wLPb_LgPopHFtC8GYchP7wImRRGx4YMb0k4zgPBDWUsZq2RhoXSXW/exec"; 
-    // 🚀 เพิ่ม Webhook Discord โคตรล้ำ!
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1489169746934108170/YxvxW_vJ5E8eb1m30rWmlELObxgNMssrUdOy2IAhi6K8xtL2QIu8MxflQeAMVAq1NqCu";
     const LOCAL_KEY = "spa_db_backup";
 
-    let db = { qs: [], drs: [], members: [], pp: '0863526387' };
+    let db = { qs: [], drs: [], members: [], pp: '0863526387', calls: [] }; // 🚀 เพิ่ม calls รับเตือนหมอ
     
     let syncInterval = null;
     let isAutoSync = true;
     let isTyping = false; 
+    let audioCtx = null;
     
     const priceTable = { 
         'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 
@@ -413,12 +427,28 @@
         nature: { '--bg-color': '#E8F5E9', '--card-bg': 'rgba(255, 255, 255, 0.9)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1B5E20', '--text-muted': '#4CAF50', '--gold-primary': '#43A047', '--gold-dark': '#2E7D32' }
     };
 
-    // 🚀 ฟังก์ชันส่งแจ้งเตือนเข้า Discord โคตรหล่อ
+    function playAlertSound() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime); 
+        osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); 
+        gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.05);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.5);
+    }
+
     function sendDiscordAlert(title, custName, docName, serviceName, duration, price, note, timeStr) {
         const payload = {
             embeds: [{
                 title: title,
-                color: 14463031, // สีทองๆ ส้มๆ 
+                color: 14463031, 
                 fields: [
                     { name: "👤 ลูกค้า", value: custName, inline: true },
                     { name: "💆 หมอนวด", value: docName, inline: true },
@@ -436,7 +466,7 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
-        }).catch(e => console.error("Discord Error:", e));
+        }).catch(e => console.error(e));
     }
 
     document.addEventListener('focusin', function(e) {
@@ -452,7 +482,7 @@
         if(isTyping) return true;
         let modals = document.querySelectorAll('.modal-overlay');
         for(let i=0; i<modals.length; i++) {
-            if(modals[i].style.display === 'flex') return true;
+            if(modals[i].style.display === 'flex' && modals[i].id !== 'admin-call-overlay') return true;
         }
         return false;
     }
@@ -506,6 +536,11 @@
         let savedTheme = localStorage.getItem('spaTheme');
         if(!savedTheme || !themes[savedTheme]) savedTheme = 'light';
         setTheme(savedTheme);
+
+        // ทริกเกอร์สร้าง AudioContext ให้ทำงานได้เมื่อคลิกครั้งแรกของหน้า
+        document.body.addEventListener('click', () => {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }, { once: true });
 
         await fetchData('all', false); 
         checkPersistentLogin();
@@ -603,6 +638,7 @@
             if(data.qs) db.qs = data.qs;
             if(data.drs) db.drs = data.drs;
             if(data.pp) db.pp = data.pp;
+            if(data.calls) db.calls = data.calls; // 🚀 โหลดรายการเรียกแอดมิน
             
             if(fetchType === 'all' || fetchType === 'members') {
                 if(data.members) db.members = data.members;
@@ -612,11 +648,35 @@
             
             localStorage.setItem(LOCAL_KEY, JSON.stringify(db));
             
-            renderUI(); calculatePrice(); 
+            renderUI(); 
+            calculatePrice(); 
+            checkAdminCalls(); // 🚀 เช็คว่ามีหมอเรียกไหม
+            
             if(!isBackground) document.getElementById('sync-load').style.display = 'none';
         } catch(error) { 
             console.error(error); 
             if(!isBackground) document.getElementById('sync-load').style.display = 'none';
+        }
+    }
+
+    // 🚀 ระบบเตือนแอดมินตอนหมอกดเรียก
+    function checkAdminCalls() {
+        if(localStorage.getItem('adminAuthTimestamp') && db.calls && db.calls.length > 0) {
+            let latestCall = db.calls[0];
+            document.getElementById('call-dr-name').innerText = latestCall.dr;
+            document.getElementById('call-time').innerText = latestCall.timeStr;
+            
+            // ตั้งค่าปุ่มกดรับทราบ
+            document.getElementById('btn-clear-call').onclick = () => {
+                document.getElementById('admin-call-overlay').style.display = 'none';
+                db.calls = db.calls.filter(c => String(c.id) !== String(latestCall.id));
+                executeSheetAction('CLEAR_CALL', { id: latestCall.id });
+            };
+            
+            document.getElementById('admin-call-overlay').style.display = 'flex';
+            playAlertSound(); // ร้องติ๊งหน่องเตือนแอดมิน
+        } else {
+            document.getElementById('admin-call-overlay').style.display = 'none';
         }
     }
 
@@ -635,7 +695,7 @@
         renderUI(); 
         document.getElementById('sync-load').style.display = 'block';
         
-        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp };
+        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp, calls: db.calls }; // ส่ง calls ไปอัปเดตด้วย
         await executeSheetAction('SAVE_DB', { data: lightDb });
         document.getElementById('sync-load').style.display = 'none';
         
@@ -762,7 +822,6 @@
         ];
         executeSheetAction('LOG_QUEUE', { data: logData, serviceType: curType, duration: curDur });
         
-        // 🚀 ส่งแจ้งเตือนเข้า Discord
         sendDiscordAlert("🛎️ มีคิวจองใหม่เข้ามาแล้วจ้า!", custName, doctorName, typeNames[curType], curDur, price, note, rounded.timeStr);
 
         document.getElementById('qn').value = ''; document.getElementById('qnote').value = ''; 
@@ -988,7 +1047,6 @@
                 serviceType: 'course', duration: 120
             });
 
-            // 🚀 ส่งแจ้งเตือนเข้า Discord ด้วยว่ามีการใช้คอร์ส
             sendDiscordAlert("🎟️ มีการตัดคอร์สสมาชิก!", db.members[idx].n, dr, serviceName, 60 * qty, "0", `หักจากโควต้า ${qty} ครั้ง`, rounded.timeStr);
 
             saveDataToCloud();
