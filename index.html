@@ -393,11 +393,12 @@
 </div>
 
 <script>
+    // 🚨 ใส่ SCRIPT_URL อันใหม่ล่าสุดของคุณที่นี่
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0mlNpEdpiHe9wLPb_LgPopHFtC8GYchP7wImRRGx4YMb0k4zgPBDWUsZq2RhoXSXW/exec"; 
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1489169746934108170/YxvxW_vJ5E8eb1m30rWmlELObxgNMssrUdOy2IAhi6K8xtL2QIu8MxflQeAMVAq1NqCu";
     const LOCAL_KEY = "spa_db_backup";
 
-    let db = { qs: [], drs: [], members: [], pp: '0863526387', calls: [] }; // 🚀 เพิ่ม calls รับเตือนหมอ
+    let db = { qs: [], drs: [], members: [], pp: '0863526387', calls: [] }; 
     
     let syncInterval = null;
     let isAutoSync = true;
@@ -537,7 +538,6 @@
         if(!savedTheme || !themes[savedTheme]) savedTheme = 'light';
         setTheme(savedTheme);
 
-        // ทริกเกอร์สร้าง AudioContext ให้ทำงานได้เมื่อคลิกครั้งแรกของหน้า
         document.body.addEventListener('click', () => {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }, { once: true });
@@ -638,7 +638,7 @@
             if(data.qs) db.qs = data.qs;
             if(data.drs) db.drs = data.drs;
             if(data.pp) db.pp = data.pp;
-            if(data.calls) db.calls = data.calls; // 🚀 โหลดรายการเรียกแอดมิน
+            if(data.calls) db.calls = data.calls; 
             
             if(fetchType === 'all' || fetchType === 'members') {
                 if(data.members) db.members = data.members;
@@ -650,7 +650,7 @@
             
             renderUI(); 
             calculatePrice(); 
-            checkAdminCalls(); // 🚀 เช็คว่ามีหมอเรียกไหม
+            checkAdminCalls(); 
             
             if(!isBackground) document.getElementById('sync-load').style.display = 'none';
         } catch(error) { 
@@ -659,14 +659,12 @@
         }
     }
 
-    // 🚀 ระบบเตือนแอดมินตอนหมอกดเรียก
     function checkAdminCalls() {
         if(localStorage.getItem('adminAuthTimestamp') && db.calls && db.calls.length > 0) {
             let latestCall = db.calls[0];
             document.getElementById('call-dr-name').innerText = latestCall.dr;
             document.getElementById('call-time').innerText = latestCall.timeStr;
             
-            // ตั้งค่าปุ่มกดรับทราบ
             document.getElementById('btn-clear-call').onclick = () => {
                 document.getElementById('admin-call-overlay').style.display = 'none';
                 db.calls = db.calls.filter(c => String(c.id) !== String(latestCall.id));
@@ -674,7 +672,7 @@
             };
             
             document.getElementById('admin-call-overlay').style.display = 'flex';
-            playAlertSound(); // ร้องติ๊งหน่องเตือนแอดมิน
+            playAlertSound(); 
         } else {
             document.getElementById('admin-call-overlay').style.display = 'none';
         }
@@ -695,7 +693,7 @@
         renderUI(); 
         document.getElementById('sync-load').style.display = 'block';
         
-        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp, calls: db.calls }; // ส่ง calls ไปอัปเดตด้วย
+        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp, calls: db.calls }; 
         await executeSheetAction('SAVE_DB', { data: lightDb });
         document.getElementById('sync-load').style.display = 'none';
         
@@ -923,14 +921,19 @@
 
             saveDataToCloud();
             document.getElementById('extend-overlay').style.display = 'none';
-            showToast('✅ ต่อเวลาและอัปเดตบิลเรียบร้อย!');
+            showToast('✅ ต่อเวลาสำเร็จ บิลไปรอที่รับชำระเงินแล้ว!');
         }
     }
 
     function toggleDoctorStatus(docName) { 
         let index = db.drs.findIndex(doc => doc.n === docName); 
         if(index !== -1) { 
-            db.drs[index].st = (db.drs[index].st === 'free') ? 'busy' : 'free'; 
+            if(db.qs.some(q => q.dr === docName && q.status === 'active')) {
+                renderUI(); 
+                return showToast("⚠️ เปลี่ยนสถานะไม่ได้! พนักงานกำลังติดเคสลูกค้าอยู่", true);
+            }
+            let currentSt = db.drs[index].st;
+            db.drs[index].st = (currentSt === 'free') ? 'busy' : 'free'; 
             saveDataToCloud(); 
             showToast(`อัปเดตสถานะ ${docName} แล้ว`); 
         } 
@@ -1082,10 +1085,13 @@
         let settingsDrHTML = '';
         db.drs.forEach(doc => {
             let isFree = doc.st === 'free';
+            let stColor = isFree ? 'var(--success)' : (doc.st === 'break' ? 'var(--warning)' : 'var(--danger)');
+            let stText = isFree ? 'ว่างรับงาน' : (doc.st === 'break' ? '☕ พักเบรก' : 'ไม่ว่าง');
+            
             statusDrHTML += `
             <div class="switch-container" style="padding: 10px 16px; margin-bottom: 8px;">
-                <div><strong style="font-size: 15px;">${doc.n}</strong><span style="display:block; font-size:12px; color:${isFree ? 'var(--success)' : 'var(--danger)'};">${isFree ? 'ว่างรับงาน' : 'ไม่ว่าง'}</span></div>
-                <input type="checkbox" class="switch" ${isFree ? 'checked' : ''} onchange="toggleDoctorStatus('${doc.n}')">
+                <div><strong style="font-size: 15px;">${doc.n}</strong><span style="display:block; font-size:12px; color:${stColor};">${stText}</span></div>
+                <input type="checkbox" class="switch" ${isFree ? 'checked' : ''} onchange="toggleDoctorStatus('${doc.n}')" ${(doc.st === 'break') ? 'disabled' : ''}>
             </div>`;
 
             settingsDrHTML += `
