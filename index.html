@@ -380,6 +380,8 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0mlNpEdpiHe9wLPb_LgPopHFtC8GYchP7wImRRGx4YMb0k4zgPBDWUsZq2RhoXSXW/exec"; 
+    // 🚀 เพิ่ม Webhook Discord โคตรล้ำ!
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1489169746934108170/YxvxW_vJ5E8eb1m30rWmlELObxgNMssrUdOy2IAhi6K8xtL2QIu8MxflQeAMVAq1NqCu";
     const LOCAL_KEY = "spa_db_backup";
 
     let db = { qs: [], drs: [], members: [], pp: '0863526387' };
@@ -410,6 +412,32 @@
         dark: { '--bg-color': '#121212', '--card-bg': 'rgba(30, 30, 30, 0.85)', '--input-bg': '#2C2C2E', '--table-bg': '#1C1C1E', '--text-main': '#F2F4F7', '--text-muted': '#A0A0A5', '--gold-primary': '#D4AF37', '--gold-dark': '#C59A28' },
         nature: { '--bg-color': '#E8F5E9', '--card-bg': 'rgba(255, 255, 255, 0.9)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1B5E20', '--text-muted': '#4CAF50', '--gold-primary': '#43A047', '--gold-dark': '#2E7D32' }
     };
+
+    // 🚀 ฟังก์ชันส่งแจ้งเตือนเข้า Discord โคตรหล่อ
+    function sendDiscordAlert(title, custName, docName, serviceName, duration, price, note, timeStr) {
+        const payload = {
+            embeds: [{
+                title: title,
+                color: 14463031, // สีทองๆ ส้มๆ 
+                fields: [
+                    { name: "👤 ลูกค้า", value: custName, inline: true },
+                    { name: "💆 หมอนวด", value: docName, inline: true },
+                    { name: "📝 บริการ", value: `${serviceName} (${duration} นาที)`, inline: false },
+                    { name: "⏰ เวลาเริ่ม", value: timeStr, inline: true },
+                    { name: "💵 ราคา", value: `${price} บาท`, inline: true },
+                    { name: "📌 หมายเหตุ", value: note || "-", inline: false }
+                ],
+                footer: { text: "ระบบจัดการคิว - บ้านประคบทองไทยสปา" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        fetch(DISCORD_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).catch(e => console.error("Discord Error:", e));
+    }
 
     document.addEventListener('focusin', function(e) {
         if(['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
@@ -734,6 +762,9 @@
         ];
         executeSheetAction('LOG_QUEUE', { data: logData, serviceType: curType, duration: curDur });
         
+        // 🚀 ส่งแจ้งเตือนเข้า Discord
+        sendDiscordAlert("🛎️ มีคิวจองใหม่เข้ามาแล้วจ้า!", custName, doctorName, typeNames[curType], curDur, price, note, rounded.timeStr);
+
         document.getElementById('qn').value = ''; document.getElementById('qnote').value = ''; 
         saveDataToCloud(); 
         showToast('✅ บันทึกคิวลง Sheet (สถานะยังไม่จ่าย)');
@@ -833,7 +864,7 @@
 
             saveDataToCloud();
             document.getElementById('extend-overlay').style.display = 'none';
-            showToast('✅ ต่อเวลาสำเร็จ บิลไปรอที่รับชำระเงินแล้ว!');
+            showToast('✅ ต่อเวลาและอัปเดตบิลเรียบร้อย!');
         }
     }
 
@@ -956,6 +987,9 @@
                 `${serviceName} (ตัด ${qty} ครั้ง)`, 0, 'ตัดคอร์ส', 'จ่ายแล้ว', `หักจากคอร์สสมาชิก ${qty} ครั้ง`, 0],
                 serviceType: 'course', duration: 120
             });
+
+            // 🚀 ส่งแจ้งเตือนเข้า Discord ด้วยว่ามีการใช้คอร์ส
+            sendDiscordAlert("🎟️ มีการตัดคอร์สสมาชิก!", db.members[idx].n, dr, serviceName, 60 * qty, "0", `หักจากโควต้า ${qty} ครั้ง`, rounded.timeStr);
 
             saveDataToCloud();
             document.getElementById('deduct-overlay').style.display = 'none';
