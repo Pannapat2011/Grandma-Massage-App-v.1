@@ -79,9 +79,11 @@
         #admin-call-overlay { display: none; position: fixed; inset: 0; background: rgba(255, 59, 48, 0.9); z-index: 10030; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px; text-align: center; animation: flashBgAdmin 1s infinite alternate; }
         @keyframes flashBgAdmin { 0% { background: rgba(255, 59, 48, 0.9); } 100% { background: rgba(204, 0, 0, 0.95); } }
 
-        /* 🚀 เพิ่มกลับมาแล้ว! แถบเตือนค้างชำระแบบกะพริบ */
         #unpaid-banner { display: none; background: var(--danger); color: white; padding: 14px 20px; border-radius: 16px; margin-bottom: 20px; font-weight: bold; text-align: center; cursor: pointer; animation: pulseRed 1.5s infinite; box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4); border: 2px solid #FFCCCC; }
         @keyframes pulseRed { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.02); opacity: 0.85; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* 🚀 ป้ายเตือน VIP / แบล็กลิสต์ */
+        .cust-tag-badge { display: none; padding: 8px 12px; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; margin-top: -10px; margin-bottom: 16px; text-align: center; animation: pop 0.3s; }
     </style>
 </head>
 <body onload="initApp()">
@@ -138,6 +140,15 @@
         <select id="checkin-dr" class="form-control"></select>
         <button class="btn-modern" style="background: var(--success); color: white;" onclick="confirmCheckin()">✅ ยืนยันตอกบัตร</button>
         <button class="btn-modern" onclick="document.getElementById('checkin-overlay').style.display='none'">ยกเลิก</button>
+    </div>
+</div>
+
+<div id="comm-modal" class="modal-overlay">
+    <div class="card modal-content" style="max-width: 400px;">
+        <h2 style="color:var(--gold-dark); margin-top:0;">💰 สรุปค่ามือหมอวันนี้</h2>
+        <p style="font-size:13px; color:var(--text-muted); margin-top:-10px;">ยอดรวมจากการนวดเสร็จสิ้น (Done) ของแต่ละคน</p>
+        <div id="comm-list" style="text-align:left; margin-bottom:16px; max-height: 40vh; overflow-y:auto; padding-right:10px;"></div>
+        <button class="btn-modern btn-gold" onclick="document.getElementById('comm-modal').style.display='none'">✅ ปิดหน้าต่าง</button>
     </div>
 </div>
 
@@ -247,7 +258,10 @@
             <div class="card" style="padding: 24px; text-align: left;">
                 <label style="font-size: 14px; font-weight: bold; color: var(--text-main);">ข้อมูลลูกค้า (พิมพ์เบอร์เพื่อค้นหาชื่ออัตโนมัติ)</label>
                 <input type="tel" id="bk-phone" class="form-control" style="margin-top: 10px;" placeholder="เบอร์โทรศัพท์ลูกค้า..." onkeyup="autoFillName(this.value)">
-                <input type="text" id="bk-name" class="form-control" placeholder="ชื่อลูกค้า...">
+                
+                <div id="bk-cust-tag-badge" class="cust-tag-badge"></div>
+
+                <input type="text" id="bk-name" class="form-control" placeholder="ชื่อลูกค้า..." onkeyup="checkCustTag(this.value, 'bk-cust-tag-badge')">
                 
                 <div style="display:flex; gap:12px; margin-bottom:16px;">
                     <div style="flex:1;">
@@ -353,7 +367,10 @@
 
         <div id="p-q" class="page">
             <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิววอล์คอิน</h2>
-            <input type="text" id="qn" class="form-control" placeholder="ชื่อลูกค้า...">
+            
+            <div id="walkin-cust-tag-badge" class="cust-tag-badge"></div>
+
+            <input type="text" id="qn" class="form-control" placeholder="พิมพ์ชื่อลูกค้าที่นี่..." onkeyup="checkCustTag(this.value, 'walkin-cust-tag-badge')">
             <input type="text" id="qnote" class="form-control" placeholder="หมายเหตุ (ลูกค้าเน้นนวดหนัก/เบา/แพ้ยา)...">
             
             <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ประเภทบริการ</label>
@@ -464,9 +481,9 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0mlNpEdpiHe9wLPb_LgPopHFtC8GYchP7wImRRGx4YMb0k4zgPBDWUsZq2RhoXSXW/exec"; 
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1489169746934108170/YxvxW_vJ5E8eb1m30rWmlELObxgNMssrUdOy2IAhi6K8xtL2QIu8MxflQeAMVAq1NqCu";
     const LOCAL_KEY = "spa_db_backup";
-    const MENU_LAYOUT_KEY = "spa_menu_layout";
+    const MENU_LAYOUT_KEY = "spa_menu_layout_v2"; // เปลี่ยนคีย์ใหม่เพื่อล้าง Layout เก่า
 
-    let db = { qs: [], drs: [], members: [], pp: '0863526387', calls: [], bk: [] }; 
+    let db = { qs: [], drs: [], members: [], pp: '0863526387', calls: [], bk: [], ctags: {} }; 
     
     let syncInterval = null;
     let isAutoSync = true;
@@ -490,9 +507,11 @@
     let currentExtendId = null;
     let pendingConfirmAction = null; 
 
+    // 🚀 เพิ่มปุ่ม สรุปค่ามือหมอ เข้าไปใน Layout
     const defaultMenu = [
         { id: 'm-bk', icon: '📝', text: 'จองคิวล่วงหน้า (Booking)', action: "openPage('p-booking')", span: 2, color: 'var(--info)' },
         { id: 'm-st', icon: '💆‍♂️', text: 'สถานะหมอ', action: "openPage('p-dr-status')", span: 2, color: '' },
+        { id: 'm-cm', icon: '💰', text: 'สรุปค่ามือหมอ', action: "showCommissionSummary()", span: 2, color: 'var(--success)' },
         { id: 'm-ci', icon: '⏱️', text: 'ลงเวลาเข้างานหมอ', action: "openCheckinModal()", span: 2, color: 'var(--success)' },
         { id: 'm-qw', icon: '📅', text: 'ลงคิววอล์คอิน', action: "openPage('p-q')", span: 1, color: '' },
         { id: 'm-py', icon: '💸', text: 'รับเงิน/QR', action: "openPage('p-pay')", span: 1, color: '' },
@@ -557,6 +576,8 @@
 
     function isAppBusy() {
         if(isTyping) return true;
+        if(document.activeElement && document.activeElement.tagName === 'SELECT') return true;
+        
         let modals = document.querySelectorAll('.modal-overlay');
         for(let i=0; i<modals.length; i++) {
             if(modals[i].style.display === 'flex' && modals[i].id !== 'admin-call-overlay') return true;
@@ -613,6 +634,7 @@
         startAutoSync(); 
     }
 
+    // 🚀 วาดเมนู
     function renderMainMenu() {
         let grid = document.getElementById('main-menu-grid');
         let html = '';
@@ -754,12 +776,12 @@
             let res = await fetch(SCRIPT_URL + `?t=${Date.now()}&type=${fetchType}`);
             let data = await res.json();
             
-            // 🚀 ป้องกัน Error "Cannot set properties of undefined" แบบเด็ดขาด!
             if(data.qs) db.qs = data.qs;
             if(data.drs) db.drs = data.drs;
             if(data.pp) db.pp = data.pp;
-            if(data.calls) db.calls = data.calls; else db.calls = [];
-            if(data.bk) db.bk = data.bk; else db.bk = [];
+            db.calls = data.calls || []; 
+            db.bk = data.bk || []; 
+            db.ctags = data.ctags || {}; // 🚀 โหลดข้อมูล Tag ลูกค้า
             
             if(fetchType === 'all' || fetchType === 'members') {
                 if(data.members) db.members = data.members;
@@ -778,6 +800,56 @@
             console.error(error); 
             if(!isBackground) document.getElementById('sync-load').style.display = 'none';
         }
+    }
+
+    // 🚀 ระบบเช็ค Tag ลูกค้า (VIP/Blacklist)
+    function checkCustTag(name, badgeId) {
+        let badge = document.getElementById(badgeId);
+        if(!badge || !name) return badge.style.display = 'none';
+        
+        db.ctags = db.ctags || {};
+        let tag = db.ctags[name.trim()];
+        
+        if(tag && tag !== "👤 ปกติ") {
+            badge.style.display = 'block';
+            badge.innerText = `ลูกค้ารายนี้มีประวัติ: ${tag}`;
+            if(tag.includes("แบล็ก")) badge.style.background = "var(--danger)";
+            else if(tag.includes("ระวัง")) badge.style.background = "var(--warning)";
+            else badge.style.background = "var(--success)"; // VIP
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    // 🚀 โชว์สรุปค่ามือหมอ
+    function showCommissionSummary() {
+        let comms = {};
+        db.qs.filter(q => q.status === 'done').forEach(q => {
+            let c = 0;
+            if(q.pm === 'course' || (q.note && q.note.includes("คอร์ส"))) {
+                c = (q.note && q.note.includes("รีดเส้น")) ? 300 : 200;
+            } else if(q.t === 'thai') c = (q.d / 60) * 100;
+            else if(q.t === 'herb') c = 50;
+            else c = q.p / 2;
+
+            if(!comms[q.dr]) comms[q.dr] = { count: 0, total: 0 };
+            comms[q.dr].count += 1;
+            comms[q.dr].total += c;
+        });
+
+        let html = '';
+        let grandTotal = 0;
+        for(let dr in comms) {
+            html += `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #eee;">
+                <span><strong>${dr}</strong> (${comms[dr].count} คิว)</span>
+                <span style="color:var(--success); font-weight:bold;">${comms[dr].total} ฿</span>
+            </div>`;
+            grandTotal += comms[dr].total;
+        }
+        html += `<div style="text-align:right; margin-top:12px; font-size:18px;"><strong>รวมทั้งหมด: ${grandTotal} ฿</strong></div>`;
+
+        document.getElementById('comm-list').innerHTML = html || '<p style="text-align:center;">ยังไม่มีงานที่เสร็จสิ้น</p>';
+        document.getElementById('comm-modal').style.display = 'flex';
     }
 
     function checkAdminCalls() {
@@ -810,12 +882,13 @@
     }
 
     async function saveDataToCloud() {
-        db.bk = db.bk || []; // กันเหนียวตอนเซฟ
+        db.bk = db.bk || []; 
+        db.ctags = db.ctags || {};
         localStorage.setItem(LOCAL_KEY, JSON.stringify(db));
         renderUI(); 
         document.getElementById('sync-load').style.display = 'block';
         
-        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp, calls: db.calls, bk: db.bk }; 
+        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp, calls: db.calls, bk: db.bk, ctags: db.ctags }; 
         await executeSheetAction('SAVE_DB', { data: lightDb });
         document.getElementById('sync-load').style.display = 'none';
         
@@ -905,6 +978,7 @@
             let mem = db.members.find(m => m.phone === phone);
             if(mem) {
                 document.getElementById('bk-name').value = mem.n;
+                checkCustTag(mem.n, 'bk-cust-tag-badge');
                 showToast(`✨ ดึงข้อมูลคุณ ${mem.n} สำเร็จ!`);
             }
         }
@@ -954,6 +1028,7 @@
         sendDiscordAlert("🛎️ มีคิวใหม่เข้าระบบจ้า!", custName, doctorName, typeNames[curType], curDur, price, note, rounded.timeStr);
 
         document.getElementById('qn').value = ''; document.getElementById('qnote').value = ''; 
+        document.getElementById('walkin-cust-tag-badge').style.display = 'none';
         saveDataToCloud(); 
         showToast('✅ บันทึกคิวลง Sheet (สถานะยังไม่จ่าย)');
         openPage('home'); 
@@ -1006,6 +1081,7 @@
         document.getElementById('bk-name').value = '';
         document.getElementById('bk-time').value = '';
         document.getElementById('bk-warning').style.display = 'none';
+        document.getElementById('bk-cust-tag-badge').style.display = 'none';
         
         renderBookings();
         showToast('✅ บันทึกการจองล่วงหน้าสำเร็จ!');
@@ -1181,7 +1257,7 @@
 
             saveDataToCloud();
             document.getElementById('extend-overlay').style.display = 'none';
-            showToast('✅ ต่อเวลาและอัปเดตบิลเรียบร้อย!');
+            showToast('✅ ต่อเวลาสำเร็จ บิลไปรอที่รับชำระเงินแล้ว!');
         }
     }
 
