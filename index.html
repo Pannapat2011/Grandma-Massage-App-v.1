@@ -63,7 +63,7 @@
         #sync-load { position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, var(--gold-primary), var(--gold-dark)); color: white; text-align: center; font-size: 13px; padding: 6px; display: none; z-index: 10000; font-weight: 500; letter-spacing: 1px; }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); animation: fadeIn 0.2s ease; padding: 20px; }
-        .modal-content { animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; width: 100%; max-width: 380px; text-align: center; }
+        .modal-content { animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; width: 100%; max-width: 380px; text-align: center; max-height: 85vh; overflow-y: auto; }
 
         .toast { position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 14px 28px; border-radius: 30px; font-weight: 500; font-size: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: bottom 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease; opacity: 0; z-index: 10001; pointer-events: none; }
         .toast.show { bottom: 40px; opacity: 1; }
@@ -76,7 +76,6 @@
         .receipt-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; text-align: left; }
         @media print { body * { visibility: hidden; } #receipt-modal, #receipt-modal * { visibility: visible; } #receipt-modal { position: absolute; left: 0; top: 0; width: 100%; } .no-print { display: none !important; } }
         
-        /* 🚨 สไตล์สำหรับแอดมินโดนเรียกตัว */
         #admin-call-overlay { display: none; position: fixed; inset: 0; background: rgba(255, 59, 48, 0.9); z-index: 10030; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px; text-align: center; animation: flashBgAdmin 1s infinite alternate; }
         @keyframes flashBgAdmin { 0% { background: rgba(255, 59, 48, 0.9); } 100% { background: rgba(204, 0, 0, 0.95); } }
     </style>
@@ -204,10 +203,19 @@
     </div>
 </div>
 
+<div id="edit-layout-overlay" class="modal-overlay">
+    <div class="card modal-content" style="max-width: 420px;">
+        <h2 style="color:var(--gold-dark); margin-bottom: 8px; font-weight: 600;">🛠️ ปรับแต่งเมนูหน้าหลัก</h2>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 0; margin-bottom: 16px;">กดลูกศรเพื่อเลื่อนขึ้นลง และกดปรับขนาดปุ่มได้ตามต้องการ</p>
+        <div id="layout-editor-list"></div>
+        <button class="btn-modern btn-gold" style="margin-top: 16px;" onclick="document.getElementById('edit-layout-overlay').style.display='none'">✅ เสร็จสิ้น</button>
+    </div>
+</div>
+
 <div id="admin-panel" style="display: none;">
     <div class="container" id="app">
         <div id="home" class="page" style="display: block;">
-            <div class="card">
+            <div class="card" style="padding-bottom: 16px;">
                 <div style="display:flex; justify-content:space-between; align-items: center;">
                     <span style="font-weight: 500; color: var(--text-muted); font-size: 14px;">ยอดรายรับวันนี้ (จ่ายแล้ว)</span>
                     <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer;">ออกระบบ</button>
@@ -215,21 +223,71 @@
                 <h1 id="total-val" style="font-size:48px; font-weight: 600; color:var(--gold-dark); margin:12px 0;">฿0</h1>
             </div>
 
-            <div class="menu-grid">
-                <button class="btn-modern" style="grid-column: span 2; box-shadow: 0 4px 15px rgba(0,0,0,0.05);" onclick="openPage('p-dr-status')">
-                    <span class="icon">💆‍♂️</span> สถานะหมอ
-                </button>
+            <div class="menu-grid" id="main-menu-grid"></div>
 
-                <button class="btn-modern" style="grid-column: span 2; box-shadow: 0 4px 15px rgba(0,0,0,0.05); color: var(--success);" onclick="openCheckinModal()">
-                    <span class="icon">⏱️</span> ลงเวลาเข้างานหมอ
+            <div style="text-align: center; margin-top: 24px;">
+                <button class="btn-modern btn-sm" style="background: transparent; color: var(--text-muted); box-shadow: none; border: 1px dashed var(--text-muted);" onclick="openLayoutEditor()">
+                    ⚙️ ปรับแต่งเมนูหน้าหลัก
                 </button>
-
-                <button class="btn-modern" onclick="openPage('p-q')"><span class="icon">📅</span> ลงคิวใหม่</button>
-                <button class="btn-modern" onclick="openPage('p-pay')"><span class="icon">💸</span> รับเงิน/QR</button>
-                <button class="btn-modern" onclick="openPage('p-list')"><span class="icon">📜</span> จัดการคิว</button>
-                <button class="btn-modern btn-gold" onclick="openPage('p-course')"><span class="icon">🎟️</span> คอร์สสมาชิก</button>
-                <button class="btn-modern" style="grid-column: span 2;" onclick="openPage('p-settings')"><span class="icon">⚙️</span> ตั้งค่าระบบ / ปิดยอดวัน</button>
             </div>
+        </div>
+
+        <div id="p-booking" class="page">
+            <h2 style="color: var(--info); text-align: center; font-weight: 600;">📝 จองคิวล่วงหน้า</h2>
+            
+            <div class="card" style="padding: 24px; text-align: left;">
+                <label style="font-size: 14px; font-weight: bold; color: var(--text-main);">ข้อมูลลูกค้า (พิมพ์เบอร์เพื่อค้นหาชื่ออัตโนมัติ)</label>
+                <input type="tel" id="bk-phone" class="form-control" style="margin-top: 10px;" placeholder="เบอร์โทรศัพท์ลูกค้า..." onkeyup="autoFillName(this.value)">
+                <input type="text" id="bk-name" class="form-control" placeholder="ชื่อลูกค้า...">
+                
+                <div style="display:flex; gap:12px; margin-bottom:16px;">
+                    <div style="flex:1;">
+                        <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">วันที่จอง</label>
+                        <input type="date" id="bk-date" class="form-control" style="margin-bottom:0;" onchange="checkDoubleBooking()">
+                    </div>
+                    <div style="flex:1;">
+                        <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">เวลาที่จอง</label>
+                        <input type="time" id="bk-time" class="form-control" style="margin-bottom:0;" onchange="checkDoubleBooking()">
+                    </div>
+                </div>
+
+                <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">บริการและหมอที่ระบุ</label>
+                <div style="display:flex; gap:12px; margin-bottom:16px;">
+                    <select id="bk-type" class="form-control" style="flex:2; margin-bottom:0;">
+                        <option value="thai">นวดไทย</option>
+                        <option value="foot">นวดเท้า</option>
+                        <option value="back">นวดไทยรีดเส้น</option>
+                        <option value="oil">นวดน้ำมัน</option>
+                        <option value="spa">ขัดผิวกาย</option>
+                        <option value="face">นวดหน้า_ขัดหน้า</option>
+                        <option value="herb">อบสมุนไพร</option>
+                    </select>
+                    <select id="bk-dur" class="form-control" style="flex:1; margin-bottom:0;">
+                        <option value="60">1 ชม.</option>
+                        <option value="90">1.5 ชม.</option>
+                        <option value="120">2 ชม.</option>
+                        <option value="30">30 นาที</option>
+                    </select>
+                </div>
+                <select id="bk-dr" class="form-control" onchange="checkDoubleBooking()">
+                    <option value="" disabled selected>-- ระบุหมอนวด --</option>
+                </select>
+
+                <div id="bk-warning" style="display:none; background:rgba(255,59,48,0.1); color:var(--danger); padding:12px; border-radius:12px; margin-bottom:16px; font-size:14px; font-weight:bold; text-align:center;">
+                    ⚠️ หมอคนนี้มีคิวจองในวันและเวลานี้แล้ว!
+                </div>
+
+                <button class="btn-modern" style="background:var(--info); color:white; margin-top: 0;" onclick="addBooking()">💾 บันทึกการจอง</button>
+            </div>
+
+            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">รายการจองล่วงหน้า</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>วัน/เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>จัดการ</th></tr></thead>
+                    <tbody id="tb-bookings"></tbody>
+                </table>
+            </div>
+            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
 
         <div id="p-dr-status" class="page">
@@ -285,7 +343,7 @@
         </div>
 
         <div id="p-q" class="page">
-            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิวจอง</h2>
+            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิววอล์คอิน</h2>
             <input type="text" id="qn" class="form-control" placeholder="ชื่อลูกค้า...">
             <input type="text" id="qnote" class="form-control" placeholder="หมายเหตุ (ลูกค้าเน้นนวดหนัก/เบา/แพ้ยา)...">
             
@@ -397,8 +455,9 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0mlNpEdpiHe9wLPb_LgPopHFtC8GYchP7wImRRGx4YMb0k4zgPBDWUsZq2RhoXSXW/exec"; 
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1489169746934108170/YxvxW_vJ5E8eb1m30rWmlELObxgNMssrUdOy2IAhi6K8xtL2QIu8MxflQeAMVAq1NqCu";
     const LOCAL_KEY = "spa_db_backup";
+    const MENU_LAYOUT_KEY = "spa_menu_layout";
 
-    let db = { qs: [], drs: [], members: [], pp: '0863526387', calls: [] }; 
+    let db = { qs: [], drs: [], members: [], pp: '0863526387', calls: [], bk: [] }; 
     
     let syncInterval = null;
     let isAutoSync = true;
@@ -421,6 +480,19 @@
     let currentDeleteId = null;
     let currentExtendId = null;
     let pendingConfirmAction = null; 
+
+    // 🚀 ระบบเมนู Layout จัดเรียงอิสระ
+    const defaultMenu = [
+        { id: 'm-bk', icon: '📝', text: 'จองคิวล่วงหน้า (Booking)', action: "openPage('p-booking')", span: 2, color: 'var(--info)' },
+        { id: 'm-st', icon: '💆‍♂️', text: 'สถานะหมอ', action: "openPage('p-dr-status')", span: 2, color: '' },
+        { id: 'm-ci', icon: '⏱️', text: 'ลงเวลาเข้างานหมอ', action: "openCheckinModal()", span: 2, color: 'var(--success)' },
+        { id: 'm-qw', icon: '📅', text: 'ลงคิววอล์คอิน', action: "openPage('p-q')", span: 1, color: '' },
+        { id: 'm-py', icon: '💸', text: 'รับเงิน/QR', action: "openPage('p-pay')", span: 1, color: '' },
+        { id: 'm-ls', icon: '📜', text: 'จัดการคิว', action: "openPage('p-list')", span: 1, color: '' },
+        { id: 'm-cs', icon: '🎟️', text: 'คอร์สสมาชิก', action: "openPage('p-course')", span: 1, isGold: true },
+        { id: 'm-se', icon: '⚙️', text: 'ตั้งค่าระบบ', action: "openPage('p-settings')", span: 2, color: '' }
+    ];
+    let currentMenuLayout = JSON.parse(localStorage.getItem(MENU_LAYOUT_KEY)) || defaultMenu;
 
     const themes = {
         light: { '--bg-color': '#F2F4F7', '--card-bg': 'rgba(255, 255, 255, 0.85)', '--input-bg': '#ffffff', '--table-bg': '#ffffff', '--text-main': '#1C1C1E', '--text-muted': '#8E8E93', '--gold-primary': '#D4AF37', '--gold-dark': '#B8860B' },
@@ -471,13 +543,9 @@
     }
 
     document.addEventListener('focusin', function(e) {
-        if(['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
-            isTyping = true;
-        }
+        if(['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) { isTyping = true; }
     });
-    document.addEventListener('focusout', function(e) {
-        isTyping = false;
-    });
+    document.addEventListener('focusout', function(e) { isTyping = false; });
 
     function isAppBusy() {
         if(isTyping) return true;
@@ -490,33 +558,22 @@
 
     function toggleAutoSync() {
         isAutoSync = document.getElementById('auto-sync-toggle').checked;
-        if(isAutoSync) {
-            startAutoSync();
-            showToast("✅ เปิด Auto Sync แล้ว");
-        } else {
-            clearInterval(syncInterval);
-            showToast("⚠️ ปิด Auto Sync (ระบบโหลดแบบ Manual)");
-        }
+        if(isAutoSync) { startAutoSync(); showToast("✅ เปิด Auto Sync แล้ว"); } 
+        else { clearInterval(syncInterval); showToast("⚠️ ปิด Auto Sync"); }
     }
 
     function startAutoSync() {
         if(syncInterval) clearInterval(syncInterval);
-        syncInterval = setInterval(() => {
-            if(isAutoSync && !isAppBusy()) {
-                fetchData('light', true);
-            }
-        }, 30000); 
+        syncInterval = setInterval(() => { if(isAutoSync && !isAppBusy()) fetchData('light', true); }, 30000); 
     }
 
     function showConfirm(icon, title, msg, btnText, btnColor, actionCallback) {
         document.getElementById('c-icon').innerText = icon;
         document.getElementById('c-title').innerText = title;
         document.getElementById('c-msg').innerText = msg;
-        
         let btnOk = document.getElementById('c-btn-ok');
         btnOk.innerText = btnText;
         btnOk.style.background = btnColor;
-        
         pendingConfirmAction = actionCallback;
         document.getElementById('custom-confirm-overlay').style.display = 'flex';
     }
@@ -542,9 +599,67 @@
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }, { once: true });
 
+        renderMainMenu(); // วาดเมนูตามที่ปรับแต่งไว้
         await fetchData('all', false); 
         checkPersistentLogin();
         startAutoSync(); 
+    }
+
+    // 🚀 ฟังก์ชันวาดหน้าเมนูหลัก
+    function renderMainMenu() {
+        let grid = document.getElementById('main-menu-grid');
+        let html = '';
+        currentMenuLayout.forEach(m => {
+            let style = `grid-column: span ${m.span};`;
+            if(m.color) style += ` color: ${m.color};`;
+            if(m.span === 2) style += ` box-shadow: 0 4px 15px rgba(0,0,0,0.05);`;
+            let cls = `btn-modern ${m.isGold ? 'btn-gold' : ''}`;
+            html += `<button class="${cls}" style="${style}" onclick="${m.action}">
+                <span class="icon">${m.icon}</span> ${m.text}
+            </button>`;
+        });
+        grid.innerHTML = html;
+    }
+
+    // 🚀 ระบบเปิดโหมดแก้ไข Layout เมนู
+    function openLayoutEditor() {
+        renderLayoutEditorList();
+        document.getElementById('edit-layout-overlay').style.display = 'flex';
+    }
+
+    function renderLayoutEditorList() {
+        let html = '';
+        currentMenuLayout.forEach((m, i) => {
+            html += `<div style="display:flex; align-items:center; justify-content:space-between; padding:10px; background:#f9f9f9; margin-bottom:8px; border-radius:12px; border:1px solid #E5E5EA;">
+                <div style="flex:1; text-align:left; font-size:14px; font-weight:500;">
+                    <span style="font-size:18px;">${m.icon}</span> ${m.text}
+                </div>
+                <div style="display:flex; gap:4px;">
+                    <button class="btn-modern btn-sm" style="padding:6px 10px; margin:0;" onclick="toggleMenuSize(${i})">${m.span === 1 ? '🔲 เล็ก' : '▭ ใหญ่'}</button>
+                    <button class="btn-modern btn-sm" style="padding:6px 10px; margin:0;" onclick="moveMenu(${i}, -1)" ${i===0?'disabled':''}>🔼</button>
+                    <button class="btn-modern btn-sm" style="padding:6px 10px; margin:0;" onclick="moveMenu(${i}, 1)" ${i===currentMenuLayout.length-1?'disabled':''}>🔽</button>
+                </div>
+            </div>`;
+        });
+        document.getElementById('layout-editor-list').innerHTML = html;
+    }
+
+    function toggleMenuSize(idx) {
+        currentMenuLayout[idx].span = currentMenuLayout[idx].span === 1 ? 2 : 1;
+        saveMenuLayout();
+    }
+
+    function moveMenu(idx, dir) {
+        let temp = currentMenuLayout[idx];
+        currentMenuLayout[idx] = currentMenuLayout[idx + dir];
+        currentMenuLayout[idx + dir] = temp;
+        saveMenuLayout();
+    }
+
+    function saveMenuLayout() {
+        localStorage.setItem(MENU_LAYOUT_KEY, JSON.stringify(currentMenuLayout));
+        renderLayoutEditorList();
+        renderMainMenu();
     }
 
     function checkPersistentLogin() {
@@ -578,9 +693,7 @@
                 document.getElementById('admin-panel').style.display = 'block';
                 document.getElementById('admin-pass').value = '';
                 showToast('เข้าสู่ระบบสำเร็จ');
-            } else {
-                showToast("❌ รหัสผ่านไม่ถูกต้อง!", true);
-            }
+            } else { showToast("❌ รหัสผ่านไม่ถูกต้อง!", true); }
         } catch(e) {
             document.getElementById('sync-load').style.display = 'none';
             showToast("❌ ขัดข้อง เชื่อมต่อไม่สำเร็จ", true);
@@ -639,6 +752,7 @@
             if(data.drs) db.drs = data.drs;
             if(data.pp) db.pp = data.pp;
             if(data.calls) db.calls = data.calls; 
+            if(data.bk) db.bk = data.bk; 
             
             if(fetchType === 'all' || fetchType === 'members') {
                 if(data.members) db.members = data.members;
@@ -693,7 +807,7 @@
         renderUI(); 
         document.getElementById('sync-load').style.display = 'block';
         
-        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp, calls: db.calls }; 
+        let lightDb = { qs: db.qs, drs: db.drs, pp: db.pp, calls: db.calls, bk: db.bk }; 
         await executeSheetAction('SAVE_DB', { data: lightDb });
         document.getElementById('sync-load').style.display = 'none';
         
@@ -704,10 +818,9 @@
         document.querySelectorAll('.page').forEach(page => page.style.display = 'none'); 
         document.getElementById(pageId).style.display = 'block'; 
         
-        if(pageId === 'p-course') {
-            fetchData('members', false);
-        } 
+        if(pageId === 'p-course') fetchData('members', false);
         if(pageId === 'p-settings') document.getElementById('set-pp').placeholder = `เบอร์ปัจจุบัน: ${db.pp}`;
+        if(pageId === 'p-booking') renderBookings(); 
     }
 
     function openCheckinModal() {
@@ -779,6 +892,16 @@
         document.getElementById('qp').value = price; 
     }
 
+    function autoFillName(phone) {
+        if(phone.length >= 9) {
+            let mem = db.members.find(m => m.phone === phone);
+            if(mem) {
+                document.getElementById('bk-name').value = mem.n;
+                showToast(`✨ ดึงข้อมูลคุณ ${mem.n} สำเร็จ!`);
+            }
+        }
+    }
+
     function getRoundedStartTime() {
         let d = new Date();
         let m = d.getMinutes();
@@ -820,12 +943,135 @@
         ];
         executeSheetAction('LOG_QUEUE', { data: logData, serviceType: curType, duration: curDur });
         
-        sendDiscordAlert("🛎️ มีคิวจองใหม่เข้ามาแล้วจ้า!", custName, doctorName, typeNames[curType], curDur, price, note, rounded.timeStr);
+        sendDiscordAlert("🛎️ มีคิวใหม่เข้าระบบจ้า!", custName, doctorName, typeNames[curType], curDur, price, note, rounded.timeStr);
 
         document.getElementById('qn').value = ''; document.getElementById('qnote').value = ''; 
         saveDataToCloud(); 
         showToast('✅ บันทึกคิวลง Sheet (สถานะยังไม่จ่าย)');
         openPage('home'); 
+    }
+
+    function checkDoubleBooking() {
+        let bkDate = document.getElementById('bk-date').value;
+        let bkDr = document.getElementById('bk-dr').value;
+        let warningBox = document.getElementById('bk-warning');
+        
+        if(bkDate && bkDr) {
+            let overlap = db.bk.find(b => b.date === bkDate && b.dr === bkDr);
+            if(overlap) {
+                warningBox.style.display = 'block';
+                warningBox.innerText = `⚠️ ระวัง! หมอ ${bkDr} มีคนจองแล้ววันที่ ${bkDate} เวลา ${overlap.time}`;
+            } else {
+                warningBox.style.display = 'none';
+            }
+        }
+    }
+
+    function addBooking() {
+        let phone = document.getElementById('bk-phone').value;
+        let name = document.getElementById('bk-name').value;
+        let bDate = document.getElementById('bk-date').value;
+        let bTime = document.getElementById('bk-time').value;
+        let bType = document.getElementById('bk-type').value;
+        let bDur = parseInt(document.getElementById('bk-dur').value);
+        let bDr = document.getElementById('bk-dr').value;
+
+        if(!name || !bDate || !bTime || !bDr) return showToast('⚠️ กรอกข้อมูลให้ครบถ้วน!', true);
+
+        db.bk = db.bk || [];
+        db.bk.push({
+            id: "BK" + Date.now(),
+            n: name,
+            phone: phone,
+            date: bDate,
+            time: bTime,
+            t: bType,
+            d: bDur,
+            dr: bDr,
+            status: 'pending'
+        });
+
+        saveDataToCloud();
+        
+        document.getElementById('bk-phone').value = '';
+        document.getElementById('bk-name').value = '';
+        document.getElementById('bk-time').value = '';
+        document.getElementById('bk-warning').style.display = 'none';
+        
+        renderBookings();
+        showToast('✅ บันทึกการจองล่วงหน้าสำเร็จ!');
+    }
+
+    function renderBookings() {
+        let html = '';
+        if(!db.bk || db.bk.length === 0) {
+            html = `<tr><td colspan="5" style="color:var(--text-muted);">ยังไม่มีรายการจองล่วงหน้า</td></tr>`;
+        } else {
+            let sortedBk = db.bk.sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time));
+            sortedBk.forEach(b => {
+                html += `<tr>
+                    <td style="font-size:12px; color:var(--text-muted);">${b.date}<br><b>${b.time}</b></td>
+                    <td><strong>${b.n}</strong><br><span style="font-size:11px;">${b.phone}</span></td>
+                    <td>${typeNames[b.t]}<span class="srv-text">${b.d} นาที</span></td>
+                    <td style="color: var(--gold-dark); font-weight: 500;">${b.dr}</td>
+                    <td style="white-space: nowrap;">
+                        <button onclick="arriveBooking('${b.id}')" class="btn-modern btn-sm" style="background:var(--success); color:white; margin-right:4px;">✅ มาถึงแล้ว</button>
+                        <button onclick="cancelBooking('${b.id}')" class="btn-modern btn-sm" style="background:var(--danger); color:white;">❌ ลบ</button>
+                    </td>
+                </tr>`;
+            });
+        }
+        document.getElementById('tb-bookings').innerHTML = html;
+        
+        let drOptions = '<option value="" disabled selected>-- ระบุหมอนวด --</option>';
+        db.drs.forEach(d => { drOptions += `<option value="${d.n}">${d.n}</option>`; });
+        document.getElementById('bk-dr').innerHTML = drOptions;
+    }
+
+    function cancelBooking(id) {
+        showConfirm("🗑️", "ยกเลิกจอง?", "ต้องการลบคิวจองนี้ใช่หรือไม่?", "✅ ยืนยัน", "var(--danger)", () => {
+            db.bk = db.bk.filter(b => b.id !== id);
+            saveDataToCloud();
+            renderBookings();
+            showToast('🗑️ ลบการจองเรียบร้อย');
+        });
+    }
+
+    function arriveBooking(id) {
+        let bkIndex = db.bk.findIndex(b => b.id === id);
+        if(bkIndex === -1) return;
+        let b = db.bk[bkIndex];
+
+        showConfirm("✅", "ลูกค้ามาถึงแล้ว?", `ดันคิวคุณ ${b.n} เข้าระบบคิวงานและเรียกหมอเลยไหม?`, "ใช่, เริ่มงานเลย", "var(--success)", () => {
+            let price = priceTable[b.t] ? (priceTable[b.t][b.d] || 0) : 0;
+            let qId = "Q" + Date.now(); 
+            let timeNowStr = getRoundedStartTime().timeStr;
+            let msNow = getRoundedStartTime().ms;
+
+            db.qs.push({ 
+                id: qId, time: timeNowStr, n: b.n, dr: b.dr, 
+                p: price, t: b.t, d: b.d, paid: false, pm: '', note: 'จากระบบจองล่วงหน้า', 
+                status: 'active', startTime: msNow 
+            });
+
+            let drIndex = db.drs.findIndex(d => d.n === b.dr);
+            if(drIndex !== -1) { db.drs[drIndex].st = 'busy'; }
+            
+            let dateObj = new Date();
+            let logData = [
+                qId, dateObj.toLocaleDateString('th-TH'), timeNowStr, 
+                b.n, b.dr, `${typeNames[b.t]} (${b.d} นาที)`, 
+                price, '-', `ค้างชำระ (${price} บาท)`, 'จองล่วงหน้า', 0 
+            ];
+            executeSheetAction('LOG_QUEUE', { data: logData, serviceType: b.t, duration: b.d });
+            
+            sendDiscordAlert("🛎️ คิวจองล่วงหน้ามาถึงแล้ว!", b.n, b.dr, typeNames[b.t], b.d, price, "ลูกค้ามาถึงร้านแล้ว", timeNowStr);
+
+            db.bk.splice(bkIndex, 1);
+            saveDataToCloud(); 
+            showToast('✅ ดันคิวเข้าระบบสำเร็จ! หมอเตรียมตัวเลย');
+            openPage('home'); 
+        });
     }
 
     function finishMassage(id) {
@@ -838,6 +1084,8 @@
                 if(drIndex !== -1) { db.drs[drIndex].st = 'free'; }
                 saveDataToCloud(); 
                 showToast('✅ จบเคสเรียบร้อย (ชื่อจะหายใน 5 นาทีสำหรับจอลูกค้า)'); 
+                
+                executeSheetAction('FINISH_JOB', { id: q.id, note: "แอดมินกดยืนยัน" });
             }
         });
     }
