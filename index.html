@@ -78,6 +78,10 @@
         
         #admin-call-overlay { display: none; position: fixed; inset: 0; background: rgba(255, 59, 48, 0.9); z-index: 10030; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px; text-align: center; animation: flashBgAdmin 1s infinite alternate; }
         @keyframes flashBgAdmin { 0% { background: rgba(255, 59, 48, 0.9); } 100% { background: rgba(204, 0, 0, 0.95); } }
+
+        /* 🚀 เพิ่มกลับมาแล้ว! แถบเตือนค้างชำระแบบกะพริบ */
+        #unpaid-banner { display: none; background: var(--danger); color: white; padding: 14px 20px; border-radius: 16px; margin-bottom: 20px; font-weight: bold; text-align: center; cursor: pointer; animation: pulseRed 1.5s infinite; box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4); border: 2px solid #FFCCCC; }
+        @keyframes pulseRed { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.02); opacity: 0.85; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body onload="initApp()">
@@ -215,6 +219,11 @@
 <div id="admin-panel" style="display: none;">
     <div class="container" id="app">
         <div id="home" class="page" style="display: block;">
+            
+            <div id="unpaid-banner" onclick="openPage('p-pay')">
+                ⚠️ แจ้งเตือน: มีลูกค้าค้างชำระ <span id="unpaid-count">0</span> คิว (ยอดรวม <span id="unpaid-sum">0</span> ฿) ➡️ กดเพื่อรับเงิน
+            </div>
+
             <div class="card" style="padding-bottom: 16px;">
                 <div style="display:flex; justify-content:space-between; align-items: center;">
                     <span style="font-weight: 500; color: var(--text-muted); font-size: 14px;">ยอดรายรับวันนี้ (จ่ายแล้ว)</span>
@@ -481,7 +490,6 @@
     let currentExtendId = null;
     let pendingConfirmAction = null; 
 
-    // 🚀 ระบบเมนู Layout จัดเรียงอิสระ
     const defaultMenu = [
         { id: 'm-bk', icon: '📝', text: 'จองคิวล่วงหน้า (Booking)', action: "openPage('p-booking')", span: 2, color: 'var(--info)' },
         { id: 'm-st', icon: '💆‍♂️', text: 'สถานะหมอ', action: "openPage('p-dr-status')", span: 2, color: '' },
@@ -599,13 +607,12 @@
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }, { once: true });
 
-        renderMainMenu(); // วาดเมนูตามที่ปรับแต่งไว้
+        renderMainMenu(); 
         await fetchData('all', false); 
         checkPersistentLogin();
         startAutoSync(); 
     }
 
-    // 🚀 ฟังก์ชันวาดหน้าเมนูหลัก
     function renderMainMenu() {
         let grid = document.getElementById('main-menu-grid');
         let html = '';
@@ -621,7 +628,6 @@
         grid.innerHTML = html;
     }
 
-    // 🚀 ระบบเปิดโหมดแก้ไข Layout เมนู
     function openLayoutEditor() {
         renderLayoutEditorList();
         document.getElementById('edit-layout-overlay').style.display = 'flex';
@@ -748,11 +754,12 @@
             let res = await fetch(SCRIPT_URL + `?t=${Date.now()}&type=${fetchType}`);
             let data = await res.json();
             
+            // 🚀 ป้องกัน Error "Cannot set properties of undefined" แบบเด็ดขาด!
             if(data.qs) db.qs = data.qs;
             if(data.drs) db.drs = data.drs;
             if(data.pp) db.pp = data.pp;
-            if(data.calls) db.calls = data.calls; 
-            if(data.bk) db.bk = data.bk; 
+            if(data.calls) db.calls = data.calls; else db.calls = [];
+            if(data.bk) db.bk = data.bk; else db.bk = [];
             
             if(fetchType === 'all' || fetchType === 'members') {
                 if(data.members) db.members = data.members;
@@ -803,6 +810,7 @@
     }
 
     async function saveDataToCloud() {
+        db.bk = db.bk || []; // กันเหนียวตอนเซฟ
         localStorage.setItem(LOCAL_KEY, JSON.stringify(db));
         renderUI(); 
         document.getElementById('sync-load').style.display = 'block';
@@ -956,6 +964,7 @@
         let bkDr = document.getElementById('bk-dr').value;
         let warningBox = document.getElementById('bk-warning');
         
+        db.bk = db.bk || []; 
         if(bkDate && bkDr) {
             let overlap = db.bk.find(b => b.date === bkDate && b.dr === bkDr);
             if(overlap) {
@@ -1003,8 +1012,9 @@
     }
 
     function renderBookings() {
+        db.bk = db.bk || []; 
         let html = '';
-        if(!db.bk || db.bk.length === 0) {
+        if(db.bk.length === 0) {
             html = `<tr><td colspan="5" style="color:var(--text-muted);">ยังไม่มีรายการจองล่วงหน้า</td></tr>`;
         } else {
             let sortedBk = db.bk.sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time));
@@ -1038,12 +1048,14 @@
     }
 
     function arriveBooking(id) {
+        db.bk = db.bk || [];
         let bkIndex = db.bk.findIndex(b => b.id === id);
         if(bkIndex === -1) return;
         let b = db.bk[bkIndex];
 
         showConfirm("✅", "ลูกค้ามาถึงแล้ว?", `ดันคิวคุณ ${b.n} เข้าระบบคิวงานและเรียกหมอเลยไหม?`, "ใช่, เริ่มงานเลย", "var(--success)", () => {
-            let price = priceTable[b.t] ? (priceTable[b.t][b.d] || 0) : 0;
+            let price = (priceTable[b.t] && priceTable[b.t][b.d]) ? parseInt(priceTable[b.t][b.d]) : 0;
+            
             let qId = "Q" + Date.now(); 
             let timeNowStr = getRoundedStartTime().timeStr;
             let msNow = getRoundedStartTime().ms;
@@ -1169,7 +1181,7 @@
 
             saveDataToCloud();
             document.getElementById('extend-overlay').style.display = 'none';
-            showToast('✅ ต่อเวลาสำเร็จ บิลไปรอที่รับชำระเงินแล้ว!');
+            showToast('✅ ต่อเวลาและอัปเดตบิลเรียบร้อย!');
         }
     }
 
@@ -1308,7 +1320,23 @@
 
     function renderUI() {
         let totalIncome = db.qs.filter(q => q.paid && q.pm !== 'course').reduce((sum, q) => sum + parseInt(q.p), 0);
-        document.getElementById('total-val').innerText = `฿${totalIncome.toLocaleString()}`;
+        let totalEl = document.getElementById('total-val');
+        if(totalEl) totalEl.innerText = `฿${totalIncome.toLocaleString()}`;
+        
+        let unpaidDoneQueues = db.qs.filter(q => q.status === 'done' && q.paid === false && parseInt(q.p) > 0);
+        let unpaidBanner = document.getElementById('unpaid-banner');
+        if(unpaidBanner) {
+            if(unpaidDoneQueues.length > 0) {
+                let sum = unpaidDoneQueues.reduce((s, q) => s + parseInt(q.p), 0);
+                let uCount = document.getElementById('unpaid-count');
+                let uSum = document.getElementById('unpaid-sum');
+                if(uCount) uCount.innerText = unpaidDoneQueues.length;
+                if(uSum) uSum.innerText = sum;
+                unpaidBanner.style.display = 'block';
+            } else {
+                unpaidBanner.style.display = 'none';
+            }
+        }
         
         renderTables();
         
@@ -1321,13 +1349,15 @@
             let extMark = (q.note && q.note.includes('ค่า')) ? ` (${q.note.split(' ')[0]})` : '';
             paymentOptions += `<option value="${q.id}">คุณ ${q.n}${extMark} (ยอด: ${q.p} บาท)</option>`; 
         });
-        document.getElementById('psel').innerHTML = paymentOptions;
+        let psel = document.getElementById('psel');
+        if(psel) psel.innerHTML = paymentOptions;
 
         let freeDoctors = db.drs.filter(doc => doc.st === 'free');
         let doctorOptions = '<option value="" disabled selected>-- เลือกหมอนวด --</option>';
         freeDoctors.forEach(doc => { doctorOptions += `<option value="${doc.n}">${doc.n}</option>`; });
         if(freeDoctors.length === 0) doctorOptions = '<option value="" disabled selected>ไม่มีหมอว่างเลย</option>';
-        document.getElementById('qdr').innerHTML = doctorOptions;
+        let qdr = document.getElementById('qdr');
+        if(qdr) qdr.innerHTML = doctorOptions;
 
         let statusDrHTML = '';
         let settingsDrHTML = '';
@@ -1411,31 +1441,40 @@
             }
         });
 
-        document.getElementById('tb-list').innerHTML = adminTableHTML;
-        document.getElementById('tb-doctor-view').innerHTML = doctorTableHTML;
+        let tbList = document.getElementById('tb-list');
+        if(tbList) tbList.innerHTML = adminTableHTML;
+        let tbDoc = document.getElementById('tb-doctor-view');
+        if(tbDoc) tbDoc.innerHTML = doctorTableHTML;
     }
 
     function setPaymentMode(mode) { 
         payMode = mode; 
-        document.getElementById('mqr').classList.toggle('active', mode === 'qr'); 
-        document.getElementById('mcash').classList.toggle('active', mode === 'cash'); 
+        let mqr = document.getElementById('mqr');
+        let mcash = document.getElementById('mcash');
+        if(mqr) mqr.classList.toggle('active', mode === 'qr'); 
+        if(mcash) mcash.classList.toggle('active', mode === 'cash'); 
         generateQRCode(); 
     }
 
     function generateQRCode() { 
         let amount = document.getElementById('pa').value; 
         let qrContainer = document.getElementById('qr-area'); 
+        let qrImg = document.getElementById('qr-img');
+        let ppTxt = document.getElementById('pp-txt');
         if(payMode === 'qr' && amount > 0) { 
-            document.getElementById('qr-img').src = `https://promptpay.io/${db.pp}/${amount}.png?t=${Date.now()}`; 
-            document.getElementById('pp-txt').innerText = "พร้อมเพย์: " + db.pp; 
-            qrContainer.style.display = 'block'; 
-        } else { qrContainer.style.display = 'none'; } 
+            if(qrImg) qrImg.src = `https://promptpay.io/${db.pp}/${amount}.png?t=${Date.now()}`; 
+            if(ppTxt) ppTxt.innerText = "พร้อมเพย์: " + db.pp; 
+            if(qrContainer) qrContainer.style.display = 'block'; 
+        } else { 
+            if(qrContainer) qrContainer.style.display = 'none'; 
+        } 
     }
 
     function autoFillPrice() { 
         let selectedId = document.getElementById('psel').value;
         let queueData = db.qs.find(item => String(item.id) === selectedId); 
-        if(queueData) { document.getElementById('pa').value = queueData.p; generateQRCode(); } 
+        let pa = document.getElementById('pa');
+        if(queueData && pa) { pa.value = queueData.p; generateQRCode(); } 
     }
 
     function confirmPayment() { 
