@@ -82,406 +82,441 @@
         #unpaid-banner { display: none; background: var(--danger); color: white; padding: 14px 20px; border-radius: 16px; margin-bottom: 20px; font-weight: bold; text-align: center; cursor: pointer; animation: pulseRed 1.5s infinite; box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4); border: 2px solid #FFCCCC; }
         @keyframes pulseRed { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.02); opacity: 0.85; } 100% { transform: scale(1); opacity: 1; } }
 
-        /* 🚀 ป้ายเตือน VIP / แบล็กลิสต์ */
         .cust-tag-badge { display: none; padding: 8px 12px; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; margin-top: -10px; margin-bottom: 16px; text-align: center; animation: pop 0.3s; }
+        
+        /* 🚀 สไตล์สำหรับหน้าจอฝั่งลูกค้า */
+        #customer-display-screen { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #1C1C1E; color: var(--gold-primary); padding: 20px; text-align: center; position: fixed; inset: 0; z-index: 99999; }
+        .cust-pulse { animation: custPulse 2s infinite; }
+        @keyframes custPulse { 0% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0.7; transform: scale(0.98); } }
     </style>
 </head>
 <body onload="initApp()">
 
-<div id="sync-load">🔄 กำลังเชื่อมต่อข้อมูล...</div>
-<div id="toast" class="toast">แจ้งเตือน</div>
-
-<div id="admin-call-overlay">
-    <div class="card" style="background: white; color: var(--text-main); max-width: 350px;">
-        <div style="font-size: 60px; margin-bottom: 10px; animation: slideUp 0.5s infinite alternate;">🆘</div>
-        <h1 style="color:var(--danger); margin: 0 0 8px 0;">พนักงานเรียก!</h1>
-        <p style="font-size: 18px; margin-bottom: 4px;"><strong>ห้อง/หมอ:</strong> <span id="call-dr-name" style="color:var(--gold-dark);"></span></p>
-        <p style="font-size: 14px; color:var(--text-muted); margin-bottom: 24px;">เวลาที่เรียก: <span id="call-time"></span></p>
-        <button class="btn-modern btn-gold" id="btn-clear-call" style="width: 100%;">✅ รับทราบและไปดู</button>
-    </div>
-</div>
-
-<div id="doctor-screen" class="container">
-    <div class="card">
-        <h1 style="color:var(--gold-dark); margin:0 0 8px 0; font-size: 28px; font-weight: 600;">บ้านประคบทองไทยสปา (สาขา 1)</h1>
-        <h2 style="margin:0; font-size: 18px; color: var(--text-main); font-weight: 500;">คิวงานวันนี้</h2>
-        <small style="color: var(--text-muted); margin-top: 4px; display: block;">อัปเดตเรียลไทม์ 🕒</small>
-    </div>
-    
-    <div class="table-responsive">
-        <table>
-            <thead><tr><th>เวลาเริ่ม</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>สถานะการนวด</th></tr></thead>
-            <tbody id="tb-doctor-view"></tbody>
-        </table>
-    </div>
-
-    <button class="btn-modern" onclick="document.getElementById('login-overlay').style.display='flex'">
-        <span class="icon">⚙️</span> เข้าระบบแอดมิน
-    </button>
-    <button class="btn-modern" onclick="fetchData('light')">
-        <span class="icon">🔄</span> โหลดข้อมูลล่าสุด (Manual)
-    </button>
-</div>
-
-<div id="login-overlay" class="modal-overlay">
-    <div class="card modal-content">
-        <h2 style="color:var(--gold-dark); margin-bottom: 24px; font-weight: 600;">ADMIN LOGIN</h2>
-        <input type="password" id="admin-pass" class="form-control" placeholder="ใส่รหัสผ่าน" style="text-align: center;">
-        <button class="btn-modern btn-gold" onclick="authAdmin()">🔓 เข้าสู่ระบบ</button>
-        <button class="btn-modern" style="color: var(--danger);" onclick="document.getElementById('login-overlay').style.display='none'">ยกเลิก</button>
-    </div>
-</div>
-
-<div id="checkin-overlay" class="modal-overlay">
-    <div class="card modal-content">
-        <div style="font-size: 48px; margin-bottom: 16px;">⏱️</div>
-        <h2 style="color:var(--success); margin-bottom: 12px; font-weight: 600;">ลงเวลาเข้างาน</h2>
-        <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 14px;">เลือกชื่อพนักงานเพื่อตอกบัตรเข้างาน</p>
-        <select id="checkin-dr" class="form-control"></select>
-        <button class="btn-modern" style="background: var(--success); color: white;" onclick="confirmCheckin()">✅ ยืนยันตอกบัตร</button>
-        <button class="btn-modern" onclick="document.getElementById('checkin-overlay').style.display='none'">ยกเลิก</button>
-    </div>
-</div>
-
-<div id="comm-modal" class="modal-overlay">
-    <div class="card modal-content" style="max-width: 400px;">
-        <h2 style="color:var(--gold-dark); margin-top:0;">💰 สรุปค่ามือหมอวันนี้</h2>
-        <p style="font-size:13px; color:var(--text-muted); margin-top:-10px;">ยอดรวมจากการนวดเสร็จสิ้น (Done) ของแต่ละคน</p>
-        <div id="comm-list" style="text-align:left; margin-bottom:16px; max-height: 40vh; overflow-y:auto; padding-right:10px;"></div>
-        <button class="btn-modern btn-gold" onclick="document.getElementById('comm-modal').style.display='none'">✅ ปิดหน้าต่าง</button>
-    </div>
-</div>
-
-<div id="extend-overlay" class="modal-overlay">
-    <div class="card modal-content">
-        <h2 style="color:var(--info); margin-bottom: 12px; font-weight: 600;">⏳ ต่อเวลาเพิ่ม</h2>
-        <p id="extend-name" style="color: var(--text-muted); margin-bottom: 16px; font-size: 14px;">ลูกค้า: -</p>
+<!-- 🚀 หน้าจอฝั่งลูกค้า (แสดงเมื่อ URL มี ?mode=customer) -->
+<div id="customer-display-screen">
+    <div class="card" style="background: rgba(44, 44, 46, 0.9); border: 1px solid var(--gold-dark); max-width: 400px; width: 100%;">
+        <h1 style="color:var(--gold-primary); font-size: 32px; margin-bottom: 10px;">บ้านประคบทองไทยสปา</h1>
+        <p style="color: var(--text-muted); font-size: 18px; margin-top: 0;" id="cust-wait-msg">ยินดีต้อนรับ 🙏<br><br><span style="font-size:14px; opacity:0.6;">(รอพนักงานทำรายการ...)</span></p>
         
-        <label style="font-size: 14px; color: var(--text-muted); display: block; text-align: left; margin-bottom: 4px; padding-left: 8px;">บริการที่ต้องการต่อเวลา</label>
-        <select id="ext-type-sel" class="form-control" onchange="autoCalcExtendPrice()">
-            <option value="thai">นวดไทย</option>
-            <option value="foot">นวดเท้า</option>
-            <option value="back">นวดไทยรีดเส้น</option>
-            <option value="oil">นวดน้ำมัน</option>
-            <option value="spa">ขัดผิวกาย</option>
-            <option value="face">นวดหน้า_ขัดหน้า</option>
-        </select>
-
-        <label style="font-size: 14px; color: var(--text-muted); display: block; text-align: left; margin-bottom: 4px; padding-left: 8px;">ระยะเวลา</label>
-        <select id="ext-dur-sel" class="form-control" onchange="autoCalcExtendPrice()">
-            <option value="30">30 นาที</option>
-            <option value="60">1 ชม.</option>
-            <option value="90">1.5 ชม.</option>
-            <option value="120">2 ชม.</option>
-        </select>
-
-        <div style="background: var(--card-bg); padding: 12px; border-radius: var(--radius-input); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
-            <label style="font-size: 14px; color: var(--text-muted);">ต้องจ่ายเพิ่ม (บาท)</label>
-            <input type="number" id="ext-price" style="text-align:center; font-size:28px; color:var(--gold-dark); font-weight: 600; border:none; outline:none; width: 100%; background: transparent; margin-top: 4px;" readonly>
-        </div>
-
-        <button class="btn-modern" style="background: var(--info); color: white;" onclick="confirmExtend()">💾 ยืนยันต่อเวลา</button>
-        <button class="btn-modern" style="color: var(--danger);" onclick="document.getElementById('extend-overlay').style.display='none'">ยกเลิก</button>
-    </div>
-</div>
-
-<div id="deduct-overlay" class="modal-overlay">
-    <div class="card modal-content">
-        <h2 style="color:var(--info); margin-bottom: 12px; font-weight: 600;">🎟️ ตัดคอร์สสมาชิก</h2>
-        <p id="deduct-name" style="color: var(--text-muted); margin-bottom: 16px; font-size: 14px;">ลูกค้า: -</p>
-        <select id="deduct-dr" class="form-control"></select>
-        <input type="number" id="deduct-qty" class="form-control" placeholder="ระบุจำนวนครั้งที่ต้องการตัด" value="1" min="1" style="text-align: center;">
-        <button class="btn-modern" style="background: var(--info); color: white;" onclick="confirmDeduct()">✅ ยืนยันตัดคอร์สและลงคิว</button>
-        <button class="btn-modern" style="color: var(--danger);" onclick="document.getElementById('deduct-overlay').style.display='none'">ยกเลิก</button>
-    </div>
-</div>
-
-<div id="receipt-overlay" class="modal-overlay" style="z-index: 10020;">
-    <div class="receipt-paper" id="receipt-modal">
-        <h2 style="margin: 0 0 5px 0;">บ้านประคบทองไทยสปา</h2>
-        <p style="margin: 0; font-size: 12px; color: #666;">สาขา 1 | โทร: 08X-XXX-XXXX</p>
-        <div class="receipt-divider"></div>
-        <div class="receipt-row"><span>วันที่:</span><span id="rc-date">-</span></div>
-        <div class="receipt-row"><span>ลูกค้า:</span><span id="rc-name">-</span></div>
-        <div class="receipt-row"><span>พนักงาน:</span><span id="rc-dr">-</span></div>
-        <div class="receipt-divider"></div>
-        <div class="receipt-row" style="font-weight: bold;"><span>รายการ</span><span>ราคา</span></div>
-        <div class="receipt-row"><span id="rc-service">-</span><span id="rc-price">-</span></div>
-        <div class="receipt-divider"></div>
-        <div class="receipt-row" style="font-size: 18px; font-weight: bold;"><span>ยอดสุทธิ:</span><span id="rc-total">฿0</span></div>
-        <div class="receipt-row"><span>วิธีชำระเงิน:</span><span id="rc-pm">-</span></div>
-        <p style="margin-top: 20px; font-size: 12px; text-align: center;">ขอบคุณที่ใช้บริการครับ/ค่ะ 🙏</p>
-        <div class="no-print">
-            <button class="btn-modern btn-gold" style="margin-top: 20px; border-radius: 8px;" onclick="window.print()">🖨️ พิมพ์ใบเสร็จ</button>
-            <button class="btn-modern" style="border-radius: 8px;" onclick="document.getElementById('receipt-overlay').style.display='none'; openPage('home');">❌ ปิดหน้าต่าง</button>
+        <div id="cust-pay-area" style="display: none; animation: slideUp 0.5s ease forwards;">
+            <h2 style="color: white; font-size: 24px;">ยอดชำระเงิน</h2>
+            <h1 style="color: var(--gold-light); font-size: 54px; margin: 10px 0;" id="cust-amount">0 ฿</h1>
+            <img id="cust-qr-img" src="" style="width: 250px; border-radius: 20px; border: 8px solid white; margin: 20px 0; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);">
+            <p class="cust-pulse" style="color: var(--success); font-size: 20px; font-weight: bold;">สแกนเพื่อชำระเงินได้เลยครับ/ค่ะ</p>
         </div>
     </div>
 </div>
 
-<div id="edit-layout-overlay" class="modal-overlay">
-    <div class="card modal-content" style="max-width: 420px;">
-        <h2 style="color:var(--gold-dark); margin-bottom: 8px; font-weight: 600;">🛠️ ปรับแต่งเมนูหน้าหลัก</h2>
-        <p style="font-size: 13px; color: var(--text-muted); margin-top: 0; margin-bottom: 16px;">กดลูกศรเพื่อเลื่อนขึ้นลง และกดปรับขนาดปุ่มได้ตามต้องการ</p>
-        <div id="layout-editor-list"></div>
-        <button class="btn-modern btn-gold" style="margin-top: 16px;" onclick="document.getElementById('edit-layout-overlay').style.display='none'">✅ เสร็จสิ้น</button>
-    </div>
-</div>
+<!-- ================= UI เดิมของระบบ Admin ================= -->
+<div id="app-wrapper">
+    <div id="sync-load">🔄 กำลังเชื่อมต่อข้อมูล...</div>
+    <div id="toast" class="toast">แจ้งเตือน</div>
 
-<div id="admin-panel" style="display: none;">
-    <div class="container" id="app">
-        <div id="home" class="page" style="display: block;">
+    <div id="admin-call-overlay">
+        <div class="card" style="background: white; color: var(--text-main); max-width: 350px;">
+            <div style="font-size: 60px; margin-bottom: 10px; animation: slideUp 0.5s infinite alternate;">🆘</div>
+            <h1 style="color:var(--danger); margin: 0 0 8px 0;">พนักงานเรียก!</h1>
+            <p style="font-size: 18px; margin-bottom: 4px;"><strong>ห้อง/หมอ:</strong> <span id="call-dr-name" style="color:var(--gold-dark);"></span></p>
+            <p style="font-size: 14px; color:var(--text-muted); margin-bottom: 24px;">เวลาที่เรียก: <span id="call-time"></span></p>
+            <button class="btn-modern btn-gold" id="btn-clear-call" style="width: 100%;">✅ รับทราบและไปดู</button>
+        </div>
+    </div>
+
+    <div id="doctor-screen" class="container">
+        <div class="card">
+            <h1 style="color:var(--gold-dark); margin:0 0 8px 0; font-size: 28px; font-weight: 600;">บ้านประคบทองไทยสปา (สาขา 1)</h1>
+            <h2 style="margin:0; font-size: 18px; color: var(--text-main); font-weight: 500;">คิวงานวันนี้</h2>
+            <small style="color: var(--text-muted); margin-top: 4px; display: block;">อัปเดตเรียลไทม์ 🕒</small>
+        </div>
+        
+        <div class="table-responsive">
+            <table>
+                <thead><tr><th>เวลาเริ่ม</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>สถานะการนวด</th></tr></thead>
+                <tbody id="tb-doctor-view"></tbody>
+            </table>
+        </div>
+
+        <button class="btn-modern" onclick="document.getElementById('login-overlay').style.display='flex'">
+            <span class="icon">⚙️</span> เข้าระบบแอดมิน
+        </button>
+        <button class="btn-modern" onclick="fetchData('light')">
+            <span class="icon">🔄</span> โหลดข้อมูลล่าสุด (Manual)
+        </button>
+    </div>
+
+    <div id="login-overlay" class="modal-overlay">
+        <div class="card modal-content">
+            <h2 style="color:var(--gold-dark); margin-bottom: 24px; font-weight: 600;">ADMIN LOGIN</h2>
+            <input type="password" id="admin-pass" class="form-control" placeholder="ใส่รหัสผ่าน" style="text-align: center;">
+            <button class="btn-modern btn-gold" onclick="authAdmin()">🔓 เข้าสู่ระบบ</button>
+            <button class="btn-modern" style="color: var(--danger);" onclick="document.getElementById('login-overlay').style.display='none'">ยกเลิก</button>
+        </div>
+    </div>
+
+    <!-- มอดอลจอลูกค้า (QR เปิดจอ) -->
+    <div id="customer-link-overlay" class="modal-overlay">
+        <div class="card modal-content">
+            <h2 style="color:var(--gold-dark); margin-bottom: 12px; font-weight: 600;">📱 เปิดหน้าจอฝั่งลูกค้า</h2>
+            <p style="font-size: 14px; color: var(--text-muted);">เอามือถือหรือแท็บเล็ตของร้าน<br>สแกน QR Code นี้ เพื่อใช้เป็นหน้าจอแสดงยอดเงินให้ลูกค้าดู</p>
+            <img id="cust-qr-open" src="" style="width: 200px; border-radius: 12px; border: 4px solid var(--gold-light); margin: 16px 0;">
+            <button class="btn-modern btn-gold" onclick="document.getElementById('customer-link-overlay').style.display='none'">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <div id="checkin-overlay" class="modal-overlay">
+        <div class="card modal-content">
+            <div style="font-size: 48px; margin-bottom: 16px;">⏱️</div>
+            <h2 style="color:var(--success); margin-bottom: 12px; font-weight: 600;">ลงเวลาเข้างาน</h2>
+            <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 14px;">เลือกชื่อพนักงานเพื่อตอกบัตรเข้างาน</p>
+            <select id="checkin-dr" class="form-control"></select>
+            <button class="btn-modern" style="background: var(--success); color: white;" onclick="confirmCheckin()">✅ ยืนยันตอกบัตร</button>
+            <button class="btn-modern" onclick="document.getElementById('checkin-overlay').style.display='none'">ยกเลิก</button>
+        </div>
+    </div>
+
+    <div id="comm-modal" class="modal-overlay">
+        <div class="card modal-content" style="max-width: 400px;">
+            <h2 style="color:var(--gold-dark); margin-top:0;">💰 สรุปค่ามือหมอวันนี้</h2>
+            <p style="font-size:13px; color:var(--text-muted); margin-top:-10px;">ยอดรวมจากการนวดเสร็จสิ้น (Done) ของแต่ละคน</p>
+            <div id="comm-list" style="text-align:left; margin-bottom:16px; max-height: 40vh; overflow-y:auto; padding-right:10px;"></div>
+            <button class="btn-modern btn-gold" onclick="document.getElementById('comm-modal').style.display='none'">✅ ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <div id="extend-overlay" class="modal-overlay">
+        <div class="card modal-content">
+            <h2 style="color:var(--info); margin-bottom: 12px; font-weight: 600;">⏳ ต่อเวลาเพิ่ม</h2>
+            <p id="extend-name" style="color: var(--text-muted); margin-bottom: 16px; font-size: 14px;">ลูกค้า: -</p>
             
-            <div id="unpaid-banner" onclick="openPage('p-pay')">
-                ⚠️ แจ้งเตือน: มีลูกค้าค้างชำระ <span id="unpaid-count">0</span> คิว (ยอดรวม <span id="unpaid-sum">0</span> ฿) ➡️ กดเพื่อรับเงิน
+            <label style="font-size: 14px; color: var(--text-muted); display: block; text-align: left; margin-bottom: 4px; padding-left: 8px;">บริการที่ต้องการต่อเวลา</label>
+            <select id="ext-type-sel" class="form-control" onchange="autoCalcExtendPrice()">
+                <option value="thai">นวดไทย</option>
+                <option value="foot">นวดเท้า</option>
+                <option value="back">นวดไทยรีดเส้น</option>
+                <option value="oil">นวดน้ำมัน</option>
+                <option value="spa">ขัดผิวกาย</option>
+                <option value="face">นวดหน้า_ขัดหน้า</option>
+            </select>
+
+            <label style="font-size: 14px; color: var(--text-muted); display: block; text-align: left; margin-bottom: 4px; padding-left: 8px;">ระยะเวลา</label>
+            <select id="ext-dur-sel" class="form-control" onchange="autoCalcExtendPrice()">
+                <option value="30">30 นาที</option>
+                <option value="60">1 ชม.</option>
+                <option value="90">1.5 ชม.</option>
+                <option value="120">2 ชม.</option>
+            </select>
+
+            <div style="background: var(--card-bg); padding: 12px; border-radius: var(--radius-input); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
+                <label style="font-size: 14px; color: var(--text-muted);">ต้องจ่ายเพิ่ม (บาท)</label>
+                <input type="number" id="ext-price" style="text-align:center; font-size:28px; color:var(--gold-dark); font-weight: 600; border:none; outline:none; width: 100%; background: transparent; margin-top: 4px;" readonly>
             </div>
 
-            <div class="card" style="padding-bottom: 16px;">
-                <div style="display:flex; justify-content:space-between; align-items: center;">
-                    <span style="font-weight: 500; color: var(--text-muted); font-size: 14px;">ยอดรายรับวันนี้ (จ่ายแล้ว)</span>
-                    <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer;">ออกระบบ</button>
+            <button class="btn-modern" style="background: var(--info); color: white;" onclick="confirmExtend()">💾 ยืนยันต่อเวลา</button>
+            <button class="btn-modern" style="color: var(--danger);" onclick="document.getElementById('extend-overlay').style.display='none'">ยกเลิก</button>
+        </div>
+    </div>
+
+    <div id="deduct-overlay" class="modal-overlay">
+        <div class="card modal-content">
+            <h2 style="color:var(--info); margin-bottom: 12px; font-weight: 600;">🎟️ ตัดคอร์สสมาชิก</h2>
+            <p id="deduct-name" style="color: var(--text-muted); margin-bottom: 16px; font-size: 14px;">ลูกค้า: -</p>
+            <select id="deduct-dr" class="form-control"></select>
+            <input type="number" id="deduct-qty" class="form-control" placeholder="ระบุจำนวนครั้งที่ต้องการตัด" value="1" min="1" style="text-align: center;">
+            <button class="btn-modern" style="background: var(--info); color: white;" onclick="confirmDeduct()">✅ ยืนยันตัดคอร์สและลงคิว</button>
+            <button class="btn-modern" style="color: var(--danger);" onclick="document.getElementById('deduct-overlay').style.display='none'">ยกเลิก</button>
+        </div>
+    </div>
+
+    <div id="receipt-overlay" class="modal-overlay" style="z-index: 10020;">
+        <div class="receipt-paper" id="receipt-modal">
+            <h2 style="margin: 0 0 5px 0;">บ้านประคบทองไทยสปา</h2>
+            <p style="margin: 0; font-size: 12px; color: #666;">สาขา 1 | โทร: 08X-XXX-XXXX</p>
+            <div class="receipt-divider"></div>
+            <div class="receipt-row"><span>วันที่:</span><span id="rc-date">-</span></div>
+            <div class="receipt-row"><span>ลูกค้า:</span><span id="rc-name">-</span></div>
+            <div class="receipt-row"><span>พนักงาน:</span><span id="rc-dr">-</span></div>
+            <div class="receipt-divider"></div>
+            <div class="receipt-row" style="font-weight: bold;"><span>รายการ</span><span>ราคา</span></div>
+            <div class="receipt-row"><span id="rc-service">-</span><span id="rc-price">-</span></div>
+            <div class="receipt-divider"></div>
+            <div class="receipt-row" style="font-size: 18px; font-weight: bold;"><span>ยอดสุทธิ:</span><span id="rc-total">฿0</span></div>
+            <div class="receipt-row"><span>วิธีชำระเงิน:</span><span id="rc-pm">-</span></div>
+            <p style="margin-top: 20px; font-size: 12px; text-align: center;">ขอบคุณที่ใช้บริการครับ/ค่ะ 🙏</p>
+            <div class="no-print">
+                <button class="btn-modern btn-gold" style="margin-top: 20px; border-radius: 8px;" onclick="window.print()">🖨️ พิมพ์ใบเสร็จ</button>
+                <button class="btn-modern" style="border-radius: 8px;" onclick="document.getElementById('receipt-overlay').style.display='none'; openPage('home');">❌ ปิดหน้าต่าง</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-layout-overlay" class="modal-overlay">
+        <div class="card modal-content" style="max-width: 420px;">
+            <h2 style="color:var(--gold-dark); margin-bottom: 8px; font-weight: 600;">🛠️ ปรับแต่งเมนูหน้าหลัก</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: 0; margin-bottom: 16px;">กดลูกศรเพื่อเลื่อนขึ้นลง และกดปรับขนาดปุ่มได้ตามต้องการ</p>
+            <div id="layout-editor-list"></div>
+            <button class="btn-modern btn-gold" style="margin-top: 16px;" onclick="document.getElementById('edit-layout-overlay').style.display='none'">✅ เสร็จสิ้น</button>
+        </div>
+    </div>
+
+    <div id="admin-panel" style="display: none;">
+        <div class="container" id="app">
+            <div id="home" class="page" style="display: block;">
+                
+                <div id="unpaid-banner" onclick="openPage('p-pay')">
+                    ⚠️ แจ้งเตือน: มีลูกค้าค้างชำระ <span id="unpaid-count">0</span> คิว (ยอดรวม <span id="unpaid-sum">0</span> ฿) ➡️ กดเพื่อรับเงิน
                 </div>
-                <h1 id="total-val" style="font-size:48px; font-weight: 600; color:var(--gold-dark); margin:12px 0;">฿0</h1>
-            </div>
 
-            <div class="menu-grid" id="main-menu-grid"></div>
-
-            <div style="text-align: center; margin-top: 24px;">
-                <button class="btn-modern btn-sm" style="background: transparent; color: var(--text-muted); box-shadow: none; border: 1px dashed var(--text-muted);" onclick="openLayoutEditor()">
-                    ⚙️ ปรับแต่งเมนูหน้าหลัก
-                </button>
-            </div>
-        </div>
-
-        <div id="p-booking" class="page">
-            <h2 style="color: var(--info); text-align: center; font-weight: 600;">📝 จองคิวล่วงหน้า</h2>
-            
-            <div class="card" style="padding: 24px; text-align: left;">
-                <label style="font-size: 14px; font-weight: bold; color: var(--text-main);">ข้อมูลลูกค้า (พิมพ์เบอร์เพื่อค้นหาชื่ออัตโนมัติ)</label>
-                <input type="tel" id="bk-phone" class="form-control" style="margin-top: 10px;" placeholder="เบอร์โทรศัพท์ลูกค้า..." onkeyup="autoFillName(this.value)">
-                
-                <div id="bk-cust-tag-badge" class="cust-tag-badge"></div>
-
-                <input type="text" id="bk-name" class="form-control" placeholder="ชื่อลูกค้า..." onkeyup="checkCustTag(this.value, 'bk-cust-tag-badge')">
-                
-                <div style="display:flex; gap:12px; margin-bottom:16px;">
-                    <div style="flex:1;">
-                        <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">วันที่จอง</label>
-                        <input type="date" id="bk-date" class="form-control" style="margin-bottom:0;" onchange="checkDoubleBooking()">
+                <div class="card" style="padding-bottom: 16px;">
+                    <div style="display:flex; justify-content:space-between; align-items: center;">
+                        <span style="font-weight: 500; color: var(--text-muted); font-size: 14px;">ยอดรายรับวันนี้ (จ่ายแล้ว)</span>
+                        <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer;">ออกระบบ</button>
                     </div>
-                    <div style="flex:1;">
-                        <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">เวลาที่จอง</label>
-                        <input type="time" id="bk-time" class="form-control" style="margin-bottom:0;" onchange="checkDoubleBooking()">
+                    <h1 id="total-val" style="font-size:48px; font-weight: 600; color:var(--gold-dark); margin:12px 0;">฿0</h1>
+                    <!-- 🚀 เพิ่มปุ่มเปิดจอ Customer Display ตรงนี้ -->
+                    <button class="btn-modern btn-sm" style="background:var(--info); color:white; margin:0 auto;" onclick="openCustomerDisplayQR()">📱 เปิดจอลูกค้า (Customer Display)</button>
+                </div>
+
+                <div class="menu-grid" id="main-menu-grid"></div>
+
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn-modern btn-sm" style="background: transparent; color: var(--text-muted); box-shadow: none; border: 1px dashed var(--text-muted);" onclick="openLayoutEditor()">
+                        ⚙️ ปรับแต่งเมนูหน้าหลัก
+                    </button>
+                </div>
+            </div>
+
+            <div id="p-booking" class="page">
+                <h2 style="color: var(--info); text-align: center; font-weight: 600;">📝 จองคิวล่วงหน้า</h2>
+                
+                <div class="card" style="padding: 24px; text-align: left;">
+                    <label style="font-size: 14px; font-weight: bold; color: var(--text-main);">ข้อมูลลูกค้า (พิมพ์เบอร์เพื่อค้นหาชื่ออัตโนมัติ)</label>
+                    <input type="tel" id="bk-phone" class="form-control" style="margin-top: 10px;" placeholder="เบอร์โทรศัพท์ลูกค้า..." onkeyup="autoFillName(this.value)">
+                    
+                    <div id="bk-cust-tag-badge" class="cust-tag-badge"></div>
+
+                    <input type="text" id="bk-name" class="form-control" placeholder="ชื่อลูกค้า..." onkeyup="checkCustTag(this.value, 'bk-cust-tag-badge')">
+                    
+                    <div style="display:flex; gap:12px; margin-bottom:16px;">
+                        <div style="flex:1;">
+                            <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">วันที่จอง</label>
+                            <input type="date" id="bk-date" class="form-control" style="margin-bottom:0;" onchange="checkDoubleBooking()">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">เวลาที่จอง</label>
+                            <input type="time" id="bk-time" class="form-control" style="margin-bottom:0;" onchange="checkDoubleBooking()">
+                        </div>
+                    </div>
+
+                    <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">บริการและหมอที่ระบุ</label>
+                    <div style="display:flex; gap:12px; margin-bottom:16px;">
+                        <select id="bk-type" class="form-control" style="flex:2; margin-bottom:0;">
+                            <option value="thai">นวดไทย</option>
+                            <option value="foot">นวดเท้า</option>
+                            <option value="back">นวดไทยรีดเส้น</option>
+                            <option value="oil">นวดน้ำมัน</option>
+                            <option value="spa">ขัดผิวกาย</option>
+                            <option value="face">นวดหน้า_ขัดหน้า</option>
+                            <option value="herb">อบสมุนไพร</option>
+                        </select>
+                        <select id="bk-dur" class="form-control" style="flex:1; margin-bottom:0;">
+                            <option value="60">1 ชม.</option>
+                            <option value="90">1.5 ชม.</option>
+                            <option value="120">2 ชม.</option>
+                            <option value="30">30 นาที</option>
+                        </select>
+                    </div>
+                    <select id="bk-dr" class="form-control" onchange="checkDoubleBooking()">
+                        <option value="" disabled selected>-- ระบุหมอนวด --</option>
+                    </select>
+
+                    <div id="bk-warning" style="display:none; background:rgba(255,59,48,0.1); color:var(--danger); padding:12px; border-radius:12px; margin-bottom:16px; font-size:14px; font-weight:bold; text-align:center;">
+                        ⚠️ หมอคนนี้มีคิวจองในวันและเวลานี้แล้ว!
+                    </div>
+
+                    <button class="btn-modern" style="background:var(--info); color:white; margin-top: 0;" onclick="addBooking()">💾 บันทึกการจอง</button>
+                </div>
+
+                <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">รายการจองล่วงหน้า</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>วัน/เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>จัดการ</th></tr></thead>
+                        <tbody id="tb-bookings"></tbody>
+                    </table>
+                </div>
+                <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+            </div>
+
+            <div id="p-dr-status" class="page">
+                <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">💆‍♂️ สถานะหมอนวด</h2>
+                <p style="text-align:center; font-size: 13px; color: var(--text-muted); margin-top: -8px;">ปิดสวิตช์ = ไม่ว่าง (รายชื่อจะหายไปจากหน้าจอง)</p>
+                <div class="card" style="padding: 16px;">
+                    <div id="dr-manage-status-list"></div>
+                </div>
+                <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+            </div>
+
+            <div id="p-course" class="page">
+                <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">🎟️ ระบบคอร์สสมาชิก</h2>
+                <div class="card" style="padding: 24px; text-align: left;">
+                    <label style="font-size: 14px; font-weight: bold; color: var(--text-main);">เพิ่มแพ็กเกจใหม่ให้ลูกค้า</label>
+                    <input type="text" id="mem-code" class="form-control" style="margin-top: 10px;" placeholder="รหัสสมาชิก (เช่น A001)">
+                    <input type="text" id="mem-name" class="form-control" placeholder="ชื่อลูกค้า">
+                    <input type="tel" id="mem-phone" class="form-control" placeholder="เบอร์โทรศัพท์">
+                    
+                    <select id="mem-pkg-sel" class="form-control" style="margin-bottom: 16px;">
+                        <option value="" disabled selected>-- เลือกแพ็กเกจคอร์ส --</option>
+                        <option value="นวดไทย 20 ชม. (ครั้งละ 2 ชม.)|10|4000">นวดไทย 20 ชม. (ครั้งละ 2 ชม.) - 4,000 บาท</option>
+                        <option value="นวดรีดเส้น 20 ชม. (ครั้งละ 2 ชม.)|10|5000">นวดรีดเส้น 20 ชม. (ครั้งละ 2 ชม.) - 5,000 บาท</option>
+                    </select>
+
+                    <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="registerMember()">💾 บันทึกและชำระเงินค่าสมัคร</button>
+                </div>
+
+                <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">รายชื่อสมาชิกคอร์ส</h3>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="search-mem" class="form-control" placeholder="🔍 ค้นหาชื่อ, รหัส, เบอร์โทร..." style="margin-bottom: 12px; border-radius: 12px; flex: 1;" onkeyup="renderMembers()">
+                    <button class="btn-modern btn-sm" style="margin-bottom: 12px; border-radius: 12px; background:var(--gold-light); color:#fff;" onclick="fetchData('members')">🔄 โหลด</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>รหัส / ชื่อ</th><th>เบอร์โทร</th><th>คอร์ส</th><th>โควต้า</th><th>จัดการ</th></tr></thead>
+                        <tbody id="tb-members"></tbody>
+                    </table>
+                </div>
+                <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+            </div>
+
+            <div id="p-list" class="page">
+                <h2 style="color: var(--gold-dark); font-weight: 600;">📜 จัดการคิวทั้งหมด</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>เวลาเริ่ม</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>สถานะคิว</th><th>วิธีชำระ</th><th>ค่ามือหมอ</th><th>จัดการ</th></tr></thead>
+                        <tbody id="tb-list"></tbody>
+                    </table>
+                </div>
+                <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
+            </div>
+
+            <div id="p-q" class="page">
+                <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิววอล์คอิน</h2>
+                
+                <div id="walkin-cust-tag-badge" class="cust-tag-badge"></div>
+
+                <input type="text" id="qn" class="form-control" placeholder="พิมพ์ชื่อลูกค้าที่นี่..." onkeyup="checkCustTag(this.value, 'walkin-cust-tag-badge')">
+                <input type="text" id="qnote" class="form-control" placeholder="หมายเหตุ (ลูกค้าเน้นนวดหนัก/เบา/แพ้ยา)...">
+                
+                <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ประเภทบริการ</label>
+                <div class="chip-group" id="prog-chips">
+                    <div class="chip active" onclick="selectType(this, 'thai')">นวดไทย</div>
+                    <div class="chip" onclick="selectType(this, 'foot')">นวดเท้า</div>
+                    <div class="chip" onclick="selectType(this, 'back')">นวดไทยรีดเส้น</div>
+                    <div class="chip" onclick="selectType(this, 'oil')">นวดน้ำมัน</div>
+                    <div class="chip" onclick="selectType(this, 'spa')">ขัดผิวกาย</div>
+                    <div class="chip" onclick="selectType(this, 'face')">นวดหน้า_ขัดหน้า</div>
+                    <div class="chip" onclick="selectType(this, 'herb')">อบสมุนไพร</div>
+                </div>
+
+                <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ระยะเวลา</label>
+                <div class="chip-group" id="dur-chips">
+                    <div class="chip" id="dur-30" onclick="selectDur(this, 30)">30 นาที</div>
+                    <div class="chip active" id="dur-60" onclick="selectDur(this, 60)">1 ชม.</div>
+                    <div class="chip" id="dur-90" onclick="selectDur(this, 90)">1.5 ชม.</div>
+                    <div class="chip" id="dur-120" onclick="selectDur(this, 120)">2 ชม.</div>
+                </div>
+                
+                <select id="qdr" class="form-control" style="margin-top: 8px;"></select>
+                
+                <div style="background: var(--card-bg); padding: 16px; border-radius: var(--radius-input); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
+                    <label style="font-size: 14px; color: var(--text-muted);">ราคาประเมิน</label>
+                    <input type="number" id="qp" style="text-align:center; font-size:32px; color:var(--gold-dark); font-weight: 600; border:none; outline:none; width: 100%; background: transparent; margin-top: 8px;">
+                </div>
+                
+                <button class="btn-modern btn-gold" onclick="saveQueue()">🚀 บันทึกคิวลง Sheet (สถานะ: ยังไม่จ่าย)</button>
+                <button class="btn-modern" onclick="openPage('home')">ยกเลิก</button>
+            </div>
+
+            <div id="p-pay" class="page">
+                <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">💰 รับชำระเงิน</h2>
+                <select id="psel" class="form-control" onchange="autoFillPrice()"></select>
+                
+                <div class="chip-group" style="margin-top: 8px; margin-bottom: 24px;">
+                    <div class="chip active" id="mqr" onclick="setPaymentMode('qr')">📲 สแกนโอน (QR)</div>
+                    <div class="chip" id="mcash" onclick="setPaymentMode('cash')">💵 เงินสด</div>
+                </div>
+                
+                <div style="background: var(--card-bg); padding: 24px; border-radius: var(--radius-card); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
+                    <input type="number" id="pa" placeholder="0" style="text-align:center; font-size:48px; font-weight: 600; color: var(--gold-dark); border:none; outline:none; width: 100%; background: transparent;" oninput="generateQRCode()">
+                    <div id="qr-area">
+                        <img id="qr-img" src="">
+                        <p id="pp-txt" style="font-weight:500; font-size:14px; margin-top: 12px; color: var(--text-muted);"></p>
+                    </div>
+                </div>
+                
+                <button class="btn-modern btn-gold" onclick="confirmPayment()">✅ ยืนยันรับเงิน</button>
+                <button class="btn-modern" onclick="openPage('home')">ยกเลิก</button>
+            </div>
+
+            <div id="p-settings" class="page">
+                <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">⚙️ ตั้งค่าระบบ</h2>
+                
+                <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">🔄 ระบบอัปเดตอัตโนมัติ (Auto Sync)</h3>
+                <div class="card" style="padding: 16px;">
+                    <div class="switch-container" style="padding: 10px 16px; margin-bottom: 0;">
+                        <div><strong style="font-size: 15px;">Auto Sync (ทุก 10 วิ)</strong><span style="display:block; font-size:12px; color:var(--text-muted);">เวอร์ชั่นใหม่ไวกว่าเดิม!</span></div>
+                        <input type="checkbox" id="auto-sync-toggle" class="switch" checked onchange="toggleAutoSync()">
                     </div>
                 </div>
 
-                <label style="font-size: 14px; font-weight: bold; color: var(--text-muted);">บริการและหมอที่ระบุ</label>
-                <div style="display:flex; gap:12px; margin-bottom:16px;">
-                    <select id="bk-type" class="form-control" style="flex:2; margin-bottom:0;">
-                        <option value="thai">นวดไทย</option>
-                        <option value="foot">นวดเท้า</option>
-                        <option value="back">นวดไทยรีดเส้น</option>
-                        <option value="oil">นวดน้ำมัน</option>
-                        <option value="spa">ขัดผิวกาย</option>
-                        <option value="face">นวดหน้า_ขัดหน้า</option>
-                        <option value="herb">อบสมุนไพร</option>
-                    </select>
-                    <select id="bk-dur" class="form-control" style="flex:1; margin-bottom:0;">
-                        <option value="60">1 ชม.</option>
-                        <option value="90">1.5 ชม.</option>
-                        <option value="120">2 ชม.</option>
-                        <option value="30">30 นาที</option>
-                    </select>
-                </div>
-                <select id="bk-dr" class="form-control" onchange="checkDoubleBooking()">
-                    <option value="" disabled selected>-- ระบุหมอนวด --</option>
-                </select>
-
-                <div id="bk-warning" style="display:none; background:rgba(255,59,48,0.1); color:var(--danger); padding:12px; border-radius:12px; margin-bottom:16px; font-size:14px; font-weight:bold; text-align:center;">
-                    ⚠️ หมอคนนี้มีคิวจองในวันและเวลานี้แล้ว!
+                <h3 style="margin-top: 24px; font-size: 16px; color: var(--danger); padding-left: 8px;">🛑 ระบบปิดยอดประจำวัน</h3>
+                <div class="card" style="padding: 24px; border: 1px solid rgba(255, 59, 48, 0.3);">
+                    <p style="font-size:13px; color:var(--text-muted); margin-top:0;">*การกดปิดยอดจะเคลียร์คิวทั้งหมดออกจากหน้าจอวันนี้ หมอทุกคนจะกลับมาว่าง และลดอาการเว็บอืด (ข้อมูลรายรับถูกบันทึกใน Sheet หมดแล้ว ไม่หายแน่นอน)</p>
+                    <button class="btn-modern" style="background: var(--danger); color: white; margin-top: 0;" onclick="endOfDay()">🌙 ปิดยอดจบวัน (เคลียร์คิวหน้าจอ)</button>
                 </div>
 
-                <button class="btn-modern" style="background:var(--info); color:white; margin-top: 0;" onclick="addBooking()">💾 บันทึกการจอง</button>
-            </div>
-
-            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">รายการจองล่วงหน้า</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>วัน/เวลา</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>จัดการ</th></tr></thead>
-                    <tbody id="tb-bookings"></tbody>
-                </table>
-            </div>
-            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
-        </div>
-
-        <div id="p-dr-status" class="page">
-            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">💆‍♂️ สถานะหมอนวด</h2>
-            <p style="text-align:center; font-size: 13px; color: var(--text-muted); margin-top: -8px;">ปิดสวิตช์ = ไม่ว่าง (รายชื่อจะหายไปจากหน้าจอง)</p>
-            <div class="card" style="padding: 16px;">
-                <div id="dr-manage-status-list"></div>
-            </div>
-            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
-        </div>
-
-        <div id="p-course" class="page">
-            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">🎟️ ระบบคอร์สสมาชิก</h2>
-            <div class="card" style="padding: 24px; text-align: left;">
-                <label style="font-size: 14px; font-weight: bold; color: var(--text-main);">เพิ่มแพ็กเกจใหม่ให้ลูกค้า</label>
-                <input type="text" id="mem-code" class="form-control" style="margin-top: 10px;" placeholder="รหัสสมาชิก (เช่น A001)">
-                <input type="text" id="mem-name" class="form-control" placeholder="ชื่อลูกค้า">
-                <input type="tel" id="mem-phone" class="form-control" placeholder="เบอร์โทรศัพท์">
-                
-                <select id="mem-pkg-sel" class="form-control" style="margin-bottom: 16px;">
-                    <option value="" disabled selected>-- เลือกแพ็กเกจคอร์ส --</option>
-                    <option value="นวดไทย 20 ชม. (ครั้งละ 2 ชม.)|10|4000">นวดไทย 20 ชม. (ครั้งละ 2 ชม.) - 4,000 บาท</option>
-                    <option value="นวดรีดเส้น 20 ชม. (ครั้งละ 2 ชม.)|10|5000">นวดรีดเส้น 20 ชม. (ครั้งละ 2 ชม.) - 5,000 บาท</option>
-                </select>
-
-                <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="registerMember()">💾 บันทึกและชำระเงินค่าสมัคร</button>
-            </div>
-
-            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">รายชื่อสมาชิกคอร์ส</h3>
-            <div style="display: flex; gap: 8px;">
-                <input type="text" id="search-mem" class="form-control" placeholder="🔍 ค้นหาชื่อ, รหัส, เบอร์โทร..." style="margin-bottom: 12px; border-radius: 12px; flex: 1;" onkeyup="renderMembers()">
-                <button class="btn-modern btn-sm" style="margin-bottom: 12px; border-radius: 12px; background:var(--gold-light); color:#fff;" onclick="fetchData('members')">🔄 โหลด</button>
-            </div>
-            
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>รหัส / ชื่อ</th><th>เบอร์โทร</th><th>คอร์ส</th><th>โควต้า</th><th>จัดการ</th></tr></thead>
-                    <tbody id="tb-members"></tbody>
-                </table>
-            </div>
-            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
-        </div>
-
-        <div id="p-list" class="page">
-            <h2 style="color: var(--gold-dark); font-weight: 600;">📜 จัดการคิวทั้งหมด</h2>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>เวลาเริ่ม</th><th>ลูกค้า</th><th>บริการ</th><th>หมอ</th><th>สถานะคิว</th><th>วิธีชำระ</th><th>ค่ามือหมอ</th><th>จัดการ</th></tr></thead>
-                    <tbody id="tb-list"></tbody>
-                </table>
-            </div>
-            <button class="btn-modern btn-gold" style="margin-top: 24px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
-        </div>
-
-        <div id="p-q" class="page">
-            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">📅 ลงคิววอล์คอิน</h2>
-            
-            <div id="walkin-cust-tag-badge" class="cust-tag-badge"></div>
-
-            <input type="text" id="qn" class="form-control" placeholder="พิมพ์ชื่อลูกค้าที่นี่..." onkeyup="checkCustTag(this.value, 'walkin-cust-tag-badge')">
-            <input type="text" id="qnote" class="form-control" placeholder="หมายเหตุ (ลูกค้าเน้นนวดหนัก/เบา/แพ้ยา)...">
-            
-            <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ประเภทบริการ</label>
-            <div class="chip-group" id="prog-chips">
-                <div class="chip active" onclick="selectType(this, 'thai')">นวดไทย</div>
-                <div class="chip" onclick="selectType(this, 'foot')">นวดเท้า</div>
-                <div class="chip" onclick="selectType(this, 'back')">นวดไทยรีดเส้น</div>
-                <div class="chip" onclick="selectType(this, 'oil')">นวดน้ำมัน</div>
-                <div class="chip" onclick="selectType(this, 'spa')">ขัดผิวกาย</div>
-                <div class="chip" onclick="selectType(this, 'face')">นวดหน้า_ขัดหน้า</div>
-                <div class="chip" onclick="selectType(this, 'herb')">อบสมุนไพร</div>
-            </div>
-
-            <label style="font-weight: 500; font-size: 14px; color: var(--text-muted); margin-left: 8px;">ระยะเวลา</label>
-            <div class="chip-group" id="dur-chips">
-                <div class="chip" id="dur-30" onclick="selectDur(this, 30)">30 นาที</div>
-                <div class="chip active" id="dur-60" onclick="selectDur(this, 60)">1 ชม.</div>
-                <div class="chip" id="dur-90" onclick="selectDur(this, 90)">1.5 ชม.</div>
-                <div class="chip" id="dur-120" onclick="selectDur(this, 120)">2 ชม.</div>
-            </div>
-            
-            <select id="qdr" class="form-control" style="margin-top: 8px;"></select>
-            
-            <div style="background: var(--card-bg); padding: 16px; border-radius: var(--radius-input); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
-                <label style="font-size: 14px; color: var(--text-muted);">ราคาประเมิน</label>
-                <input type="number" id="qp" style="text-align:center; font-size:32px; color:var(--gold-dark); font-weight: 600; border:none; outline:none; width: 100%; background: transparent; margin-top: 8px;">
-            </div>
-            
-            <button class="btn-modern btn-gold" onclick="saveQueue()">🚀 บันทึกคิวลง Sheet (สถานะ: ยังไม่จ่าย)</button>
-            <button class="btn-modern" onclick="openPage('home')">ยกเลิก</button>
-        </div>
-
-        <div id="p-pay" class="page">
-            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">💰 รับชำระเงิน</h2>
-            <select id="psel" class="form-control" onchange="autoFillPrice()"></select>
-            
-            <div class="chip-group" style="margin-top: 8px; margin-bottom: 24px;">
-                <div class="chip active" id="mqr" onclick="setPaymentMode('qr')">📲 สแกนโอน (QR)</div>
-                <div class="chip" id="mcash" onclick="setPaymentMode('cash')">💵 เงินสด</div>
-            </div>
-            
-            <div style="background: var(--card-bg); padding: 24px; border-radius: var(--radius-card); text-align: center; margin-bottom: 16px; box-shadow: var(--shadow-soft);">
-                <input type="number" id="pa" placeholder="0" style="text-align:center; font-size:48px; font-weight: 600; color: var(--gold-dark); border:none; outline:none; width: 100%; background: transparent;" oninput="generateQRCode()">
-                <div id="qr-area">
-                    <img id="qr-img" src="">
-                    <p id="pp-txt" style="font-weight:500; font-size:14px; margin-top: 12px; color: var(--text-muted);"></p>
+                <h3 style="margin-top: 32px; font-size: 16px; color: var(--text-main); padding-left: 8px;">💰 เปลี่ยนเบอร์พร้อมเพย์</h3>
+                <div class="card" style="padding: 24px;">
+                    <input type="text" id="set-pp" class="form-control" placeholder="เบอร์โทร / เลขนิติบุคคล">
+                    <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="updatePP()">อัปเดตพร้อมเพย์</button>
                 </div>
-            </div>
-            
-            <button class="btn-modern btn-gold" onclick="confirmPayment()">✅ ยืนยันรับเงิน</button>
-            <button class="btn-modern" onclick="openPage('home')">ยกเลิก</button>
-        </div>
 
-        <div id="p-settings" class="page">
-            <h2 style="color: var(--gold-dark); text-align: center; font-weight: 600;">⚙️ ตั้งค่าระบบ</h2>
-            
-            <h3 style="margin-top: 24px; font-size: 16px; color: var(--text-main); padding-left: 8px;">🔄 ระบบอัปเดตอัตโนมัติ (Auto Sync)</h3>
-            <div class="card" style="padding: 16px;">
-                <div class="switch-container" style="padding: 10px 16px; margin-bottom: 0;">
-                    <div><strong style="font-size: 15px;">Auto Sync (ทุก 30 วิ)</strong><span style="display:block; font-size:12px; color:var(--text-muted);">ดึงคิว/สถานะหมอแบบไม่หน่วงจอ</span></div>
-                    <input type="checkbox" id="auto-sync-toggle" class="switch" checked onchange="toggleAutoSync()">
+                <h3 style="margin-top: 32px; font-size: 16px; color: var(--text-main); padding-left: 8px;">👥 เพิ่ม/ลบ พนักงาน</h3>
+                <div class="card" style="padding: 24px;">
+                    <input type="text" id="new-dr-name" class="form-control" placeholder="ชื่อหมอนวดใหม่...">
+                    <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="addDoctor()">➕ เพิ่มพนักงาน</button>
                 </div>
-            </div>
+                <div id="dr-manage-list"></div>
 
-            <h3 style="margin-top: 24px; font-size: 16px; color: var(--danger); padding-left: 8px;">🛑 ระบบปิดยอดประจำวัน</h3>
-            <div class="card" style="padding: 24px; border: 1px solid rgba(255, 59, 48, 0.3);">
-                <p style="font-size:13px; color:var(--text-muted); margin-top:0;">*การกดปิดยอดจะเคลียร์คิวทั้งหมดออกจากหน้าจอวันนี้ หมอทุกคนจะกลับมาว่าง และลดอาการเว็บอืด (ข้อมูลรายรับถูกบันทึกใน Sheet หมดแล้ว ไม่หายแน่นอน)</p>
-                <button class="btn-modern" style="background: var(--danger); color: white; margin-top: 0;" onclick="endOfDay()">🌙 ปิดยอดจบวัน (เคลียร์คิวหน้าจอ)</button>
-            </div>
+                <h3 style="margin-top: 32px; font-size: 16px; color: var(--text-main); padding-left: 8px;">🎨 เลือกธีมสี (Theme)</h3>
+                <div class="chip-group" style="margin-bottom: 24px;">
+                    <div class="chip active" id="th-light" onclick="setTheme('light')">☀️ สว่าง</div>
+                    <div class="chip" id="th-dark" onclick="setTheme('dark')">🌙 มืด</div>
+                    <div class="chip" id="th-nature" onclick="setTheme('nature')">🌿 ธรรมชาติ</div>
+                </div>
 
-            <h3 style="margin-top: 32px; font-size: 16px; color: var(--text-main); padding-left: 8px;">💰 เปลี่ยนเบอร์พร้อมเพย์</h3>
-            <div class="card" style="padding: 24px;">
-                <input type="text" id="set-pp" class="form-control" placeholder="เบอร์โทร / เลขนิติบุคคล">
-                <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="updatePP()">อัปเดตพร้อมเพย์</button>
+                <button class="btn-modern btn-gold" style="margin-top: 32px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
             </div>
-
-            <h3 style="margin-top: 32px; font-size: 16px; color: var(--text-main); padding-left: 8px;">👥 เพิ่ม/ลบ พนักงาน</h3>
-            <div class="card" style="padding: 24px;">
-                <input type="text" id="new-dr-name" class="form-control" placeholder="ชื่อหมอนวดใหม่...">
-                <button class="btn-modern btn-gold" style="margin-top: 0;" onclick="addDoctor()">➕ เพิ่มพนักงาน</button>
-            </div>
-            <div id="dr-manage-list"></div>
-
-            <h3 style="margin-top: 32px; font-size: 16px; color: var(--text-main); padding-left: 8px;">🎨 เลือกธีมสี (Theme)</h3>
-            <div class="chip-group" style="margin-bottom: 24px;">
-                <div class="chip active" id="th-light" onclick="setTheme('light')">☀️ สว่าง</div>
-                <div class="chip" id="th-dark" onclick="setTheme('dark')">🌙 มืด</div>
-                <div class="chip" id="th-nature" onclick="setTheme('nature')">🌿 ธรรมชาติ</div>
-            </div>
-
-            <button class="btn-modern btn-gold" style="margin-top: 32px;" onclick="openPage('home')">⬅️ กลับหน้าหลัก</button>
         </div>
     </div>
-</div>
 
-<div id="custom-confirm-overlay" class="modal-overlay" style="z-index: 10010 !important;">
-    <div class="card modal-content">
-        <div id="c-icon" style="font-size: 48px; margin-bottom: 16px;">❓</div>
-        <h2 id="c-title" style="color:var(--text-main); margin-bottom: 12px; font-weight: 600;">ยืนยัน?</h2>
-        <p id="c-msg" style="color: var(--text-muted); margin-bottom: 24px; font-size: 14px;">ข้อความ</p>
-        <button id="c-btn-ok" class="btn-modern" style="color: white; margin-bottom: 8px;" onclick="executeConfirm()">✅ ยืนยัน</button>
-        <button class="btn-modern" onclick="document.getElementById('custom-confirm-overlay').style.display='none'">ยกเลิก</button>
+    <div id="custom-confirm-overlay" class="modal-overlay" style="z-index: 10010 !important;">
+        <div class="card modal-content">
+            <div id="c-icon" style="font-size: 48px; margin-bottom: 16px;">❓</div>
+            <h2 id="c-title" style="color:var(--text-main); margin-bottom: 12px; font-weight: 600;">ยืนยัน?</h2>
+            <p id="c-msg" style="color: var(--text-muted); margin-bottom: 24px; font-size: 14px;">ข้อความ</p>
+            <button id="c-btn-ok" class="btn-modern" style="color: white; margin-bottom: 8px;" onclick="executeConfirm()">✅ ยืนยัน</button>
+            <button class="btn-modern" onclick="document.getElementById('custom-confirm-overlay').style.display='none'">ยกเลิก</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // 🚨 ใส่ SCRIPT_URL อันใหม่ล่าสุดของคุณที่นี่
+    // 🚨🚨🚨 อย่าลืมแก้ SCRIPT_URL ตรงนี้ เป็นลิงก์ Web App ของมึงนะ! 🚨🚨🚨
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4NpIfUhadHRflMLr2CAkqOXLI8rlTnBTRoVtyYty_IX1MH6/exec"; 
     const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1489169746934108170/YxvxW_vJ5E8eb1m30rWmlELObxgNMssrUdOy2IAhi6K8xtL2QIu8MxflQeAMVAq1NqCu";
+    
     const LOCAL_KEY = "spa_db_backup";
-    const MENU_LAYOUT_KEY = "spa_menu_layout_v2"; // เปลี่ยนคีย์ใหม่เพื่อล้าง Layout เก่า
+    const MENU_LAYOUT_KEY = "spa_menu_layout_v2"; 
 
     let db = { qs: [], drs: [], members: [], pp: '0863526387', calls: [], bk: [], ctags: {} }; 
     
@@ -489,6 +524,7 @@
     let isAutoSync = true;
     let isTyping = false; 
     let audioCtx = null;
+    let lastCastUpdate = 0; // ป้องกันยิงรัวๆ
     
     const priceTable = { 
         'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 
@@ -507,7 +543,6 @@
     let currentExtendId = null;
     let pendingConfirmAction = null; 
 
-    // 🚀 เพิ่มปุ่ม สรุปค่ามือหมอ เข้าไปใน Layout
     const defaultMenu = [
         { id: 'm-bk', icon: '📝', text: 'จองคิวล่วงหน้า (Booking)', action: "openPage('p-booking')", span: 2, color: 'var(--info)' },
         { id: 'm-st', icon: '💆‍♂️', text: 'สถานะหมอ', action: "openPage('p-dr-status')", span: 2, color: '' },
@@ -591,9 +626,62 @@
         else { clearInterval(syncInterval); showToast("⚠️ ปิด Auto Sync"); }
     }
 
+    // 🚀🚀🚀 จุดที่แก้บัค: ดึงลิงก์หน้าเว็บปัจจุบันไปสร้าง QR แทน 🚀🚀🚀
+    function openCustomerDisplayQR() {
+        let currentUrl = window.location.href.split('?')[0]; 
+        let custUrl = currentUrl + "?mode=customer";
+        
+        document.getElementById('cust-qr-open').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(custUrl)}`;
+        document.getElementById('customer-link-overlay').style.display = 'flex';
+    }
+
+    async function initApp() { 
+        // เช็คว่าโหลดเข้ามาในโหมดจอลูกค้าหรือเปล่า
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.get('mode') === 'customer') {
+            document.getElementById('app-wrapper').style.display = 'none';
+            document.getElementById('customer-display-screen').style.display = 'flex';
+            initCustomerMode();
+            return; 
+        }
+
+        let savedTheme = localStorage.getItem('spaTheme');
+        if(!savedTheme || !themes[savedTheme]) savedTheme = 'light';
+        setTheme(savedTheme);
+
+        document.body.addEventListener('click', () => {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }, { once: true });
+
+        renderMainMenu(); 
+        await fetchData('all', false); 
+        checkPersistentLogin();
+        startAutoSync(); 
+    }
+
+    // ลูปสำหรับดึงข้อมูลบนจอฝั่งลูกค้า
+    function initCustomerMode() {
+        setInterval(async () => {
+            try {
+                let res = await fetch(SCRIPT_URL + `?t=${Date.now()}&type=light&mode=customer`);
+                let data = await res.json();
+                
+                if(data.cast && data.cast.show && data.cast.p > 0) {
+                    document.getElementById('cust-wait-msg').style.display = 'none';
+                    document.getElementById('cust-pay-area').style.display = 'block';
+                    document.getElementById('cust-amount').innerText = data.cast.p + " ฿";
+                    document.getElementById('cust-qr-img').src = `https://promptpay.io/${data.pp}/${data.cast.p}.png`;
+                } else {
+                    document.getElementById('cust-wait-msg').style.display = 'block';
+                    document.getElementById('cust-pay-area').style.display = 'none';
+                }
+            } catch(e) { console.log('จอภาพกระตุก รอเชื่อมต่อ...'); }
+        }, 3000);
+    }
+
     function startAutoSync() {
         if(syncInterval) clearInterval(syncInterval);
-        syncInterval = setInterval(() => { if(isAutoSync && !isAppBusy()) fetchData('light', true); }, 30000); 
+        syncInterval = setInterval(() => { if(isAutoSync && !isAppBusy()) fetchData('light', true); }, 10000); 
     }
 
     function showConfirm(icon, title, msg, btnText, btnColor, actionCallback) {
@@ -619,22 +707,6 @@
         toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    async function initApp() { 
-        let savedTheme = localStorage.getItem('spaTheme');
-        if(!savedTheme || !themes[savedTheme]) savedTheme = 'light';
-        setTheme(savedTheme);
-
-        document.body.addEventListener('click', () => {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }, { once: true });
-
-        renderMainMenu(); 
-        await fetchData('all', false); 
-        checkPersistentLogin();
-        startAutoSync(); 
-    }
-
-    // 🚀 วาดเมนู
     function renderMainMenu() {
         let grid = document.getElementById('main-menu-grid');
         let html = '';
@@ -781,7 +853,7 @@
             if(data.pp) db.pp = data.pp;
             db.calls = data.calls || []; 
             db.bk = data.bk || []; 
-            db.ctags = data.ctags || {}; // 🚀 โหลดข้อมูล Tag ลูกค้า
+            db.ctags = data.ctags || {}; 
             
             if(fetchType === 'all' || fetchType === 'members') {
                 if(data.members) db.members = data.members;
@@ -802,7 +874,6 @@
         }
     }
 
-    // 🚀 ระบบเช็ค Tag ลูกค้า (VIP/Blacklist)
     function checkCustTag(name, badgeId) {
         let badge = document.getElementById(badgeId);
         if(!badge || !name) return badge.style.display = 'none';
@@ -815,13 +886,12 @@
             badge.innerText = `ลูกค้ารายนี้มีประวัติ: ${tag}`;
             if(tag.includes("แบล็ก")) badge.style.background = "var(--danger)";
             else if(tag.includes("ระวัง")) badge.style.background = "var(--warning)";
-            else badge.style.background = "var(--success)"; // VIP
+            else badge.style.background = "var(--success)"; 
         } else {
             badge.style.display = 'none';
         }
     }
 
-    // 🚀 โชว์สรุปค่ามือหมอ
     function showCommissionSummary() {
         let comms = {};
         db.qs.filter(q => q.status === 'done').forEach(q => {
@@ -1537,12 +1607,22 @@
         let qrContainer = document.getElementById('qr-area'); 
         let qrImg = document.getElementById('qr-img');
         let ppTxt = document.getElementById('pp-txt');
+        
         if(payMode === 'qr' && amount > 0) { 
             if(qrImg) qrImg.src = `https://promptpay.io/${db.pp}/${amount}.png?t=${Date.now()}`; 
             if(ppTxt) ppTxt.innerText = "พร้อมเพย์: " + db.pp; 
             if(qrContainer) qrContainer.style.display = 'block'; 
+            
+            // 🚀 ยิงขึ้นจอ Cast ให้ลูกค้าดู
+            let now = Date.now();
+            if(now - lastCastUpdate > 1000) { // กันรัวเกิน
+                lastCastUpdate = now;
+                executeSheetAction('UPDATE_CAST', { castData: { show: true, p: amount } });
+            }
         } else { 
             if(qrContainer) qrContainer.style.display = 'none'; 
+            // 🚀 ปิดจอ Cast
+            executeSheetAction('UPDATE_CAST', { castData: { show: false, p: 0 } });
         } 
     }
 
@@ -1576,6 +1656,9 @@
                 id: q.id, price: amount, pm: payMode === 'qr' ? 'สแกนโอน (QR)' : 'เงินสด', note: q.note || '-',
                 serviceType: q.t, duration: q.d
             });
+
+            // 🚀 ปิดจอ Cast ทันทีเมื่อจ่ายเสร็จ
+            executeSheetAction('UPDATE_CAST', { castData: { show: false, p: 0 } });
 
             document.getElementById('rc-date').innerText = dateObj.toLocaleDateString('th-TH');
             document.getElementById('rc-name').innerText = q.n;
