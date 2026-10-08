@@ -272,7 +272,7 @@
                         <button onclick="logoutAdmin()" style="border:none; background:rgba(255, 59, 48, 0.1); color:var(--danger); padding: 4px 12px; border-radius: 12px; font-size:12px; font-weight:600; cursor:pointer;">ออกระบบ</button>
                     </div>
                     <h1 id="total-val" style="font-size:48px; font-weight: 600; color:var(--gold-dark); margin:12px 0;">฿0</h1>
-                    <!-- 🚀 เพิ่มปุ่มเปิดจอ Customer Display ตรงนี้ -->
+                    <!-- 🚀 ปุ่มเปิดจอ Customer Display -->
                     <button class="btn-modern btn-sm" style="background:var(--info); color:white; margin:0 auto;" onclick="openCustomerDisplayQR()">📱 เปิดจอลูกค้า (Customer Display)</button>
                 </div>
 
@@ -524,7 +524,7 @@
     let isAutoSync = true;
     let isTyping = false; 
     let audioCtx = null;
-    let lastCastUpdate = 0; // ป้องกันยิงรัวๆ
+    let castTimeout = null; // 🚀 ตัวแปรใหม่สำหรับแก้บัคพิมพ์เร็ว
     
     const priceTable = { 
         'thai': { 30: 150, 60: 250, 90: 400, 120: 500 }, 
@@ -626,7 +626,6 @@
         else { clearInterval(syncInterval); showToast("⚠️ ปิด Auto Sync"); }
     }
 
-    // 🚀🚀🚀 จุดที่แก้บัค: ดึงลิงก์หน้าเว็บปัจจุบันไปสร้าง QR แทน 🚀🚀🚀
     function openCustomerDisplayQR() {
         let currentUrl = window.location.href.split('?')[0]; 
         let custUrl = currentUrl + "?mode=customer";
@@ -636,7 +635,6 @@
     }
 
     async function initApp() { 
-        // เช็คว่าโหลดเข้ามาในโหมดจอลูกค้าหรือเปล่า
         const urlParams = new URLSearchParams(window.location.search);
         if(urlParams.get('mode') === 'customer') {
             document.getElementById('app-wrapper').style.display = 'none';
@@ -659,7 +657,6 @@
         startAutoSync(); 
     }
 
-    // ลูปสำหรับดึงข้อมูลบนจอฝั่งลูกค้า
     function initCustomerMode() {
         setInterval(async () => {
             try {
@@ -1602,6 +1599,7 @@
         generateQRCode(); 
     }
 
+    // 🚀🚀🚀 โค้ดสร้าง QR ตัวแก้บัค "พิมพ์เลขแล้วหาย" 🚀🚀🚀
     function generateQRCode() { 
         let amount = document.getElementById('pa').value; 
         let qrContainer = document.getElementById('qr-area'); 
@@ -1613,16 +1611,20 @@
             if(ppTxt) ppTxt.innerText = "พร้อมเพย์: " + db.pp; 
             if(qrContainer) qrContainer.style.display = 'block'; 
             
-            // 🚀 ยิงขึ้นจอ Cast ให้ลูกค้าดู
-            let now = Date.now();
-            if(now - lastCastUpdate > 1000) { // กันรัวเกิน
-                lastCastUpdate = now;
+            // ยกเลิกคำสั่งเดิมที่กำลังนับเวลาอยู่
+            clearTimeout(castTimeout);
+            // หน่วงเวลา 0.6 วินาที ถ้านิ้วหยุดพิมพ์ค่อยยิงทีเดียว (แก้ปัญหาเลขหาย)
+            castTimeout = setTimeout(() => {
                 executeSheetAction('UPDATE_CAST', { castData: { show: true, p: amount } });
-            }
+            }, 600);
+            
         } else { 
             if(qrContainer) qrContainer.style.display = 'none'; 
-            // 🚀 ปิดจอ Cast
-            executeSheetAction('UPDATE_CAST', { castData: { show: false, p: 0 } });
+            
+            clearTimeout(castTimeout);
+            castTimeout = setTimeout(() => {
+                executeSheetAction('UPDATE_CAST', { castData: { show: false, p: 0 } });
+            }, 600);
         } 
     }
 
@@ -1657,7 +1659,8 @@
                 serviceType: q.t, duration: q.d
             });
 
-            // 🚀 ปิดจอ Cast ทันทีเมื่อจ่ายเสร็จ
+            // 🚀 ปิดจอ Cast ทันทีเมื่อจ่ายเสร็จ (เคลียร์ Timeout ก่อนด้วย)
+            clearTimeout(castTimeout);
             executeSheetAction('UPDATE_CAST', { castData: { show: false, p: 0 } });
 
             document.getElementById('rc-date').innerText = dateObj.toLocaleDateString('th-TH');
