@@ -30,7 +30,7 @@
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Thai',system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+html,body{-webkit-text-size-adjust:100%;text-size-adjust:100%;margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Thai',system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
 body.noscroll{overflow:hidden}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -375,69 +375,110 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
 .brow .bi span{font-size:13px;color:var(--muted)}
 
 /* ---------- customer display ---------- */
-/* จอลูกค้า — เขียนให้ใช้ได้ถึง Safari iOS 9 (ไม่ใช้ inset / clamp / min() / flex-gap) */
-.cd{position:fixed;top:0;left:0;right:0;bottom:0;z-index:400;background:#0B0905;background:radial-gradient(120% 90% at 50% 0%,#3B2A10 0%,#161109 55%,#0B0905 100%);color:#F7EEDC;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;padding:24px;overflow:hidden;-webkit-user-select:none;user-select:none}
-.cd::before{content:'✦';position:absolute;font-size:60vmin;opacity:.035;right:-10vmin;bottom:-14vmin;color:#E8C66E}
-.cd-inner{width:100%;max-width:520px;text-align:center;position:relative}
-.cd-brand{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;margin-bottom:26px}
-.cd-mark{width:56px;height:56px;border-radius:18px;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:26px;background:#C9A24E;background:linear-gradient(135deg,#EED08A,#B8892B);color:#2a1d07;margin-bottom:10px}
-.cd-brand div:last-child{font-size:22px;font-weight:700;color:#E8C66E;letter-spacing:.02em}
+/* จอลูกค้า — ขนาดทุกอย่างอิงขนาดจอ (vmin) จึงพอดีทุกเครื่อง ทุกแนว และไม่เพี้ยนเมื่อมือถือตั้งตัวหนังสือใหญ่
+   ใช้ได้ถึง Safari iOS 9 (ไม่ใช้ inset / clamp / min() / flex-gap) */
+.cd{position:fixed;top:0;left:0;right:0;bottom:0;z-index:400;background:#0B0905;background:radial-gradient(120% 90% at 50% 0%,#3B2A10 0%,#161109 55%,#0B0905 100%);color:#F7EEDC;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;padding:5vmin;overflow:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;-webkit-user-select:none;user-select:none;-webkit-text-size-adjust:100%;text-size-adjust:100%;line-height:1.35}
+.cd::before{content:'✦';position:fixed;font-size:60vmin;opacity:.035;right:-10vmin;bottom:-14vmin;color:#E8C66E;pointer-events:none}
+.cd-inner{width:100%;max-width:640px;text-align:center;position:relative;margin:auto}
+.cd-brand{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;margin-bottom:5vmin}
+.cd-mark{width:12vmin;height:12vmin;border-radius:3.6vmin;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;font-size:5.6vmin;background:#C9A24E;background:linear-gradient(135deg,#EED08A,#B8892B);color:#2a1d07;margin-bottom:2.4vmin}
+.cd-brand div:last-child{font-size:5.4vmin;font-weight:700;color:#E8C66E;letter-spacing:.02em}
 .cd-state{-webkit-animation:vin .5s ease;animation:vin .5s ease}
-.cd-clock{font-size:84px;font-weight:600;line-height:1;color:#fff}
-.cd-date{color:#BDAF95;margin-top:8px;font-size:17px}
-.cd-wel{margin-top:30px;font-size:22px;color:#E8C66E}
-.cd-wel small{display:block;font-size:14px;color:#9C8F78;letter-spacing:.15em;text-transform:uppercase;margin-top:6px}
-.cd-label{font-size:16px;color:#BDAF95;letter-spacing:.08em}
-.cd-name{font-size:18px;color:#fff;margin-top:2px}
-.cd-amt{font-size:72px;font-weight:600;color:#F3D489;line-height:1.1;margin:6px 0 14px}
-.cd-qr{display:inline-block;padding:16px;border-radius:26px;background:#fff;box-shadow:0 20px 60px rgba(232,198,110,.25)}
-.cd-qr img{display:block;width:280px;height:280px;max-width:62vw;max-height:62vw;image-rendering:pixelated}
-.cd-hint{margin-top:18px;font-size:18px;color:#7BE0A6;font-weight:600;-webkit-animation:pulse 2s infinite;animation:pulse 2s infinite}
-.cd-pp{color:#9C8F78;font-size:14px;margin-top:6px}
-.cd-check{width:110px;height:110px;margin:0 auto 18px;border-radius:50%;line-height:110px;text-align:center;font-size:58px;background:#2EAD66;color:#fff;box-shadow:0 0 0 14px rgba(46,173,102,.18);-webkit-animation:pop .5s cubic-bezier(.2,.9,.3,1.4);animation:pop .5s cubic-bezier(.2,.9,.3,1.4)}
+.cd-clock{font-size:23vmin;font-weight:600;line-height:1;color:#fff;white-space:nowrap}
+.cd-date{color:#BDAF95;margin-top:2vmin;font-size:4.4vmin}
+.cd-wel{margin-top:5vmin;font-size:6.2vmin;color:#E8C66E}
+.cd-wel small{display:block;font-size:3vmin;color:#9C8F78;letter-spacing:.14em;text-transform:uppercase;margin-top:1.4vmin}
+.cd-label{font-size:4.4vmin;color:#BDAF95;letter-spacing:.08em}
+.cd-name{font-size:5vmin;color:#fff;margin-top:.6vmin}
+.cd-amt{font-size:19vmin;font-weight:600;color:#F3D489;line-height:1.1;margin:1vmin 0 4vmin;white-space:nowrap}
+.cd-qr{display:inline-block;padding:3.6vmin;border-radius:6vmin;background:#fff;box-shadow:0 20px 60px rgba(232,198,110,.25)}
+.cd-qr img{display:block;width:64vmin;height:64vmin;max-height:52vh;max-width:52vh;image-rendering:pixelated}
+.cd-hint{margin-top:4.4vmin;font-size:4.6vmin;color:#7BE0A6;font-weight:600;-webkit-animation:pulse 2s infinite;animation:pulse 2s infinite}
+.cd-pp{color:#9C8F78;font-size:3.6vmin;margin-top:1.4vmin}
+.cd-check{width:28vmin;height:28vmin;margin:0 auto 5vmin;border-radius:50%;line-height:28vmin;text-align:center;font-size:15vmin;background:#2EAD66;color:#fff;box-shadow:0 0 0 3.6vmin rgba(46,173,102,.18);-webkit-animation:pop .5s cubic-bezier(.2,.9,.3,1.4);animation:pop .5s cubic-bezier(.2,.9,.3,1.4)}
 @-webkit-keyframes pop{from{-webkit-transform:scale(.3);opacity:0}}
 @-webkit-keyframes vin{from{opacity:0;-webkit-transform:translateY(8px)}}
 @-webkit-keyframes pulse{50%{opacity:.4}}
-.cd h2{font-size:30px;margin:0 0 4px}
-.cd-th-amt{font-size:54px;font-weight:600;color:#7BE0A6;line-height:1.2}
-.cd p{color:#BDAF95;font-size:18px}
-.cd-menu{margin-top:30px;padding:18px 20px;border-radius:24px;background:rgba(255,240,210,.05);border:1px solid rgba(232,198,110,.18);text-align:left}
-.cd-menu h3{margin:0 0 10px;font-size:15px;letter-spacing:.12em;color:#E8C66E;font-weight:600}
-.cd-mrow{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,240,210,.07)}
+.cd h2{font-size:7.4vmin;margin:0 0 1vmin}
+.cd-th-amt{font-size:13vmin;font-weight:600;color:#7BE0A6;line-height:1.2}
+.cd p{color:#BDAF95;font-size:4.4vmin;margin:3vmin 0 0}
+.cd-menu{margin-top:6vmin;padding:4.4vmin 5vmin;border-radius:5vmin;background:rgba(255,240,210,.05);border:1px solid rgba(232,198,110,.18);text-align:left}
+.cd-menu h3{margin:0 0 2vmin;font-size:3.6vmin;letter-spacing:.12em;color:#E8C66E;font-weight:600}
+.cd-mrow{padding:2vmin 0;border-bottom:1px solid rgba(255,240,210,.07)}
 .cd-mrow:last-child{border:0}
-.cd-mrow>b{font-weight:500;font-size:16px;color:#F7EEDC;white-space:nowrap;margin-right:14px}
-.cd-mp{font-size:14px;color:#BDAF95;white-space:nowrap;text-align:right}
-.cd-mp span{margin-left:14px}
-.cd-mp span b{font-family:'Kanit',sans-serif;color:#F3D489;font-size:16px;margin-left:4px}
-.cd-tap{position:fixed;top:0;left:0;right:0;bottom:0;z-index:5;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;background:rgba(8,6,3,.82);text-align:center}
-.cd-tap b{display:block;font-size:30px;color:#F3D489;margin-top:10px}
-.cd-tap span{display:block;font-size:17px;color:#BDAF95;margin-top:6px}
-.cd-tap-ic{font-size:64px;-webkit-animation:pulse 1.6s infinite;animation:pulse 1.6s infinite}
-.cd-link,.cd-off{position:fixed;top:14px;right:18px;font-size:12.5px;color:#7BE0A6;opacity:.75}
+.cd-mrow>b{display:block;font-weight:500;font-size:4.2vmin;color:#F7EEDC}
+.cd-mp{font-size:3.4vmin;color:#BDAF95;margin-top:.6vmin}
+.cd-mp span{display:inline-block;white-space:nowrap;margin-right:4vmin}
+.cd-mp span b{font-family:'Kanit',sans-serif;color:#F3D489;font-size:4vmin;margin-left:1vmin}
+.cd-tap{position:fixed;top:0;left:0;right:0;bottom:0;z-index:5;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;background:rgba(8,6,3,.82);text-align:center;padding:6vmin}
+.cd-tap b{display:block;font-size:7vmin;color:#F3D489;margin-top:2.4vmin}
+.cd-tap span{display:block;font-size:4.2vmin;color:#BDAF95;margin-top:1.4vmin}
+.cd-tap-ic{font-size:16vmin;-webkit-animation:pulse 1.6s infinite;animation:pulse 1.6s infinite}
+.cd-link,.cd-off{position:fixed;top:2.4vmin;right:3.4vmin;font-size:2.8vmin;color:#7BE0A6;opacity:.75}
 .cd-link .live{display:inline-block;margin-right:6px;vertical-align:middle}
-.cd-off{color:#FF8A7E;opacity:1;left:18px;right:auto}
-@media (orientation:landscape) and (min-width:800px){
-  .cd-inner{max-width:1240px}
-  .cd-brand{-webkit-flex-direction:row;flex-direction:row;-webkit-justify-content:center;justify-content:center;margin-bottom:4vh}
-  .cd-mark{width:48px;height:48px;font-size:22px;margin:0 12px 0 0}
+.cd-off{color:#FF8A7E;opacity:1;left:3.4vmin;right:auto}
+/* มือถือแนวตั้ง: โลโก้กับชื่อร้านอยู่บรรทัดเดียว ประหยัดพื้นที่ */
+@media (orientation:portrait){
+  .cd-brand{-webkit-flex-direction:row;flex-direction:row;-webkit-justify-content:center;justify-content:center;margin-bottom:4vmin}
+  .cd-mark{width:9vmin;height:9vmin;font-size:4.4vmin;border-radius:2.8vmin;margin:0 2.4vmin 0 0}
+  .cd-wel{margin-top:3.6vmin}
+  .cd-menu{margin-top:4.4vmin;padding:3.6vmin 4.4vmin}
+  .cd-mrow{padding:1.3vmin 0}
+  .cd-mp{margin-top:0}
+}
+/* แท็บเล็ตแนวตั้ง: ลดสัดส่วนลงไม่ให้ใหญ่เกิน */
+@media (orientation:portrait) and (min-width:700px){
+  .cd-clock{font-size:14vmin}
+  .cd{padding:3.4vmin 5vmin}
+  .cd-menu{margin-top:3.4vmin}
+  .cd-date{font-size:3.6vmin}.cd-wel{font-size:5vmin}
+  .cd-wel small{display:none}.cd-brand{margin-bottom:3vmin}
+  .cd-mrow>b{font-size:3.2vmin}.cd-mp{font-size:2.3vmin}.cd-mp span b{font-size:2.7vmin;margin-left:.6vmin}.cd-mp span{margin-right:2vmin}
+  .cd-mrow{display:inline-block;vertical-align:top;width:48%;padding:1.4vmin 0;border:0}
+  .cd-mrow:nth-of-type(even){margin-left:4%}
+  .cd-menu{padding:3vmin 4vmin}
+}
+/* แนวนอน (ทีวี / คอม / มือถือนอน): 2 คอลัมน์ */
+@media (orientation:landscape) and (min-width:560px){
+  .cd{padding:4vmin 5vw}
+  .cd-inner{max-width:none}
+  .cd-brand{-webkit-flex-direction:row;flex-direction:row;-webkit-justify-content:center;justify-content:center;margin-bottom:5vmin}
+  .cd-mark{width:8vmin;height:8vmin;font-size:4vmin;border-radius:2.4vmin;margin:0 2vmin 0 0}
+  .cd-brand div:last-child{font-size:4vmin}
   #cd-idle.has-menu{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center}
   #cd-idle.has-menu[hidden]{display:none}
   .has-menu .cd-welcome{-webkit-flex:1;flex:1}
-  .has-menu .cd-menu{-webkit-flex:1.1;flex:1.1;margin:0 0 0 5vw}
-  .cd-clock{font-size:11vw}
-  .cd-date{font-size:1.9vw}
-  .cd-wel{font-size:2.3vw}
-  #cd-pay:not([hidden]){display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-flex-direction:column;flex-direction:column;-webkit-align-content:center;align-content:center;-webkit-justify-content:center;justify-content:center;height:62vh;text-align:left}
-  .cd-pa,.cd-pb{width:40vw}
-  .cd-pa{-webkit-order:1;order:1}.cd-pb{-webkit-order:2;order:2}.cd-qr{-webkit-order:3;order:3;margin-left:6vw}
-  .cd-label{font-size:1.9vw}
-  .cd-name{font-size:2.2vw}
-  .cd-amt{font-size:10vw;margin:0}
-  .cd-hint{margin-top:10px;font-size:2vw}
-  .cd-pp{font-size:1.4vw}
-  .cd-qr img{width:52vh;height:52vh;max-width:440px;max-height:440px}
-  .cd h2{font-size:3.6vw}
-  .cd-th-amt{font-size:6vw}
+  .has-menu .cd-menu{-webkit-flex:1.15;flex:1.15;margin:0 0 0 5vw;padding:3.4vmin 4vmin}
+  .cd-clock{font-size:20vmin}
+  .cd-date{font-size:3.6vmin}
+  .cd-wel{font-size:4.6vmin;margin-top:4vmin}
+  .cd-wel small{font-size:2.4vmin}
+  .cd-menu h3{font-size:2.6vmin;margin-bottom:1vmin}
+  .cd-mrow{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between;padding:1.4vmin 0}
+  .cd-mrow>b{font-size:3vmin;margin-right:2.4vmin;white-space:nowrap}
+  .cd-mp{font-size:2.4vmin;margin:0;text-align:right}
+  .cd-mp span{margin:0 0 0 2.4vmin}
+  .cd-mp span b{font-size:2.9vmin}
+  #cd-pay:not([hidden]){display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-flex-direction:column;flex-direction:column;-webkit-align-content:center;align-content:center;-webkit-justify-content:center;justify-content:center;height:68vh;text-align:left}
+  .cd-pa,.cd-pb{width:42vw}
+  .cd-pa{-webkit-order:1;order:1}.cd-pb{-webkit-order:2;order:2}.cd-qr{-webkit-order:3;order:3;margin-left:5vw}
+  .cd-label{font-size:3.6vmin}
+  .cd-name{font-size:4.2vmin}
+  .cd-amt{font-size:18vmin;margin:0}
+  .cd-hint{margin-top:2vmin;font-size:3.8vmin}
+  .cd-pp{font-size:2.8vmin}
+  .cd-qr{padding:2.6vmin;border-radius:4vmin}
+  .cd-qr img{width:54vmin;height:54vmin;max-width:none;max-height:none}
+  .cd-check{width:22vmin;height:22vmin;line-height:22vmin;font-size:12vmin;margin-bottom:4vmin}
+  .cd h2{font-size:6.4vmin}
+  .cd-th-amt{font-size:11vmin}
+  .cd p{font-size:3.6vmin}
+}
+/* มือถือนอน (จอเตี้ย): ซ่อนบรรทัดรองเพื่อให้พอดี */
+@media (orientation:landscape) and (max-height:520px){
+  .cd-brand{margin-bottom:3vmin}
+  .cd-wel small{display:none}
+  .cd-mrow{padding:1vmin 0}
 }
 .cast-opt{padding:16px;margin-bottom:12px}
 .cast-opt h4{margin:0 0 4px;font-size:15.5px;display:flex;align-items:center;gap:8px}
@@ -445,6 +486,32 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
 .cast-opt ol{margin:0 0 12px;padding-left:20px;font-size:13.5px;color:var(--ink2)}
 .cast-opt ol li{margin-bottom:3px}
 .cast-st{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;margin-bottom:10px}
+.scan-cta{display:flex;gap:10px;margin-top:16px}
+.scan-cta .btn-lg{padding:0 16px}
+#slip-mode-note{margin-top:8px}
+.scan-panel{max-width:520px}
+.scan-view{position:relative;border-radius:22px;overflow:hidden;background:#000;aspect-ratio:3/4;max-height:58vh;width:100%}
+.scan-view video{width:100%;height:100%;object-fit:cover;display:block}
+.scan-frame{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.45)}
+.scan-frame i{position:absolute;width:34px;height:34px;border:4px solid #fff;border-radius:6px}
+.scan-frame i:nth-child(1){left:-2px;top:-2px;border-right:0;border-bottom:0}
+.scan-frame i:nth-child(2){right:-2px;top:-2px;border-left:0;border-bottom:0}
+.scan-frame i:nth-child(3){left:-2px;bottom:-2px;border-right:0;border-top:0}
+.scan-frame i:nth-child(4){right:-2px;bottom:-2px;border-left:0;border-top:0}
+.scan-line{position:absolute;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,#5CF09A,transparent);animation:scanline 2s ease-in-out infinite}
+@keyframes scanline{0%,100%{top:10%}50%{top:88%}}
+.scan-state{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;background:rgba(10,8,4,.86);color:#fff;font-weight:600;font-size:16px}
+.scan-state .big{font-size:52px;line-height:1}
+.scan-state.ok{background:rgba(20,110,60,.92)}
+.scan-state.bad{background:rgba(160,30,25,.92)}
+.scan-state .btn{margin-top:6px;min-width:120px}
+.scan-state .btn:not(.btn-ok){background:#fff;color:#211C15;border:0}
+.scan-torch{position:absolute;right:12px;top:12px;background:rgba(0,0,0,.5);border:0;color:#fff}
+.scan-hint{text-align:center;color:var(--ink2);font-size:14px;margin:14px 0 6px}
+.scan-due{text-align:center;font-family:'Kanit',sans-serif;font-size:22px;color:var(--gold);margin-bottom:12px}
+.slip-mode{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;font-weight:600;font-size:14px}
+.slip-mode.api{background:var(--ok-soft);color:var(--ok)}
+.slip-mode.basic{background:var(--info-soft);color:var(--info)}
 .cast-opt>summary{cursor:pointer;list-style:none}
 .cast-opt>summary::-webkit-details-marker{display:none}
 .steps{margin:14px 0 0;padding-left:20px;font-size:13.5px;color:var(--ink2)}
@@ -702,6 +769,18 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
       <div class="set-group"><h4>แพ็กเกจคอร์ส</h4>
         <div class="card form"><div id="pkg-edit"></div><button class="btn btn-ghost btn-block" data-act="pkgAdd" style="margin-bottom:10px"><i class="ic" data-ic="plus" data-s="18"></i>เพิ่มแพ็กเกจ</button><button class="btn btn-primary btn-block" data-act="savePkgs">บันทึกแพ็กเกจ</button></div>
       </div>
+      <div class="set-group"><h4>ตรวจสลิปด้วยกล้อง</h4>
+        <div class="card form">
+          <div class="slip-mode" id="slip-mode"></div>
+          <p class="muted sm" style="margin:12px 0">
+            <b>โหมดพื้นฐาน (ฟรี):</b> อ่าน QR บนสลิป ตรวจว่าเป็นรูปแบบสลิปธนาคารจริง และ <b>กันสลิปซ้ำ</b> (สลิปเก่าใช้ซ้ำไม่ได้ตลอดไป) — แต่ยอดเงินพนักงานต้องดูเองบนสลิป<br><br>
+            <b>โหมดตรวจกับธนาคาร (SlipOK):</b> ระบบถามธนาคารให้ว่าโอนจริงไหม ยอดเท่าไหร่ เข้าบัญชีร้านหรือเปล่า — กันสลิปปลอมได้ด้วย สมัครที่ slipok.com แล้วนำ Branch ID กับ API Key มาใส่
+          </p>
+          <label class="field"><span>SlipOK Branch ID</span><input id="slip-branch" class="input" autocomplete="off" placeholder="เช่น 12345"></label>
+          <label class="field"><span>SlipOK API Key</span><input id="slip-key" class="input" type="password" autocomplete="off" placeholder="SLIPOK..."></label>
+          <div class="btn-row"><button class="btn btn-primary grow" data-act="saveSlipCfg">บันทึก</button><button class="btn btn-ghost danger-text" data-act="clearSlipCfg" id="btn-clear-slip">กลับไปโหมดฟรี</button></div>
+        </div>
+      </div>
       <div class="set-group"><h4>เสียงประกาศ “เงินเข้าแล้ว”</h4>
         <div class="card form">
           <p class="muted sm" style="margin:0 0 12px">ใช้เสียงคนจริงที่อัดเอง (ไม่ใช่เสียง AI) — เล่นต่อจากเสียง “ติ๊ง” ทุกครั้งที่เงินเข้า ทั้งที่เครื่องนี้และจอลูกค้าทุกจอ</p>
@@ -743,7 +822,7 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
           <div class="row"><div><b>เสียงแจ้งเตือน</b><div class="muted sm">เมื่อพนักงานกดเรียกแอดมิน</div></div><input type="checkbox" class="switch" id="set-sound"></div>
         </div>
       </div>
-      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v3.2</p>
+      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v3.4</p>
     </section>
   </main>
 </div>
@@ -791,7 +870,12 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
   <div id="p-qr" class="qr-box">
     <img id="p-qr-img" alt="PromptPay QR">
     <div class="muted sm" id="p-pp" style="margin-top:8px"></div>
-    <div class="cast-note"><span class="live"></span>แสดงบนจอลูกค้าแล้ว · รอเงินเข้าอัตโนมัติ</div>
+    <div class="cast-note"><span class="live"></span>แสดงบนจอลูกค้าแล้ว</div>
+    <div class="scan-cta">
+      <button class="btn btn-info btn-lg grow" data-act="scanSlip"><i class="ic" data-ic="camera"></i>สแกนสลิปลูกค้า</button>
+      <button class="btn btn-lg" data-act="pickSlip" aria-label="เลือกรูปสลิปจากเครื่อง"><i class="ic" data-ic="image"></i></button>
+    </div>
+    <div class="muted sm" id="slip-mode-note"></div>
   </div>
   <div id="p-dep"></div>
   <div id="p-cash" hidden style="margin-top:16px">
@@ -907,6 +991,21 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
   <div id="sum-body"></div>
   <button class="btn btn-primary btn-block" data-act="close" style="margin-top:16px">เสร็จ</button>
 </div></div>
+
+<div class="sheet" id="sh-scan" hidden><div class="panel scan-panel">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>สแกนสลิป</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <div class="scan-view" id="scan-view">
+    <video id="scan-video" playsinline muted></video>
+    <div class="scan-frame"><i></i><i></i><i></i><i></i><div class="scan-line"></div></div>
+    <div class="scan-state" id="scan-state" hidden></div>
+    <button class="icon-btn scan-torch" data-act="torch" id="scan-torch" hidden aria-label="ไฟฉาย">🔦</button>
+  </div>
+  <p class="scan-hint" id="scan-hint">เล็งกล้องไปที่ <b>QR เล็กๆ บนสลิป</b> (มักอยู่มุมล่าง) ให้อยู่ในกรอบ</p>
+  <div class="scan-due" id="scan-due"></div>
+  <div class="btn-row"><button class="btn btn-ghost grow" data-act="pickSlip"><i class="ic" data-ic="image"></i>เลือกรูปสลิปแทน</button></div>
+</div></div>
+<input type="file" id="slip-file" accept="image/*" hidden>
 
 <div class="sheet" id="sh-confirm" hidden><div class="panel narrow">
   <div class="grab"></div>
@@ -1216,6 +1315,8 @@ const IC = {
   phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
   lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
   qr: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/>',
+  camera: '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+  image: '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>',
   cash: '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/>'
 };
 const ic = (n, s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n] || ''}</svg>`;
@@ -1355,6 +1456,12 @@ function checkDeposits() {
   bankAlert();
   fresh.forEach(d => toast(d.test ? `🧪 ทดสอบเงินเข้า ${baht(d.amt)} สำเร็จ` : d.qid ? `💰 เงินเข้า ${baht(d.amt)} · ยืนยันคิว ${cleanName(d.qn)} แล้ว` : `💰 เงินเข้า ${baht(d.amt)} (ยังไม่จับคู่กับคิว)`, d.qid || d.test ? 'ok' : 'warn'));
 }
+function updSlipMode() {
+  const el = $('#slip-mode'); if (!el) return;
+  el.className = 'slip-mode ' + (S.slipApi ? 'api' : 'basic');
+  el.textContent = S.slipApi ? '✅ ตอนนี้: ตรวจสลิปกับธนาคาร (SlipOK)' : '🧾 ตอนนี้: โหมดพื้นฐาน (ฟรี) — กันสลิปซ้ำ';
+  $('#btn-clear-slip').hidden = !S.slipApi;
+}
 function updVoiceSt() {
   const el = $('#voice-st'); if (!el || REC.on) return;
   el.className = 'voice-st';
@@ -1401,6 +1508,157 @@ async function saveVoice(data) {
 }
 function stopRec() { if (REC.mr && REC.mr.state !== 'inactive') REC.mr.stop(); }
 
+/* ═════════ สแกนสลิปด้วยกล้อง ═════════ */
+const BANKS = { '002': 'กรุงเทพ', '004': 'กสิกรไทย', '006': 'กรุงไทย', '011': 'ทหารไทยธนชาต', '014': 'ไทยพาณิชย์', '022': 'ซีไอเอ็มบี', '024': 'ยูโอบี', '025': 'กรุงศรีอยุธยา', '030': 'ออมสิน', '033': 'อาคารสงเคราะห์', '034': 'ธ.ก.ส.', '066': 'อิสลาม', '067': 'ทิสโก้', '069': 'เกียรตินาคินภัทร', '071': 'ไทยเครดิต', '073': 'แลนด์ แอนด์ เฮ้าส์' };
+const bankName = c => BANKS[c] ? 'ธ.' + BANKS[c] : 'ธนาคาร ' + c;
+function tlvParse(str) {
+  const o = {}; let i = 0;
+  while (i + 4 <= str.length) { const t = str.substr(i, 2), l = parseInt(str.substr(i + 2, 2), 10); if (isNaN(l) || i + 4 + l > str.length) return null; o[t] = str.substr(i + 4, l); i += 4 + l; }
+  return i === str.length ? o : null;
+}
+/** อ่าน QR บนสลิป → {bank, ref} หรือ null */
+function parseSlip(raw) {
+  const s = String(raw || '').trim();
+  const m = s.match(/^(.*91)(\d{2})([0-9A-Fa-f]{1,4})$/); if (!m) return null;
+  const crc = ('000' + m[3]).slice(-4).toUpperCase();
+  if (crc16(m[1] + '04') !== crc && crc16(m[1] + m[2]) !== crc) return null;
+  const top = tlvParse(m[1] + '04' + crc); if (!top || !top['00'] || top['51'] !== 'TH') return null;
+  const sub = tlvParse(top['00']); if (!sub || sub['00'] !== '000001' || !sub['02']) return null;
+  return { bank: sub['01'] || '', ref: sub['02'] };
+}
+const SC = { stream: null, timer: 0, busy: false, det: null, done: false, torch: false, canvas: null };
+let jsQRLoading = null;
+function loadJsQR() {
+  if (window.jsQR) return Promise.resolve();
+  if (!jsQRLoading) jsQRLoading = new Promise((ok, no) => {
+    const sc = document.createElement('script');
+    sc.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
+    sc.onload = ok; sc.onerror = () => { jsQRLoading = null; no(new Error('โหลดตัวอ่าน QR ไม่ได้ ตรวจอินเทอร์เน็ต')); };
+    document.head.appendChild(sc);
+  });
+  return jsQRLoading;
+}
+async function getDetector() {
+  if (SC.det) return SC.det;
+  if ('BarcodeDetector' in window) {
+    try { const f = await BarcodeDetector.getSupportedFormats(); if (f.includes('qr_code')) return (SC.det = { native: new BarcodeDetector({ formats: ['qr_code'] }) }); } catch (e) {}
+  }
+  await loadJsQR();
+  return (SC.det = { js: true });
+}
+/** หา QR ทั้งหมดในภาพ (video/canvas/bitmap) คืนเป็นข้อความ */
+async function detectAll(src, w, h, crop) {
+  const det = await getDetector();
+  if (det.native && !crop) { try { return (await det.native.detect(src)).map(c => c.rawValue); } catch (e) {} }
+  const cv = SC.canvas || (SC.canvas = document.createElement('canvas'));
+  const [sx, sy, sw, sh] = crop || [0, 0, w, h];
+  const scale = Math.min(1, 1400 / Math.max(sw, sh));
+  cv.width = Math.round(sw * scale); cv.height = Math.round(sh * scale);
+  const g = cv.getContext('2d', { willReadFrequently: true });
+  g.drawImage(src, sx, sy, sw, sh, 0, 0, cv.width, cv.height);
+  if (det.native) { try { return (await det.native.detect(cv)).map(c => c.rawValue); } catch (e) { return []; } }
+  const r = window.jsQR(g.getImageData(0, 0, cv.width, cv.height).data, cv.width, cv.height, { inversionAttempts: 'attemptBoth' });
+  return r ? [r.data] : [];
+}
+function scanState(kind, html) {
+  const el = $('#scan-state');
+  el.hidden = !kind; el.className = 'scan-state' + (kind === 'ok' ? ' ok' : kind === 'bad' ? ' bad' : '');
+  el.innerHTML = html || '';
+}
+function stopCamera() {
+  clearTimeout(SC.timer); SC.timer = 0;
+  if (SC.stream) { SC.stream.getTracks().forEach(t => t.stop()); SC.stream = null; }
+  SC.torch = false;
+}
+async function openScanner() {
+  SC.done = false;
+  $('#scan-due').textContent = 'ยอดที่ต้องจ่าย ' + baht($('#p-amt').value);
+  scanState('', ''); $('#scan-torch').hidden = true;
+  openSheet('sh-scan');
+  if (!navigator.mediaDevices?.getUserMedia) return scanState('bad', '<div class="big">📷</div>เบราว์เซอร์นี้เปิดกล้องไม่ได้<br>ใช้ “เลือกรูปสลิปแทน”');
+  try {
+    SC.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
+  } catch (e) {
+    return scanState('bad', '<div class="big">📷</div>เปิดกล้องไม่ได้ — กดอนุญาตให้ใช้กล้อง<br>หรือใช้ “เลือกรูปสลิปแทน”');
+  }
+  if ($('#sh-scan').hidden) return stopCamera();
+  const v = $('#scan-video'); v.srcObject = SC.stream;
+  try { await v.play(); } catch (e) {}
+  try { const cap = SC.stream.getVideoTracks()[0].getCapabilities?.(); if (cap && cap.torch) $('#scan-torch').hidden = false; } catch (e) {}
+  getDetector().catch(e => scanState('bad', esc(e.message)));
+  scanLoop();
+}
+async function scanLoop() {
+  if (!SC.stream || SC.done) return;
+  const v = $('#scan-video');
+  if (!SC.busy && v.videoWidth) {
+    SC.busy = true;
+    try {
+      const W = v.videoWidth, H = v.videoHeight, side = Math.min(W, H) * 0.75;
+      // jsQR: อ่านเฉพาะกลางภาพ (QR สลิปเล็ก ต้องใช้ความละเอียดเต็ม) · BarcodeDetector: อ่านทั้งภาพได้
+      const codes = SC.det && SC.det.native ? await detectAll(v, W, H) : await detectAll(v, W, H, [(W - side) / 2, (H - side) / 2, side, side]);
+      if (codes.length) onCodes(codes);
+    } catch (e) {} finally { SC.busy = false; }
+  }
+  SC.timer = setTimeout(scanLoop, 160);
+}
+let lastHintAt = 0;
+function onCodes(codes) {
+  if (SC.done) return;
+  const slip = codes.map(c => ({ raw: c, s: parseSlip(c) })).find(x => x.s);
+  if (slip) { SC.done = true; navigator.vibrate?.(60); return verifySlip(slip.raw, slip.s); }
+  if (Date.now() - lastHintAt > 2500) {
+    lastHintAt = Date.now();
+    const c = codes[0] || '';
+    toast(c.startsWith('000201') ? 'นี่คือ QR รับเงิน ไม่ใช่ QR บนสลิป — สแกน QR เล็กที่มุมสลิป' : 'QR นี้ไม่ใช่ QR สลิปธนาคาร', 'warn');
+  }
+}
+async function decodeFile(file) {
+  const bmp = await createImageBitmap(file);
+  const W = bmp.width, H = bmp.height;
+  // ลองหลายแบบ: ทั้งภาพ, ครึ่งล่าง, มุมขวาล่าง, มุมซ้ายล่าง (QR สลิปมักอยู่ด้านล่าง)
+  const crops = [null, [0, H * 0.45, W, H * 0.55], [W * 0.45, H * 0.5, W * 0.55, H * 0.5], [0, H * 0.5, W * 0.55, H * 0.5], [0, 0, W, H * 0.55]];
+  for (const cr of crops) {
+    const codes = await detectAll(bmp, W, H, cr || (SC.det && SC.det.native ? null : [0, 0, W, H]));
+    if (codes.some(parseSlip)) return codes;
+  }
+  return [];
+}
+async function verifySlip(raw, slip, accept) {
+  stopCamera();
+  const amt = Number($('#p-amt').value) || 0;
+  if (!S.slipApi && !accept) {
+    scanState('', '');
+    const ok = await confirmDlg({ icon: '🧾', title: `ยอดบนสลิปตรงกับ ${baht(amt)} ไหม?`, msg: `โอนจาก ${bankName(slip.bank)}\nเลขอ้างอิง ${slip.ref}\n\nดูยอดเงินบนสลิปให้ตรงก่อนกดยืนยัน\n(ระบบจะเช็กให้ว่าสลิปนี้ไม่เคยใช้มาก่อน)`, ok: 'ตรง ยืนยันรับเงิน', tone: 'ok' });
+    if (!ok) return retryScan();
+  }
+  scanState('wait', '<div class="spinner" style="border-color:rgba(255,255,255,.3);border-top-color:#fff"></div>กำลังตรวจสลิป…');
+  try {
+    const j = await api('VERIFY_SLIP', { id: P.id, payload: raw, amount: amt, acceptAmount: !!accept });
+    const o = j.out || {};
+    if (o.mismatch) {
+      scanState('bad', `<div class="big">⚠️</div>ยอดบนสลิป <b>${baht(o.amount)}</b><br>ไม่ตรงกับยอดที่ต้องจ่าย ${baht(o.expected)}<div class="btn-row"><button class="btn" data-act="retryScan">สแกนใหม่</button><button class="btn btn-ok" data-act="acceptSlip">รับตามยอดสลิป</button></div>`);
+      SC.pending = { raw, slip };
+      return;
+    }
+    P.done = true;
+    scanState('ok', `<div class="big">✓</div>${o.mode === 'api' ? 'ธนาคารยืนยันแล้ว' : 'สลิปผ่าน'} · ${baht(o.amount)}<br><span style="font-weight:400;font-size:14px">${esc(o.bank || '')}</span>`);
+    bankAlert(true);
+    const sc = S.cast || {};
+    localCast({ show: false, p: 0, thanks: sc.thanks || now(), n: findQ(P.id)?.n || '', amt: o.amount, bank: o.amount });
+    setTimeout(() => { closeSheet('sh-scan'); closeSheet('sh-pay'); toast(`✓ รับเงิน ${baht(o.amount)} (ตรวจสลิปแล้ว)`, 'ok'); setTimeout(() => openReceipt(o.id || P.id), 320); }, 1100);
+  } catch (e) {
+    navigator.vibrate?.([80, 60, 80]);
+    scanState('bad', `<div class="big">${e.code === 'DUP_SLIP' || e.code === 'RECEIVER' ? '⛔' : '✕'}</div>${esc(e.message)}<div class="btn-row"><button class="btn" data-act="retryScan">สแกนใหม่</button></div>`);
+  }
+}
+function retryScan() { SC.done = false; scanState('', ''); if (!$('#sh-scan').hidden) openScannerKeep(); }
+async function openScannerKeep() {
+  if (SC.stream) return scanLoop();
+  try { SC.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false }); const v = $('#scan-video'); v.srcObject = SC.stream; await v.play(); scanLoop(); }
+  catch (e) { scanState('bad', 'เปิดกล้องไม่ได้ ใช้ “เลือกรูปสลิปแทน”'); }
+}
+
 async function keepAwake() { try { if ('wakeLock' in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => wakeLock = null); } } catch (e) {} }
 
 /* ═════════ theme ═════════ */
@@ -1436,6 +1694,7 @@ function closeSheet(id) {
   setTimeout(() => { if (!s.classList.contains('open')) s.hidden = true; }, 300);
   if (!$$('.sheet.open').length) document.body.classList.remove('noscroll');
   if (id === 'sh-pay' && !P.done) castOff();
+  if (id === 'sh-scan') stopCamera();
   if (id === 'sh-confirm' && confirmResolve) { const r = confirmResolve; confirmResolve = null; r(false); }
 }
 const isOpen = id => $('#' + id)?.classList.contains('open');
@@ -1846,6 +2105,7 @@ function renderPay() {
     $('#p-quick').innerHTML = quickCash(amt).map(v => `<button class="chip ${recv === v ? 'on' : ''}" data-act="pRecv" data-v="${v}">${v === amt ? 'พอดี ' : ''}${baht(v)}</button>`).join('');
   }
   $('#p-btn').textContent = `ยืนยันรับเงิน ${baht(amt)}`;
+  $('#slip-mode-note').textContent = S.slipApi ? '✓ ตรวจสลิปกับธนาคารอัตโนมัติ (SlipOK)' : 'โหมดตรวจสลิปพื้นฐาน: กันสลิปซ้ำ · ยอดเงินให้ดูบนสลิป';
   const dep = (S.deposits || []).find(d => !d.qid && !d.test && Math.round(d.amt) === Math.round(amt) && now() - d.at < 30 * 60000);
   $('#p-dep').innerHTML = dep ? `<div class="dep-banner"><span>💰</span><span class="grow">มีเงินเข้า ${baht(dep.amt)} เมื่อ ${fmtTime(dep.at)} ที่ยังไม่ได้จับคู่</span><button class="btn btn-sm btn-ok" data-act="confirmDep" data-dep="${esc(dep.id)}">ใช้ยอดนี้</button></div>` : '';
 }
@@ -1931,6 +2191,7 @@ function receiptHTML(q) {
     <div class="rc-hr"></div>
     <div class="rc-row rc-total"><span>ยอดสุทธิ</span><span>${baht(q.p)}</span></div>
     <div class="rc-row"><span>ชำระโดย</span><span>${q.pm === 'qr' ? 'สแกนโอน (QR)' : 'เงินสด'}</span></div>
+    ${q.slip ? `<div class="rc-row" style="font-size:12px;color:#777"><span>อ้างอิงสลิป</span><span>${esc(q.slip)}</span></div>` : ''}
     ${q.pm === 'cash' && q.recv ? `<div class="rc-row"><span>รับเงิน</span><span>${baht(q.recv)}</span></div><div class="rc-row"><span>เงินทอน</span><span>${baht(q.recv - q.p)}</span></div>` : ''}
     <div class="rc-hr"></div><div class="rc-thanks">ขอบคุณที่ใช้บริการ 🙏</div></div>`;
 }
@@ -2024,6 +2285,7 @@ function fillSettings() {
   applyTheme(localStorage.getItem(LS.theme) || 'auto');
   $('#set-sync').checked = autoSync;
   $('#set-banksound').checked = bankSoundOn;
+  updSlipMode();
   updVoiceSt();
   $('#set-sound').checked = soundOn;
 }
@@ -2137,6 +2399,24 @@ const A = {
     toast(`✓ รับเงิน ${baht(amt)} เรียบร้อย`, 'ok');
     setTimeout(() => openReceipt(id), 320);
   }),
+  scanSlip: () => openScanner(),
+  pickSlip: () => $('#slip-file').click(),
+  retryScan: () => retryScan(),
+  acceptSlip: () => { if (SC.pending) verifySlip(SC.pending.raw, SC.pending.slip, true); },
+  torch: async () => {
+    try { SC.torch = !SC.torch; await SC.stream.getVideoTracks()[0].applyConstraints({ advanced: [{ torch: SC.torch }] }); } catch (e) { toast('เปิดไฟฉายไม่ได้', 'warn'); }
+  },
+  saveSlipCfg: (_, btn) => run(btn, async () => {
+    const branch = $('#slip-branch').value.trim(), key = $('#slip-key').value.trim();
+    if (!branch || !key) return toast('กรอก Branch ID และ API Key ให้ครบ', 'warn');
+    await api('SET_SLIP_CFG', { branch, key });
+    $('#slip-key').value = ''; await pull(true); updSlipMode();
+    toast('✓ เปิดตรวจสลิปกับธนาคารแล้ว', 'ok');
+  }),
+  clearSlipCfg: async (_, btn) => {
+    if (!await confirmDlg({ icon: '🧾', title: 'กลับไปโหมดฟรี?', msg: 'จะไม่ตรวจยอดเงินกับธนาคาร แต่ยังกันสลิปซ้ำได้', ok: 'ยืนยัน', tone: 'danger' })) return;
+    run(btn, async () => { await api('SET_SLIP_CFG', { clear: true }); await pull(true); updSlipMode(); toast('ใช้โหมดพื้นฐานแล้ว'); });
+  },
   confirmDep: ({ dep }, btn) => { P.pm = 'qr'; btn.dataset.dep = dep; A.confirmPay({}, btn); },
   receipt: ({ id }) => openReceipt(id),
   print: () => { const q = findQ(lastReceipt); if (!q) return; $('#print-area').innerHTML = receiptHTML(q); window.print(); },
@@ -2394,6 +2674,18 @@ document.addEventListener('change', e => {
   if (id === 'bk-type') { fillBkDur(); checkBk(); }
   else if (id === 'bk-dur' || id === 'bk-dr' || id === 'bk-date' || id === 'bk-time') checkBk();
   else if (id === 'set-sync') { autoSync = e.target.checked; localStorage.setItem(LS.sync, autoSync ? '1' : '0'); toast(autoSync ? 'เปิดซิงก์อัตโนมัติ' : 'ปิดซิงก์อัตโนมัติ'); }
+  else if (id === 'slip-file') {
+    const file = e.target.files[0]; e.target.value = '';
+    if (!file) return;
+    if (!isOpen('sh-scan') && $('#sh-scan').hidden) { SC.done = false; $('#scan-due').textContent = 'ยอดที่ต้องจ่าย ' + baht($('#p-amt').value); openSheet('sh-scan'); }
+    stopCamera(); SC.done = true;
+    scanState('wait', '<div class="spinner" style="border-color:rgba(255,255,255,.3);border-top-color:#fff"></div>กำลังอ่าน QR จากรูป…');
+    decodeFile(file).then(codes => {
+      const hit = codes.map(c => ({ raw: c, s: parseSlip(c) })).find(x => x.s);
+      if (hit) verifySlip(hit.raw, hit.s);
+      else scanState('bad', '<div class="big">🔍</div>หา QR สลิปในรูปไม่เจอ<br><span style="font-weight:400;font-size:14px">ลองครอปให้เห็น QR ชัดๆ หรือสแกนด้วยกล้อง</span><div class="btn-row"><button class="btn" data-act="retryScan">สแกนด้วยกล้อง</button></div>');
+    }).catch(err => scanState('bad', esc(err.message || 'อ่านรูปไม่ได้')));
+  }
   else if (id === 'set-banksound') { bankSoundOn = e.target.checked; localStorage.setItem(LS.bankSound, bankSoundOn ? '1' : '0'); if (bankSoundOn) bankAlert(true); }
   else if (id === 'voice-file') {
     const file = e.target.files[0]; e.target.value = '';
