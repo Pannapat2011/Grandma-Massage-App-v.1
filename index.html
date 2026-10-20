@@ -104,6 +104,8 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 .chip.dr{flex-direction:column;align-items:flex-start;gap:0;border-radius:14px;padding:8px 14px;min-width:96px}
 .chip.dr b{font-weight:600;color:var(--ink)}
 .chip.dr.on b{color:var(--gold)}
+.chip.dr.auto{border-style:dashed}
+.avatar .num{font-size:19px}
 .chips-sm .chip{padding:5px 11px;font-size:13px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
 .tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:76px;padding:10px 6px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);font-size:13px;font-weight:600;color:var(--ink2);text-align:center;transition:.15s}
@@ -754,6 +756,16 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
       <div class="set-group"><h4>ราคาบริการ (บาท) — เว้นว่าง = ไม่เปิดขายระยะเวลานั้น</h4>
         <div class="card form"><div class="table-wrap" id="price-grid"></div><button class="btn btn-primary btn-block" data-act="savePrices">บันทึกราคา</button></div>
       </div>
+      <div class="set-group"><h4>การจัดคิวหมอ</h4>
+        <div class="card form">
+          <div class="grid2">
+            <label class="field"><span>เวลาเตรียมตัวก่อนเริ่มนวด (นาที)</span><input id="rot-prep" class="input num" type="number" inputmode="numeric" min="0" max="30"></label>
+            <label class="field"><span>เตือนถ้าหมอไม่รับคิวเกิน (นาที)</span><input id="rot-ack" class="input num" type="number" inputmode="numeric" min="1" max="30"></label>
+          </div>
+          <div class="row" style="padding:0 0 14px;border:0"><div><b>ลูกค้าขอตัว หมอไม่เสียคิว</b><div class="muted sm">เปิด = หมอที่ลูกค้าระบุชื่อ ยังอยู่ลำดับเดิมในคิวหมุน</div></div><input type="checkbox" class="switch" id="rot-keep"></div>
+          <button class="btn btn-primary btn-block" data-act="saveRot">บันทึกการจัดคิว</button>
+        </div>
+      </div>
       <div class="set-group"><h4>ค่ามือหมอ</h4>
         <div class="card form">
           <div class="grid2">
@@ -822,7 +834,7 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
           <div class="row"><div><b>เสียงแจ้งเตือน</b><div class="muted sm">เมื่อพนักงานกดเรียกแอดมิน</div></div><input type="checkbox" class="switch" id="set-sound"></div>
         </div>
       </div>
-      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v3.4</p>
+      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v3.5</p>
     </section>
   </main>
 </div>
@@ -1814,6 +1826,25 @@ function stats() {
   };
 }
 
+/* ═════════ คิวหมอหมุนเวียน ═════════ */
+const AUTO = '__auto';
+const ROT = () => Object.assign({ prepMin: 5, reqKeepsTurn: true, ackWarnMin: 3 }, S?.cfg?.rot || {});
+function rotation() { return (S.drs || []).filter(d => d.in && d.st === 'free' && !drActive(d.n)).sort((a, b) => (a.turnAt || 0) - (b.turnAt || 0)); }
+const turnNo = n => rotation().findIndex(d => d.n === n) + 1;
+const unackMin = q => (q.status === 'active' && !q.staffAck && q.kind !== 'ext' && q.dr && q.dr !== '-') ? Math.floor((now() - (q.assignedAt || q.queuedAt || q.startTime)) / 60000) : -1;
+function staffOrder(drs) {
+  const rank = d => { const k = turnNo(d.n); if (k) return k; if (drActive(d.n)) return 100; if (d.st === 'break') return 200; return 300; };
+  return drs.slice().sort((a, b) => rank(a) - rank(b));
+}
+const warnedAck = new Set();
+function checkAcks() {
+  const lim = ROT().ackWarnMin;
+  (S.qs || []).forEach(q => {
+    const m = unackMin(q);
+    if (m >= lim && !warnedAck.has(String(q.id))) { warnedAck.add(String(q.id)); beep(); toast(`⏳ ${q.dr} ยังไม่รับคิว ${cleanName(q.n)} (${m} นาที) — เปลี่ยนหมอได้ที่การ์ดคิว`, 'warn'); }
+  });
+}
+
 function staffCard(dr, admin) {
   const q = drActive(dr.n);
   let cls, pill, body = '';
@@ -1821,16 +1852,20 @@ function staffCard(dr, admin) {
     const left = timeLeft(q), pct = Math.min(100, Math.max(2, (1 - left / q.d) * 100));
     cls = left <= 0 ? 'over' : left <= 5 ? 'ending' : 'busy';
     pill = left <= 0 ? `<span class="pill p-bad">เกินเวลา ${-left} น.</span>` : `<span class="pill p-warn">กำลังนวด</span>`;
-    body = `<div class="sj"><b>${esc(q.n)} ${tagBadge(q.n)}</b><span>${tIcon(q.t)} ${esc(tName(q.t))} · ${durLabel(q.d)}</span></div>
+    const um = unackMin(q);
+    if (um >= 0) pill += ` <span class="pill ${um >= ROT().ackWarnMin ? 'p-bad' : 'p-mute'}">⏳ ยังไม่รับคิว ${um} น.</span>`;
+    body = `<div class="sj"><b>${esc(q.n)} ${tagBadge(q.n)}</b><span>${tIcon(q.t)} ${esc(tName(q.t))} · ${durLabel(q.d)}${q.req ? ' · ลูกค้าขอตัว' : ''}</span></div>
       <div class="bar"><i style="width:${pct}%"></i></div>
-      <div class="sm-row"><span class="num left">${left > 0 ? `เหลือ ${left} นาที` : 'หมดเวลาแล้ว'}</span><span class="muted">${esc(q.time)} – ${endTime(q)}</span></div>
-      ${admin ? `<div class="sa"><button class="btn btn-sm" data-act="extend" data-id="${esc(q.id)}">${ic('clock', 16)}ต่อเวลา</button><button class="btn btn-sm btn-ok" data-act="finish" data-id="${esc(q.id)}">${ic('check', 16)}จบงาน</button></div>` : ''}`;
-  } else if (dr.st === 'free') {
-    cls = 'free'; pill = '<span class="pill p-ok">ว่าง</span>';
+      <div class="sm-row"><span class="num left">${q.startTime > now() ? `เตรียมห้อง · เริ่มใน ${Math.ceil((q.startTime - now()) / 60000)} น.` : left > 0 ? `เหลือ ${left} นาที` : 'หมดเวลาแล้ว'}</span><span class="muted">${esc(q.time)} – ${endTime(q)}</span></div>
+      ${admin ? (um >= ROT().ackWarnMin ? `<div class="sa"><button class="btn btn-sm btn-danger" data-act="reassign" data-id="${esc(q.id)}">🔄 เปลี่ยนหมอ</button></div>` : '') + `<div class="sa"><button class="btn btn-sm" data-act="extend" data-id="${esc(q.id)}">${ic('clock', 16)}ต่อเวลา</button><button class="btn btn-sm btn-ok" data-act="finish" data-id="${esc(q.id)}">${ic('check', 16)}จบงาน</button></div>` : ''}`;
+  } else if (dr.st === 'free' && dr.in) {
+    const k = turnNo(dr.n);
+    cls = 'free'; pill = `<span class="pill p-ok">ว่าง · คิวที่ ${k}</span>`;
     body = admin ? `<button class="btn btn-sm btn-ghost btn-block" data-act="walkin" data-dr="${esc(dr.n)}">${ic('plus', 16)}ลงคิวให้ ${esc(dr.n)}</button>` : '';
   } else if (dr.st === 'break') { cls = 'break'; pill = '<span class="pill p-info">☕ พักเบรก</span>'; }
-  else { cls = 'off'; pill = `<span class="pill p-mute">${dr.st === 'busy' ? 'ไม่ว่าง' : 'ไม่อยู่'}</span>`; }
-  return `<div class="card staff s-${cls}"><div class="st-top"><div class="avatar">${esc(initial(dr.n))}</div><div><div class="st-name">${esc(dr.n)}</div>${pill}</div></div>${body}</div>`;
+  else { cls = 'off'; pill = `<span class="pill p-mute">${dr.st === 'busy' ? 'ไม่ว่าง' : 'ยังไม่เช็คชื่อ'}</span>`; if (admin) body = `<button class="btn btn-sm btn-ghost btn-block" data-act="drSt" data-n="${esc(dr.n)}" data-st="free">เช็คชื่อเข้างานแทน</button>`; }
+  const k = turnNo(dr.n);
+  return `<div class="card staff s-${cls}"><div class="st-top"><div class="avatar">${k ? '<span class="num">' + k + '</span>' : esc(initial(dr.n))}</div><div><div class="st-name">${esc(dr.n)}</div>${pill}</div></div>${body}</div>`;
 }
 
 function bookingRow(b, admin) {
@@ -1850,12 +1885,16 @@ function queueCard(q) {
   let st = '';
   if (q.kind === 'reg') st = '<span class="pill p-info">สมัครคอร์ส</span>';
   else if (q.kind === 'ext') st = '<span class="pill p-info">ค่าต่อเวลา</span>';
+  else if (q.status === 'active' && q.startTime > now()) st = `<span class="pill p-info">เตรียมห้อง · เริ่ม ${esc(q.time)}</span>`;
   else if (q.status === 'active') st = left > 0 ? `<span class="pill p-warn">นวดอยู่ · เหลือ ${left} น.</span>` : `<span class="pill p-bad">เกินเวลา ${-left} น.</span>`;
   else st = '<span class="pill p-mute">✓ เสร็จแล้ว</span>';
   const pay = q.paid
     ? `<span class="pill p-ok">${q.pm === 'course' ? 'ใช้คอร์ส' : q.pm === 'qr' ? 'โอนแล้ว' : 'จ่ายสดแล้ว'}</span>`
     : (Number(q.p) > 0 ? `<span class="pill p-bad">ค้าง ${baht(q.p)}</span>` : '');
   const acts = [];
+  const um = unackMin(q);
+  if (um >= 0) st += ` <span class="pill ${um >= ROT().ackWarnMin ? 'p-bad' : 'p-mute'}">⏳ ${esc(q.dr)} ยังไม่รับคิว ${um} น.</span>`;
+  if (um >= 0) acts.push(`<button class="btn btn-sm ${um >= ROT().ackWarnMin ? 'btn-danger' : ''}" data-act="reassign" data-id="${esc(q.id)}">🔄 เปลี่ยนหมอ</button>`);
   if (q.status === 'active') {
     acts.push(`<button class="btn btn-sm" data-act="extend" data-id="${esc(q.id)}">${ic('clock', 16)}ต่อเวลา</button>`);
     acts.push(`<button class="btn btn-sm btn-ok" data-act="finish" data-id="${esc(q.id)}">${ic('check', 16)}จบงาน</button>`);
@@ -1865,7 +1904,7 @@ function queueCard(q) {
   if (q.kind === 'svc') acts.push(`<button class="icon-btn" data-act="tagQ" data-n="${esc(q.n)}" aria-label="แท็กลูกค้า">${ic('tag', 18)}</button>`);
   acts.push(`<button class="icon-btn danger" data-act="delQ" data-id="${esc(q.id)}" aria-label="ลบคิว">${ic('trash', 18)}</button>`);
   return `<div class="card qcard ${q.status === 'active' && q.kind !== 'ext' ? 'is-active' : ''}">
-    <div class="qt"><b class="num">${esc(q.time || '-')}</b><small>${q.status === 'active' ? 'ถึง ' + endTime(q) : ''}</small></div>
+    <div class="qt"><b class="num">${esc(q.time || '-')}</b><small>${q.status === 'active' ? (q.startTime > now() ? 'เตรียมตัว' : 'ถึง ' + endTime(q)) : ''}</small></div>
     <div><div class="qn">${esc(q.n)} ${tagBadge(q.n)}</div><div class="qs">${q.kind === 'reg' ? '' : tIcon(q.t) + ' '}${svcLine(q)}</div>
       ${q.note ? `<div class="qnote">📝 ${esc(q.note)}</div>` : ''}
       <div class="qp">${st}${pay}${q.dr && q.dr !== '-' ? `<span class="muted sm">ค่ามือ ${baht(q.c)}</span>` : ''}</div></div>
@@ -1890,16 +1929,16 @@ function renderApp() {
   const doneUnpaid = st.unpaid.filter(q => q.status === 'done');
   ua.hidden = !doneUnpaid.length;
   if (doneUnpaid.length) ua.innerHTML = `${ic('wallet', 22)}<span class="grow">มีลูกค้านวดเสร็จแต่ยังไม่จ่าย ${doneUnpaid.length} คิว · ${baht(sum(doneUnpaid))}</span>${ic('chev', 18)}`;
-  $('#staff-board').innerHTML = (S.drs || []).map(d => staffCard(d, true)).join('') || empty('ยังไม่มีพนักงาน — เพิ่มได้ที่ เมนู › จัดการพนักงาน', '👥');
+  $('#staff-board').innerHTML = staffOrder(S.drs || []).map(d => staffCard(d, true)).join('') || empty('ยังไม่มีพนักงาน — เพิ่มได้ที่ เมนู › จัดการพนักงาน', '👥');
   const tb = todayBookings();
   $('#home-bk').innerHTML = tb.length ? tb.map(b => bookingRow(b, true)).join('') : empty('ไม่มีนัดหมายวันนี้', '📅');
   $('#bd-queue').textContent = st.active || '';
   $('#bd-pay').textContent = st.unpaid.length || '';
   $('#weak-pass').hidden = !S.weakPass;
 
-  renderQueue(); renderPayList(); renderBookings(); renderMembers(); renderStaffManage(); renderNames();
+  renderQueue(); renderPayList(); renderBookings(); renderMembers(); renderStaffManage(); renderNames(); checkAcks();
 
-  if (W.dr && !isFree(W.dr)) W.dr = '';
+  if (W.dr && W.dr !== AUTO && !isFree(W.dr)) W.dr = AUTO;
   if (isOpen('sh-walk')) $('#w-drs').innerHTML = drChips(W.dr, 'wDr');
   if (isOpen('sh-arrive')) renderArrive();
   if (isOpen('sh-deduct')) renderDeduct();
@@ -1991,11 +2030,12 @@ function renderMembers() {
 }
 
 function renderStaffManage() {
-  $('#staff-manage').innerHTML = (S.drs || []).map(d => {
+  $('#staff-manage').innerHTML = staffOrder(S.drs || []).map(d => {
     const q = drActive(d.n);
-    const sub = q ? `<span class="pill p-warn">กำลังนวด ${esc(q.n)} · เหลือ ${Math.max(0, timeLeft(q))} น.</span>` : `<span class="muted sm">${d.st === 'free' ? 'ว่างรับงาน' : d.st === 'break' ? 'พักเบรก' : 'ไม่อยู่/ไม่รับงาน'}</span>`;
+    const k = turnNo(d.n), inT = d.in && d.inAt ? ' · เข้างาน ' + fmtTime(d.inAt) : '';
+    const sub = q ? `<span class="pill p-warn">กำลังนวด ${esc(q.n)} · เหลือ ${Math.max(0, timeLeft(q))} น.</span>` : `<span class="muted sm">${d.st === 'free' && d.in ? `ว่าง · คิวที่ ${k}` : d.st === 'break' ? 'พักเบรก' : 'ยังไม่เช็คชื่อ / เลิกงาน'}${inT}</span>`;
     return `<div class="card srow"><div class="avatar">${esc(initial(d.n))}</div><div style="min-width:0"><b>${esc(d.n)}</b><div>${sub}</div></div>
-      <div class="seg seg-sm">${[['free', 'ว่าง'], ['break', 'พัก'], ['off', 'ไม่อยู่']].map(([k, l]) => `<button class="${!q && d.st === k ? 'on' : ''}" data-act="drSt" data-n="${esc(d.n)}" data-st="${k}" ${q ? 'disabled' : ''}>${l}</button>`).join('')}</div>
+      <div class="seg seg-sm">${[['free', d.in ? 'ว่าง' : 'เช็คชื่อ'], ['break', 'พัก'], ['off', 'เลิกงาน']].map(([k, l]) => `<button class="${!q && d.st === k ? 'on' : ''}" data-act="drSt" data-n="${esc(d.n)}" data-st="${k}" ${q ? 'disabled' : ''}>${l}</button>`).join('')}</div>
       <button class="icon-btn danger" data-act="rmDr" data-n="${esc(d.n)}" ${q ? 'disabled' : ''} aria-label="ลบพนักงาน">${ic('trash', 18)}</button></div>`;
   }).join('') || empty('ยังไม่มีพนักงาน', '👥');
 }
@@ -2029,17 +2069,21 @@ function renderBoard() {
 
 /* ═════════ doctor chips ═════════ */
 function drChips(sel, act) {
-  return (S.drs || []).map(d => {
-    const q = drActive(d.n), free = d.st === 'free' && !q;
-    const sub = free ? 'ว่าง' : q ? `อีก ${Math.max(0, timeLeft(q))} น.` : d.st === 'break' ? 'พักเบรก' : 'ไม่อยู่';
+  const nx = rotation()[0];
+  const auto = `<button class="chip dr auto ${sel === AUTO ? 'on' : ''}" data-act="${act}" data-n="${AUTO}" ${nx ? '' : 'disabled'}><b>🔄 ตามคิว</b><small>${nx ? 'ได้ ' + esc(nx.n) : 'ไม่มีหมอว่าง'}</small></button>`;
+  const list = staffOrder(S.drs || []).map(d => {
+    const q = drActive(d.n), free = d.st === 'free' && !q && d.in, k = turnNo(d.n);
+    const sub = free ? `คิวที่ ${k}` : q ? `อีก ${Math.max(0, timeLeft(q))} น.` : d.st === 'break' ? 'พักเบรก' : 'ยังไม่เช็คชื่อ';
     return `<button class="chip dr ${sel === d.n ? 'on' : ''}" data-act="${act}" data-n="${esc(d.n)}" ${free ? '' : 'disabled'}><b>${esc(d.n)}</b><small>${sub}</small></button>`;
-  }).join('') || '<div class="muted sm">ยังไม่มีพนักงาน</div>';
+  }).join('');
+  return (S.drs || []).length ? auto + list + `<div class="muted sm" style="width:100%;margin-top:4px">เลือกชื่อ = ลูกค้าขอตัว${ROT().reqKeepsTurn ? ' (หมอไม่เสียคิว)' : ''}</div>` : '<div class="muted sm">ยังไม่มีพนักงาน</div>';
 }
+const drLabel = v => v === AUTO ? (rotation()[0]?.n || '') : v;
 
 /* ═════════ walk-in ═════════ */
 function openWalkin(dr) {
   const first = TYPES.find(t => dursOf(t.k).length) || TYPES[0];
-  W = { t: first.k, d: dursOf(first.k).includes(60) ? 60 : dursOf(first.k)[0], dr: dr && isFree(dr) ? dr : '', touched: false };
+  W = { t: first.k, d: dursOf(first.k).includes(60) ? 60 : dursOf(first.k)[0], dr: dr && isFree(dr) ? dr : AUTO, touched: false };
   $('#w-name').value = ''; $('#w-note').value = ''; $('#w-tag').innerHTML = '';
   renderWalkin();
   openSheet('sh-walk');
@@ -2231,27 +2275,27 @@ function checkBk() {
 /* ═════════ arrive / deduct ═════════ */
 function openArrive(id) {
   const b = (S.bk || []).find(x => x.id === id); if (!b) return;
-  AR = { id, dr: b.dr && isFree(b.dr) ? b.dr : '' };
+  AR = { id, dr: b.dr && isFree(b.dr) ? b.dr : AUTO };
   renderArrive();
   openSheet('sh-arrive');
 }
 function renderArrive() {
   const b = (S.bk || []).find(x => x.id === AR.id);
   if (!b) { closeSheet('sh-arrive'); return; }
-  if (AR.dr && !isFree(AR.dr)) AR.dr = '';
+  if (AR.dr && AR.dr !== AUTO && !isFree(AR.dr)) AR.dr = AUTO;
   const busyNote = b.dr && !isFree(b.dr) ? `<div class="qnote">⚠️ ${esc(b.dr)} ยังไม่ว่าง — เลือกหมอคนอื่นหรือรอสักครู่</div>` : '';
   $('#ar-info').innerHTML = `<div class="avatar">${tIcon(b.t)}</div><div><b>${esc(b.n)} ${tagBadge(b.n)}</b><span class="muted sm">${esc(tName(b.t))} · ${durLabel(b.d)} · ${baht(priceOf(b.t, b.d))} · นัด ${esc(b.time)}</span>${busyNote}</div>`;
   $('#ar-drs').innerHTML = drChips(AR.dr, 'arDr');
 }
 function openDeduct(code) {
   const m = members.find(x => String(x.code) === String(code)); if (!m) return;
-  D = { code: m.code, dr: '', qty: 1 };
+  D = { code: m.code, dr: AUTO, qty: 1 };
   renderDeduct();
   openSheet('sh-deduct');
 }
 function renderDeduct() {
   const m = members.find(x => String(x.code) === String(D.code)); if (!m) return;
-  if (D.dr && !isFree(D.dr)) D.dr = '';
+  if (D.dr && D.dr !== AUTO && !isFree(D.dr)) D.dr = AUTO;
   const rem = m.total - m.used;
   D.qty = Math.max(1, Math.min(D.qty, rem));
   $('#d-info').innerHTML = `<div class="avatar">${esc(initial(m.n))}</div><div><b>${esc(m.n)}</b><span class="muted sm">#${esc(m.code)} · ${esc(m.pkg)}</span><div class="sm">คงเหลือ <b class="num">${rem}</b> ครั้ง → หลังตัด <b class="num gold">${rem - D.qty}</b> ครั้ง</div></div>`;
@@ -2284,6 +2328,7 @@ function fillSettings() {
   $('#pkg-edit').innerHTML = (c.pkgs || []).map(p => pkgRow(p)).join('');
   applyTheme(localStorage.getItem(LS.theme) || 'auto');
   $('#set-sync').checked = autoSync;
+  const r = ROT(); $('#rot-prep').value = r.prepMin; $('#rot-ack').value = r.ackWarnMin; $('#rot-keep').checked = !!r.reqKeepsTurn;
   $('#set-banksound').checked = bankSoundOn;
   updSlipMode();
   updVoiceSt();
@@ -2338,11 +2383,11 @@ const A = {
   saveWalk: (ds, btn) => run(btn, async () => {
     const n = $('#w-name').value.trim();
     if (!n) { $('#w-name').focus(); return toast('ใส่ชื่อลูกค้าก่อน', 'warn'); }
-    if (!W.dr) return toast('เลือกหมอนวดก่อน', 'warn');
-    const dr = W.dr;
-    const j = await api('ADD_QUEUE', { n, dr, t: W.t, d: W.d, p: $('#w-price').value, note: $('#w-note').value.trim() });
+    if (!W.dr || !drLabel(W.dr)) return toast('ยังไม่มีหมอว่าง — เลือกหมอ หรือเช็คชื่อหมอเข้างานก่อน', 'warn');
+    const j = await api('ADD_QUEUE', { n, dr: W.dr, t: W.t, d: W.d, p: $('#w-price').value, note: $('#w-note').value.trim() });
     closeSheet('sh-walk');
-    toast(`✓ ลงคิว ${n} กับ ${dr} แล้ว`, 'ok');
+    const nq = findQ(j.out?.id);
+    toast(`✓ ลงคิว ${n} กับ ${nq?.dr || ''} · เริ่มนวด ${nq?.time || ''}`, 'ok');
     if (ds.pay && j.out?.id) setTimeout(() => openPay(j.out.id), 320);
   }),
 
@@ -2444,7 +2489,7 @@ const A = {
   arrive: ({ id }) => openArrive(id),
   arDr: ({ n }) => { AR.dr = n; renderArrive(); },
   saveArrive: (_, btn) => run(btn, async () => {
-    if (!AR.dr) return toast('เลือกหมอนวดก่อน', 'warn');
+    if (!AR.dr || !drLabel(AR.dr)) return toast('ยังไม่มีหมอว่าง', 'warn');
     await api('ARRIVE_BOOKING', { id: AR.id, dr: AR.dr });
     closeSheet('sh-arrive');
     toast('✓ เข้าคิวแล้ว หมอเตรียมตัวได้เลย', 'ok');
@@ -2467,14 +2512,21 @@ const A = {
   dDr: ({ n }) => { D.dr = n; renderDeduct(); },
   dQty: ({ v }) => { D.qty += Number(v); renderDeduct(); },
   saveDeduct: (_, btn) => run(btn, async () => {
-    if (!D.dr) return toast('เลือกหมอนวดก่อน', 'warn');
+    if (!D.dr || !drLabel(D.dr)) return toast('ยังไม่มีหมอว่าง', 'warn');
     const j = await api('DEDUCT', { code: D.code, dr: D.dr, qty: D.qty });
     closeSheet('sh-deduct');
     toast(`✓ ตัดคอร์ส ${D.qty} ครั้ง · เหลือ ${j.out?.remain ?? '-'} ครั้ง`, 'ok');
   }),
 
   // staff
-  drSt: ({ n, st }, btn) => run(btn, async () => { await api('SET_DR_STATUS', { n, st }); }),
+  drSt: ({ n, st }, btn) => run(btn, async () => { await api('SET_DR_STATUS', { n, st }); if (st === 'free') toast(`✓ ${n} อยู่คิวที่ ${turnNo(n) || '-'}`, 'ok'); }),
+  reassign: async ({ id }, btn) => {
+    const q = findQ(id); if (!q) return;
+    const nx = rotation().filter(d => d.n !== q.dr)[0];
+    if (!nx) return toast('ไม่มีหมอว่างคนอื่นตอนนี้', 'warn');
+    if (!await confirmDlg({ icon: '🔄', title: 'เปลี่ยนหมอ?', msg: `${q.dr} ยังไม่รับคิว ${cleanName(q.n)}\nย้ายให้ ${nx.n} (คิวถัดไป)\n${q.dr} จะไปต่อท้ายคิว`, ok: 'เปลี่ยนให้ ' + nx.n, tone: 'danger' })) return;
+    run(btn, async () => { const j = await api('REASSIGN', { id }); toast(`✓ ย้ายคิวให้ ${j.out?.dr} แล้ว`, 'ok'); });
+  },
   rmDr: async ({ n }, btn) => {
     if (!await confirmDlg({ icon: '👋', title: `ลบ ${n}?`, msg: 'ประวัติใน Sheet ยังอยู่ครบ', ok: 'ลบพนักงาน', tone: 'danger' })) return;
     run(btn, async () => { await api('REMOVE_DR', { n }); toast(`ลบ ${n} แล้ว`); });
@@ -2634,6 +2686,10 @@ const A = {
     const prices = {};
     $$('#price-grid input').forEach(i => { prices[i.dataset.pt] = prices[i.dataset.pt] || {}; if (Number(i.value) > 0) prices[i.dataset.pt][i.dataset.pd] = Number(i.value); });
     await api('SET_CONFIG', { prices }); toast('✓ บันทึกราคาแล้ว', 'ok');
+  }),
+  saveRot: (_, btn) => run(btn, async () => {
+    await api('SET_CONFIG', { rot: { prepMin: $('#rot-prep').value, ackWarnMin: $('#rot-ack').value, reqKeepsTurn: $('#rot-keep').checked } });
+    toast('✓ บันทึกการจัดคิวแล้ว', 'ok');
   }),
   saveComm: (_, btn) => run(btn, async () => {
     await api('SET_CONFIG', { comm: { thaiPerHour: $('#cm-thai').value, herb: $('#cm-herb').value, otherPct: $('#cm-pct').value, courseThai: $('#cm-cthai').value, courseBack: $('#cm-cback').value } });
