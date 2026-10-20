@@ -105,6 +105,36 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 .chip.dr b{font-weight:600;color:var(--ink)}
 .chip.dr.on b{color:var(--gold)}
 .chip.dr.auto{border-style:dashed}
+.smart{margin:-2px 0 14px;padding:12px 14px;border-radius:14px;background:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);font-size:14px;color:var(--ink2)}
+.smart b{color:var(--ink)}
+.smart.warn{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 30%,transparent);margin:10px 0 0;width:100%}
+.smart-h{font-weight:700;color:var(--gold);margin-bottom:2px}
+.smart-n{margin-top:6px;color:var(--warn);font-size:13.5px}
+.smart .btn{margin-top:10px}
+.smart-tip{font-size:13px;color:var(--gold);background:var(--gold-soft);padding:6px 10px;border-radius:10px}
+.ins-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:760px){.ins-grid{grid-template-columns:1fr 1fr}.hero-ins{grid-column:1/-1}}
+.ins{padding:16px 18px}
+.ins-h{font-weight:700;margin-bottom:10px}
+.ins-big{font-size:32px;font-weight:600;color:var(--gold);line-height:1.2;margin-bottom:8px}
+.ins-big.up{color:var(--ok)}.ins-big.down{color:var(--bad)}
+.ins-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.ib{display:grid;grid-template-columns:96px 1fr 64px;align-items:center;gap:10px;font-size:13px;margin:5px 0}
+.ib-l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
+.ib-t{height:10px;border-radius:6px;background:var(--bg2);overflow:hidden}
+.ib-t i{display:block;height:100%;border-radius:6px;background:color-mix(in srgb,var(--gold) 55%,transparent)}
+.ib-t i.hi{background:linear-gradient(90deg,var(--gold2),var(--gold))}
+.ib-v{text-align:right;color:var(--ink2)}
+.lb{display:flex;flex-direction:column}
+.lb-r{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.lb-r:last-child{border:0}
+.lb-r b{flex:1;min-width:90px}
+.lb-i{width:22px;color:var(--gold);font-size:17px}
+.eod{padding:4px 0;color:var(--ink2);font-size:14.5px}
+.sr-list{display:flex;flex-direction:column;gap:6px;max-height:60vh;overflow-y:auto}
+.sr-item{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:11px 14px;border-radius:12px;background:var(--surface2);border:1px solid var(--line)}
+.sr-item:first-child{border-color:var(--gold);background:var(--gold-soft)}
+.sr-item small{color:var(--muted);font-size:12.5px}
 .avatar .num{font-size:19px}
 .chips-sm .chip{padding:5px 11px;font-size:13px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
@@ -603,6 +633,7 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
     <div class="tb-actions">
       <span class="sync" id="sync" data-s="ok" title="สถานะการเชื่อมต่อ"></span>
       <button class="icon-btn" data-act="refresh" aria-label="โหลดข้อมูลล่าสุด"><i class="ic" data-ic="refresh"></i></button>
+      <button class="icon-btn" data-act="search" aria-label="ค้นหา (กด /)"><i class="ic" data-ic="search"></i></button>
       <button class="icon-btn" data-act="custLink" aria-label="จอลูกค้า"><i class="ic" data-ic="monitor"></i></button>
     </div>
   </header>
@@ -615,6 +646,7 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
     <button class="nav-item rail-only" data-act="go" data-tab="booking"><i class="ic" data-ic="cal"></i><span>จองคิว</span></button>
     <button class="nav-item rail-only" data-act="go" data-tab="members"><i class="ic" data-ic="ticket"></i><span>คอร์สสมาชิก</span></button>
     <button class="nav-item rail-only" data-act="go" data-tab="staff"><i class="ic" data-ic="users"></i><span>พนักงาน</span></button>
+    <button class="nav-item rail-only" data-act="go" data-tab="insights"><i class="ic" data-ic="spark"></i><span>อินไซต์</span></button>
     <button class="nav-item" data-act="go" data-tab="more"><i class="ic" data-ic="grid"></i><span>เมนู</span></button>
   </nav>
 
@@ -702,10 +734,18 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
         <button class="card mtile" data-act="checkinOpen"><span class="mt-ic" style="--c:var(--ok)"><i class="ic" data-ic="clock"></i></span><b>ลงเวลาเข้างาน</b><small>ตอกบัตรพนักงาน</small></button>
         <button class="card mtile" data-act="go" data-tab="staff"><span class="mt-ic" style="--c:var(--warn)"><i class="ic" data-ic="users"></i></span><b>จัดการพนักงาน</b><small>สถานะ เพิ่ม/ลบ</small></button>
         <button class="card mtile" data-act="custLink"><span class="mt-ic" style="--c:var(--info)"><i class="ic" data-ic="monitor"></i></span><b>จอลูกค้า</b><small>แสดงยอด + QR</small></button>
+        <button class="card mtile" data-act="go" data-tab="insights"><span class="mt-ic" style="--c:var(--gold)"><i class="ic" data-ic="spark"></i></span><b>อินไซต์อัจฉริยะ</b><small>พยากรณ์ ช่วงพีค ลูกค้าหาย</small></button>
         <button class="card mtile" data-act="go" data-tab="settings"><span class="mt-ic" style="--c:var(--ink2)"><i class="ic" data-ic="sliders"></i></span><b>ตั้งค่าระบบ</b><small>ราคา ค่ามือ พร้อมเพย์</small></button>
         <button class="card mtile" data-act="endDay"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="moon"></i></span><b>ปิดยอดประจำวัน</b><small>สรุป + ล้างคิววันนี้</small></button>
       </div>
       <button class="btn btn-block btn-ghost danger-text" data-act="logout"><i class="ic" data-ic="logout"></i>ออกจากระบบ</button>
+    </section>
+
+    <!-- INSIGHTS -->
+    <section class="view" id="v-insights" hidden>
+      <div class="page-head"><button class="icon-btn" data-act="go" data-tab="more" aria-label="กลับ"><i class="ic" data-ic="back"></i></button><h2>อินไซต์อัจฉริยะ</h2><button class="icon-btn" data-act="insRefresh" aria-label="รีเฟรช"><i class="ic" data-ic="refresh"></i></button></div>
+      <p class="muted sm" id="ins-meta" style="margin:-8px 2px 14px"></p>
+      <div id="ins-body" class="ins-grid"></div>
     </section>
 
     <!-- MEMBERS -->
@@ -834,7 +874,7 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
           <div class="row"><div><b>เสียงแจ้งเตือน</b><div class="muted sm">เมื่อพนักงานกดเรียกแอดมิน</div></div><input type="checkbox" class="switch" id="set-sound"></div>
         </div>
       </div>
-      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v3.5</p>
+      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v3.6</p>
     </section>
   </main>
 </div>
@@ -847,6 +887,7 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
   <div class="sh-head"><h2>ลงคิววอล์คอิน</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
   <label class="field"><span>ชื่อลูกค้า</span><input id="w-name" class="input" placeholder="พิมพ์ชื่อลูกค้า" list="dl-names" autocomplete="off"></label>
   <div id="w-tag"></div>
+  <div id="w-smart"></div>
   <div class="field"><span>บริการ</span><div id="w-types" class="tiles"></div></div>
   <div class="field"><span>ระยะเวลา</span><div id="w-durs" class="chips"></div></div>
   <div class="field"><span>หมอนวด</span><div id="w-drs" class="chips"></div></div>
@@ -1019,6 +1060,12 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
 </div></div>
 <input type="file" id="slip-file" accept="image/*" hidden>
 
+<div class="sheet" id="sh-search" hidden><div class="panel">
+  <div class="grab"></div>
+  <div class="search" style="margin:4px 0 10px"><i class="ic" data-ic="search" data-s="18"></i><input id="sr-in" class="input" placeholder="ค้นหาลูกค้า สมาชิก คิว หรือคำสั่ง…" autocomplete="off"></div>
+  <div id="sr-list" class="sr-list"></div>
+</div></div>
+
 <div class="sheet" id="sh-confirm" hidden><div class="panel narrow">
   <div class="grab"></div>
   <div class="cf-icon" id="cf-icon">❓</div>
@@ -1029,8 +1076,8 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
 
 <div id="alarm" class="alarm" hidden>
   <div class="card">
-    <div class="big">🆘</div>
-    <h2 style="color:var(--bad);margin:6px 0">พนักงานเรียก!</h2>
+    <div class="big" id="al-big">🆘</div>
+    <h2 style="color:var(--bad);margin:6px 0" id="al-title">พนักงานเรียก!</h2>
     <p style="font-size:20px;margin:0">จาก <b class="gold" id="al-name"></b></p>
     <p class="muted">เวลา <span id="al-time"></span></p>
     <button class="btn btn-primary btn-block btn-lg" data-act="ackCall"><i class="ic" data-ic="check"></i>รับทราบ ไปดูเลย</button>
@@ -1320,6 +1367,7 @@ const IC = {
   monitor: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
   ticket: '<path d="M3 9V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a3 3 0 0 0 0 6v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a3 3 0 0 0 0-6z"/><path d="M13 5v2M13 11v2M13 17v2"/>',
   coins: '<circle cx="9" cy="9" r="6"/><path d="M15.1 9.3A6 6 0 1 1 9.3 15.1M7 7h2.5a1.5 1.5 0 0 1 0 3H7v-3zM7 10h3a1.5 1.5 0 0 1 0 3H7"/>',
+  spark: '<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
   moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
   chev: '<path d="m9 18 6-6-6-6"/>',
@@ -1805,6 +1853,7 @@ function go(t) {
   if (t === 'members') pull(true);
   if (t === 'settings') fillSettings();
   if (t === 'booking') initBkForm();
+  if (t === 'insights') { renderInsights(); loadHistory(); if (!members.length) pull(true); }
 }
 
 /* ═════════ render ═════════ */
@@ -1858,6 +1907,7 @@ function staffCard(dr, admin) {
       <div class="bar"><i style="width:${pct}%"></i></div>
       <div class="sm-row"><span class="num left">${q.startTime > now() ? `เตรียมห้อง · เริ่มใน ${Math.ceil((q.startTime - now()) / 60000)} น.` : left > 0 ? `เหลือ ${left} นาที` : 'หมดเวลาแล้ว'}</span><span class="muted">${esc(q.time)} – ${endTime(q)}</span></div>
       ${admin ? (um >= ROT().ackWarnMin ? `<div class="sa"><button class="btn btn-sm btn-danger" data-act="reassign" data-id="${esc(q.id)}">🔄 เปลี่ยนหมอ</button></div>` : '') + `<div class="sa"><button class="btn btn-sm" data-act="extend" data-id="${esc(q.id)}">${ic('clock', 16)}ต่อเวลา</button><button class="btn btn-sm btn-ok" data-act="finish" data-id="${esc(q.id)}">${ic('check', 16)}จบงาน</button></div>` : ''}`;
+    body += upsellTip(q);
   } else if (dr.st === 'free' && dr.in) {
     const k = turnNo(dr.n);
     cls = 'free'; pill = `<span class="pill p-ok">ว่าง · คิวที่ ${k}</span>`;
@@ -1936,10 +1986,10 @@ function renderApp() {
   $('#bd-pay').textContent = st.unpaid.length || '';
   $('#weak-pass').hidden = !S.weakPass;
 
-  renderQueue(); renderPayList(); renderBookings(); renderMembers(); renderStaffManage(); renderNames(); checkAcks();
+  renderQueue(); renderPayList(); renderBookings(); renderMembers(); renderStaffManage(); renderNames(); checkAcks(); smartAlerts(); if (tab === 'insights') renderInsights();
 
   if (W.dr && W.dr !== AUTO && !isFree(W.dr)) W.dr = AUTO;
-  if (isOpen('sh-walk')) $('#w-drs').innerHTML = drChips(W.dr, 'wDr');
+  if (isOpen('sh-walk')) $('#w-drs').innerHTML = drChips(W.dr, 'wDr') + waitHint();
   if (isOpen('sh-arrive')) renderArrive();
   if (isOpen('sh-deduct')) renderDeduct();
   if (isOpen('sh-pay') && !P.done) {
@@ -2042,7 +2092,7 @@ function renderStaffManage() {
 
 let namesKey = '';
 function renderNames() {
-  const set = new Set([...members.map(m => m.n), ...Object.keys(S.ctags || {}), ...(S.qs || []).filter(q => q.kind === 'svc').map(q => q.n)]);
+  const set = new Set([...members.map(m => m.n), ...Object.keys(S.ctags || {}), ...(S.qs || []).filter(q => q.kind === 'svc').map(q => q.n), ...HI.rows.slice().reverse().map(r => r[1])]);
   const key = [...set].join('|');
   if (key === namesKey) return;
   namesKey = key;
@@ -2084,7 +2134,7 @@ const drLabel = v => v === AUTO ? (rotation()[0]?.n || '') : v;
 function openWalkin(dr) {
   const first = TYPES.find(t => dursOf(t.k).length) || TYPES[0];
   W = { t: first.k, d: dursOf(first.k).includes(60) ? 60 : dursOf(first.k)[0], dr: dr && isFree(dr) ? dr : AUTO, touched: false };
-  $('#w-name').value = ''; $('#w-note').value = ''; $('#w-tag').innerHTML = '';
+  $('#w-name').value = ''; $('#w-note').value = ''; $('#w-tag').innerHTML = ''; $('#w-smart').innerHTML = ''; loadHistory();
   renderWalkin();
   openSheet('sh-walk');
   setTimeout(() => $('#w-name').focus(), 350);
@@ -2094,7 +2144,7 @@ function renderWalkin() {
   const ds = dursOf(W.t);
   if (!ds.includes(W.d)) W.d = ds.includes(60) ? 60 : ds[0];
   $('#w-durs').innerHTML = ds.map(d => `<button class="chip ${W.d === d ? 'on' : ''}" data-act="wDur" data-d="${d}">${durLabel(d)} <small>${baht(priceOf(W.t, d))}</small></button>`).join('');
-  $('#w-drs').innerHTML = drChips(W.dr, 'wDr');
+  $('#w-drs').innerHTML = drChips(W.dr, 'wDr') + waitHint();
   $('#w-notes').innerHTML = NOTE_TAGS.map(t => `<button class="chip" data-act="wNote" data-t="${esc(t)}">+ ${esc(t)}</button>`).join('');
   if (!W.touched) $('#w-price').value = priceOf(W.t, W.d);
 }
@@ -2358,6 +2408,7 @@ function checkCalls() {
   const c = token && S ? (S.calls || []).find(x => !acked.has(String(x.id))) : null;
   if (c) {
     $('#al-name').textContent = c.dr; $('#al-time').textContent = c.timeStr || '';
+    $('#al-title').textContent = c.msg || 'พนักงานเรียก!'; $('#al-big').textContent = c.msg ? '📨' : '🆘';
     ov.dataset.id = c.id; ov.hidden = false;
     if (!alarmT) { beep(); alarmT = setInterval(beep, 1600); }
   } else {
@@ -2365,9 +2416,241 @@ function checkCalls() {
   }
 }
 
+/* ═════════════════════════════════════════════════════════════════
+   ผู้ช่วยอัจฉริยะ (หน้าแอดมิน) — 20 ฟังก์ชัน
+   ข้อมูลย้อนหลังมาจากชีต Log ผ่าน GET ?type=history
+   ═════════════════════════════════════════════════════════════════ */
+const HI = { rows: [], at: 0, loading: null };          // แถว: [ts, ลูกค้า, หมอ, ประเภท, นาที, ราคา, วิธีจ่าย, จ่ายแล้ว, หมายเหตุ, ค่ามือ, ชนิด]
+async function loadHistory(force) {
+  if (!token) return;
+  if (!force && HI.at && Date.now() - HI.at < 10 * 60000) return;
+  if (HI.loading) return HI.loading;
+  HI.loading = (async () => {
+    try {
+      const j = await (await fetch(`${SCRIPT_URL}?type=history&days=90&token=${encodeURIComponent(token)}&t=${Date.now()}`)).json();
+      if (j.ok) { HI.rows = j.rows || []; HI.at = Date.now(); namesKey = ''; renderNames(); if (tab === 'insights') renderInsights(); }
+    } catch (e) {} finally { HI.loading = null; }
+  })();
+  return HI.loading;
+}
+const dayStart = (ms = now()) => { const d = new Date(ms); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const pastRows = () => { const t0 = dayStart(); return HI.rows.filter(r => r[0] < t0); };
+const todayRows = () => (S?.qs || []).map(q => [q.startTime || q.queuedAt || now(), cleanName(q.n), q.dr, q.t, q.d, Number(q.p) || 0, q.pm, !!q.paid, q.note || '', Number(q.c) || 0, q.kind]);
+const isVisit = r => r[10] === 'svc' || r[10] === 'course';
+const incomeOf = rs => rs.filter(r => r[7] && r[6] !== 'course').reduce((a, r) => a + r[5], 0);
+const ago = ts => { const d = Math.floor((dayStart() - dayStart(ts)) / 86400000); return d <= 0 ? 'วันนี้' : d === 1 ? 'เมื่อวาน' : d < 30 ? `${d} วันก่อน` : `${Math.floor(d / 30)} เดือนก่อน`; };
+const topKey = o => Object.keys(o).sort((a, b) => o[b] - o[a])[0] || '';
+const fired = new Set();
+const once = (k, fn) => { if (!fired.has(k)) { fired.add(k); fn(); } };
+
+/* ① โปรไฟล์ลูกค้าประจำ */
+function custProfile(name) {
+  name = cleanName(name).trim(); if (!name) return null;
+  const rows = [...pastRows(), ...todayRows()].filter(r => r[1] === name);
+  const vis = rows.filter(isVisit); if (!vis.length) return null;
+  const cnt = {}, drc = {};
+  vis.forEach(r => { cnt[r[3] + '|' + r[4]] = (cnt[r[3] + '|' + r[4]] || 0) + 1; if (r[2] && r[2] !== '-') drc[r[2]] = (drc[r[2]] || 0) + 1; });
+  const [ft, fd] = topKey(cnt).split('|');
+  const notes = [];
+  rows.slice().reverse().forEach(r => (String(r[8]).match(/\[บันทึกหมอ: [^\]]+\]/g) || []).forEach(x => { const v = x.slice(12, -1); if (!notes.includes(v) && notes.length < 3) notes.push(v); }));
+  const spend = incomeOf(rows);
+  return { n: name, visits: vis.length, last: vis[vis.length - 1][0], favT: ft, favD: Number(fd) || 60, favDr: topKey(drc), ext: rows.filter(r => r[10] === 'ext').length, spend, avg: vis.length ? Math.round(spend / vis.length) : 0, notes };
+}
+let smartT = 0;
+function renderWalkSmart() {
+  clearTimeout(smartT);
+  smartT = setTimeout(() => {
+    const el = $('#w-smart'); if (!el) return;
+    const p = custProfile($('#w-name').value);
+    el.innerHTML = p ? `<div class="smart"><div class="smart-h">✨ ลูกค้าประจำ · มาครั้งที่ ${p.visits + 1}</div>
+      <div class="smart-b">ล่าสุด ${ago(p.last)} · ชอบ <b>${esc(tName(p.favT))} ${durLabel(p.favD)}</b>${p.favDr ? ` กับ <b>${esc(p.favDr)}</b>` : ''}${p.avg ? ` · จ่ายเฉลี่ย ${baht(p.avg)}` : ''}${p.ext ? ` · เคยต่อเวลา ${p.ext} ครั้ง` : ''}</div>
+      ${p.notes.length ? `<div class="smart-n">📝 หมอเคยบันทึก: ${p.notes.map(esc).join(' · ')}</div>` : ''}
+      <button class="btn btn-sm btn-primary" data-act="useUsual">⚡ ใช้แบบเดิม</button></div>` : '';
+  }, 220);
+}
+/* ② ใช้แบบเดิม (เติมบริการ เวลา หมอ และโน้ตให้) */
+function useUsual() {
+  const p = custProfile($('#w-name').value); if (!p) return;
+  if (dursOf(p.favT).length) { W.t = p.favT; W.d = dursOf(p.favT).includes(p.favD) ? p.favD : dursOf(p.favT)[0]; }
+  W.dr = p.favDr && isFree(p.favDr) ? p.favDr : AUTO;
+  W.touched = false;
+  if (!$('#w-note').value.trim() && p.notes.length) $('#w-note').value = p.notes[0];
+  renderWalkin();
+  toast(p.favDr && W.dr !== p.favDr ? `เติมให้แล้ว · ${p.favDr} ไม่ว่าง ใช้คิวหมุนแทน` : '✓ เติมแบบเดิมให้แล้ว', 'ok');
+}
+/* ④ คาดเวลารอเมื่อไม่มีหมอว่าง */
+function waitHint() {
+  if (rotation().length) return '';
+  const act = (S.qs || []).filter(q => q.status === 'active' && q.kind !== 'ext').map(q => ({ dr: q.dr, end: q.startTime + q.d * 60000 })).sort((a, b) => a.end - b.end);
+  if (!act.length) return `<div class="smart warn">⚠️ ยังไม่มีหมอเช็คชื่อเข้างาน — ให้หมอเช็คชื่อที่จอห้องพักหรือหน้าพนักงาน</div>`;
+  const m = Math.max(0, Math.ceil((act[0].end - now()) / 60000));
+  return `<div class="smart warn">⏳ ตอนนี้ไม่มีหมอว่าง · คนแรกที่จะว่างคือ <b>${esc(act[0].dr)}</b> ในอีก ~${m} นาที (${fmtTime(act[0].end)})${act[1] ? ` ถัดไป ${esc(act[1].dr)} ~${Math.max(0, Math.ceil((act[1].end - now()) / 60000))} นาที` : ''}</div>`;
+}
+/* ⑤ ชวนต่อเวลา: ลูกค้าที่เคยต่อ ใกล้หมดเวลา */
+function upsellTip(q) {
+  const left = timeLeft(q);
+  if (q.kind === 'ext' || left > 10 || left <= 0) return '';
+  const p = custProfile(q.n);
+  return p && p.ext ? `<div class="smart-tip">💡 เคยต่อเวลา ${p.ext}/${p.visits} ครั้ง — ลองชวนต่อ</div>` : '';
+}
+
+/* ⑮–⑱ แจ้งเตือนอัตโนมัติ */
+function smartAlerts() {
+  if (!S || !token) return;
+  const t = now(), today = todayISO();
+  (S.bk || []).filter(b => b.date === today).forEach(b => {
+    const at = new Date(`${b.date}T${b.time}:00`).getTime();
+    // ⑮ เตือนก่อนลูกค้าจองมา 10 นาที + เช็คว่าหมอที่ขอจะว่างทันไหม
+    if (t >= at - 10 * 60000 && t < at) once('bk10' + b.id, () => {
+      const q = b.dr && drActive(b.dr), freeAt = q ? q.startTime + q.d * 60000 : 0;
+      beep();
+      toast(`📅 อีก ${Math.ceil((at - t) / 60000)} นาที คุณ${b.n} จะมา${b.dr ? ` (ขอ ${b.dr})` : ''}${freeAt > at ? ` ⚠️ ${b.dr} จะว่าง ${fmtTime(freeAt)}` : ''}`, 'warn');
+    });
+    // ⑯ ลูกค้าจองไม่มา
+    if (t >= at + 15 * 60000 && t < at + 2 * 3600000) once('bkns' + b.id, () => toast(`🤔 คุณ${b.n} นัด ${b.time} ยังไม่มา (เลย 15 นาที)${b.phone ? ' · โทร ' + fmtPP(b.phone) : ''}`, 'warn'));
+  });
+  (S.qs || []).forEach(q => {
+    // ⑰ นวดเสร็จแต่ยังไม่จ่าย
+    if (q.status === 'done' && !q.paid && Number(q.p) > 0 && q.doneTime && t - q.doneTime > 5 * 60000 && t - q.doneTime < 3600000)
+      once('unp' + q.id, () => toast(`💰 ${cleanName(q.n)} นวดเสร็จ ${Math.floor((t - q.doneTime) / 60000)} นาทีแล้ว ยังไม่จ่าย ${baht(q.p)}`, 'warn'));
+    // ⑱ เกินเวลานวด
+    const end = q.startTime + q.d * 60000;
+    if (q.status === 'active' && q.kind !== 'ext' && t > end + 60000 && t < end + 30 * 60000)
+      once('ot' + q.id, () => { beep(); toast(`⏰ ${q.dr} เกินเวลานวด ${cleanName(q.n)} แล้ว — จบงานหรือต่อเวลา?`, 'warn'); });
+  });
+}
+
+/* ⑥–⑭ หน้าอินไซต์ */
+function bars(items, fmt = v => v) {
+  const max = Math.max(1, ...items.map(i => i.v));
+  return items.map(i => `<div class="ib"><span class="ib-l">${i.l}</span><span class="ib-t"><i style="width:${Math.max(2, i.v / max * 100)}%" class="${i.hi ? 'hi' : ''}"></i></span><span class="ib-v num">${fmt(i.v)}</span></div>`).join('');
+}
+function renderInsights() {
+  const el = $('#ins-body'); if (!el) return;
+  if (!HI.at) { el.innerHTML = '<div class="empty"><div class="spinner" style="margin:0 auto 10px"></div>กำลังโหลดประวัติ 90 วัน…</div>'; loadHistory(); return; }
+  const past = pastRows(), today = todayRows(), t = now(), t0 = dayStart(t), tod = t - t0;
+  const byDay = {}; past.forEach(r => (byDay[dayStart(r[0])] = byDay[dayStart(r[0])] || []).push(r));
+  const days = Object.keys(byDay).map(Number);
+  const soFar = rs => rs.filter(r => r[0] - dayStart(r[0]) <= tod);
+  const cards = [];
+  const todayInc = incomeOf(today);
+
+  // ⑦ พยากรณ์รายรับวันนี้
+  const sameWd = days.filter(k => new Date(k).getDay() === new Date(t).getDay() && k >= t0 - 35 * 86400000);
+  if (sameWd.length) {
+    const avgAll = sameWd.reduce((a, k) => a + incomeOf(byDay[k]), 0) / sameWd.length;
+    const avgSoFar = sameWd.reduce((a, k) => a + incomeOf(soFar(byDay[k])), 0) / sameWd.length;
+    const proj = Math.round(todayInc + Math.max(0, avgAll - avgSoFar));
+    const pct = avgAll ? Math.min(100, todayInc / Math.max(proj, 1) * 100) : 0;
+    cards.push(`<div class="card ins hero-ins"><div class="ins-h">🔮 คาดการณ์รายรับวันนี้</div><div class="ins-big num">${baht(proj)}</div>
+      <div class="bar"><i style="width:${pct}%"></i></div><div class="muted sm" style="margin-top:6px">ตอนนี้ ${baht(todayInc)} · ค่าเฉลี่ยวัน${new Date(t).toLocaleDateString('th-TH', { weekday: 'long' })} ${baht(avgAll)} (${sameWd.length} สัปดาห์)</div></div>`);
+  }
+  // ⑨ เทียบสัปดาห์ก่อน ณ เวลาเดียวกัน
+  const lw = byDay[t0 - 7 * 86400000];
+  if (lw) {
+    const a = incomeOf(soFar(lw)), d = a ? Math.round((todayInc - a) / a * 100) : 0, jobsL = soFar(lw).filter(isVisit).length, jobsT = today.filter(isVisit).length;
+    cards.push(`<div class="card ins"><div class="ins-h">📈 เทียบ${new Date(t).toLocaleDateString('th-TH', { weekday: 'long' })}ที่แล้ว (ถึงเวลานี้)</div>
+      <div class="ins-row"><div><div class="ins-big num ${d >= 0 ? 'up' : 'down'}">${d >= 0 ? '▲' : '▼'} ${Math.abs(d)}%</div><div class="muted sm">${baht(todayInc)} vs ${baht(a)}</div></div><div style="text-align:right"><div class="num" style="font-size:22px">${jobsT} / ${jobsL}</div><div class="muted sm">คิว วันนี้ / สัปดาห์ก่อน</div></div></div></div>`);
+  }
+  // ⑧ ช่วงเวลาคนเยอะ + แนะนำจำนวนหมอ
+  const recent = past.filter(r => r[0] >= t0 - 28 * 86400000 && isVisit(r));
+  const nDays = new Set(recent.map(r => dayStart(r[0]))).size;
+  if (nDays) {
+    const hrs = {}; recent.forEach(r => { const h = new Date(r[0]).getHours(); hrs[h] = (hrs[h] || 0) + 1; });
+    const hs = Object.keys(hrs).map(Number).sort((a, b) => a - b), from = Math.min(...hs), to = Math.max(...hs);
+    const items = []; for (let h = from; h <= to; h++) items.push({ l: pad(h) + ':00', v: +(((hrs[h] || 0) / nDays).toFixed(1)) });
+    const peak = items.reduce((a, b) => b.v > a.v ? b : a, items[0]);
+    items.forEach(i => i.hi = i === peak);
+    const avgDur = recent.reduce((a, r) => a + (r[4] || 60), 0) / recent.length;
+    const need = Math.max(1, Math.ceil(peak.v * avgDur / 60));
+    cards.push(`<div class="card ins"><div class="ins-h">🕐 ช่วงคนเยอะ (เฉลี่ย 4 สัปดาห์)</div>${bars(items, v => v + ' คิว')}
+      <div class="smart" style="margin-top:12px">ช่วงพีค <b>${peak.l}</b> เฉลี่ย ${peak.v} คิว/ชม. นวดเฉลี่ย ${Math.round(avgDur)} นาที → ควรมีหมออยู่อย่างน้อย <b>${need} คน</b></div></div>`);
+  }
+  // ⑩ บริการขายดี 30 วัน
+  const m30 = [...past.filter(r => r[0] >= t0 - 30 * 86400000), ...today].filter(isVisit);
+  if (m30.length) {
+    const c = {}; m30.forEach(r => c[r[3]] = (c[r[3]] || 0) + 1);
+    cards.push(`<div class="card ins"><div class="ins-h">🏆 บริการยอดนิยม 30 วัน</div>${bars(Object.keys(c).sort((a, b) => c[b] - c[a]).slice(0, 6).map(k => ({ l: tIcon(k) + ' ' + esc(tName(k)), v: c[k] })), v => v + ' คิว')}</div>`);
+    // ⑪ ผลงานหมอ + อัตราลูกค้ากลับมาหาคนเดิม
+    const st = {};
+    m30.forEach(r => { if (!r[2] || r[2] === '-') return; const s = st[r[2]] = st[r[2]] || { jobs: 0, min: 0, c: 0, cust: {} }; s.jobs++; s.min += r[4] || 0; s.c += r[9]; s.cust[r[1]] = (s.cust[r[1]] || 0) + 1; });
+    const rows = Object.keys(st).map(n => { const s = st[n], u = Object.keys(s.cust).length, back = Object.values(s.cust).filter(v => v > 1).length; return { n, ...s, ret: u ? Math.round(back / u * 100) : 0 }; }).sort((a, b) => b.jobs - a.jobs);
+    cards.push(`<div class="card ins"><div class="ins-h">👑 ผลงานหมอ 30 วัน</div><div class="lb">${rows.map((r, i) => `<div class="lb-r"><span class="lb-i num">${i + 1}</span><b>${esc(r.n)}</b><span class="num">${r.jobs} คิว</span><span class="num muted">${Math.round(r.min / 60)} ชม.</span><span class="pill ${r.ret >= 30 ? 'p-ok' : 'p-mute'}">กลับมาซ้ำ ${r.ret}%</span></div>`).join('')}</div>
+      <div class="muted sm" style="margin-top:8px">“กลับมาซ้ำ” = ลูกค้าของหมอคนนั้นที่กลับมาหาคนเดิมอีก — ยิ่งสูงยิ่งดี</div></div>`);
+  }
+  // ⑫ ความยุติธรรมของคิววันนี้
+  const ins = (S.drs || []).filter(d => d.in || drActive(d.n));
+  if (ins.length > 1) {
+    const jc = {}; ins.forEach(d => jc[d.n] = 0); today.filter(isVisit).forEach(r => { if (r[2] in jc) jc[r[2]]++; });
+    const v = Object.values(jc), gap = Math.max(...v) - Math.min(...v);
+    cards.push(`<div class="card ins"><div class="ins-h">⚖️ งานวันนี้ต่อหมอ</div>${bars(Object.keys(jc).map(n => ({ l: esc(n), v: jc[n] })), v => v + ' คิว')}
+      ${gap >= 2 ? `<div class="smart warn" style="margin-top:12px">ห่างกัน ${gap} คิว — ส่วนใหญ่เกิดจากลูกค้าขอตัว ถ้าอยากเกลี่ยงาน ให้เลือก “ตามคิว” บ่อยขึ้น</div>` : '<div class="muted sm" style="margin-top:8px">กระจายงานได้สมดุลดี 👍</div>'}</div>`);
+  }
+  // ⑥ แนะนำติดแท็ก VIP · ⑬ ลูกค้าประจำที่หายไป
+  const cs = {};
+  [...past, ...today].forEach(r => { if (!isVisit(r) && r[10] !== 'ext') return; const c = cs[r[1]] = cs[r[1]] || { n: r[1], v: 0, last: 0, spend: 0 }; if (isVisit(r)) { c.v++; c.last = Math.max(c.last, r[0]); } if (r[7] && r[6] !== 'course') c.spend += r[5]; });
+  const all = Object.values(cs);
+  const vip = all.filter(c => (c.v >= 5 || c.spend >= 3000) && !(S.ctags || {})[c.n]).sort((a, b) => b.spend - a.spend).slice(0, 6);
+  if (vip.length) cards.push(`<div class="card ins"><div class="ins-h">⭐ ควรติดแท็ก VIP</div>${vip.map(c => `<div class="lb-r"><b>${esc(c.n)}</b><span class="muted sm">${c.v} ครั้ง · ${baht(c.spend)}</span><button class="btn btn-sm" data-act="quickVip" data-n="${esc(c.n)}">ติด VIP</button></div>`).join('')}</div>`);
+  const phoneOf = n => (members.find(m => m.n === n) || (S.bk || []).find(b => b.n === n && b.phone) || {}).phone || '';
+  const lost = all.filter(c => c.v >= 3 && t - c.last > 30 * 86400000).sort((a, b) => b.v - a.v).slice(0, 8);
+  if (lost.length) cards.push(`<div class="card ins"><div class="ins-h">📞 ลูกค้าประจำที่หายไป (เกิน 30 วัน)</div>${lost.map(c => { const ph = phoneOf(c.n); return `<div class="lb-r"><b>${esc(c.n)}</b><span class="muted sm">${c.v} ครั้ง · มาล่าสุด ${ago(c.last)}</span>${ph ? `<a class="btn btn-sm" href="tel:${esc(ph)}" style="text-decoration:none">${ic('phone', 14)} โทร</a>` : ''}</div>`; }).join('')}<div class="muted sm" style="margin-top:8px">ลองโทรชวนกลับมา หรือเสนอโปรพิเศษ</div></div>`);
+  // ⑭ สมาชิกคอร์สใกล้หมด
+  const low = members.filter(m => m.total - m.used <= 1).sort((a, b) => (a.total - a.used) - (b.total - b.used));
+  if (low.length) cards.push(`<div class="card ins"><div class="ins-h">🎟️ คอร์สใกล้หมด — เสนอต่อคอร์ส</div>${low.slice(0, 8).map(m => `<div class="lb-r"><b>${esc(m.n)}</b><span class="pill ${m.total - m.used <= 0 ? 'p-bad' : 'p-warn'}">${m.total - m.used <= 0 ? 'หมดแล้ว' : 'เหลือ 1 ครั้ง'}</span>${m.phone ? `<a class="btn btn-sm" href="tel:${esc(m.phone)}" style="text-decoration:none">${ic('phone', 14)} โทร</a>` : ''}</div>`).join('')}</div>`);
+
+  el.innerHTML = cards.join('') || empty('ยังมีข้อมูลน้อย — ใช้งานไปสักสัปดาห์ อินไซต์จะเริ่มขึ้น', '📊');
+  $('#ins-meta').textContent = `ข้อมูล ${days.length} วันย้อนหลัง · อัปเดต ${fmtTime(HI.at)}`;
+}
+
+/* ⑲ อินไซต์ตอนปิดยอด */
+function eodInsight() {
+  const today = todayRows().filter(isVisit), out = [];
+  if (!today.length) return '';
+  const hrs = {}; today.forEach(r => { const h = new Date(r[0]).getHours(); hrs[h] = (hrs[h] || 0) + 1; });
+  const ph = topKey(hrs); if (ph) out.push(`ช่วงที่ยุ่งที่สุด <b>${pad(+ph)}:00–${pad(+ph + 1)}:00</b> (${hrs[ph]} คิว)`);
+  const dj = {}; today.forEach(r => { if (r[2] && r[2] !== '-') dj[r[2]] = (dj[r[2]] || 0) + 1; });
+  const td = topKey(dj); if (td) out.push(`หมอที่รับงานมากสุด <b>${esc(td)}</b> (${dj[td]} คิว)`);
+  const sameWd = Object.entries(pastRows().reduce((o, r) => { const k = dayStart(r[0]); if (new Date(k).getDay() === new Date().getDay()) (o[k] = o[k] || []).push(r); return o; }, {}));
+  if (sameWd.length) {
+    const avg = sameWd.reduce((a, [, rs]) => a + incomeOf(rs), 0) / sameWd.length, inc = incomeOf(todayRows());
+    if (avg && inc) out.push(`รายรับ${inc >= avg ? 'สูง' : 'ต่ำ'}กว่าค่าเฉลี่ยวันเดียวกัน <b>${Math.abs(Math.round((inc - avg) / avg * 100))}%</b>`);
+  }
+  const newC = today.filter(r => !pastRows().some(p => p[1] === r[1])).length;
+  out.push(`ลูกค้าใหม่ <b>${newC}</b> คน · ลูกค้าเก่า <b>${today.length - newC}</b> คน`);
+  return `<div class="card ins" style="margin-top:12px"><div class="ins-h">🧠 สรุปอัจฉริยะ</div>${out.map(x => `<div class="eod">• ${x}</div>`).join('')}</div>`;
+}
+
+/* ⑳ ค้นหาด่วน (กด / หรือ Ctrl+K) */
+const QUICK = [
+  ['➕ ลงคิววอล์คอิน', () => openWalkin()], ['📅 จองคิวล่วงหน้า', () => go('booking')], ['💰 รับเงิน', () => go('pay')],
+  ['🎟️ คอร์สสมาชิก', () => go('members')], ['📊 อินไซต์', () => go('insights')], ['👥 พนักงาน / เช็คชื่อ', () => go('staff')],
+  ['🖥️ จอลูกค้า', () => A.custLink()], ['💵 ค่ามือหมอ', () => openComm()], ['⚙️ ตั้งค่า', () => go('settings')], ['🌙 ปิดยอดประจำวัน', () => A.endDay({}, null)]
+];
+let SR = [];
+function openSearch() { $('#sr-in').value = ''; renderSearch(); openSheet('sh-search'); setTimeout(() => $('#sr-in').focus(), 300); loadHistory(); }
+function renderSearch() {
+  const q = $('#sr-in').value.trim().toLowerCase(), res = [];
+  QUICK.forEach(([l, fn]) => { if (!q || l.toLowerCase().includes(q)) res.push({ ic: '', l, sub: 'คำสั่ง', fn }); });
+  if (q) {
+    (S.qs || []).filter(x => (x.n + ' ' + x.dr).toLowerCase().includes(q)).slice(0, 5).forEach(x => res.push({ l: cleanName(x.n), sub: `คิววันนี้ · ${x.dr} · ${x.paid ? 'จ่ายแล้ว' : 'ยังไม่จ่าย ' + baht(x.p)}`, fn: () => (!x.paid && x.p > 0 ? openPay(x.id) : go('queue')) }));
+    members.filter(m => `${m.n} ${m.code} ${m.phone}`.toLowerCase().includes(q)).slice(0, 4).forEach(m => res.push({ l: m.n, sub: `สมาชิก #${m.code} · เหลือ ${m.total - m.used} ครั้ง`, fn: () => openDeduct(m.code) }));
+    const names = new Set([...HI.rows.map(r => r[1]), ...Object.keys(S.ctags || {})]);
+    [...names].filter(n => n.toLowerCase().includes(q)).slice(0, 6).forEach(n => { const p = custProfile(n); res.push({ l: n, sub: p ? `ลูกค้า · ${p.visits} ครั้ง · ล่าสุด ${ago(p.last)} — แตะเพื่อลงคิว` : 'ลูกค้า — แตะเพื่อลงคิว', fn: () => { openWalkin(); $('#w-name').value = n; showTag('#w-tag', n); renderWalkSmart(); } }); });
+    if (!names.has($('#sr-in').value.trim())) res.push({ l: `➕ ลงคิวลูกค้าใหม่ “${$('#sr-in').value.trim()}”`, sub: 'วอล์คอิน', fn: () => { const n = $('#sr-in').value.trim(); openWalkin(); $('#w-name').value = n; } });
+  }
+  SR = res.slice(0, 14);
+  $('#sr-list').innerHTML = SR.map((r, i) => `<button class="sr-item" data-act="srGo" data-i="${i}"><b>${esc(r.l)}</b><small>${esc(r.sub)}</small></button>`).join('') || '<div class="muted sm pad">ไม่พบ</div>';
+}
+
 /* ═════════ actions ═════════ */
 const A = {
   go: ({ tab }) => go(tab),
+  useUsual: () => useUsual(),
+  search: () => openSearch(),
+  srGo: ({ i }) => { const r = SR[Number(i)]; closeSheet('sh-search'); if (r) setTimeout(r.fn, 260); },
+  insRefresh: (_, btn) => run(btn, async () => { await Promise.all([loadHistory(true), pull(true)]); renderInsights(); }),
+  quickVip: ({ n }, btn) => run(btn, async () => { await api('SET_TAG', { name: n, tag: '⭐ VIP' }); toast(`✓ ติด VIP ให้ ${n}`, 'ok'); renderInsights(); }),
   close: (_, el) => closeSheet(el.closest('.sheet').id),
   cfOk: () => { const r = confirmResolve; confirmResolve = null; closeSheet('sh-confirm'); r && r(true); },
   retry: () => boot(),
@@ -2552,11 +2835,12 @@ const A = {
     const msg = `รายรับ ${baht(st.income)} · ${st.jobs} คิว` + (st.unpaid.length ? `\n⚠️ ยังมีค้างชำระ ${st.unpaid.length} คิว (${baht(st.unpaidSum)}) — จะถูกล้างออกจากหน้าจอด้วย` : '') + `\nสรุปยอดจะบันทึกลงชีต Summary_สรุปรายวัน`;
     if (!await confirmDlg({ icon: '🌙', title: 'ปิดยอดประจำวัน?', msg, ok: 'ปิดยอด', tone: 'danger' })) return;
     run(btn, async () => {
+      const smartEod = eodInsight();
       const j = await api('END_OF_DAY');
       const s = j.out?.summary || {};
       $('#sum-body').innerHTML = `<div class="hero" style="margin-bottom:12px"><div class="hero-top"><span>รายรับรวม</span><span>${esc(s.date || '')}</span></div><div class="hero-amt num">${baht(s.income)}</div><div class="hero-split"><span>สแกน<b class="num">${baht(s.qr)}</b></span><span>เงินสด<b class="num">${baht(s.cash)}</b></span></div></div>
         <div class="card list"><div class="row"><span>คิวนวด</span><b class="num">${s.jobs || 0}</b></div><div class="row"><span>ตัดคอร์ส</span><b class="num">${s.course || 0}</b></div><div class="row"><span>ค้างชำระ</span><b class="num ${s.unpaid ? 'bad' : ''}">${baht(s.unpaid)}</b></div><div class="row"><span>ค่ามือรวม</span><b class="num">${baht(s.commTotal)}</b></div>
-        ${Object.entries(s.comm || {}).map(([n, v]) => `<div class="row"><span class="muted">· ${esc(n)}</span><span class="num">${baht(v)}</span></div>`).join('')}</div>`;
+        ${Object.entries(s.comm || {}).map(([n, v]) => `<div class="row"><span class="muted">· ${esc(n)}</span><span class="num">${baht(v)}</span></div>`).join('')}</div>${smartEod}`;
       openSheet('sh-summary');
     });
   },
@@ -2713,7 +2997,7 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('input', e => {
   const id = e.target.id;
-  if (id === 'w-name') showTag('#w-tag', e.target.value);
+  if (id === 'w-name') { showTag('#w-tag', e.target.value); renderWalkSmart(); }
   else if (id === 'w-price') W.touched = true;
   else if (id === 'p-amt') { renderPay(); castSoon(); }
   else if (id === 'p-recv') renderPay();
@@ -2722,6 +3006,7 @@ document.addEventListener('input', e => {
     const ph = e.target.value.replace(/\D/g, '');
     if (ph.length >= 9) { const m = members.find(x => x.phone === ph); if (m && $('#bk-name').value !== m.n) { $('#bk-name').value = m.n; showTag('#bk-tag', m.n); toast(`พบสมาชิก: ${m.n}`, 'ok'); } }
   }
+  else if (id === 'sr-in') renderSearch();
   else if (id === 'mem-search') { memQuery = e.target.value; renderMembers(); }
   else if (['bk-time', 'bk-date'].includes(id)) checkBk();
 });
@@ -2753,6 +3038,8 @@ document.addEventListener('change', e => {
   else if (id === 'set-sound') { soundOn = e.target.checked; localStorage.setItem(LS.sound, soundOn ? '1' : '0'); if (soundOn) beep(); }
 });
 document.addEventListener('keydown', e => {
+  if (token && ((e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) || (e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey)))) { e.preventDefault(); openSearch(); return; }
+  if (e.key === 'Enter' && e.target.id === 'sr-in' && SR[0]) { closeSheet('sh-search'); setTimeout(SR[0].fn, 260); return; }
   if (e.key === 'Escape') { const open = $$('.sheet.open'); if (open.length) closeSheet(open[open.length - 1].id); }
   if (e.key === 'Enter' && e.target.id === 'lg-pass') A.doLogin({}, $('#lg-btn'));
   if (e.key === 'Enter' && e.target.id === 'new-dr') A.addDr({}, e.target.nextElementSibling);
