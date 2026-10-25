@@ -796,6 +796,12 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
       <div class="set-group"><h4>ราคาบริการ (บาท) — เว้นว่าง = ไม่เปิดขายระยะเวลานั้น</h4>
         <div class="card form"><div class="table-wrap" id="price-grid"></div><button class="btn btn-primary btn-block" data-act="savePrices">บันทึกราคา</button></div>
       </div>
+      <div class="set-group"><h4>แจ้งเตือนเด้งเข้ามือถือ (แอป Median)</h4>
+        <div class="card form">
+          <div id="push-st"></div>
+          <button class="btn btn-ghost btn-block" data-act="testPush">🔔 ส่งแจ้งเตือนทดสอบมาที่เครื่องนี้</button>
+        </div>
+      </div>
       <div class="set-group"><h4>การจัดคิวหมอ</h4>
         <div class="card form">
           <div class="grid2">
@@ -1838,7 +1844,36 @@ function sessionExpired() {
 }
 
 /* ═════════ shell / navigation ═════════ */
+/* ═════════ แอป Median + OneSignal: ลงทะเบียนเครื่องนี้ให้รับแจ้งเตือน ═════════ */
+const PUSH = { linked: '', asked: false, pending: null };
+const utf8hex = s => [...new TextEncoder().encode(String(s))].map(b => b.toString(16).padStart(2, '0')).join('');
+const drExt = n => 'dr_' + utf8hex(n);              // ต้องตรงกับ extId() ใน Code.gs
+const inApp = () => !!(window.median && window.median.onesignal);
+function pushLink(ext) {
+  const go = () => {
+    try {
+      median.onesignal.login(ext);
+      if (!PUSH.asked) { PUSH.asked = true; median.onesignal.register(); }   // ขอสิทธิ์แจ้งเตือน (ครั้งเดียว)
+      PUSH.linked = ext;
+    } catch (e) {}
+    updPushSt();
+  };
+  if (inApp()) go(); else PUSH.pending = go;
+  updPushSt();
+}
+function pushUnlink() { try { if (inApp()) median.onesignal.logout(); } catch (e) {} PUSH.linked = ''; PUSH.pending = null; }
+window.median_library_ready = () => { if (PUSH.pending) { const f = PUSH.pending; PUSH.pending = null; f(); } updPushSt(); };
+if (window.median) setTimeout(() => window.median_library_ready(), 0);
+function updPushSt() {
+  const el = $('#push-st'); if (!el) return;
+  const ready = S?.pushReady;
+  el.className = 'smart' + (inApp() && PUSH.linked && ready ? '' : ' warn');
+  el.style.margin = '0 0 12px';
+  el.innerHTML = !ready ? '⚙️ ยังไม่ได้ตั้งค่า OneSignal ใน Apps Script (ONESIGNAL_APP_ID / ONESIGNAL_KEY)'
+    : !inApp() ? '📵 เปิดผ่านเบราว์เซอร์อยู่ — เปิดผ่านแอปของร้านเพื่อรับแจ้งเตือนเด้ง' : PUSH.linked ? '✅ เครื่องนี้รับแจ้งเตือนของแอดมินแล้ว (หมอเรียก / หมอไม่รับคิว / ลูกค้าจองใกล้มา)' : '⏳ กำลังเชื่อม…';
+}
 function showShell() {
+  if (token) pushLink('spa_admin');
   $('#app').hidden = !token;
   $('#board').hidden = !!token;
   if (!token) keepAwake();
@@ -2380,7 +2415,7 @@ function fillSettings() {
   $('#set-sync').checked = autoSync;
   const r = ROT(); $('#rot-prep').value = r.prepMin; $('#rot-ack').value = r.ackWarnMin; $('#rot-keep').checked = !!r.reqKeepsTurn;
   $('#set-banksound').checked = bankSoundOn;
-  updSlipMode();
+  updSlipMode(); updPushSt();
   updVoiceSt();
   $('#set-sound').checked = soundOn;
 }
@@ -2847,7 +2882,7 @@ const A = {
   logout: async () => {
     if (!await confirmDlg({ icon: '🚪', title: 'ออกจากระบบ?', msg: 'เครื่องนี้จะกลับไปเป็นหน้าจอคิวสำหรับพนักงาน', ok: 'ออกจากระบบ', tone: 'danger' })) return;
     api('LOGOUT').catch(() => {});
-    token = ''; localStorage.removeItem(LS.token);
+    pushUnlink(); token = ''; localStorage.removeItem(LS.token);
     showShell(); pull(true);
   },
   login: () => { openSheet('sh-login'); setTimeout(() => $('#lg-pass').focus(), 350); },
@@ -2970,6 +3005,10 @@ const A = {
     const prices = {};
     $$('#price-grid input').forEach(i => { prices[i.dataset.pt] = prices[i.dataset.pt] || {}; if (Number(i.value) > 0) prices[i.dataset.pt][i.dataset.pd] = Number(i.value); });
     await api('SET_CONFIG', { prices }); toast('✓ บันทึกราคาแล้ว', 'ok');
+  }),
+  testPush: (_, btn) => run(btn, async () => {
+    const j = await api('TEST_PUSH');
+    toast(j.recipients === 0 ? 'ส่งแล้ว แต่ยังไม่พบเครื่องแอดมินที่ลงทะเบียน — เปิดผ่านแอปแล้วกดอนุญาตแจ้งเตือน' : '✓ ส่งแล้ว', j.recipients === 0 ? 'warn' : 'ok');
   }),
   saveRot: (_, btn) => run(btn, async () => {
     await api('SET_CONFIG', { rot: { prepMin: $('#rot-prep').value, ackWarnMin: $('#rot-ack').value, reqKeepsTurn: $('#rot-keep').checked } });
