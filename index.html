@@ -317,7 +317,7 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
 .ptable td{padding:4px}
 .ptable .input{text-align:center}
 .pkg-edit{padding:12px;border-radius:16px;background:var(--surface2);border:1px solid var(--line);margin-bottom:10px}
-.pkg-edit-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end;margin-top:8px}
+.pkg-edit-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr auto;gap:8px;align-items:end;margin-top:8px}
 .pkg-edit-row label span{display:block;font-size:11.5px;color:var(--muted);margin-bottom:2px}
 @media(max-width:520px){.pkg-edit-row{grid-template-columns:1fr 1fr}.pkg-edit-row .icon-btn{grid-column:1/-1;width:100%}}
 
@@ -620,6 +620,73 @@ body.is-cashier .owner-only{display:none!important}
 .risk small{display:block;color:var(--muted);font-size:12.5px}
 textarea.input{height:auto;padding:12px 14px;line-height:1.5}
 @media print{body.print-report>*:not(#print-area){display:none!important}#print-area .rep{font-family:'IBM Plex Sans Thai',sans-serif;color:#111}#print-area .rep table{width:100%;border-collapse:collapse;font-size:12px}#print-area .rep td,#print-area .rep th{border:1px solid #ccc;padding:4px 6px;text-align:right}#print-area .rep td:first-child,#print-area .rep th:first-child{text-align:left}}
+
+/* ---------- v5.0 ---------- */
+body.bigui .main,body.bigui .panel{zoom:1.13}
+.qsvc{display:flex;gap:8px;overflow-x:auto;margin:12px -16px 0;padding:2px 16px;scrollbar-width:none}
+.qsvc::-webkit-scrollbar{display:none}
+.qsvc button{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start;padding:10px 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);font-size:13px;color:var(--ink2);min-width:120px;text-align:left}
+.qsvc button b{font-size:14.5px;color:var(--ink)}
+.chk{padding:14px 16px;margin-top:12px}
+.chk-h{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin-bottom:6px}
+.chk-i{display:flex;align-items:center;gap:10px;width:100%;padding:9px 2px;border:0;background:none;border-bottom:1px solid var(--line);font-size:14.5px;text-align:left;color:var(--ink)}
+.chk-i:last-child{border:0}
+.chk-i span{width:22px;height:22px;border-radius:7px;border:2px solid var(--line2);display:grid;place-items:center;font-size:13px;color:#fff;flex-shrink:0}
+.chk-i.on{color:var(--muted);text-decoration:line-through}.chk-i.on span{background:var(--ok);border-color:var(--ok)}
+.wrow{display:grid;grid-template-columns:34px 1fr;gap:4px 12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.wrow:last-child{border:0}
+.wrow .no{font-family:'Kanit',sans-serif;font-size:20px;color:var(--gold);text-align:center}
+.wrow .r{display:flex;gap:6px;grid-column:2/-1;justify-content:flex-end}
+@media(min-width:640px){.wrow{grid-template-columns:34px 1fr auto}.wrow .r{grid-column:auto}}
+.tl{position:relative;padding-left:18px;margin:6px 0}
+.tl::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line2)}
+.tl-i{position:relative;padding:6px 0 10px;font-size:14px}
+.tl-i::before{content:'';position:absolute;left:-17px;top:11px;width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.tl-i small{display:block;color:var(--muted);font-size:12.5px}
+.prof-top{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.prof-top .avatar{width:56px;height:56px;font-size:22px;border-radius:18px}
+.prof-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.prof-kpi div{padding:10px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);text-align:center}
+.prof-kpi b{display:block;font-family:'Kanit',sans-serif;font-size:19px;color:var(--gold)}
+.prof-kpi span{font-size:12px;color:var(--muted)}
+.vrow{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.vrow:last-child{border:0}
+.msg-i{padding:12px 14px;border-bottom:1px solid var(--line)}
+.msg-i:last-child{border:0}
+.msg-i small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
+.ros{overflow-x:auto}
+.ros table{border-collapse:collapse;font-size:13px;min-width:520px;width:100%}
+.ros th{font-size:12px;color:var(--muted);font-weight:600;padding:6px 4px}
+.ros td{padding:4px;text-align:center;border-top:1px solid var(--line)}
+.ros td:first-child{text-align:left;font-weight:600;white-space:nowrap;padding-right:10px}
+.ros button{width:34px;height:30px;border-radius:9px;border:1.5px solid var(--line);background:var(--surface2);font-size:13px;color:var(--muted)}
+.ros button.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.lockov{position:fixed;inset:0;z-index:950;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px}
+.lockov .card{width:100%;max-width:360px;padding:26px 22px;text-align:center}
+.toast.act{pointer-events:auto}
+.toast .tb{margin-left:auto;background:rgba(255,255,255,.22);border:0;color:inherit;font-weight:700;padding:6px 12px;border-radius:10px}
+.addons .chip.on{border-color:var(--info);background:var(--info-soft);color:var(--info)}
+.stepper.sm b{font-size:24px;min-width:40px}.stepper.sm .icon-btn{width:40px;height:40px}
+.rc-qr{text-align:center;margin-top:14px}.rc-qr img{width:130px;height:130px;background:#fff;padding:6px;border-radius:12px;image-rendering:pixelated}
+.guide details{padding:14px 16px;margin-bottom:10px}
+.guide summary{font-weight:700;cursor:pointer}
+.guide ol,.guide ul{margin:10px 0 0;padding-left:20px;font-size:14px;color:var(--ink2)}
+.guide li{margin-bottom:5px}
+.mchart{display:flex;align-items:flex-end;gap:6px;height:150px;padding:6px 0 0}
+.mchart .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%;min-width:0}
+.mchart .bars{display:flex;align-items:flex-end;gap:2px;width:100%;height:100%;justify-content:center}
+.mchart i{display:block;width:45%;border-radius:5px 5px 2px 2px;background:var(--gold)}
+.mchart i.prev{background:var(--line2)}
+.mchart span{font-size:10.5px;color:var(--muted);white-space:nowrap}
+/* หน้าสาธารณะ: ใบเสร็จ / ดูคิว */
+.pub{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px;background:radial-gradient(120% 90% at 50% 0%,#3B2A10 0%,#161109 55%,#0B0905 100%);color:#F7EEDC}
+.pub .box{width:100%;max-width:380px;text-align:center}
+.pub .big{font-family:'Kanit',sans-serif;font-size:64px;color:#F3D489;line-height:1.1}
+.pub .st{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.pub .st div{padding:14px;border-radius:18px;background:rgba(255,240,210,.06);border:1px solid rgba(232,198,110,.2)}
+.pub .st b{display:block;font-family:'Kanit',sans-serif;font-size:30px;color:#F3D489}
+.pub .st span{font-size:13px;color:#BDAF95}
+.pub p{color:#BDAF95}
 /* จอลูกค้า v4 */
 .cd-promo{margin-top:3vmin;font-size:3.8vmin;color:#F3D489;min-height:5vmin;-webkit-transition:opacity .6s;transition:opacity .6s}
 .cd-waitline{margin-top:1.6vmin;font-size:3.2vmin;color:#7BE0A6}
@@ -686,6 +753,15 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
   <div class="cd-off" id="cd-off" hidden>⚠️ ขาดการเชื่อมต่อ กำลังลองใหม่…</div>
 </div>
 
+<div id="pub" class="pub" hidden></div>
+<div id="lockov" class="lockov" hidden><div class="card">
+  <div style="font-size:44px">🔒</div><h2 style="margin:6px 0">ล็อกหน้าจอแล้ว</h2>
+  <p class="muted sm" id="lk-who" style="margin:0 0 16px">ไม่ได้ใช้งานนาน ใส่รหัสเพื่อใช้ต่อ</p>
+  <input id="lk-pass" class="input" type="password" autocomplete="current-password" style="text-align:center;letter-spacing:.2em;margin-bottom:12px">
+  <button class="btn btn-primary btn-block btn-lg" data-act="unlock" id="lk-btn">ปลดล็อก</button>
+  <button class="link" data-act="lockLogout" style="margin-top:10px">ออกจากระบบ</button>
+</div></div>
+
 <!-- ═════════════ PUBLIC BOARD (ไม่ได้ล็อกอิน) ═════════════ -->
 <div id="board" class="board" hidden>
   <header class="b-head">
@@ -717,6 +793,7 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
       <span class="sync" id="sync" data-s="ok" title="สถานะการเชื่อมต่อ"></span>
       <button class="icon-btn" data-act="refresh" aria-label="โหลดข้อมูลล่าสุด"><i class="ic" data-ic="refresh"></i></button>
       <button class="icon-btn" data-act="search" aria-label="ค้นหา (กด /)"><i class="ic" data-ic="search"></i></button>
+      <button class="icon-btn" data-act="voiceGo" id="vg-btn" aria-label="สั่งงานด้วยเสียง">🎙️</button>
       <button class="icon-btn" data-act="custLink" aria-label="จอลูกค้า"><i class="ic" data-ic="monitor"></i></button>
     </div>
   </header>
@@ -758,6 +835,9 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
         <button class="qa-btn" data-act="go" data-tab="members"><i class="ic" data-ic="ticket"></i><span>คอร์ส<br>สมาชิก</span></button>
         <button class="qa-btn" data-act="commOpen"><i class="ic" data-ic="coins"></i><span>ค่ามือ<br>หมอ</span></button>
       </div>
+      <div class="qsvc" id="quick-svc"></div>
+      <div id="chk-card"></div>
+      <div id="home-wait"></div>
       <div class="sec-head"><h3>หมอนวด</h3><button class="link" data-act="go" data-tab="staff">จัดการ</button></div>
       <div id="staff-board" class="staff-grid"></div>
       <div class="sec-head"><h3>นัดหมายวันนี้</h3><button class="link" data-act="go" data-tab="booking">ดูทั้งหมด</button></div>
@@ -767,6 +847,8 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
     <!-- QUEUE -->
     <section class="view" id="v-queue" hidden>
       <div class="page-head"><h2>คิววันนี้</h2><button class="btn btn-sm btn-primary" data-act="walkin"><i class="ic" data-ic="plus" data-s="16"></i>ลงคิว</button></div>
+      <div class="sec-head" style="margin-top:4px"><h3>รายชื่อรอคิว <span class="muted sm" id="wait-n"></span></h3><button class="btn btn-sm" data-act="waitOpen"><i class="ic" data-ic="plus" data-s="16"></i>เพิ่มคนรอ</button></div>
+      <div id="wait-list" class="card list" style="margin-bottom:16px"></div>
       <div class="chips scroll-x" id="qf"></div>
       <div id="q-list" class="stack"></div>
     </section>
@@ -774,6 +856,7 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
     <!-- PAY -->
     <section class="view" id="v-pay" hidden>
       <div class="page-head"><h2>รับชำระเงิน</h2></div>
+      <div class="btn-row" style="margin:-4px 0 4px"><button class="btn grow" data-act="itemOpen">🧴 ขายสินค้า</button><button class="btn grow" data-act="gvOpen">🎁 บัตรของขวัญ</button></div>
       <div class="sub-label">รอชำระ</div>
       <div id="pay-list" class="stack"></div>
       <div class="sub-label">เงินเข้าบัญชีล่าสุด (ตรวจจับอัตโนมัติ)</div>
@@ -822,6 +905,8 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
         <button class="card mtile" data-act="go" data-tab="money"><span class="mt-ic" style="--c:var(--ok)"><i class="ic" data-ic="wallet"></i></span><b>การเงิน</b><small>รายจ่าย ปิดกะ กำไร ค่ามือ</small></button>
         <button class="card mtile owner-only" data-act="go" data-tab="guard"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="shield"></i></span><b>ศูนย์กันโกง</b><small>ความเสี่ยง วินัย บันทึกแก้ไข</small></button>
         <button class="card mtile" data-act="go" data-tab="stock"><span class="mt-ic" style="--c:var(--info)"><i class="ic" data-ic="box"></i></span><b>สต็อกของใช้</b><small>ตัดอัตโนมัติ เตือนใกล้หมด</small></button>
+        <button class="card mtile" data-act="stQR"><span class="mt-ic" style="--c:var(--ok)"><i class="ic" data-ic="qr"></i></span><b>QR ดูคิว (ลูกค้า)</b><small>ลูกค้าสแกนดูเวลารอเอง</small></button>
+        <button class="card mtile" data-act="go" data-tab="guide"><span class="mt-ic" style="--c:var(--info)"><i class="ic" data-ic="list"></i></span><b>คู่มือการใช้งาน</b><small>สำหรับพนักงานใหม่</small></button>
         <button class="card mtile" data-act="ckQR"><span class="mt-ic" style="--c:var(--gold)"><i class="ic" data-ic="qr"></i></span><b>QR เช็คชื่อ</b><small>ให้หมอสแกนตอนมาถึงร้าน</small></button>
         <button class="card mtile owner-only" data-act="go" data-tab="settings"><span class="mt-ic" style="--c:var(--ink2)"><i class="ic" data-ic="sliders"></i></span><b>ตั้งค่าระบบ</b><small>ราคา ค่ามือ ความปลอดภัย</small></button>
         <button class="card mtile" data-act="endDay"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="moon"></i></span><b>ปิดยอดประจำวัน</b><small>สรุป + ล้างคิววันนี้</small></button>
@@ -861,6 +946,10 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
       <div id="staff-manage" class="stack"></div>
       <div class="sec-head"><h3>คำขอจากพนักงาน</h3><span class="muted sm" id="req-count"></span></div>
       <div id="req-list" class="card list"></div>
+      <div class="sec-head"><h3>ข้อความ / ประกาศ</h3><button class="btn btn-sm btn-primary" data-act="msgOpen">📢 ส่งข้อความ</button></div>
+      <div id="msg-list" class="card list"></div>
+      <div class="sec-head"><h3>ตารางเวร 14 วัน</h3><span class="muted sm">แตะเพื่อสลับ</span></div>
+      <div class="card form ros" id="roster"></div>
     </section>
 
     <!-- MONEY -->
@@ -888,9 +977,17 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
         <div class="card form">
           <label class="field"><span>เดือน</span><input id="ex-month" class="input" type="month"></label>
           <div class="btn-row"><button class="btn grow" data-act="exportCsv">📊 ไฟล์ Excel (CSV)</button><button class="btn grow" data-act="exportPdf">🖨️ พิมพ์ / PDF</button></div>
+          <div class="sub-label">รายรับทั้งปี (สำหรับยื่นภาษี)</div>
+          <div class="inline-add" style="padding:0"><input id="ex-year" class="input num" type="number" inputmode="numeric" placeholder="ปี ค.ศ. เช่น 2026"><button class="btn" data-act="exportYear">📊 ดาวน์โหลด</button></div>
           <p class="muted sm" style="margin:10px 0 0">ดึงข้อมูลย้อนหลังได้สูงสุด 90 วัน — ข้อมูลทั้งหมดยังอยู่ครบใน Google Sheet</p>
         </div>
       </div>
+    </section>
+
+    <!-- GUIDE -->
+    <section class="view guide" id="v-guide" hidden>
+      <div class="page-head"><button class="icon-btn" data-act="go" data-tab="more" aria-label="กลับ"><i class="ic" data-ic="back"></i></button><h2>คู่มือการใช้งาน</h2></div>
+      <div id="guide-body"></div>
     </section>
 
     <!-- GUARD -->
@@ -952,6 +1049,40 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
           <label class="field"><span>ลิงก์รีวิว Google (ลูกค้าให้ 5 ดาวแล้วจะขึ้น QR ให้สแกนรีวิว)</span><input id="set-review" class="input" placeholder="https://g.page/r/..." autocomplete="off"></label>
           <label class="field"><span>ข้อความชวนลูกค้ากลับ — ใช้ {ชื่อ} {วัน} {ร้าน} {โทร}</span><textarea id="set-winback" class="input" rows="3"></textarea></label>
           <button class="btn btn-primary btn-block" data-act="saveGrowth">บันทึก</button>
+        </div>
+      </div>
+      <div class="set-group"><h4>🕘 เวลาร้าน &amp; พนักงาน</h4>
+        <div class="card form">
+          <div class="grid2">
+            <label class="field"><span>เปิดร้าน</span><input id="h-open" class="input" type="time"></label>
+            <label class="field"><span>ปิดร้าน</span><input id="h-close" class="input" type="time"></label>
+            <label class="field"><span>พักรวมได้ไม่เกิน (นาที/วัน)</span><input id="h-brk" class="input num" type="number" inputmode="numeric"></label>
+            <label class="field"><span>จำนวนเตียงในร้าน</span><input id="h-beds" class="input num" type="number" inputmode="numeric"></label>
+          </div>
+          <div class="row" style="padding:0 0 12px;border:0"><div><b>เช็คเอาท์อัตโนมัติ</b><div class="muted sm">ปิดร้านแล้ว 30 นาที ใครลืมกดเลิกงาน ระบบเช็คเอาท์ให้</div></div><input type="checkbox" class="switch" id="h-auto"></div>
+          <div class="row" style="padding:0 0 12px;border:0"><div><b>เช็คชื่อด้วย GPS</b><div class="muted sm" id="h-gps-st">ต้องอยู่ในรัศมีร้านถึงจะเช็คชื่อได้</div></div><input type="checkbox" class="switch" id="h-gps"></div>
+          <div class="grid2"><label class="field"><span>รัศมี (เมตร)</span><input id="h-rad" class="input num" type="number" inputmode="numeric"></label><button class="btn" data-act="setGps" style="margin-top:22px">📍 ใช้ตำแหน่งตอนนี้เป็นร้าน</button></div>
+          <button class="btn btn-primary btn-block" data-act="saveHours">บันทึก</button>
+        </div>
+      </div>
+      <div class="set-group owner-only"><h4>📱 เครื่องที่ใช้แอดมินได้</h4>
+        <div class="card form">
+          <div class="row" style="padding:0 0 12px;border:0"><div><b>อนุญาตเฉพาะเครื่องที่อนุมัติ</b><div class="muted sm">แคชเชียร์เข้าจากเครื่องใหม่ต้องรอเจ้าของกดอนุมัติ</div></div><input type="checkbox" class="switch" id="d-lock"></div>
+          <div id="dev-list"></div>
+          <div class="row" style="padding:12px 0 0;border:0"><div><b>ล็อกหน้าจอเครื่องนี้เมื่อไม่ได้ใช้ (นาที)</b><div class="muted sm">0 = ไม่ล็อก · ตั้งเฉพาะเครื่องนี้</div></div><input id="d-idle" class="input num in-sm" type="number" inputmode="numeric" style="width:80px"></div>
+          <button class="btn btn-primary btn-block" data-act="saveDev" style="margin-top:12px">บันทึก</button>
+        </div>
+      </div>
+      <div class="set-group"><h4>✨ บริการเสริม · เช็คลิสต์ · ข้อความ</h4>
+        <div class="card form">
+          <div class="sub-label" style="margin-top:0">บริการเสริม (ชื่อ / นาที / ราคา / ค่ามือ)</div>
+          <div id="ad-edit"></div>
+          <button class="btn btn-ghost btn-block" data-act="adAdd" style="margin-bottom:14px"><i class="ic" data-ic="plus" data-s="18"></i>เพิ่มบริการเสริม</button>
+          <label class="field"><span>เช็คลิสต์เปิดร้าน (บรรทัดละข้อ)</span><textarea id="ck-open" class="input" rows="4"></textarea></label>
+          <label class="field"><span>เช็คลิสต์ปิดร้าน (บรรทัดละข้อ)</span><textarea id="ck-close" class="input" rows="4"></textarea></label>
+          <label class="field"><span>ช่องทางที่ลูกค้ารู้จักร้าน (บรรทัดละข้อ)</span><textarea id="src-edit" class="input" rows="3"></textarea></label>
+          <label class="field"><span>ข้อความยืนยันนัด — ใช้ {ชื่อ} {วัน} {เวลา} {บริการ} {หมอ} {ร้าน} {โทร}</span><textarea id="bk-msg" class="input" rows="3"></textarea></label>
+          <button class="btn btn-primary btn-block" data-act="saveExtras">บันทึก</button>
         </div>
       </div>
       <div class="set-group"><h4>ข้อมูลร้าน (แสดงบนใบเสร็จ/จอลูกค้า)</h4>
@@ -1055,9 +1186,10 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
           <div class="row"><b>ธีม</b><div class="seg seg-sm" id="theme-seg"><button data-act="theme" data-v="light">สว่าง</button><button data-act="theme" data-v="dark">มืด</button><button data-act="theme" data-v="auto">อัตโนมัติ</button></div></div>
           <div class="row"><div><b>ซิงก์อัตโนมัติ</b><div class="muted sm">ดึงข้อมูลล่าสุดทุก 8 วินาที</div></div><input type="checkbox" class="switch" id="set-sync"></div>
           <div class="row"><div><b>เสียงแจ้งเตือน</b><div class="muted sm">เมื่อพนักงานกดเรียกแอดมิน</div></div><input type="checkbox" class="switch" id="set-sound"></div>
+          <div class="row"><div><b>ตัวหนังสือใหญ่</b><div class="muted sm">สำหรับแท็บเล็ตหน้าร้าน</div></div><input type="checkbox" class="switch" id="set-bigui"></div>
         </div>
       </div>
-      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v4.0</p>
+      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v5.0</p>
     </section>
   </main>
 </div>
@@ -1075,7 +1207,10 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
   <div id="w-smart"></div>
   <div class="field"><span>บริการ</span><div id="w-types" class="tiles"></div></div>
   <div class="field"><span>ระยะเวลา</span><div id="w-durs" class="chips"></div></div>
+  <div class="field" id="w-ad-f"><span>บริการเสริม</span><div id="w-addons" class="chips addons"></div></div>
   <div class="field"><span>หมอนวด</span><div id="w-drs" class="chips"></div></div>
+  <div class="field" style="display:flex;align-items:center;justify-content:space-between;gap:10px"><span style="margin:0">มากี่คน (ลงคิวกลุ่ม แบ่งหมอให้อัตโนมัติ)</span><div class="stepper sm" style="margin:0"><button class="icon-btn" data-act="wPax" data-v="-1">−</button><b class="num" id="w-pax">1</b><button class="icon-btn" data-act="wPax" data-v="1">+</button></div></div>
+  <div id="w-src-f" class="field" hidden><span>ลูกค้าใหม่ รู้จักร้านจากไหน?</span><div id="w-src" class="chips chips-sm"></div></div>
   <label class="field"><span>หมายเหตุ</span><input id="w-note" class="input" placeholder="เช่น เน้นหนัก, แพ้ยาหม่อง" autocomplete="off"></label>
   <div id="w-notes" class="chips chips-sm"></div>
   <div class="sh-foot">
@@ -1090,6 +1225,7 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
   <div id="e-info" class="summary-box"></div>
   <div class="field"><span>บริการที่ต่อ</span><div id="e-types" class="chips"></div></div>
   <div class="field"><span>ระยะเวลา</span><div id="e-durs" class="chips"></div></div>
+  <div class="field" id="e-ad-f"><span>หรือเพิ่มบริการเสริม (คิดเงินรวมในบิลเดียว)</span><div id="e-addons" class="chips addons"></div></div>
   <div class="sh-foot">
     <div class="price-line"><span>ต้องจ่ายเพิ่ม</span><div class="price-in num" id="e-price">฿0</div></div>
     <button class="btn btn-info btn-block btn-lg" data-act="saveExt"><i class="ic" data-ic="clock"></i>ยืนยันต่อเวลา</button>
@@ -1104,7 +1240,9 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
   <div class="seg" id="p-seg">
     <button data-act="pm" data-pm="qr"><i class="ic" data-ic="qr" data-s="18"></i>สแกนจ่าย</button>
     <button data-act="pm" data-pm="cash"><i class="ic" data-ic="cash" data-s="18"></i>เงินสด</button>
+    <button data-act="pm" data-pm="voucher">🎁 บัตรของขวัญ</button>
   </div>
+  <div id="p-gv" hidden style="margin-top:16px"><label class="field"><span>รหัสบัตรของขวัญ</span><input id="p-gvcode" class="input num" placeholder="GVXXXXXX" autocomplete="off" style="text-transform:uppercase;letter-spacing:.1em;text-align:center"></label><div id="p-gvinfo" class="muted sm"></div></div>
   <div id="p-qr" class="qr-box">
     <img id="p-qr-img" alt="PromptPay QR">
     <div class="muted sm" id="p-pp" style="margin-top:8px"></div>
@@ -1128,7 +1266,9 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
   <div class="grab"></div>
   <div class="sh-head"><h2>ใบเสร็จ</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
   <div id="rc-body"></div>
-  <div class="btn-row" style="margin-top:16px"><button class="btn btn-ghost grow" data-act="close">เสร็จ</button><button class="btn btn-primary grow" data-act="print"><i class="ic" data-ic="print"></i>พิมพ์</button></div>
+  <div id="rc-qr" class="rc-qr"></div>
+  <div class="btn-row" style="margin-top:12px"><button class="btn grow" data-act="rcShare">📤 ส่งเป็นรูป</button><button class="btn grow" data-act="nextBk">📅 นัดครั้งหน้า</button></div>
+  <div class="btn-row" style="margin-top:10px"><button class="btn btn-ghost grow" data-act="close">เสร็จ</button><button class="btn btn-primary grow" data-act="print"><i class="ic" data-ic="print"></i>พิมพ์</button></div>
 </div></div>
 
 <div class="sheet" id="sh-arrive" hidden><div class="panel">
@@ -1169,6 +1309,74 @@ textarea.input{height:auto;padding:12px 14px;line-height:1.5}
   <p class="cf-msg" id="pin-msg"></p>
   <input id="pin-in" class="input pin-in" type="password" inputmode="numeric" maxlength="8" autocomplete="off">
   <div class="btn-row" style="margin-top:16px"><button class="btn btn-ghost grow" data-act="close">ยกเลิก</button><button class="btn btn-primary grow" data-act="pinOk" id="pin-ok">ยืนยัน</button></div>
+</div></div>
+
+<div class="sheet" id="sh-qhist" hidden><div class="panel narrow">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>ประวัติคิวนี้</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <div id="qh-body"></div>
+</div></div>
+
+<div class="sheet" id="sh-cust" hidden><div class="panel">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>ข้อมูลลูกค้า</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <div id="cu-body"></div>
+</div></div>
+
+<div class="sheet" id="sh-wait" hidden><div class="panel narrow">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>เพิ่มรายชื่อรอคิว</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <label class="field"><span>ชื่อลูกค้า</span><input id="wt-name" class="input" list="dl-names" autocomplete="off"></label>
+  <div class="grid2"><label class="field"><span>บริการ</span><select id="wt-type" class="input"></select></label><label class="field"><span>นาที</span><select id="wt-dur" class="input"><option>30</option><option selected>60</option><option>90</option><option>120</option></select></label></div>
+  <label class="field"><span>ขอหมอ (ถ้ามี)</span><select id="wt-dr" class="input"></select></label>
+  <label class="field"><span>เบอร์โทร (ไว้โทรเรียกตอนหมอว่าง)</span><input id="wt-phone" class="input" type="tel" inputmode="tel"></label>
+  <div id="wt-eta" class="smart" style="margin:0 0 14px"></div>
+  <button class="btn btn-primary btn-block btn-lg" data-act="saveWait">เพิ่มเข้ารายชื่อรอ</button>
+</div></div>
+
+<div class="sheet" id="sh-gv" hidden><div class="panel">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>บัตรของขวัญ</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <p class="muted sm" style="margin-top:-6px">ลูกค้าจ่ายเงินซื้อบัตรให้คนอื่น — รับเงินแล้วระบบออกรหัสบัตรให้ ใช้แทนเงินได้จนกว่ายอดจะหมด</p>
+  <div class="grid2"><label class="field"><span>ผู้ซื้อ</span><input id="gv-buyer" class="input" list="dl-names" autocomplete="off"></label><label class="field"><span>มอบให้</span><input id="gv-to" class="input" autocomplete="off"></label></div>
+  <div class="chips" id="gv-vals" style="margin-bottom:10px"></div>
+  <div class="grid2"><label class="field"><span>มูลค่า (บาท)</span><input id="gv-val" class="input num" type="number" inputmode="numeric"></label><label class="field"><span>ใช้ได้ (วัน)</span><input id="gv-days" class="input num" type="number" inputmode="numeric" value="180"></label></div>
+  <button class="btn btn-primary btn-block btn-lg" data-act="sellGv">ขายบัตร + ไปรับเงิน</button>
+  <div class="sub-label">ตรวจยอดบัตร</div>
+  <div class="inline-add" style="padding:0"><input id="gv-check" class="input" placeholder="รหัสบัตร" style="text-transform:uppercase"><button class="btn" data-act="checkGv">ตรวจ</button></div>
+  <div id="gv-list" class="card list" style="margin-top:12px"></div>
+</div></div>
+
+<div class="sheet" id="sh-item" hidden><div class="panel narrow">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>ขายสินค้า</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <div id="it-list"></div>
+  <label class="field" style="margin-top:12px"><span>ลูกค้า (ไม่บังคับ)</span><input id="it-name" class="input" list="dl-names" autocomplete="off"></label>
+  <div class="sh-foot"><div class="price-line"><span>รวม</span><div class="price-in num" id="it-total">฿0</div></div><button class="btn btn-primary btn-block btn-lg" data-act="sellItems">ขาย + รับเงิน</button></div>
+</div></div>
+
+<div class="sheet" id="sh-msg" hidden><div class="panel narrow">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>ส่งข้อความถึงพนักงาน</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <label class="field"><span>ถึง</span><select id="ms-to" class="input"></select></label>
+  <label class="field"><span>ข้อความ</span><textarea id="ms-text" class="input" rows="4" placeholder="เช่น พรุ่งนี้ประชุม 9 โมง ก่อนเปิดร้าน"></textarea></label>
+  <p class="muted sm" style="margin:-6px 2px 14px">เด้งเข้ามือถือ และพนักงานต้องกด “รับทราบ” ในแอป — ดูได้ว่าใครอ่านแล้ว</p>
+  <button class="btn btn-primary btn-block btn-lg" data-act="sendMsg">ส่ง</button>
+</div></div>
+
+<div class="sheet" id="sh-stqr" hidden><div class="panel narrow">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>QR ดูคิวสำหรับลูกค้า</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <div id="stqr-body" class="ckqr"></div>
+  <div class="btn-row" style="margin-top:14px"><button class="btn grow" data-act="copyStq">คัดลอกลิงก์</button><button class="btn btn-primary grow" data-act="printStq"><i class="ic" data-ic="print"></i>พิมพ์ติดหน้าร้าน</button></div>
+</div></div>
+
+<div class="sheet" id="sh-comp" hidden><div class="panel narrow">
+  <div class="grab"></div>
+  <div class="sh-head"><h2>บันทึกเรื่องร้องเรียน</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <div class="grid2"><label class="field"><span>ลูกค้า</span><input id="cp-n" class="input" list="dl-names" autocomplete="off"></label><label class="field"><span>หมอ</span><select id="cp-dr" class="input"></select></label></div>
+  <label class="field"><span>เรื่องที่ไม่พอใจ</span><textarea id="cp-text" class="input" rows="3" placeholder="เช่น นวดแรงเกินไป, รอนาน, ห้องไม่สะอาด"></textarea></label>
+  <button class="btn btn-primary btn-block btn-lg" data-act="saveComp">บันทึก</button>
 </div></div>
 
 <div class="sheet" id="sh-num" hidden><div class="panel narrow">
@@ -1530,9 +1738,9 @@ var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4N
     if (state === 'pay') {
       $('cd-amt').textContent = baht(c.p);
       $('cd-name').textContent = c.n ? 'คุณ' + cleanName(c.n) : '';
-      var cash = c.pm === 'cash';
+      var cash = c.pm === 'cash' || c.pm === 'voucher';
       show('cd-qr-wrap', !cash);
-      $('cd-hint').textContent = cash ? 'ชำระด้วยเงินสดที่เคาน์เตอร์' : 'สแกนจ่ายได้ทุกแอปธนาคาร';
+      $('cd-hint').textContent = c.pm === 'voucher' ? 'ชำระด้วยบัตรของขวัญ' : cash ? 'ชำระด้วยเงินสดที่เคาน์เตอร์' : 'สแกนจ่ายได้ทุกแอปธนาคาร';
       $('cd-pp').textContent = cash ? '' : 'พร้อมเพย์ ' + fmtPP(C.pp);
       var key = C.pp + '|' + c.p;
       if (!cash && C.pp && key !== C.qrKey) { C.qrKey = key; $('cd-qr').src = ppQR(C.pp, c.p); }
@@ -1719,7 +1927,7 @@ const tagTone = t => t.includes('แบล็ก') ? 'p-bad' : t.includes('ร�
 const tagBadge = n => { const t = tagOf(n); return t && t !== '👤 ปกติ' ? `<span class="pill ${tagTone(t)}">${esc(t)}</span>` : ''; };
 function showTag(sel, n) { const t = tagOf(n); $(sel).innerHTML = t && t !== '👤 ปกติ' ? `<div class="tagbox ${tagTone(t)}">ลูกค้ารายนี้มีประวัติ: <b>${esc(t)}</b></div>` : ''; }
 const cleanName = n => String(n || '').replace(/^\[.*?\]\s*/, '').replace(/\s*\(คอร์ส.*$/, '');
-const svcLine = q => q.kind === 'reg' ? esc(q.t) : `${esc(tName(q.t))} · ${durLabel(q.d)}${q.dr && q.dr !== '-' ? ' · ' + esc(q.dr) : ''}`;
+const svcLine = q => (q.kind === 'reg' || q.kind === 'gift' || q.kind === 'item') ? esc(q.t) : `${esc(tName(q.t))} · ${durLabel(q.d)}${q.dr && q.dr !== '-' ? ' · ' + esc(q.dr) : ''}`;
 
 /* ═════════ PromptPay QR (สร้างในเครื่อง ไม่ต้องรอเว็บนอก) ═════════ */
 function crc16(s) {
@@ -2082,7 +2290,8 @@ async function run(btn, fn) {
 }
 
 /* ═════════ network ═════════ */
-async function api(action, data = {}, { silent = false } = {}) {
+async function api(action, data = {}, { silent = false, noQueue = false } = {}) {
+  if (OP_SAFE_C[action] && !data.opId) data = { ...data, opId: opid() };
   inflight++;
   if (!silent) setSync('busy');
   try {
@@ -2095,7 +2304,7 @@ async function api(action, data = {}, { silent = false } = {}) {
         inflight--; setSync('ok');
         try {
           const pin = await askPin(j.msg);
-          if (pin) return await api(action, { ...data, pin }, { silent });
+          if (pin) return await api(action, { ...data, pin }, { silent, noQueue });
           const e2 = new Error('ยกเลิกแล้ว'); e2.code = 'CANCEL'; throw e2;
         } finally { inflight++; }
       }
@@ -2105,6 +2314,11 @@ async function api(action, data = {}, { silent = false } = {}) {
     setSync('ok');
     return j;
   } catch (e) {
+    if (!e.code && OP_SAFE_C[action] && !noQueue && token) {
+      const ob = outbox(); ob.push({ action, data, at: Date.now() }); save(OUTBOX, ob);
+      setSync('off'); toast('📤 เน็ตหลุด — บันทึกไว้ในเครื่องแล้ว จะส่งเองเมื่อเน็ตกลับมา', 'warn'); if (S) renderSysbars();
+      return { ok: true, offline: true, out: {} };
+    }
     if (!e.code) { setSync('off'); e.message = navigator.onLine ? 'เชื่อมต่อเซิร์ฟเวอร์ไม่สำเร็จ ลองใหม่อีกครั้ง' : 'ออฟไลน์อยู่ — ตรวจสอบอินเทอร์เน็ต'; }
     else setSync('ok');
     throw e;
@@ -2146,6 +2360,8 @@ function startPolling() {
     const fast = isOpen('sh-pay') && P.pm === 'qr';
     if (!fast && Date.now() - lastPoll < POLL_MS - 100) return;
     if (fast || autoSync || !token) { lastPoll = Date.now(); pull(); }
+    if (outbox().length) flushOutbox();
+    checkIdle();
   }, 2000);
 }
 function sessionExpired() {
@@ -2195,7 +2411,7 @@ function go(t) {
   tab = t;
   $$('.view').forEach(v => v.hidden = v.id !== 'v-' + t);
   if (S && token && S.role === 'cashier' && ['insights', 'guard', 'settings'].includes(t)) { t = tab = 'home'; $$('.view').forEach(v => v.hidden = v.id !== 'v-home'); toast('เมนูนี้สำหรับเจ้าของร้าน', 'warn'); }
-  const navTab = ['settings', 'money', 'guard', 'stock'].includes(t) ? 'more' : t;
+  const navTab = ['settings', 'money', 'guard', 'stock', 'guide'].includes(t) ? 'more' : t;
   $$('.nav-item').forEach(b => b.classList.toggle('on', b.dataset.tab === navTab || (navTab === 'booking' && b.dataset.tab === 'more' && innerWidth < 960)));
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   if (t === 'members') pull(true);
@@ -2205,6 +2421,8 @@ function go(t) {
   if (t === 'money') { renderMoney(); loadHistory(); if (!$('#ex-month').value) { const d = new Date(now()); $('#ex-month').value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}`; } }
   if (t === 'guard') { renderGuard(); loadGuard(true); loadHistory(); }
   if (t === 'stock') { renderStock(); }
+  if (t === 'guide') renderGuide();
+  if (t === 'insights') loadSummary();
   if (t === 'staff') renderReqs();
 }
 
@@ -2216,8 +2434,8 @@ function renderAll() {
 }
 function stats() {
   const qs = S.qs || [];
-  const paid = qs.filter(q => q.paid && q.pm !== 'course');
-  const qr = sum(paid.filter(q => q.pm === 'qr')), cash = sum(paid.filter(q => q.pm !== 'qr'));
+  const paid = qs.filter(q => q.paid && q.pm !== 'course' && q.pm !== 'voucher');
+  const qr = sum(paid.filter(q => q.pm === 'qr')), cash = sum(paid.filter(q => q.pm === 'cash'));
   const unpaid = qs.filter(q => !q.paid && Number(q.p) > 0);
   return {
     income: qr + cash, qr, cash, unpaid, unpaidSum: sum(unpaid),
@@ -2281,7 +2499,7 @@ function bookingRow(b, admin) {
       <div class="qs">${tIcon(b.t)} ${esc(tName(b.t))} · ${b.dr ? `<span class="gold">${esc(b.dr)}</span>` : 'ไม่ระบุหมอ'}</div>
       ${b.phone ? `<a class="muted sm" href="tel:${esc(b.phone)}" style="text-decoration:none">${ic('phone', 13)} ${esc(fmtPP(b.phone))}</a>` : ''}
       ${b.note ? `<div class="qnote">📝 ${esc(b.note)}</div>` : ''}</div>
-    ${admin ? `<div class="bk-act"><button class="icon-btn danger" data-act="cancelBk" data-id="${esc(b.id)}" aria-label="ยกเลิกการจอง">${ic('trash', 18)}</button><button class="btn btn-sm btn-ok" data-act="arrive" data-id="${esc(b.id)}">${ic('check', 16)}มาถึงแล้ว</button></div>` : ''}
+    ${admin ? `<div class="bk-act">${(b.date < todayISO() || (b.date === todayISO() && toMin(b.time) + 15 < toMin(fmtTime(now())))) ? `<button class="btn btn-sm btn-ghost danger-text" data-act="noshowBk" data-id="${esc(b.id)}">ไม่มา</button>` : ''}<button class="icon-btn danger" data-act="cancelBk" data-id="${esc(b.id)}" aria-label="ยกเลิกการจอง">${ic('trash', 18)}</button><button class="btn btn-sm btn-ok" data-act="arrive" data-id="${esc(b.id)}">${ic('check', 16)}มาถึงแล้ว</button></div>` : ''}
   </div>`;
 }
 function todayBookings() { const t = todayISO(); return (S.bk || []).filter(b => b.date === t).sort((a, b) => a.time.localeCompare(b.time)); }
@@ -2295,7 +2513,7 @@ function queueCard(q) {
   else if (q.status === 'active') st = left > 0 ? `<span class="pill p-warn">นวดอยู่ · เหลือ ${left} น.</span>` : `<span class="pill p-bad">เกินเวลา ${-left} น.</span>`;
   else st = '<span class="pill p-mute">✓ เสร็จแล้ว</span>';
   const pay = q.paid
-    ? `<span class="pill p-ok">${q.pm === 'course' ? 'ใช้คอร์ส' : q.pm === 'qr' ? 'โอนแล้ว' : 'จ่ายสดแล้ว'}</span>`
+    ? `<span class="pill p-ok">${q.pm === 'course' ? 'ใช้คอร์ส' : q.pm === 'qr' ? 'โอนแล้ว' : q.pm === 'voucher' ? 'บัตรของขวัญ' : 'จ่ายสดแล้ว'}</span>`
     : (Number(q.p) > 0 ? `<span class="pill p-bad">ค้าง ${baht(q.p)}</span>` : '');
   const acts = [];
   const um = unackMin(q);
@@ -2307,7 +2525,9 @@ function queueCard(q) {
   }
   if (!q.paid && Number(q.p) > 0) acts.push(`<button class="btn btn-sm btn-primary" data-act="pay" data-id="${esc(q.id)}">${ic('wallet', 16)}รับเงิน</button>`);
   if (q.paid && q.pm !== 'course') acts.push(`<button class="icon-btn" data-act="receipt" data-id="${esc(q.id)}" aria-label="ใบเสร็จ">${ic('print', 18)}</button>`);
+  if (q.kind === 'svc') acts.push(`<button class="icon-btn" data-act="custOpen" data-n="${esc(q.n)}" aria-label="ข้อมูลลูกค้า">${ic('users', 18)}</button>`);
   if (q.kind === 'svc') acts.push(`<button class="icon-btn" data-act="tagQ" data-n="${esc(q.n)}" aria-label="แท็กลูกค้า">${ic('tag', 18)}</button>`);
+  if ((q.hist || []).length) acts.push(`<button class="icon-btn" data-act="qHist" data-id="${esc(q.id)}" aria-label="ประวัติคิว">${ic('clock', 18)}</button>`);
   acts.push(`<button class="icon-btn danger" data-act="delQ" data-id="${esc(q.id)}" aria-label="ลบคิว">${ic('trash', 18)}</button>`);
   return `<div class="card qcard ${q.status === 'active' && q.kind !== 'ext' ? 'is-active' : ''}">
     <div class="qt"><b class="num">${esc(q.time || '-')}</b><small>${q.status === 'active' ? (q.startTime > now() ? 'เตรียมตัว' : 'ถึง ' + endTime(q)) : ''}</small></div>
@@ -2342,7 +2562,8 @@ function renderApp() {
   $('#bd-pay').textContent = st.unpaid.length || '';
   $('#weak-pass').hidden = !S.weakPass;
 
-  applyRole(); renderSysbars(); renderReqs();
+  applyRole(); renderSysbars(); renderReqs(); renderWait(); renderChk(); renderQuickSvc(); renderMsgs(); renderRoster();
+  document.body.classList.toggle('bigui', localStorage.getItem('spa_bigui') === '1');
   renderQueue(); renderPayList(); renderBookings(); renderMembers(); renderStaffManage(); renderNames(); checkAcks(); smartAlerts(); if (tab === 'insights') renderInsights();
   if (tab === 'money') renderMoney(); if (tab === 'stock') renderStock();
 
@@ -2350,7 +2571,7 @@ function renderApp() {
   if (isOpen('sh-walk')) $('#w-drs').innerHTML = drChips(W.dr, 'wDr') + waitHint();
   if (isOpen('sh-arrive')) renderArrive();
   if (isOpen('sh-deduct')) renderDeduct();
-  if (isOpen('sh-pay') && !P.done) {
+  if (isOpen('sh-pay') && !P.done && !P.busy) {
     const pq = findQ(P.id);
     if (!pq) { P.done = true; closeSheet('sh-pay'); }
     else if (pq.paid) {
@@ -2390,7 +2611,7 @@ function renderPayList() {
     || '<div class="muted sm pad center">ยังไม่มีเงินเข้า — ตั้งค่าได้ที่ เมนู › ตั้งค่าระบบ</div>';
   const paid = (S.qs || []).filter(q => q.paid && q.pm !== 'course').sort((a, b) => (b.paidAt || 0) - (a.paidAt || 0));
   $('#paid-list').innerHTML = paid.map(q => `<div class="row"><div style="min-width:0"><b>${esc(q.n)}</b><div class="muted sm">${svcLine(q)}${q.paidAt ? ' · ' + fmtTime(q.paidAt) : ''}</div></div>
-      <div class="row-r"><span class="pill ${q.pm === 'qr' ? 'p-info' : 'p-ok'}">${q.pm === 'qr' ? 'โอน' : 'เงินสด'}</span><b class="num">${baht(q.p)}</b><button class="icon-btn" data-act="receipt" data-id="${esc(q.id)}" aria-label="ใบเสร็จ">${ic('print', 18)}</button></div></div>`).join('')
+      <div class="row-r"><span class="pill ${q.pm === 'qr' ? 'p-info' : 'p-ok'}">${q.pm === 'qr' ? 'โอน' : q.pm === 'voucher' ? 'บัตร' : 'เงินสด'}</span><b class="num">${baht(q.p)}</b><button class="icon-btn" data-act="receipt" data-id="${esc(q.id)}" aria-label="ใบเสร็จ">${ic('print', 18)}</button></div></div>`).join('')
     || '<div class="muted sm pad center">ยังไม่มีรายการ</div>';
 }
 
@@ -2429,7 +2650,7 @@ function renderMembers() {
     return `<div class="card mem"><div class="mem-top"><div class="avatar">${esc(initial(m.n))}</div>
       <div class="mem-id"><b>${esc(m.n)}</b><div class="muted sm">#${esc(m.code)} · ${esc(fmtPP(m.phone))}</div></div>
       <button class="icon-btn" data-act="memCard" data-code="${esc(m.code)}" aria-label="บัตรสมาชิก QR">${ic('qr', 18)}</button><button class="btn btn-sm btn-primary" data-act="deduct" data-code="${esc(m.code)}" ${rem <= 0 ? 'disabled' : ''}>ตัดคอร์ส</button></div>
-      <div class="sm muted">${esc(m.pkg)}</div>
+      <div class="sm muted">${esc(m.pkg)}${m.exp ? (() => { const dl = Math.ceil((new Date(m.exp + 'T23:59:59') - now()) / 864e5); return ` · <span class="pill ${dl < 0 ? 'p-bad' : dl <= 30 ? 'p-warn' : 'p-mute'}">${dl < 0 ? 'หมดอายุแล้ว' : dl <= 30 ? 'หมดอายุใน ' + dl + ' วัน' : 'ถึง ' + thaiDate(m.exp)}</span>`; })() : ''}</div>
       <div class="bar ${rem <= 1 ? 'low' : ''}"><i style="width:${pct}%"></i></div>
       <div class="mem-q"><span>${rem <= 0 ? '<span class="pill p-bad">หมดคอร์ส</span>' : 'คงเหลือ'}</span><b class="num">${rem} / ${m.total} ครั้ง</b></div></div>`;
   }).join('') || empty(members.length ? 'ไม่พบสมาชิกที่ค้นหา' : 'ยังไม่มีสมาชิกคอร์ส', '🎟️');
@@ -2443,7 +2664,7 @@ function renderStaffManage() {
     const k = turnNo(d.n), inT = d.in && d.inAt ? ' · เข้างาน ' + fmtTime(d.inAt) : '';
     const sc = drScore(((S.stats || {}).dr || {})[d.n]).score;
     const sub = q ? `<span class="pill p-warn">กำลังนวด ${esc(q.n)} · เหลือ ${Math.max(0, timeLeft(q))} น.</span>` : `<span class="muted sm">${d.st === 'free' && d.in ? `ว่าง · คิวที่ ${k}` : d.st === 'clean' ? '🧹 เก็บห้อง' : d.st === 'break' ? 'พักเบรก' : 'ยังไม่เช็คชื่อ / เลิกงาน'}${inT}</span>`;
-    return `<div class="card srow"><div class="avatar">${esc(initial(d.n))}</div><div style="min-width:0"><b>${esc(d.n)}</b> <span class="owner-only">${scoreBadge(sc)}</span> <button class="link owner-only" data-act="drInfo" data-n="${esc(d.n)}">แก้ข้อมูล</button><div>${sub}</div></div>
+    return `<div class="card srow"><div class="avatar">${esc(initial(d.n))}</div><div style="min-width:0"><b>${esc(d.n)}</b> <span class="owner-only">${scoreBadge(sc)}</span> <button class="link owner-only" data-act="drInfo" data-n="${esc(d.n)}">แก้ข้อมูล</button><button class="link" data-act="msgOpen" data-to="${esc(d.n)}">ส่งข้อความ</button><div>${sub}</div></div>
       <div class="seg seg-sm">${[['free', d.in ? 'ว่าง' : 'เช็คชื่อ'], ['break', 'พัก'], ['off', 'เลิกงาน']].map(([k, l]) => `<button class="${!q && d.st === k ? 'on' : ''}" data-act="drSt" data-n="${esc(d.n)}" data-st="${k}" ${q ? 'disabled' : ''}>${l}</button>`).join('')}</div>
       <button class="icon-btn danger" data-act="rmDr" data-n="${esc(d.n)}" ${q ? 'disabled' : ''} aria-label="ลบพนักงาน">${ic('trash', 18)}</button></div>`;
   }).join('') || empty('ยังไม่มีพนักงาน', '👥');
@@ -2492,7 +2713,7 @@ const drLabel = v => v === AUTO ? (rotation()[0]?.n || '') : v;
 /* ═════════ walk-in ═════════ */
 function openWalkin(dr) {
   const first = TYPES.find(t => dursOf(t.k).length) || TYPES[0];
-  W = { t: first.k, d: dursOf(first.k).includes(60) ? 60 : dursOf(first.k)[0], dr: dr && isFree(dr) ? dr : AUTO, touched: false };
+  W = { t: first.k, d: dursOf(first.k).includes(60) ? 60 : dursOf(first.k)[0], dr: dr && isFree(dr) ? dr : AUTO, touched: false, addons: [], pax: 1, src: '', waitId: '' };
   $('#w-name').value = ''; $('#w-note').value = ''; $('#w-cmd').value = ''; $('#w-tag').innerHTML = ''; $('#w-cinfo').innerHTML = ''; $('#w-smart').innerHTML = ''; loadHistory();
   renderWalkin();
   openSheet('sh-walk');
@@ -2505,7 +2726,8 @@ function renderWalkin() {
   $('#w-durs').innerHTML = ds.map(d => `<button class="chip ${W.d === d ? 'on' : ''}" data-act="wDur" data-d="${d}">${durLabel(d)} <small>${baht(priceOf(W.t, d))}</small></button>`).join('');
   $('#w-drs').innerHTML = drChips(W.dr, 'wDr') + waitHint();
   $('#w-notes').innerHTML = NOTE_TAGS.map(t => `<button class="chip" data-act="wNote" data-t="${esc(t)}">+ ${esc(t)}</button>`).join('');
-  if (!W.touched) $('#w-price').value = priceOf(W.t, W.d);
+  if (!W.touched) $('#w-price').value = (priceOf(W.t, W.d) + addonSum()) * (W.pax || 1);
+  renderWalkExtras();
 }
 
 /* ═════════ extend ═════════ */
@@ -2523,15 +2745,18 @@ function renderExtend() {
   if (!ds.includes(E.d)) E.d = ds[0];
   $('#e-durs').innerHTML = ds.map(d => `<button class="chip ${E.d === d ? 'on' : ''}" data-act="eDur" data-d="${d}">+${durLabel(d)} <small>${baht(priceOf(E.t, d))}</small></button>`).join('');
   $('#e-price').textContent = baht(priceOf(E.t, E.d));
+  $('#e-ad-f').hidden = !addonsCfg().length || !!findQ(E.id)?.paid;
+  $('#e-addons').innerHTML = addonsCfg().map((a, i) => `<button class="chip" data-act="eAddon" data-i="${i}">+ ${esc(a.n)} <small>${baht(a.price)}</small></button>`).join('');
 }
 
 /* ═════════ payment ═════════ */
 function openPay(id) {
   const q = findQ(id); if (!q) return;
   P = { id, pm: 'qr', done: false, qrKey: '' };
-  $('#p-sum').innerHTML = `<div class="avatar">${q.kind === 'reg' ? '🎟️' : tIcon(q.t)}</div><div style="min-width:0"><b>${esc(q.n)}</b><span class="muted sm">${svcLine(q)}</span>${q.note ? `<div class="qnote">${esc(q.note)}</div>` : ''}</div>`;
+  $('#p-sum').innerHTML = `<div class="avatar">${q.kind === 'reg' ? '🎟️' : q.kind === 'gift' ? '🎁' : q.kind === 'item' ? '🧴' : tIcon(q.t)}</div><div style="min-width:0"><b>${esc(q.n)}</b><span class="muted sm">${svcLine(q)}</span>${q.note ? `<div class="qnote">${esc(q.note)}</div>` : ''}</div>`;
   $('#p-amt').value = Number(q.p) || 0;
-  $('#p-recv').value = '';
+  $('#p-recv').value = ''; $('#p-gvcode').value = ''; $('#p-gvinfo').textContent = '';
+  $('#p-seg [data-pm=voucher]').hidden = q.kind === 'gift';
   renderPay();
   openSheet('sh-pay');
   castSoon(0);
@@ -2546,6 +2771,7 @@ function renderPay() {
   $$('#p-seg button').forEach(b => b.classList.toggle('on', b.dataset.pm === P.pm));
   $('#p-qr').hidden = P.pm !== 'qr';
   $('#p-cash').hidden = P.pm !== 'cash';
+  $('#p-gv').hidden = P.pm !== 'voucher';
   if (P.pm === 'qr') {
     const key = S.pp + '|' + amt;
     if (P.qrKey !== key) { P.qrKey = key; const img = $('#p-qr-img'); img.style.visibility = amt > 0 ? 'visible' : 'hidden'; if (amt > 0) img.src = ppQR(S.pp, amt); }
@@ -2630,7 +2856,7 @@ function presReconnect() {
 /* ═════════ receipt ═════════ */
 function receiptHTML(q) {
   const shop = S.cfg?.shop || {}, dt = new Date(q.paidAt || now());
-  const item = q.kind === 'reg' ? esc(q.t) : `${esc(tName(q.t))} (${q.d} นาที)`;
+  const item = (q.kind === 'reg' || q.kind === 'gift' || q.kind === 'item') ? esc(q.t) : `${esc(tName(q.t))} (${q.d} นาที)`;
   return `<div class="rc"><div class="rc-logo">✦</div><h3>${esc(shop.name || 'ประคบทองไทยสปา')}</h3>
     <div class="rc-sub">${esc([shop.branch, shop.phone && 'โทร ' + shop.phone].filter(Boolean).join(' · '))}</div>
     <div class="rc-hr"></div>
@@ -2643,12 +2869,18 @@ function receiptHTML(q) {
     ${q.note && q.note.includes('(ต่อ') ? `<div class="rc-row" style="font-size:12px;color:#777"><span>${esc(q.note)}</span></div>` : ''}
     <div class="rc-hr"></div>
     <div class="rc-row rc-total"><span>ยอดสุทธิ</span><span>${baht(q.p)}</span></div>
-    <div class="rc-row"><span>ชำระโดย</span><span>${q.pm === 'qr' ? 'สแกนโอน (QR)' : 'เงินสด'}</span></div>
+    <div class="rc-row"><span>ชำระโดย</span><span>${q.pm === 'qr' ? 'สแกนโอน (QR)' : q.pm === 'voucher' ? 'บัตรของขวัญ ' + esc(q.voucher || '') : 'เงินสด'}</span></div>
+    ${q.voucherCode ? `<div class="rc-hr"></div><div class="rc-row rc-total"><span>รหัสบัตรของขวัญ</span><span>${esc(q.voucherCode)}</span></div><div class="rc-row" style="font-size:12px;color:#777"><span>มูลค่า ${baht(q.giftVal || q.p)}${q.giftTo ? ' · มอบให้ ' + esc(q.giftTo) : ''}</span><span>ใช้ได้ถึง ${esc(q.voucherExp || '')}</span></div>` : ''}
     ${q.slip ? `<div class="rc-row" style="font-size:12px;color:#777"><span>อ้างอิงสลิป</span><span>${esc(q.slip)}</span></div>` : ''}
     ${q.pm === 'cash' && q.recv ? `<div class="rc-row"><span>รับเงิน</span><span>${baht(q.recv)}</span></div><div class="rc-row"><span>เงินทอน</span><span>${baht(q.recv - q.p)}</span></div>` : ''}
     <div class="rc-hr"></div><div class="rc-thanks">ขอบคุณที่ใช้บริการ 🙏</div></div>`;
 }
-function openReceipt(id) { const q = findQ(id); if (!q) return; lastReceipt = id; $('#rc-body').innerHTML = receiptHTML(q); openSheet('sh-receipt'); }
+function openReceipt(id) {
+  const q = findQ(id); if (!q) return; lastReceipt = id; $('#rc-body').innerHTML = receiptHTML(q);
+  const u = receiptUrl(q);
+  $('#rc-qr').innerHTML = u ? `<img src="${qrData(u)}" alt="ใบเสร็จดิจิทัล"><div class="muted sm">ให้ลูกค้าสแกนเก็บใบเสร็จไว้ในมือถือ</div>` : '';
+  openSheet('sh-receipt');
+}
 
 /* ═════════ booking form ═════════ */
 let bkInit = false;
@@ -2719,6 +2951,7 @@ function pkgRow(p = { name: '', quota: 10, price: 0, kind: 'thai', perMin: 120 }
       <label><span>จำนวนครั้ง</span><input class="input in-sm num" type="number" data-f="quota" value="${esc(p.quota)}"></label>
       <label><span>ราคา (บาท)</span><input class="input in-sm num" type="number" data-f="price" value="${esc(p.price)}"></label>
       <label><span>นาที/ครั้ง</span><select class="input in-sm" data-f="perMin">${DURS.map(d => `<option value="${d}" ${Number(p.perMin || 120) === d ? 'selected' : ''}>${d}</option>`).join('')}</select></label>
+      <label><span>อายุ (วัน)</span><input class="input in-sm num" type="number" data-f="days" value="${esc(p.days || 365)}"></label>
       <label><span>ค่ามือแบบ</span><select class="input in-sm" data-f="kind"><option value="thai">นวดไทย</option><option value="back" ${p.kind === 'back' ? 'selected' : ''}>รีดเส้น</option></select></label>
       <button class="icon-btn danger" data-act="pkgDel" aria-label="ลบแพ็กเกจ">${ic('trash', 18)}</button>
     </div></div>`;
@@ -2749,6 +2982,15 @@ function fillSettings() {
   $('#g-backup-st').textContent = S.lastBackup ? `สำรองล่าสุด ${new Date(S.lastBackup).toLocaleString('th-TH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })} · เก็บ 14 ชุดใน Google Drive` : 'คัดลอกชีตเก็บใน Google Drive ทุกคืน 23:00 (เก็บ 14 ชุด)';
   $('#sec-st').innerHTML = `${S.cashierSet ? '✅ เปิดบัญชีแคชเชียร์แล้ว' : '⚪ ยังไม่มีบัญชีแคชเชียร์ (ทุกคนใช้รหัสเจ้าของ)'}<br>${S.pinSet ? '✅ ตั้ง PIN เจ้าของแล้ว' : '⚠️ ยังไม่ได้ตั้ง PIN — แคชเชียร์ลบคิวที่จ่ายแล้ว/ลดราคาได้โดยไม่ต้องขออนุญาต'}`;
   $('#sec-cashier').value = ''; $('#sec-pin').value = '';
+  $('#h-open').value = g.openAt || '10:00'; $('#h-close').value = g.closeAt || '22:00'; $('#h-brk').value = g.breakMax ?? 60; $('#h-beds').value = g.beds || 4;
+  $('#h-auto').checked = g.autoCheckout !== false; $('#h-gps').checked = !!g.gpsCheckin; $('#h-rad').value = g.gpsRadius || 150;
+  $('#h-gps-st').textContent = g.gps ? `ตั้งตำแหน่งร้านแล้ว (${g.gps.lat.toFixed(5)}, ${g.gps.lng.toFixed(5)})` : 'ยังไม่ได้ตั้งตำแหน่งร้าน — กดปุ่มด้านล่างตอนอยู่ที่ร้าน';
+  $('#d-lock').checked = !!g.devLock; $('#d-idle').value = idleMin();
+  $('#dev-list').innerHTML = (S.devices || []).slice().sort((a, b) => (b.last || 0) - (a.last || 0)).map(dv => `<div class="row" style="padding:10px 0"><div style="min-width:0"><b>${esc(dv.name)}${dv.id === DEV_ID ? ' (เครื่องนี้)' : ''}</b><div class="muted sm">${esc(dv.who || '')} · ${dv.role === 'owner' ? 'เจ้าของ' : 'แคชเชียร์'} · ใช้ล่าสุด ${new Date(dv.last || dv.first).toLocaleString('th-TH', { dateStyle: 'short', timeStyle: 'short' })}</div></div><div class="row-r">${dv.ok ? '<span class="pill p-ok">อนุญาต</span>' : '<span class="pill p-warn">รออนุมัติ</span>'}<button class="btn btn-sm" data-act="devOk" data-id="${esc(dv.id)}" data-ok="${dv.ok ? '' : '1'}">${dv.ok ? 'ระงับ' : 'อนุมัติ'}</button><button class="icon-btn danger" data-act="devDel" data-id="${esc(dv.id)}" aria-label="ลบ">${ic('trash', 16)}</button></div></div>`).join('') || '<div class="muted sm">ยังไม่มีเครื่องที่เข้าระบบ</div>';
+  $('#ad-edit').innerHTML = addonsCfg().map(adRow).join('');
+  $('#ck-open').value = (c.checklists?.open || []).join('\n'); $('#ck-close').value = (c.checklists?.close || []).join('\n');
+  $('#src-edit').value = (c.sources || []).join('\n'); $('#bk-msg').value = c.bkMsg || '';
+  $('#set-bigui').checked = localStorage.getItem('spa_bigui') === '1';
   $('#set-goal').value = c.goal?.month || ''; $('#set-promos').value = (c.promos || []).join('\n'); $('#set-review').value = c.shop?.review || ''; $('#set-winback').value = c.winback || '';
 }
 
@@ -2804,7 +3046,7 @@ const dayStart = (ms = now()) => { const d = new Date(ms); d.setHours(0, 0, 0, 0
 const pastRows = () => { const t0 = dayStart(); return HI.rows.filter(r => r[0] < t0); };
 const todayRows = () => (S?.qs || []).map(q => [q.startTime || q.queuedAt || now(), cleanName(q.n), q.dr, q.t, q.d, Number(q.p) || 0, q.pm, !!q.paid, q.note || '', Number(q.c) || 0, q.kind]);
 const isVisit = r => r[10] === 'svc' || r[10] === 'course';
-const incomeOf = rs => rs.filter(r => r[7] && r[6] !== 'course').reduce((a, r) => a + r[5], 0);
+const incomeOf = rs => rs.filter(r => r[7] && r[6] !== 'course' && r[6] !== 'voucher').reduce((a, r) => a + r[5], 0);
 const ago = ts => { const d = Math.floor((dayStart() - dayStart(ts)) / 86400000); return d <= 0 ? 'วันนี้' : d === 1 ? 'เมื่อวาน' : d < 30 ? `${d} วันก่อน` : `${Math.floor(d / 30)} เดือนก่อน`; };
 const topKey = o => Object.keys(o).sort((a, b) => o[b] - o[a])[0] || '';
 const fired = new Set();
@@ -2832,7 +3074,8 @@ function renderWalkSmart() {
     el.innerHTML = p ? `<div class="smart"><div class="smart-h">✨ ลูกค้าประจำ · มาครั้งที่ ${p.visits + 1}</div>
       <div class="smart-b">ล่าสุด ${ago(p.last)} · ชอบ <b>${esc(tName(p.favT))} ${durLabel(p.favD)}</b>${p.favDr ? ` กับ <b>${esc(p.favDr)}</b>` : ''}${p.avg ? ` · จ่ายเฉลี่ย ${baht(p.avg)}` : ''}${p.ext ? ` · เคยต่อเวลา ${p.ext} ครั้ง` : ''}</div>
       ${p.notes.length ? `<div class="smart-n">📝 หมอเคยบันทึก: ${p.notes.map(esc).join(' · ')}</div>` : ''}
-      <button class="btn btn-sm btn-primary" data-act="useUsual">⚡ ใช้แบบเดิม</button></div>${upsellHTML(p)}` : '';
+      <button class="btn btn-sm btn-primary" data-act="useUsual">⚡ ใช้แบบเดิม</button> <button class="btn btn-sm" data-act="custOpen" data-n="${esc(p.n)}">👤 ดูประวัติ</button></div>${favDrLine(p)}${upsellHTML(p)}` : '';
+    renderWalkExtras();
   }, 220);
 }
 /* ② ใช้แบบเดิม (เติมบริการ เวลา หมอ และโน้ตให้) */
@@ -2851,7 +3094,7 @@ function waitHint() {
   const act = (S.qs || []).filter(q => q.status === 'active' && q.kind !== 'ext').map(q => ({ dr: q.dr, end: q.startTime + q.d * 60000 })).sort((a, b) => a.end - b.end);
   if (!act.length) return `<div class="smart warn">⚠️ ยังไม่มีหมอเช็คชื่อเข้างาน — ให้หมอเช็คชื่อที่จอห้องพักหรือหน้าพนักงาน</div>`;
   const m = Math.max(0, Math.ceil((act[0].end - now()) / 60000));
-  return `<div class="smart warn">⏳ ตอนนี้ไม่มีหมอว่าง · คนแรกที่จะว่างคือ <b>${esc(act[0].dr)}</b> ในอีก ~${m} นาที (${fmtTime(act[0].end)})${act[1] ? ` ถัดไป ${esc(act[1].dr)} ~${Math.max(0, Math.ceil((act[1].end - now()) / 60000))} นาที` : ''}</div>`;
+  return `<div class="smart warn">⏳ ตอนนี้ไม่มีหมอว่าง · คนแรกที่จะว่างคือ <b>${esc(act[0].dr)}</b> ในอีก ~${m} นาที (${fmtTime(act[0].end)})${act[1] ? ` ถัดไป ${esc(act[1].dr)} ~${Math.max(0, Math.ceil((act[1].end - now()) / 60000))} นาที` : ''}${(S.wait || []).length ? ` · มีคนรออยู่ ${S.wait.length} คน` : ''}<br><button class="btn btn-sm btn-primary" data-act="walkToWait">⏳ ใส่รายชื่อรอคิว</button></div>`;
 }
 /* ⑤ ชวนต่อเวลา: ลูกค้าที่เคยต่อ ใกล้หมดเวลา */
 function upsellTip(q) {
@@ -2967,6 +3210,7 @@ function renderInsights() {
   if (low.length) cards.push(`<div class="card ins"><div class="ins-h">🎟️ คอร์สใกล้หมด — เสนอต่อคอร์ส</div>${low.slice(0, 8).map(m => `<div class="lb-r"><b>${esc(m.n)}</b><span class="pill ${m.total - m.used <= 0 ? 'p-bad' : 'p-warn'}">${m.total - m.used <= 0 ? 'หมดแล้ว' : 'เหลือ 1 ครั้ง'}</span>${m.phone ? `<a class="btn btn-sm" href="tel:${esc(m.phone)}" style="text-decoration:none">${ic('phone', 14)} โทร</a>` : ''}</div>`).join('')}</div>`);
 
   cards.splice(1, 0, ...moreInsights(past, today));
+  cards.push(...moreInsights5(past, today));
   el.innerHTML = cards.join('') || empty('ยังมีข้อมูลน้อย — ใช้งานไปสักสัปดาห์ อินไซต์จะเริ่มขึ้น', '📊');
   $('#ins-meta').textContent = `ข้อมูล ${days.length} วันย้อนหลัง · อัปเดต ${fmtTime(HI.at)}`;
 }
@@ -3005,7 +3249,8 @@ function renderSearch() {
     (S.qs || []).filter(x => (x.n + ' ' + x.dr).toLowerCase().includes(q)).slice(0, 5).forEach(x => res.push({ l: cleanName(x.n), sub: `คิววันนี้ · ${x.dr} · ${x.paid ? 'จ่ายแล้ว' : 'ยังไม่จ่าย ' + baht(x.p)}`, fn: () => (!x.paid && x.p > 0 ? openPay(x.id) : go('queue')) }));
     members.filter(m => `${m.n} ${m.code} ${m.phone}`.toLowerCase().includes(q)).slice(0, 4).forEach(m => res.push({ l: m.n, sub: `สมาชิก #${m.code} · เหลือ ${m.total - m.used} ครั้ง`, fn: () => openDeduct(m.code) }));
     const names = new Set([...HI.rows.map(r => r[1]), ...Object.keys(S.ctags || {})]);
-    [...names].filter(n => n.toLowerCase().includes(q)).slice(0, 6).forEach(n => { const p = custProfile(n); res.push({ l: n, sub: p ? `ลูกค้า · ${p.visits} ครั้ง · ล่าสุด ${ago(p.last)} — แตะเพื่อลงคิว` : 'ลูกค้า — แตะเพื่อลงคิว', fn: () => { openWalkin(); $('#w-name').value = n; showTag('#w-tag', n); renderWalkSmart(); } }); });
+    [...names].filter(n => n.toLowerCase().includes(q)).slice(0, 6).forEach(n => { const p = custProfile(n); res.push({ l: '👤 ' + n, sub: p ? `ลูกค้า · ${p.visits} ครั้ง · ล่าสุด ${ago(p.last)} — แตะเพื่อดูข้อมูล` : 'ลูกค้า — แตะเพื่อดูข้อมูล', fn: () => openCust(n) }); });
+    if (/^(ลงคิว|รับเงิน|จ่ายเงิน|จบงาน|ต่อเวลา|เปิด|ไป|ดู)/.test(q)) res.unshift({ l: '⚡ สั่งงาน: ' + $('#sr-in').value.trim(), sub: 'ทำตามคำสั่ง', fn: () => handleVoice($('#sr-in').value.trim()) });
     if (!names.has($('#sr-in').value.trim())) res.push({ l: `➕ ลงคิวลูกค้าใหม่ “${$('#sr-in').value.trim()}”`, sub: 'วอล์คอิน', fn: () => { const n = $('#sr-in').value.trim(); openWalkin(); $('#w-name').value = n; } });
   }
   SR = res.slice(0, 14);
@@ -3046,6 +3291,9 @@ function renderSysbars() {
     if (S.tickAge === -1) bars.push(`<div class="sysbar"><span>⚙️</span><span class="grow">ยังไม่ได้เปิดระบบอัตโนมัติ — เปิด Apps Script แล้วรันฟังก์ชัน <b>installTrigger</b> 1 ครั้ง</span></div>`);
     else if (S.tickAge > 10 * 60000) bars.push(`<div class="sysbar bad"><span>⛔</span><span class="grow">ระบบแจ้งเตือนอัตโนมัติหยุดทำงาน ${Math.round(S.tickAge / 60000)} นาที — รัน <b>installTrigger</b> ใน Apps Script อีกครั้ง</span></div>`);
   }
+  const ob = outbox();
+  if (ob.length) bars.push(`<div class="sysbar bad" data-act="flushNow" style="cursor:pointer"><span>📤</span><span class="grow">มีรายการรอส่ง ${ob.length} รายการ (เน็ตหลุด) — แตะเพื่อส่งตอนนี้</span></div>`);
+  if (isOwner() && (S.devices || []).some(d => !d.ok) && g4().devLock) bars.push(`<div class="sysbar info" data-act="go" data-tab="settings" style="cursor:pointer"><span>📱</span><span class="grow">มีเครื่องใหม่รออนุมัติเข้าแอดมิน</span>${ic('chev', 18)}</div>`);
   const pr = pendingReqs();
   if (pr.length) bars.push(`<div class="sysbar info" data-act="go" data-tab="staff" style="cursor:pointer"><span>📝</span><span class="grow">มีคำขอจากพนักงานรออนุมัติ ${pr.length} รายการ</span>${ic('chev', 18)}</div>`);
   const low = (S.stock || []).filter(i => i.qty <= i.min);
@@ -3225,6 +3473,7 @@ function renderMonthMoney() {
   const profit = inc - comm - exp, margin = inc ? Math.round(profit / inc * 100) : 0;
   el.innerHTML = `<div class="card ins"><div class="ins-row"><div><div class="muted sm">กำไรสุทธิ ${d.toLocaleDateString('th-TH', { month: 'long' })}</div><div class="ins-big num ${profit >= 0 ? 'up' : 'down'}">${bahtS(profit)}</div></div><span class="pill ${margin >= 30 ? 'p-ok' : 'p-warn'}">กำไร ${margin}%</span></div>
     <div class="kv2" style="margin-top:6px"><span>รายรับ</span><b class="num">${baht(inc)}</b><span>ค่ามือหมอ</span><b class="num">−${baht(comm)}</b><span>รายจ่าย</span><b class="num">−${baht(exp)}</b></div>
+    ${(() => { const cost = rows.filter(r => isVisit(r)).reduce((a, r) => a + (S.stock || []).reduce((b, i) => b + (Number((i.use || {})[r[3]]) || 0) * (r[4] || 60) / 60 * (Number(i.cost) || 0), 0), 0); return cost ? `<div class="smart" style="margin:12px 0 0">🧴 ใช้ของไปประมาณ <b>${baht(cost)}</b> เดือนนี้ (คำนวณจากราคาทุนในสต็อก — ไม่ได้หักซ้ำกับรายจ่าย)</div>` : ''; })()}
     ${Object.keys(cat).length ? `<div class="sub-label" style="margin-top:14px">รายจ่ายตามหมวด</div>${bars(Object.keys(cat).sort((a, b) => cat[b] - cat[a]).map(k => ({ l: esc(k), v: cat[k] })), v => baht(v))}` : ''}</div>`;
 }
 /* ㉒ ค่ามือรายงวด */
@@ -3330,6 +3579,7 @@ function renderGuard() {
   const d0 = dayStart();
   (GD.audit || []).filter(r => r[0] >= d0 && r[7]).forEach(r => { if (!/ลดราคา|จบงานเร็ว|ปิดกะ/.test(r[5])) risks.push(['🚨', esc(r[5]), `${esc(r[2])} · ${esc(r[3])} · ${esc(r[6])}`]); });
   cards.push(`<div class="card ins hero-ins"><div class="ins-h">🚦 ความเสี่ยงวันนี้ ${risks.length ? `<span class="pill p-bad">${risks.length}</span>` : ''}</div>${risks.map(r => `<div class="risk"><span class="ri">${r[0]}</span><div><b>${r[1]}</b><small>${r[2]}</small></div></div>`).join('') || '<div class="muted sm">ยังไม่พบอะไรผิดปกติวันนี้ 👍</div>'}</div>`);
+  cards.push(...guardMore());
   // ⑦ วินัยพนักงาน
   const st = (S.stats || {}).dr || {}, names = (S.drs || []).map(d => d.n);
   cards.push(`<div class="card ins hero-ins"><div class="ins-h">🧭 คะแนนวินัยพนักงาน · ${esc(S.stats?.m || '')}</div><div class="table-wrap"><table class="tbl"><thead><tr><th>ชื่อ</th><th>คิว</th><th>ขอตัว</th><th>รับคิว</th><th>สาย</th><th>ปฏิเสธ</th><th>ถูกย้าย</th><th>จบเร็ว</th><th>ดาว</th><th>คะแนน</th></tr></thead><tbody>
@@ -3367,13 +3617,14 @@ function renderStock() {
   const items = S.stock || [];
   el.innerHTML = items.map(i => {
     const pct = Math.max(2, Math.min(100, i.min ? i.qty / (i.min * 3) * 100 : 100));
-    return `<div class="stock-row"><div><b>${esc(i.n)}</b> ${i.qty <= i.min ? '<span class="pill p-bad">ใกล้หมด</span>' : ''}<div class="muted sm">ขั้นต่ำ ${i.min} ${esc(i.unit)} · ใช้กับ ${Object.keys(i.use || {}).map(k => tName(k)).join(', ') || '—'}</div></div>
-      <div class="row-r"><b class="num">${i.qty} ${esc(i.unit)}</b><button class="btn btn-sm btn-ok" data-act="restock" data-id="${esc(i.id)}">+ เติม</button></div><div class="bar ${i.qty <= i.min ? 'low' : ''}"><i style="width:${pct}%"></i></div></div>`;
+    return `<div class="stock-row"><div><b>${esc(i.n)}</b> ${i.qty <= i.min ? '<span class="pill p-bad">ใกล้หมด</span>' : ''}<div class="muted sm">ขั้นต่ำ ${i.min} ${esc(i.unit)} · ใช้กับ ${Object.keys(i.use || {}).map(k => tName(k)).join(', ') || '—'}${i.price ? ' · ขาย ' + baht(i.price) : ''}${i.counted ? ` · นับล่าสุด ${new Date(i.counted).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })}${i.lastDiff ? ` <span class="${i.lastDiff < 0 ? 'bad' : ''}">(${i.lastDiff > 0 ? '+' : ''}${i.lastDiff})</span>` : ' ✓'}` : ''}</div></div>
+      <div class="row-r"><b class="num">${i.qty} ${esc(i.unit)}</b><button class="btn btn-sm" data-act="stCount" data-id="${esc(i.id)}">นับจริง</button><button class="btn btn-sm btn-ok" data-act="restock" data-id="${esc(i.id)}">+ เติม</button></div><div class="bar ${i.qty <= i.min ? 'low' : ''}"><i style="width:${pct}%"></i></div></div>`;
   }).join('') || `<div class="muted sm pad center">ยังไม่มีรายการ${isOwner() ? ' — กด “แก้รายการ” เพื่อเพิ่ม เช่น น้ำมันนวด, ผ้าขนหนู, ลูกประคบ' : ''}</div>`;
 }
 function stRow(i = { id: '', n: '', unit: 'ชิ้น', qty: '', min: 0, use: {} }) {
   return `<div class="st-edit" data-id="${esc(i.id)}"><div class="grid2"><label class="field" style="margin:0"><span>ชื่อของ</span><input class="input in-sm" data-f="n" value="${esc(i.n)}" placeholder="เช่น น้ำมันนวด"></label><label class="field" style="margin:0"><span>หน่วย</span><input class="input in-sm" data-f="unit" value="${esc(i.unit)}" placeholder="มล. / ผืน / ลูก"></label>
-    <label class="field" style="margin:0"><span>คงเหลือตอนนี้</span><input class="input in-sm num" type="number" data-f="qty" value="${i.qty === '' ? '' : esc(i.qty)}"></label><label class="field" style="margin:0"><span>เตือนเมื่อเหลือต่ำกว่า</span><input class="input in-sm num" type="number" data-f="min" value="${esc(i.min)}"></label></div>
+    <label class="field" style="margin:0"><span>คงเหลือตอนนี้</span><input class="input in-sm num" type="number" data-f="qty" value="${i.qty === '' ? '' : esc(i.qty)}"></label><label class="field" style="margin:0"><span>เตือนเมื่อเหลือต่ำกว่า</span><input class="input in-sm num" type="number" data-f="min" value="${esc(i.min)}"></label>
+    <label class="field" style="margin:0"><span>ราคาทุน/หน่วย (บาท)</span><input class="input in-sm num" type="number" step="any" data-f="cost" value="${esc(i.cost || '')}"></label><label class="field" style="margin:0"><span>ราคาขาย (ขายหน้าร้าน)</span><input class="input in-sm num" type="number" data-f="price" value="${esc(i.price || '')}" placeholder="ไม่ขาย"></label></div>
     <div class="grid-use">${TYPES.map(t => `<label><span>${t.i} ${t.n} /60น.</span><input class="input in-sm num" type="number" step="any" data-u="${t.k}" value="${(i.use || {})[t.k] || ''}" placeholder="0"></label>`).join('')}</div>
     <button class="btn btn-sm btn-ghost danger-text" data-act="stDel" style="margin-top:8px">ลบรายการนี้</button></div>`;
 }
@@ -3440,6 +3691,361 @@ function thanksCast(q, extra = {}) {
   return { show: false, p: 0, thanks: now(), n: q ? q.n : '', qid: q ? q.id : '', dr, drPP: pp, ...extra };
 }
 
+/* ═════════════════════════════════════════════════════════════════
+   v5.0 — ฟีเจอร์อัจฉริยะเพิ่มอีก 49 อย่าง (แอดมิน)
+   ═════════════════════════════════════════════════════════════════ */
+const DEV_ID = (() => { let v = ''; try { v = localStorage.getItem('spa_dev') || ''; } catch (e) {} if (!v) { v = 'D' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); try { localStorage.setItem('spa_dev', v); } catch (e) {} } return v; })();
+const devName = () => { const u = navigator.userAgent; return /iPad/.test(u) ? 'iPad' : /iPhone/.test(u) ? 'iPhone' : /Android/.test(u) ? ((u.match(/Android[^;]*;\s*([^;)]+)/) || [])[1] || 'Android').trim() : /Windows/.test(u) ? 'คอม Windows' : /Mac/.test(u) ? 'Mac' : 'เครื่องอื่น'; };
+const opid = () => 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const OP_SAFE_C = { ADD_QUEUE: 1, FINISH_JOB: 1, PAY: 1, ADD_EXPENSE: 1, CHECKIN: 1, ADD_WAIT: 1 };
+const BASE_URL = () => location.href.split('#')[0].split('?')[0];
+const addonsCfg = () => S?.cfg?.addons || [];
+const minsTo = ms => Math.max(0, Math.ceil((ms - now()) / 60000));
+
+/* ㊳ แอดมินใช้ตอนเน็ตหลุด: เก็บคำสั่งไว้ แล้วส่งเองเมื่อเน็ตกลับมา (กันซ้ำด้วย opId) */
+const OUTBOX = 'spa_outbox_v5';
+const outbox = () => load(OUTBOX) || [];
+let flushing = false, lastFlush = 0;
+async function flushOutbox() {
+  const ob = outbox(); if (!ob.length || flushing || !navigator.onLine || Date.now() - lastFlush < 8000) return;
+  flushing = true; lastFlush = Date.now();
+  const left = [];
+  for (const it of ob) { try { await api(it.action, it.data, { silent: true, noQueue: true }); } catch (e) { if (!e.code) left.push(it); else toast('ส่งรายการค้างไม่สำเร็จ: ' + e.message, 'bad'); } }
+  save(OUTBOX, left); flushing = false;
+  if (!left.length && ob.length) toast(`✓ ส่งรายการที่ค้างไว้ ${ob.length} รายการแล้ว`, 'ok');
+  if (S) renderSysbars();
+}
+
+/* ㊶ ย้อนกลับ 10 วินาที */
+function toastUndo(msg, fn, type = 'ok') {
+  const el = document.createElement('div');
+  el.className = 'toast act ' + type;
+  el.innerHTML = `<span>${esc(msg)}</span><button class="tb">↩ ย้อนกลับ</button>`;
+  let done = false;
+  el.querySelector('.tb').onclick = async () => { if (done) return; done = true; el.remove(); try { await fn(); toast('ย้อนกลับแล้ว', 'ok'); } catch (e) { toast(e.message, 'bad'); } };
+  $('#toasts').appendChild(el);
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 300); }, 10000);
+}
+
+/* ③ ล็อกหน้าจออัตโนมัติ */
+let lastAct = Date.now();
+const idleMin = () => { const v = localStorage.getItem('spa_idle'); return v == null ? 15 : Number(v) || 0; };
+function checkIdle() {
+  if (!token || !S || !$('#lockov').hidden) return;
+  const m = idleMin(); if (!m) return;
+  if (Date.now() - lastAct > m * 60000) { $('#lockov').hidden = false; $('#lk-who').textContent = `ไม่ได้ใช้งานเกิน ${m} นาที — ใส่รหัสเพื่อใช้ต่อ${S.who ? ' (' + S.who + ')' : ''}`; $('#lk-pass').value = ''; setTimeout(() => $('#lk-pass').focus(), 200); }
+}
+['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => { if ($('#lockov')?.hidden !== false) lastAct = Date.now(); }, true));
+
+/* ㊴ ปุ่มลัดบริการยอดนิยม */
+function renderQuickSvc() {
+  const el = $('#quick-svc'); if (!el) return;
+  const t30 = dayStart() - 30 * 864e5, c = {};
+  pastRows().filter(r => r[0] >= t30 && r[10] === 'svc').forEach(r => { const k = r[3] + '|' + r[4]; c[k] = (c[k] || 0) + 1; });
+  let top = Object.keys(c).sort((a, b) => c[b] - c[a]).slice(0, 5).map(k => k.split('|'));
+  if (top.length < 3) top = [['thai', '60'], ['thai', '120'], ['foot', '60'], ['oil', '60']];
+  el.innerHTML = top.filter(([t, d]) => priceOf(t, +d)).map(([t, d]) => `<button data-act="quickSvc" data-t="${t}" data-d="${d}"><b>${tIcon(t)} ${esc(tName(t))}</b>${durLabel(+d)} · ${baht(priceOf(t, +d))}</button>`).join('');
+}
+
+/* ㊹ เช็คลิสต์เปิด/ปิดร้าน */
+const CHK = { kind: '', done: [], t: 0 };
+function chkKind() { const g = g4(), m = toMin(fmtTime(now())); return m >= toMin(g.closeAt || '22:00') - 60 ? 'close' : 'open'; }
+function renderChk() {
+  const el = $('#chk-card'); if (!el || !S?.cfg?.checklists) return;
+  const k = chkKind(), list = S.cfg.checklists[k] || [], today = todayISO(), sv = S.chk && S.chk.date === today ? S.chk[k] : null;
+  if (CHK.kind !== k || !CHK.touched) { CHK.kind = k; CHK.done = sv ? sv.done.slice() : []; }
+  if (!list.length) { el.innerHTML = ''; return; }
+  if (sv && sv.all) { el.innerHTML = `<div class="sysbar info" style="margin-top:12px"><span>✅</span><span class="grow">เช็คลิสต์${k === 'open' ? 'เปิด' : 'ปิด'}ร้านครบแล้ว · ${esc(sv.who || '')} ${fmtTime(sv.at)}</span></div>`; return; }
+  el.innerHTML = `<div class="card chk"><div class="chk-h"><span>📋 เช็คลิสต์${k === 'open' ? 'เปิด' : 'ปิด'}ร้าน</span><span class="pill p-gold">${CHK.done.length}/${list.length}</span></div>${list.map((it, i) => `<button class="chk-i ${CHK.done.includes(i) ? 'on' : ''}" data-act="chkTick" data-i="${i}"><span>${CHK.done.includes(i) ? '✓' : ''}</span>${esc(it)}</button>`).join('')}</div>`;
+}
+
+/* ⑮ รายชื่อรอคิว + เวลารอโดยประมาณ */
+function freeTimes() {
+  const cm = g4().cleanStep ? (g4().cleanMin || 10) : 0;
+  const ends = (S.qs || []).filter(q => q.status === 'active' && q.kind !== 'ext').map(q => q.startTime + q.d * 60000 + cm * 60000);
+  (S.drs || []).filter(d => d.st === 'clean').forEach(d => ends.push((d.cleanAt || now()) + cm * 60000));
+  const free = rotation().length;
+  return [...Array(free).fill(now()), ...ends.sort((a, b) => a - b)];
+}
+function waitEta(pos) { const ft = freeTimes(); return ft[pos] != null ? minsTo(ft[pos]) : null; }
+function renderWait() {
+  const w = S.wait || [];
+  $('#wait-n').textContent = w.length ? `(${w.length})` : '';
+  const row = (x, i) => { const eta = waitEta(i), waited = Math.floor((now() - x.at) / 60000);
+    return `<div class="wrow"><span class="no">${i + 1}</span><div style="min-width:0"><b>${esc(x.n)}</b> <span class="muted sm">${tIcon(x.t)} ${esc(tName(x.t))} ${durLabel(x.d)}${x.dr ? ' · ขอ ' + esc(x.dr) : ''}</span><div class="muted sm">รอมา ${waited} น. · ${eta === 0 ? '<b style="color:var(--ok)">มีหมอว่างแล้ว!</b>' : eta != null ? `ได้คิวอีก ~${eta} น.` : 'ยังประเมินไม่ได้'}</div></div>
+      <div class="r">${x.phone ? `<a class="icon-btn" href="tel:${esc(x.phone)}" aria-label="โทร">${ic('phone', 16)}</a>` : ''}<button class="btn btn-sm ${eta === 0 ? 'btn-ok' : ''}" data-act="seatWait" data-id="${esc(x.id)}">เรียก/ลงคิว</button><button class="icon-btn danger" data-act="delWait" data-id="${esc(x.id)}" aria-label="ลบ">${ic('x', 16)}</button></div></div>`; };
+  $('#wait-list').innerHTML = w.map(row).join('') || '<div class="muted sm pad center">ไม่มีลูกค้ารอ — ตอนหมอไม่ว่าง กด “เพิ่มคนรอ” ระบบจะเด้งเตือนเมื่อมีหมอว่าง</div>';
+  $('#home-wait').innerHTML = w.length ? `<div class="sec-head"><h3>ลูกค้ารอคิว (${w.length})</h3><button class="link" data-act="go" data-tab="queue">ดูทั้งหมด</button></div><div class="card list">${w.slice(0, 3).map(row).join('')}</div>` : '';
+}
+
+/* ⑭ หน้าโปรไฟล์ลูกค้า */
+function custRows(n) { return [...pastRows(), ...todayRows()].filter(r => r[1] === n).sort((a, b) => b[0] - a[0]); }
+function avgGap(n) { const v = custRows(n).filter(isVisit).map(r => dayStart(r[0])); const u = [...new Set(v)].sort((a, b) => a - b); if (u.length < 2) return 0; return Math.round((u[u.length - 1] - u[0]) / (u.length - 1) / 864e5); }
+function openCust(name) {
+  const n = cleanName(name).trim(); if (!n) return;
+  TG.n = n;
+  const p = custProfile(n), rows = custRows(n), ci = cinfoOf(n) || {}, mem = members.find(m => m.n === n), tag = tagOf(n);
+  const phone = ci.phone || mem?.phone || (S.bk || []).find(b => b.n === n && b.phone)?.phone || '';
+  const comps = (S.complaints || []).filter(c => c.n === n);
+  const spend = incomeOf(rows), gap = avgGap(n), first = rows.length ? rows[rows.length - 1][0] : 0;
+  $('#cu-body').innerHTML = `<div class="prof-top"><div class="avatar">${esc(initial(n))}</div><div style="min-width:0"><b style="font-size:19px">${esc(n)}</b> ${tagBadge(n)}<div class="muted sm">${phone ? `${ic('phone', 13)} <a href="tel:${esc(phone)}">${esc(fmtPP(phone))}</a> · ` : ''}${first ? 'ลูกค้าตั้งแต่ ' + new Date(first).toLocaleDateString('th-TH', { month: 'short', year: '2-digit' }) : 'ลูกค้าใหม่'}${ci.src ? ' · มาจาก ' + esc(ci.src) : ''}</div></div></div>
+    ${ci.warn ? `<div class="cinfo warn">⚠️ ${esc(ci.warn)}</div>` : ''}${ci.health ? `<div class="cinfo health">🩺 ${esc(ci.health)}</div>` : ''}
+    <div class="prof-kpi"><div><b>${p ? p.visits : 0}</b><span>ครั้งที่มา</span></div><div><b>${baht(spend)}</b><span>ใช้จ่ายรวม (90 วัน)</span></div><div><b>${gap ? gap + ' วัน' : '-'}</b><span>มาทุกๆ</span></div></div>
+    ${p ? `<div class="smart" style="margin:0 0 12px">ชอบ <b>${esc(tName(p.favT))} ${durLabel(p.favD)}</b>${p.favDr ? ` กับ <b>${esc(p.favDr)}</b>` : ''} · มาล่าสุด ${ago(p.last)}${p.ext ? ` · ต่อเวลา ${p.ext} ครั้ง` : ''}${ci.noshow ? ` · <span class="bad">ไม่มาตามนัด ${ci.noshow} ครั้ง</span>` : ''}${p.notes.length ? `<div class="smart-n">📝 ${p.notes.map(esc).join(' · ')}</div>` : ''}</div>` : ''}
+    ${mem ? `<div class="smart" style="margin:0 0 12px;background:var(--ok-soft);border-color:transparent">🎟️ สมาชิก #${esc(mem.code)} · ${esc(mem.pkg)} · เหลือ <b>${mem.total - mem.used}</b> ครั้ง${mem.exp ? ' · หมดอายุ ' + thaiDate(mem.exp) : ''}</div>` : ''}
+    ${comps.length ? `<div class="cinfo warn">😟 เรื่องร้องเรียน: ${comps.map(c => esc(c.text) + (c.st === 'done' ? ' (แก้แล้ว)' : '')).join(' · ')}</div>` : ''}
+    <div class="btn-row" style="flex-wrap:wrap;margin:6px 0 14px"><button class="btn btn-primary grow" data-act="cuQueue">➕ ลงคิว</button><button class="btn grow" data-act="cuBook">📅 จองนัด</button><button class="btn grow" data-act="cuTag">🏷️ แท็ก/ข้อมูล</button></div>
+    <div class="btn-row" style="flex-wrap:wrap;margin:0 0 14px"><button class="btn btn-ghost grow" data-act="cuWin">💬 ข้อความ LINE</button><button class="btn btn-ghost grow" data-act="cuComp">😟 บันทึกร้องเรียน</button></div>
+    <div class="sub-label" style="margin-top:0">ประวัติล่าสุด</div>
+    <div class="card list" style="padding:4px 14px">${rows.slice(0, 15).map(r => `<div class="vrow"><span>${new Date(r[0]).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })} · ${r[10] === 'ext' ? 'ต่อเวลา' : esc(tName(r[3]))} ${r[4] ? durLabel(r[4]) : ''}${r[2] && r[2] !== '-' ? ' · ' + esc(r[2]) : ''}</span><b class="num">${r[6] === 'course' ? 'คอร์ส' : baht(r[5])}</b></div>`).join('') || '<div class="muted sm pad center">ยังไม่มีประวัติ</div>'}</div>`;
+  openSheet('sh-cust');
+}
+/* ⑬ นัดครั้งหน้า / จองนัดล่วงหน้า */
+function prefillBk(o) {
+  closeSheet('sh-cust'); closeSheet('sh-receipt');
+  setTimeout(() => {
+    go('booking'); initBkForm();
+    $('#bk-name').value = o.n || ''; $('#bk-phone').value = o.phone || '';
+    if (o.t) { $('#bk-type').value = o.t; fillBkDur(); } if (o.d) $('#bk-dur').value = o.d;
+    if (o.date) $('#bk-date').value = o.date; if (o.time) $('#bk-time').value = o.time;
+    $('#bk-dr').value = o.dr && (S.drs || []).some(d => d.n === o.dr) ? o.dr : '';
+    showTag('#bk-tag', o.n || ''); checkBk();
+    toast('ตรวจวัน/เวลา แล้วกด “บันทึกการจอง”', 'ok');
+  }, 320);
+}
+function nextVisit(n, q) {
+  const gap = avgGap(n) || 14, d = new Date(now() + gap * 864e5), h = new Date(now()).getHours();
+  const p = custProfile(n) || {}, ci = cinfoOf(n) || {};
+  return { n, phone: ci.phone || members.find(m => m.n === n)?.phone || '', t: q?.t && TYPES.some(x => x.k === q.t) ? q.t : p.favT, d: q?.kind === 'svc' ? q.d : p.favD, dr: q?.dr || p.favDr, date: isoOf(d.getTime()), time: pad(Math.min(20, Math.max(10, h))) + ':00' };
+}
+/* ㉔ ข้อความยืนยันนัด */
+function bkMsgText(b) {
+  const shop = S.cfg?.shop || {}, tpl = S.cfg?.bkMsg || '';
+  return tpl.replace(/\{ชื่อ\}/g, b.n).replace(/\{วัน\}/g, thaiDate(b.date)).replace(/\{เวลา\}/g, b.time).replace(/\{บริการ\}/g, tName(b.t) + ' ' + durLabel(b.d)).replace(/\{หมอ\}/g, b.dr ? ' กับ' + b.dr : '').replace(/\{ร้าน\}/g, shop.name || '').replace(/\{โทร\}/g, shop.phone || '');
+}
+
+/* ⑨ ใบเสร็จดิจิทัล · ㊵ ส่งใบเสร็จเป็นรูป */
+const receiptUrl = q => q && q.rk ? `${BASE_URL()}?mode=receipt&id=${encodeURIComponent(q.id)}&k=${q.rk}` : '';
+async function receiptImage(q) {
+  const shop = S.cfg?.shop || {}, W = 600, lines = [];
+  const pmT = q.pm === 'qr' ? 'สแกนโอน (QR)' : q.pm === 'voucher' ? 'บัตรของขวัญ' : q.pm === 'course' ? 'ตัดคอร์ส' : 'เงินสด';
+  lines.push(['h', shop.name || 'ประคบทองไทยสปา'], ['s', [shop.branch, shop.phone && 'โทร ' + shop.phone].filter(Boolean).join(' · ')], ['hr'],
+    ['kv', 'เลขที่', String(q.id)], ['kv', 'วันที่', new Date(q.paidAt || now()).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' })], ['kv', 'ลูกค้า', cleanName(q.n)]);
+  if (q.dr && q.dr !== '-') lines.push(['kv', 'พนักงาน', q.dr]);
+  lines.push(['hr'], ['kv', q.kind === 'svc' || q.kind === 'course' ? `${tName(q.t)} (${q.d} นาที)` : String(q.t), baht(q.p)], ['hr'], ['tot', 'ยอดสุทธิ', baht(q.p)], ['kv', 'ชำระโดย', pmT]);
+  if (q.voucherCode) lines.push(['kv', 'รหัสบัตรของขวัญ', q.voucherCode]);
+  lines.push(['hr'], ['s', 'ขอบคุณที่ใช้บริการ 🙏']);
+  const H = 70 + lines.length * 44, cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const g = cv.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); g.textBaseline = 'middle';
+  let y = 46; const F = 'IBM Plex Sans Thai, sans-serif';
+  lines.forEach(l => {
+    if (l[0] === 'h') { g.fillStyle = '#B8892B'; g.font = `700 30px ${F}`; g.textAlign = 'center'; g.fillText(l[1], W / 2, y); }
+    else if (l[0] === 's') { g.fillStyle = '#777'; g.font = `20px ${F}`; g.textAlign = 'center'; g.fillText(l[1], W / 2, y); }
+    else if (l[0] === 'hr') { g.strokeStyle = '#ccc'; g.setLineDash([6, 6]); g.beginPath(); g.moveTo(30, y); g.lineTo(W - 30, y); g.stroke(); g.setLineDash([]); }
+    else { g.fillStyle = '#222'; g.font = `${l[0] === 'tot' ? '700 26px' : '21px'} ${F}`; g.textAlign = 'left'; g.fillText(l[1], 30, y); g.textAlign = 'right'; g.fillText(l[2], W - 30, y); }
+    y += 44;
+  });
+  return new Promise(r => cv.toBlob(r, 'image/png'));
+}
+
+/* ⑱ บัตรของขวัญ */
+async function loadGvList() {
+  try { const j = await (await fetch(`${SCRIPT_URL}?type=voucher&token=${encodeURIComponent(token)}&t=${Date.now()}`)).json(); if (j.ok) $('#gv-list').innerHTML = (j.list || []).slice(0, 20).map(v => `<div class="row"><div><b class="num">${esc(v.code)}</b><div class="muted sm">${esc(v.buyer)}${v.to && v.to !== '-' ? ' → ' + esc(v.to) : ''} · ขาย ${esc(v.sold)} · หมด ${esc(v.exp)}</div></div><div class="row-r"><span class="pill ${v.st === 'ใช้ได้' ? 'p-ok' : 'p-mute'}">${esc(v.st)}</span><b class="num">${baht(v.balance)}/${baht(v.value)}</b></div></div>`).join('') || '<div class="muted sm pad center">ยังไม่มีบัตรที่ขาย</div>'; } catch (e) {}
+}
+
+/* ⑲ ขายสินค้า */
+let IT = {};
+function renderItems() {
+  const list = (S.stock || []).filter(i => i.price > 0);
+  $('#it-list').innerHTML = list.map(i => `<div class="row" style="padding:10px 0"><div><b>${esc(i.n)}</b><div class="muted sm">${baht(i.price)} · เหลือ ${i.qty} ${esc(i.unit)}</div></div><div class="stepper sm" style="margin:0"><button class="icon-btn" data-act="itQ" data-id="${esc(i.id)}" data-v="-1">−</button><b class="num">${IT[i.id] || 0}</b><button class="icon-btn" data-act="itQ" data-id="${esc(i.id)}" data-v="1">+</button></div></div>`).join('')
+    || '<div class="muted sm pad center">ยังไม่มีสินค้าขาย — ไปที่ สต็อก › แก้รายการ แล้วใส่ “ราคาขาย”</div>';
+  $('#it-total').textContent = baht(list.reduce((a, i) => a + (IT[i.id] || 0) * i.price, 0));
+}
+
+/* ㊼㊽ ข้อความ / ประกาศ · ㊾ ตารางเวร */
+function renderMsgs() {
+  const el = $('#msg-list'); if (!el) return;
+  const drs = (S.drs || []).map(d => d.n);
+  el.innerHTML = (S.msgs || []).slice().reverse().slice(0, 12).map(m => {
+    const to = m.to === '*' ? drs : [m.to], read = to.filter(n => m.ack && m.ack[n]), unread = to.filter(n => !(m.ack && m.ack[n]));
+    return `<div class="msg-i"><b>${m.to === '*' ? '📢 ทุกคน' : '💬 ' + esc(m.to)}</b> · ${esc(m.text)}<small>${new Date(m.at).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })} ${fmtTime(m.at)} · โดย ${esc(m.from || '')} · อ่านแล้ว ${read.length}/${to.length}${unread.length ? ` · <span class="bad">ยังไม่อ่าน: ${unread.map(esc).join(', ')}</span>` : ' ✓'}</small></div>`;
+  }).join('') || '<div class="muted sm pad center">ยังไม่มีข้อความ</div>';
+}
+function renderRoster() {
+  const el = $('#roster'); if (!el) return;
+  const days = [...Array(14)].map((_, i) => isoOf(now() + i * 864e5)), drs = (S.drs || []).map(d => d.n), ro = S.roster || {};
+  const DN = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
+  el.innerHTML = drs.length ? `<table><thead><tr><th></th>${days.map(k => { const d = new Date(k + 'T00:00:00'); return `<th>${DN[d.getDay()]}<br>${d.getDate()}</th>`; }).join('')}</tr></thead><tbody>${drs.map(n => `<tr><td>${esc(n)}</td>${days.map(k => `<td><button class="${(ro[k] || []).includes(n) ? 'on' : ''}" data-act="rosTog" data-d="${k}" data-n="${esc(n)}" ${isOwner() ? '' : 'disabled'}>${(ro[k] || []).includes(n) ? '✓' : ''}</button></td>`).join('')}</tr>`).join('')}
+    <tr><td class="muted sm">รวม</td>${days.map(k => `<td class="muted sm">${(ro[k] || []).length || ''}</td>`).join('')}</tr></tbody></table><p class="muted sm" style="margin:10px 0 0">หมอที่มีเวรจะได้แจ้งเตือนคืนก่อน 20:00 · วันที่ตั้งเวรไว้ ระบบจะเตือนเฉพาะคนที่มีเวรถ้ายังไม่เช็คชื่อ</p>` : '<div class="muted sm">ยังไม่มีพนักงาน</div>';
+}
+
+/* 🛡️ ศูนย์กันโกงเพิ่ม (① ② ⑦ ⑩ ㉒ ④) */
+function guardMore() {
+  const cards = [], qs = S.qs || [], st = (S.stats || {}).dr || {};
+  // ① คิวซ้อน / ชื่อลูกค้าซ้ำวันเดียว
+  const dup = {}; qs.filter(q => q.kind === 'svc').forEach(q => { const n = cleanName(q.n); (dup[n] = dup[n] || []).push(q); });
+  const dups = Object.keys(dup).filter(n => dup[n].length > 1);
+  const multi = (S.drs || []).filter(d => qs.filter(q => q.dr === d.n && q.status === 'active').length > 1);
+  if (dups.length || multi.length) cards.push(`<div class="card ins"><div class="ins-h">👯 คิวซ้อน / ชื่อซ้ำวันนี้</div>${multi.map(d => `<div class="risk"><span class="ri">⛔</span><div><b>${esc(d.n)} มีลูกค้าพร้อมกันหลายคน</b></div></div>`).join('')}${dups.map(n => `<div class="risk"><span class="ri">👯</span><div><b>คุณ${esc(n)} ลง ${dup[n].length} คิว</b><small>${dup[n].map(q => esc(q.time) + ' ' + esc(q.dr) + ' ' + baht(q.p) + (q.paid ? ' (จ่ายแล้ว)' : '')).join(' · ')}</small></div></div>`).join('')}<div class="muted sm" style="margin-top:6px">ถ้าลูกค้ามาครั้งเดียว อาจเป็นการลงคิวซ้ำเพื่อเบิกค่ามือ</div></div>`);
+  // ② ยอดโอนที่ไม่มีหลักฐาน
+  const unv = qs.filter(q => q.paid && q.pm === 'qr' && !q.slip && !q.depId && !q.verified);
+  cards.push(`<div class="card ins"><div class="ins-h">🧾 ยอดโอนที่ยังไม่มีหลักฐาน ${unv.length ? `<span class="pill p-warn">${unv.length}</span>` : ''}</div>${unv.map(q => `<div class="lb-r"><b>${esc(cleanName(q.n))}</b><span class="muted sm">${baht(q.p)} · ${q.paidAt ? fmtTime(q.paidAt) : ''} · ${esc(q.dr)}</span><button class="btn btn-sm" data-act="verifyQ" data-id="${esc(q.id)}">ดูแอปธนาคารแล้ว ✓</button></div>`).join('') || '<div class="muted sm">ทุกยอดโอนมีสลิปหรือเงินเข้าจับคู่แล้ว 👍</div>'}<div class="muted sm" style="margin-top:6px">ยอดที่กด “โอน” แต่ไม่ได้สแกนสลิป และไม่มีเงินเข้าจับคู่ — เช็คในแอปธนาคารก่อนกดยืนยัน</div></div>`);
+  // ⑦ แย่งคิว / ถูกย้ายบ่อย
+  const names = Object.keys(st).filter(n => (st[n].jobs || 0) >= 5);
+  const avgReq = names.length ? names.reduce((a, n) => a + (st[n].req || 0) / (st[n].jobs || 1), 0) / names.length : 0;
+  const sus = names.filter(n => { const s = st[n], r = (s.req || 0) / (s.jobs || 1); return (avgReq && r > avgReq * 2 && r > 0.4) || (s.reassg || 0) + (s.decl || 0) >= 4; });
+  if (sus.length) cards.push(`<div class="card ins"><div class="ins-h">🎯 สัญญาณแย่งคิว / เลือกงาน</div>${sus.map(n => { const s = st[n]; return `<div class="risk"><span class="ri">⚠️</span><div><b>${esc(n)}</b><small>ลูกค้าขอตัว ${Math.round((s.req || 0) / (s.jobs || 1) * 100)}% (เฉลี่ยร้าน ${Math.round(avgReq * 100)}%) · ปฏิเสธ ${s.decl || 0} · ถูกย้าย ${s.reassg || 0}</small></div></div>`; }).join('')}<div class="muted sm" style="margin-top:6px">ขอตัวสูงผิดปกติ อาจเป็นการให้ลูกค้าบอกชื่อเพื่อข้ามคิว — ลองถามลูกค้าโดยตรง</div></div>`);
+  // ⑩ เวลาพักวันนี้
+  const today = todayISO(), bm = Number(g4().breakMax) || 0;
+  const brk = (S.drs || []).map(d => ({ n: d.n, m: d.brkDay === today ? (d.brkMin || 0) + (d.st === 'break' && d.brkAt ? Math.round((now() - d.brkAt) / 60000) : 0) : 0 })).filter(x => x.m > 0).sort((a, b) => b.m - a.m);
+  if (brk.length) cards.push(`<div class="card ins"><div class="ins-h">☕ เวลาพักวันนี้${bm ? ` (กำหนด ${bm} นาที)` : ''}</div>${bars(brk.map(x => ({ l: esc(x.n), v: x.m, hi: bm && x.m > bm })), v => v + ' น.')}</div>`);
+  // ㉒ เรื่องร้องเรียน
+  const cp = (S.complaints || []).filter(c => c.st !== 'done');
+  cards.push(`<div class="card ins"><div class="ins-h" style="display:flex;justify-content:space-between;align-items:center">😟 เรื่องร้องเรียนที่ยังไม่แก้ ${cp.length ? `<span class="pill p-bad">${cp.length}</span>` : ''}<button class="btn btn-sm" data-act="compOpen">+ บันทึก</button></div>${cp.map(c => `<div class="risk"><span class="ri">${c.src === 'auto' ? '⭐' : '😟'}</span><div style="flex:1"><b>คุณ${esc(c.n)}${c.dr ? ' · ' + esc(c.dr) : ''}</b><small>${esc(c.text)} · ${new Date(c.at).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })}</small></div><button class="btn btn-sm btn-ok" data-act="resolveComp" data-id="${esc(c.id)}">แก้แล้ว</button></div>`).join('') || '<div class="muted sm">ไม่มีเรื่องค้าง 👍</div>'}</div>`);
+  // ④ เครื่องรออนุมัติ
+  const pend = (S.devices || []).filter(d => !d.ok);
+  if (pend.length && g4().devLock) cards.push(`<div class="card ins"><div class="ins-h">📱 เครื่องรออนุมัติ</div>${pend.map(d => `<div class="lb-r"><b>${esc(d.name)}</b><span class="muted sm">${esc(d.who || '')} · ${new Date(d.last || d.first).toLocaleString('th-TH', { dateStyle: 'short', timeStyle: 'short' })}</span><button class="btn btn-sm btn-ok" data-act="devOk" data-id="${esc(d.id)}" data-ok="1">อนุมัติ</button></div>`).join('')}</div>`);
+  return cards;
+}
+
+/* 📊 อินไซต์เพิ่ม v5 (㉓ ㉗ ㉘ ㉙ ㉚ ㉛ ㉜ ㉝ ㉞ ㊿) */
+const SUMM = { rows: [], bk: [], at: 0, loading: false };
+async function loadSummary() {
+  if (!isOwner() || SUMM.loading || (SUMM.at && Date.now() - SUMM.at < 10 * 60000)) return;
+  SUMM.loading = true;
+  try { const j = await (await fetch(`${SCRIPT_URL}?type=summary&token=${encodeURIComponent(token)}&t=${Date.now()}`)).json(); if (j.ok) { SUMM.rows = j.rows || []; SUMM.bk = j.bk || []; SUMM.at = Date.now(); if (tab === 'insights') renderInsights(); } } catch (e) {} finally { SUMM.loading = false; }
+}
+const nameKey = n => String(n || '').replace(/^คุณ\s*/, '').replace(/\s+/g, '').toLowerCase();
+function mergeSuggest() {
+  const cnt = {}; [...HI.rows, ...todayRows()].forEach(r => { if (r[1]) cnt[r[1]] = (cnt[r[1]] || 0) + 1; });
+  Object.keys(S.ctags || {}).forEach(n => cnt[n] = cnt[n] || 0); members.forEach(m => cnt[m.n] = cnt[m.n] || 0);
+  const names = Object.keys(cnt), groups = {};
+  names.forEach(n => { const first = nameKey(n.replace(/^คุณ\s*/, '').split(/\s+/)[0]); if (first.length >= 2) (groups[first] = groups[first] || []).push(n); });
+  return Object.values(groups).filter(g => g.length > 1 && new Set(g.map(nameKey)).size <= g.length).map(g => g.sort((a, b) => cnt[b] - cnt[a])).filter(g => g.some(n => /^คุณ/.test(n)) || new Set(g.map(nameKey)).size < g.length || g.some(n => g.some(m => m !== n && nameKey(m).startsWith(nameKey(n))))).slice(0, 8).map(g => ({ to: g[0], from: g.slice(1), cnt }));
+}
+function moreInsights5(past, today) {
+  const cards = [], all = [...past, ...today], t = now(), t30 = dayStart() - 30 * 864e5;
+  // ㉛ พยากรณ์พรุ่งนี้ + 7 วัน
+  const byDay = {}; past.filter(r => r[0] >= dayStart() - 56 * 864e5).forEach(r => (byDay[dayStart(r[0])] = byDay[dayStart(r[0])] || []).push(r));
+  const wd = {}; Object.keys(byDay).forEach(k => { const w = new Date(+k).getDay(); (wd[w] = wd[w] || []).push(byDay[k]); });
+  if (Object.keys(wd).length >= 4) {
+    const fc = [...Array(7)].map((_, i) => { const d = new Date(t + (i + 1) * 864e5), w = d.getDay(), L = wd[w] || []; if (!L.length) return null;
+      const inc = L.reduce((a, rs) => a + incomeOf(rs), 0) / L.length, jobs = L.reduce((a, rs) => a + rs.filter(isVisit).length, 0) / L.length;
+      const hrs = {}; L.forEach(rs => rs.filter(isVisit).forEach(r => { const h = new Date(r[0]).getHours(); hrs[h] = (hrs[h] || 0) + 1; }));
+      const peak = Math.max(0, ...Object.values(hrs)) / L.length, avgD = (L.flat().filter(isVisit).reduce((a, r) => a + (r[4] || 60), 0) / Math.max(1, L.flat().filter(isVisit).length)) || 60;
+      return { d, inc, jobs, need: Math.max(1, Math.ceil(peak * avgD / 60)) }; }).filter(Boolean);
+    if (fc.length) { const tm = fc[0], wk = fc.reduce((a, x) => a + x.inc, 0);
+      cards.push(`<div class="card ins hero-ins"><div class="ins-h">🔭 พยากรณ์ล่วงหน้า</div><div class="ins-row"><div><div class="muted sm">พรุ่งนี้ (วัน${tm.d.toLocaleDateString('th-TH', { weekday: 'long' })})</div><div class="ins-big num">${baht(tm.inc)}</div><div class="muted sm">~${Math.round(tm.jobs)} คิว · ควรมีหมอ <b>${tm.need} คน</b></div></div><div style="text-align:right"><div class="muted sm">7 วันข้างหน้า</div><div class="num" style="font-size:24px;color:var(--gold)">${baht(wk)}</div></div></div>
+        ${bars(fc.map(x => ({ l: x.d.toLocaleDateString('th-TH', { weekday: 'short', day: 'numeric' }), v: Math.round(x.inc), hi: x === fc.reduce((a, b) => b.inc > a.inc ? b : a, fc[0]) })), v => baht(v))}<div class="muted sm" style="margin-top:6px">จากค่าเฉลี่ยวันเดียวกัน 8 สัปดาห์ · จัดเวรตามจำนวนหมอที่แนะนำได้ที่หน้าพนักงาน</div></div>`); }
+  }
+  // ㉗ เทียบเดือนต่อเดือน / ปีต่อปี
+  if (SUMM.at && SUMM.rows.length) {
+    const mon = {}; SUMM.rows.forEach(r => { const d = new Date(r[0]), k = d.getFullYear() * 12 + d.getMonth(); mon[k] = (mon[k] || 0) + (Number(r[3]) || 0); });
+    const d0 = new Date(t), cur = d0.getFullYear() * 12 + d0.getMonth(), ks = [...Array(12)].map((_, i) => cur - 11 + i);
+    const max = Math.max(1, ...ks.map(k => Math.max(mon[k] || 0, mon[k - 12] || 0)));
+    const MN = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    const prevM = mon[cur - 1] || 0, lastY = mon[cur - 12] || 0, thisM = mon[cur] || 0;
+    cards.push(`<div class="card ins hero-ins"><div class="ins-h">📅 รายรับรายเดือน (จากการปิดยอด) <span class="muted sm">■ ปีนี้ ■ ปีก่อน</span></div><div class="mchart">${ks.map(k => `<div class="c"><div class="bars"><i class="prev" style="height:${(mon[k - 12] || 0) / max * 100}%"></i><i style="height:${(mon[k] || 0) / max * 100}%"></i></div><span>${MN[k % 12]}</span></div>`).join('')}</div>
+      <div class="kv2" style="margin-top:10px"><span>เดือนนี้ (ปิดยอดแล้ว)</span><b class="num">${baht(thisM)}</b><span>เดือนก่อน</span><b class="num">${baht(prevM)}</b>${lastY ? `<span>เดือนเดียวกันปีก่อน</span><b class="num">${baht(lastY)} (${thisM >= lastY ? '▲' : '▼'}${Math.abs(Math.round((thisM - lastY) / lastY * 100))}%)</b>` : ''}</div></div>`);
+  } else if (isOwner()) loadSummary();
+  // ㉘ ชั่วโมงทำงาน vs นวดจริง
+  const st = (S.stats || {}).dr || {}, ut = Object.keys(st).filter(n => st[n].onMin > 60).map(n => ({ n, on: st[n].onMin, sv: st[n].svcMin || 0 }));
+  if (ut.length) cards.push(`<div class="card ins"><div class="ins-h">⏱️ ใช้เวลาทำงานคุ้มแค่ไหน (เดือนนี้)</div>${bars(ut.map(x => ({ l: esc(x.n), v: Math.min(100, Math.round(x.sv / x.on * 100)) })), v => v + '%')}<div class="muted sm" style="margin-top:6px">% = เวลานวดจริง ÷ เวลาที่เช็คชื่ออยู่ในร้าน · ต่ำมาก = คนเยอะเกินงาน</div></div>`);
+  // ㉙ รายได้ต่อเตียงต่อชั่วโมง
+  const g = g4(), openH = Math.max(1, (toMin(g.closeAt || '22:00') - toMin(g.openAt || '10:00')) / 60), beds = Number(g.beds) || 1;
+  const days30 = new Set(all.filter(r => r[0] >= t30).map(r => dayStart(r[0]))).size;
+  if (days30) { const inc30 = incomeOf(all.filter(r => r[0] >= t30)), min30 = all.filter(r => r[0] >= t30 && isVisit(r)).reduce((a, r) => a + (r[4] || 0), 0);
+    cards.push(`<div class="card ins"><div class="ins-h">🛏️ รายได้ต่อเตียง (30 วัน)</div><div class="ins-row"><div><div class="ins-big num">${baht(inc30 / (days30 * openH * beds))}</div><div class="muted sm">ต่อเตียงต่อชั่วโมงที่ร้านเปิด</div></div><div style="text-align:right"><div class="num" style="font-size:24px">${Math.round(min30 / 60 / (days30 * openH * beds) * 100)}%</div><div class="muted sm">เตียงถูกใช้</div></div></div><div class="muted sm" style="margin-top:6px">${beds} เตียง · เปิด ${openH} ชม./วัน · ${days30} วันที่มีลูกค้า (แก้จำนวนเตียงได้ที่ตั้งค่า)</div></div>`); }
+  // ㉚ บริการไหนกำไรดีสุด
+  const sv = {}; all.filter(r => r[0] >= t30 && r[10] === 'svc').forEach(r => { const o = sv[r[3]] = sv[r[3]] || { inc: 0, comm: 0, cost: 0, n: 0, min: 0 }; if (r[7]) o.inc += r[5]; o.comm += r[9]; o.n++; o.min += r[4] || 0; (S.stock || []).forEach(i => { o.cost += (Number((i.use || {})[r[3]]) || 0) * (r[4] || 60) / 60 * (Number(i.cost) || 0); }); });
+  const svk = Object.keys(sv).filter(k => sv[k].inc > 0);
+  if (svk.length) cards.push(`<div class="card ins"><div class="ins-h">💹 กำไรต่อบริการ (30 วัน)</div><div class="table-wrap"><table class="tbl"><thead><tr><th>บริการ</th><th>รายรับ</th><th>กำไร</th><th>กำไร/ชม.</th></tr></thead><tbody>${svk.sort((a, b) => (sv[b].inc - sv[b].comm - sv[b].cost) - (sv[a].inc - sv[a].comm - sv[a].cost)).map(k => { const o = sv[k], pr = o.inc - o.comm - o.cost; return `<tr><td>${tIcon(k)} ${esc(tName(k))}<div class="muted sm">${o.n} คิว</div></td><td>${baht(o.inc)}</td><td class="${pr >= 0 ? 'pos' : 'neg'}">${baht(pr)} <span class="muted sm">${Math.round(pr / o.inc * 100)}%</span></td><td>${baht(pr / Math.max(1, o.min / 60))}</td></tr>`; }).join('')}</tbody></table></div><div class="muted sm" style="margin-top:6px">หักค่ามือ${(S.stock || []).some(i => i.cost) ? ' + ต้นทุนของใช้' : ' (ใส่ราคาทุนในสต็อกเพื่อหักต้นทุนของใช้ด้วย)'}</div></div>`);
+  // ㉜ เวลารอของลูกค้า
+  const wl = (S.waitLog || []).filter(x => x.at >= t30);
+  if (wl.length) { const avg = Math.round(wl.reduce((a, x) => a + x.mins, 0) / wl.length), mx = Math.max(...wl.map(x => x.mins));
+    cards.push(`<div class="card ins"><div class="ins-h">⌛ ลูกค้ารอคิว (30 วัน)</div><div class="ins-row"><div><div class="ins-big num">${avg} นาที</div><div class="muted sm">เวลารอเฉลี่ย · ${wl.length} คน</div></div><div style="text-align:right"><div class="num" style="font-size:22px">${mx} นาที</div><div class="muted sm">รอนานสุด</div></div></div><div class="muted sm" style="margin-top:6px">นับจากลูกค้าที่ใส่ในรายชื่อรอคิว จนได้ลงคิว</div></div>`); }
+  // ㉝ การจอง: มาตามนัด / ยกเลิก / ไม่มา
+  if (SUMM.at && SUMM.bk.length) { const c = {}, ns = {}; SUMM.bk.filter(r => r[0] >= dayStart() - 90 * 864e5).forEach(r => { c[r[8]] = (c[r[8]] || 0) + 1; if (r[8] === 'ไม่มาตามนัด') ns[r[4]] = (ns[r[4]] || 0) + 1; });
+    const done = (c['มาตามนัด'] || 0) + (c['ยกเลิก'] || 0) + (c['ไม่มาตามนัด'] || 0);
+    if (done) cards.push(`<div class="card ins"><div class="ins-h">📒 การจอง 90 วัน</div>${bars([['มาตามนัด', c['มาตามนัด'] || 0], ['ยกเลิก', c['ยกเลิก'] || 0], ['ไม่มาตามนัด', c['ไม่มาตามนัด'] || 0]].map(([l, v]) => ({ l, v, hi: l === 'ไม่มาตามนัด' })), v => v + ` (${Math.round(v / done * 100)}%)`)}${Object.keys(ns).length ? `<div class="sub-label">ไม่มาบ่อย</div>${Object.keys(ns).sort((a, b) => ns[b] - ns[a]).slice(0, 5).map(n => `<div class="lb-r"><b>${esc(n)}</b><span class="pill p-bad">${ns[n]} ครั้ง</span></div>`).join('')}` : ''}</div>`); }
+  // ㉞ แนวโน้มจ่ายโอน vs เงินสด
+  const wk = {}; all.filter(r => r[0] >= dayStart() - 56 * 864e5 && r[7] && (r[6] === 'qr' || r[6] === 'cash')).forEach(r => { const k = Math.floor((dayStart() - dayStart(r[0])) / (7 * 864e5)); const o = wk[k] = wk[k] || { qr: 0, cash: 0 }; o[r[6]] += r[5]; });
+  const wks = Object.keys(wk).map(Number).sort((a, b) => b - a);
+  if (wks.length >= 2) cards.push(`<div class="card ins"><div class="ins-h">💳 สัดส่วนจ่ายโอน (8 สัปดาห์)</div>${bars(wks.map(k => ({ l: k === 0 ? 'สัปดาห์นี้' : k + ' สัปดาห์ก่อน', v: Math.round(wk[k].qr / Math.max(1, wk[k].qr + wk[k].cash) * 100) })), v => v + '%')}<div class="muted sm" style="margin-top:6px">โอนยิ่งมาก เงินสดในลิ้นชักยิ่งน้อย ตรวจสอบง่ายขึ้น</div></div>`);
+  // ㉓ ลูกค้ามาจากไหน
+  const ci = S.cinfo || {}, firsts = {}; all.filter(isVisit).forEach(r => { if (!firsts[r[1]] || r[0] < firsts[r[1]]) firsts[r[1]] = r[0]; });
+  const src = {}; Object.keys(firsts).filter(n => firsts[n] >= dayStart() - 90 * 864e5).forEach(n => { const k = (ci[n] && ci[n].src) || 'ไม่ระบุ'; src[k] = (src[k] || 0) + 1; });
+  if (Object.keys(src).some(k => k !== 'ไม่ระบุ')) cards.push(`<div class="card ins"><div class="ins-h">📣 ลูกค้าใหม่มาจากไหน (90 วัน)</div>${bars(Object.keys(src).sort((a, b) => src[b] - src[a]).map(k => ({ l: esc(k), v: src[k], hi: k === topKey(Object.fromEntries(Object.entries(src).filter(([x]) => x !== 'ไม่ระบุ'))) })), v => v + ' คน')}<div class="muted sm" style="margin-top:6px">ถามลูกค้าใหม่ตอนลงคิว (มีปุ่มให้เลือกในหน้าลงคิว)</div></div>`);
+  // ㊿ รวมชื่อลูกค้าซ้ำ
+  if (isOwner()) { const ms = mergeSuggest(); if (ms.length) cards.push(`<div class="card ins"><div class="ins-h">🔗 ชื่อลูกค้าที่น่าจะเป็นคนเดียวกัน</div>${ms.map(m => m.from.map(f => `<div class="lb-r"><b>${esc(f)}</b><span class="muted sm">${m.cnt[f]} ครั้ง → รวมเข้า “${esc(m.to)}” (${m.cnt[m.to]} ครั้ง)</span><button class="btn btn-sm" data-act="mergeCust" data-from="${esc(f)}" data-to="${esc(m.to)}">รวม</button></div>`).join('')).join('')}<div class="muted sm" style="margin-top:6px">รวมแล้วประวัติ แท็ก และข้อมูลลูกค้าจะนับเป็นคนเดียว (ข้อมูลเดิมในชีตไม่ถูกลบ)</div></div>`); }
+  return cards;
+}
+
+/* ㊺ สั่งงานด้วยเสียงทั้งแอป */
+const GO_WORDS = [['การเงิน', 'money'], ['กำไร', 'money'], ['ค่ามือ', 'money'], ['สต็อก', 'stock'], ['กันโกง', 'guard'], ['ความเสี่ยง', 'guard'], ['อินไซต์', 'insights'], ['รายงาน', 'insights'], ['พนักงาน', 'staff'], ['หมอ', 'staff'], ['จอง', 'booking'], ['สมาชิก', 'members'], ['คอร์ส', 'members'], ['ตั้งค่า', 'settings'], ['คู่มือ', 'guide'], ['หน้าหลัก', 'home'], ['รับเงิน', 'pay'], ['คิว', 'queue']];
+function findQByText(text, filter = () => true) {
+  const qs = (S.qs || []).filter(filter);
+  return qs.find(q => text.includes(cleanName(q.n))) || qs.find(q => q.dr && text.includes(q.dr.replace(/^หมอ\s*/, ''))) || null;
+}
+function handleVoice(text) {
+  const s = String(text || '').trim(); if (!s) return;
+  toast('🎙️ “' + s + '”');
+  if (/รับเงิน|จ่ายเงิน|เก็บเงิน|เช็คบิล/.test(s)) { const q = findQByText(s, q => !q.paid && Number(q.p) > 0); if (q) return openPay(q.id); if (!/เปิด|หน้า/.test(s)) return go('pay'); }
+  if (/จบงาน|นวดเสร็จ/.test(s)) { const q = findQByText(s, q => q.status === 'active'); if (q) return A.finish({ id: q.id }, null); }
+  if (/ต่อเวลา/.test(s)) { const q = findQByText(s, q => q.status === 'active'); if (q) return openExtend(q.id); }
+  if (/รายจ่าย/.test(s)) return A.expOpen();
+  if (/ปิดกะ|นับเงิน/.test(s)) return A.cashOpen();
+  if (/ปิดยอด/.test(s)) return A.endDay({}, null);
+  if (/รอคิว|รายชื่อรอ/.test(s)) return A.waitOpen({});
+  if (/^(เปิด|ไป|ดู)/.test(s) || /หน้า/.test(s)) { for (const [w, t] of GO_WORDS) if (s.includes(w)) return go(t); }
+  if (/ลงคิว|นวด|ลูกค้า/.test(s) || TYPE_WORDS.some(([w]) => s.includes(w))) { openWalkin(); setTimeout(() => { $('#w-cmd').value = s.replace(/^ลงคิว\s*/, ''); applyCmd($('#w-cmd').value); }, 380); return; }
+  openSearch(); setTimeout(() => { $('#sr-in').value = s; renderSearch(); }, 320);
+}
+let vgRec = null;
+function voiceGo() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { openSearch(); return toast('พิมพ์คำสั่งได้เลย หรือกดไมค์บนคีย์บอร์ด เช่น “รับเงินสมชาย”, “เปิดการเงิน”', 'warn'); }
+  if (vgRec) { try { vgRec.stop(); } catch (e) {} return; }
+  vgRec = new SR(); vgRec.lang = 'th-TH'; vgRec.interimResults = false;
+  $('#vg-btn').classList.add('casting');
+  vgRec.onresult = e => handleVoice([...e.results].map(r => r[0].transcript).join(' '));
+  vgRec.onerror = e => toast(e.error === 'not-allowed' ? 'ไม่ได้รับอนุญาตให้ใช้ไมค์' : 'ฟังไม่ชัด ลองใหม่', 'warn');
+  vgRec.onend = () => { $('#vg-btn').classList.remove('casting'); vgRec = null; };
+  try { vgRec.start(); } catch (e) { vgRec.onend(); }
+}
+
+/* ㊻ คู่มือ */
+const GUIDE = [
+  ['➕ ลงคิวลูกค้า', ['กดปุ่ม “ลงคิว” ตรงกลางล่าง', 'พิมพ์ชื่อลูกค้า (ลูกค้าเก่าจะขึ้นประวัติ กด “ใช้แบบเดิม” ได้เลย)', 'เลือกบริการ ระยะเวลา และบริการเสริม (ถ้ามี)', 'เลือกหมอ: “ตามคิว” = คนถัดไป · เลือกชื่อ = ลูกค้าขอตัว', 'มาหลายคน กด + ที่ “มากี่คน” ระบบแบ่งหมอให้เอง', 'กด “บันทึกคิว” หมอจะได้แจ้งเตือนทันที']],
+  ['💰 รับเงิน', ['กดคิวที่ค้างชำระ › รับเงิน', 'สแกนจ่าย: ลูกค้าสแกน QR บนจอลูกค้า › กด “สแกนสลิปลูกค้า” เพื่อตรวจสลิป', 'เงินสด: ใส่จำนวนที่รับ ระบบคิดเงินทอนให้', 'บัตรของขวัญ: ใส่รหัสบัตร GV…', 'กดผิด? เจ้าของกด “ย้อนกลับ” ได้ภายใน 10 วินาที']],
+  ['⏳ ลูกค้ารอคิว', ['หมอไม่ว่าง: แท็บ “คิว” › เพิ่มคนรอ', 'ระบบบอกว่าอีกกี่นาทีได้คิว และเด้งเตือนเมื่อมีหมอว่าง', 'กด “เรียก/ลงคิว” ตอนหมอว่าง']],
+  ['🌙 ปิดร้าน', ['ทำเช็คลิสต์ปิดร้านที่หน้าหลัก', 'เมนู › การเงิน › ปิดกะนับเงินสด (นับเงินในลิ้นชัก)', 'เมนู › ปิดยอดประจำวัน']],
+  ['🧑‍⚕️ หมอเช็คชื่อ', ['หมอเปิดแอปพนักงาน › เช็คชื่อเข้างาน', 'ถ้าร้านเปิดสแกน QR: เปิด เมนู › QR เช็คชื่อ ไว้ที่เคาน์เตอร์ให้หมอสแกน', 'หมอไม่มีมือถือ: หน้าพนักงาน › กด “เช็คชื่อแทน”']],
+  ['🔐 ความปลอดภัย', ['แคชเชียร์ใช้รหัสของตัวเอง (เจ้าของตั้งในตั้งค่า)', 'ลบคิวที่จ่ายแล้ว / ลดราคาเยอะ ต้องใช้ PIN เจ้าของ', 'ทุกการแก้ไขถูกบันทึก ดูได้ที่ศูนย์กันโกง', 'ไม่ได้ใช้เครื่องนาน จอจะล็อกเอง']]
+];
+const renderGuide = () => { $('#guide-body').innerHTML = GUIDE.map(([h, l], i) => `<details class="card" ${i ? '' : 'open'}><summary>${h}</summary><ol>${l.map(x => `<li>${esc(x)}</li>`).join('')}</ol></details>`).join('') + `<p class="muted sm center">มีคำถาม? ถามเจ้าของร้านได้เลย 🙏</p>`; };
+
+/* ⑳ บริการเสริมในหน้าลงคิว */
+const addonSum = () => (W.addons || []).reduce((a, i) => a + ((addonsCfg()[i] || {}).price || 0), 0);
+const addonMin = () => (W.addons || []).reduce((a, i) => a + ((addonsCfg()[i] || {}).min || 0), 0);
+function renderWalkExtras() {
+  const ads = addonsCfg();
+  $('#w-ad-f').hidden = !ads.length;
+  $('#w-addons').innerHTML = ads.map((a, i) => `<button class="chip ${(W.addons || []).includes(i) ? 'on' : ''}" data-act="wAddon" data-i="${i}">+ ${esc(a.n)} <small>${a.min ? a.min + ' น. · ' : ''}${baht(a.price)}</small></button>`).join('');
+  $('#w-pax').textContent = W.pax || 1;
+  const n = $('#w-name').value.trim(), isNew = n && !custProfile(n) && !(cinfoOf(n) || {}).src;
+  $('#w-src-f').hidden = !isNew;
+  if (isNew) $('#w-src').innerHTML = (S.cfg?.sources || []).map(x => `<button class="chip ${W.src === x ? 'on' : ''}" data-act="wSrc" data-v="${esc(x)}">${esc(x)}</button>`).join('');
+}
+/* ㉑ หมอประจำว่างไหม */
+function favDrLine(p) {
+  if (!p || !p.favDr) return '';
+  const d = (S.drs || []).find(x => x.n === p.favDr); if (!d) return '';
+  const q = drActive(d.n);
+  const s = isFree(d.n) ? `<b style="color:var(--ok)">✅ ว่างตอนนี้</b>` : q ? `กำลังนวด · ว่างใน ~${Math.max(0, timeLeft(q))} นาที (${endTime(q)})` : d.st === 'clean' ? 'กำลังเก็บห้อง · อีกสักครู่' : d.st === 'break' ? '☕ พักอยู่' : 'วันนี้ยังไม่ได้เข้างาน';
+  return `<div class="smart" style="margin-top:-6px">👤 หมอประจำ <b>${esc(d.n)}</b>: ${s}</div>`;
+}
+
 /* ═════════ actions ═════════ */
 const A = {
   go: ({ tab }) => go(tab),
@@ -3464,12 +4070,21 @@ const A = {
     const n = $('#w-name').value.trim();
     if (!n) { $('#w-name').focus(); return toast('ใส่ชื่อลูกค้าก่อน', 'warn'); }
     if (!W.dr || !drLabel(W.dr)) return toast('ยังไม่มีหมอว่าง — เลือกหมอ หรือเช็คชื่อหมอเข้างานก่อน', 'warn');
+    const same = (S.qs || []).filter(q => q.kind === 'svc' && cleanName(q.n) === cleanName(n) && !W.waitId);
+    if (same.length && !await confirmDlg({ icon: '👯', title: 'ลูกค้าชื่อนี้มีคิววันนี้แล้ว', msg: same.map(q => `${q.time} · ${tName(q.t)} · ${q.dr} · ${q.paid ? 'จ่ายแล้ว' : 'ยังไม่จ่าย'}`).join('\n') + '\n\nลงคิวซ้ำอีกครั้ง?', ok: 'ลงคิวเพิ่ม', tone: 'danger' })) return;
     const tg = tagOf(n), ci = cinfoOf(n);
     if ((/แบล็ก|⛔/.test(tg) || ci?.warn) && !await confirmDlg({ icon: '⛔', title: 'ลูกค้ารายนี้มีประวัติ', msg: [tg, ci?.warn].filter(Boolean).join('\n') + '\n\nยืนยันจะรับลูกค้าหรือไม่?', ok: 'รับลูกค้า', tone: 'danger' })) return;
-    const j = await api('ADD_QUEUE', { n, dr: W.dr, t: W.t, d: W.d, p: $('#w-price').value, note: $('#w-note').value.trim() });
+    if ((W.pax || 1) > 1) {
+      const list = [...Array(W.pax)].map((_, i) => ({ n: i ? `${n} (คนที่ ${i + 1})` : n, t: W.t, d: W.d, addons: W.addons, dr: i === 0 && W.dr !== AUTO ? W.dr : '' }));
+      const jg = await api('ADD_GROUP', { list, note: $('#w-note').value.trim() || 'มา ' + W.pax + ' คน', gid: 'G' + Date.now() });
+      closeSheet('sh-walk'); toast(`✓ ลงคิวกลุ่ม ${W.pax} คน · ${(jg.out?.ids || []).map(id => findQ(id)?.dr).filter(Boolean).join(', ')}`, 'ok');
+      return;
+    }
+    const base = priceOf(W.t, W.d) + addonSum(), typed = Number($('#w-price').value);
+    const j = await api('ADD_QUEUE', { n, dr: W.dr, t: W.t, d: W.d, p: typed === base ? '' : Math.max(0, typed - addonSum()), note: $('#w-note').value.trim(), addons: W.addons, src: W.src, waitId: W.waitId });
     closeSheet('sh-walk');
     const nq = findQ(j.out?.id);
-    toast(`✓ ลงคิว ${n} กับ ${nq?.dr || ''} · เริ่มนวด ${nq?.time || ''}`, 'ok');
+    toast(j.offline ? `📤 บันทึกคิว ${n} ไว้ในเครื่อง (รอส่ง)` : `✓ ลงคิว ${n} กับ ${nq?.dr || ''} · เริ่มนวด ${nq?.time || ''}`, 'ok');
     if (ds.pay && j.out?.id) setTimeout(() => openPay(j.out.id), 320);
   }),
 
@@ -3478,8 +4093,9 @@ const A = {
     const q = findQ(id); if (!q) return;
     if (!await confirmDlg({ icon: '✅', title: 'จบการนวด?', msg: `${q.n} · ${q.dr}\nหมอจะกลับมาสถานะว่าง`, ok: 'จบงาน', tone: 'ok' })) return;
     await run(btn, async () => {
-      await api('FINISH_JOB', { id });
-      toast(`✓ ${q.dr} จบงานแล้ว`, 'ok');
+      const jf = await api('FINISH_JOB', { id });
+      if (jf.offline) return;
+      toastUndo(`✓ ${q.dr} จบงานแล้ว`, () => api('UNFINISH', { id }));
       if (!q.paid && Number(q.p) > 0 && await confirmDlg({ icon: '💰', title: 'รับเงินเลยไหม?', msg: `${q.n} ยอด ${baht(findQ(id)?.p ?? q.p)}`, ok: 'รับเงิน' })) openPay(id);
     });
   },
@@ -3520,11 +4136,18 @@ const A = {
     if (P.pm === 'cash' && recv && recv < amt) return toast('รับเงินมาไม่พอ', 'warn');
     clearTimeout(castT);
     const id = P.id;
-    await api('PAY', { id, amount: amt, pm: P.pm, recv: P.pm === 'cash' ? recv : 0, depId: btn.dataset.dep || '' });
+    const code = $('#p-gvcode').value.trim().toUpperCase();
+    if (P.pm === 'voucher' && !code) return toast('ใส่รหัสบัตรของขวัญ', 'warn');
+    P.busy = true;
+    let jp;
+    try { jp = await api('PAY', { id, amount: amt, pm: P.pm, recv: P.pm === 'cash' ? recv : 0, depId: btn.dataset.dep || '', code }); }
+    finally { P.busy = false; }
     P.done = true;
     localCast(thanksCast(findQ(id), { amt }));
     closeSheet('sh-pay');
-    toast(`✓ รับเงิน ${baht(amt)} เรียบร้อย`, 'ok');
+    if (jp.offline) { toast(`📤 บันทึกรับเงิน ${baht(amt)} ไว้ในเครื่อง (รอส่ง)`, 'warn'); return; }
+    if (isOwner()) toastUndo(`✓ รับเงิน ${baht(amt)} เรียบร้อย${jp.out?.balance != null ? ' · บัตรเหลือ ' + baht(jp.out.balance) : ''}`, () => api('UNPAY', { id })); else toast(`✓ รับเงิน ${baht(amt)} เรียบร้อย${jp.out?.balance != null ? ' · บัตรเหลือ ' + baht(jp.out.balance) : ''}`, 'ok');
+    if (findQ(id)?.voucherCode) toast('🎁 ออกบัตรของขวัญ ' + findQ(id).voucherCode + ' แล้ว', 'ok');
     setTimeout(() => openReceipt(id), 320);
   }),
   scanSlip: () => openScanner(),
@@ -3563,6 +4186,8 @@ const A = {
     ['bk-phone', 'bk-name', 'bk-time', 'bk-note'].forEach(id => $('#' + id).value = '');
     $('#bk-tag').innerHTML = ''; $('#bk-warn').hidden = true;
     toast(`✓ จองให้ ${data.n} วันที่ ${thaiDate(data.date)} ${data.time} แล้ว`, 'ok');
+    const msg = bkMsgText(data);
+    if (msg && await confirmDlg({ icon: '💬', title: 'ส่งข้อความยืนยันนัด?', msg, ok: 'ส่งทาง LINE', tone: 'ok' })) { try { await navigator.clipboard.writeText(msg); } catch (e) {} window.open('https://line.me/R/msg/text/?' + encodeURIComponent(msg), '_blank'); }
   }),
   cancelBk: async ({ id }, btn) => {
     const b = (S.bk || []).find(x => x.id === id); if (!b) return;
@@ -3596,7 +4221,9 @@ const A = {
   dQty: ({ v }) => { D.qty += Number(v); renderDeduct(); },
   saveDeduct: (_, btn) => run(btn, async () => {
     if (!D.dr || !drLabel(D.dr)) return toast('ยังไม่มีหมอว่าง', 'warn');
-    const j = await api('DEDUCT', { code: D.code, dr: D.dr, qty: D.qty });
+    let j;
+    try { j = await api('DEDUCT', { code: D.code, dr: D.dr, qty: D.qty }); }
+    catch (e) { if (e.code !== 'EXPIRED') throw e; if (!await confirmDlg({ icon: '⌛', title: 'คอร์สหมดอายุแล้ว', msg: e.message + '\nยืนยันตัดคอร์สให้ต่อหรือไม่? (บันทึกในศูนย์กันโกง)', ok: 'ตัดต่อ', tone: 'danger' })) return; j = await api('DEDUCT', { code: D.code, dr: D.dr, qty: D.qty, force: true }); }
     closeSheet('sh-deduct');
     toast(`✓ ตัดคอร์ส ${D.qty} ครั้ง · เหลือ ${j.out?.remain ?? '-'} ครั้ง`, 'ok');
   }),
@@ -3653,7 +4280,7 @@ const A = {
   login: () => { $('#lg-who').value = localStorage.getItem('spa_who') || ''; openSheet('sh-login'); setTimeout(() => $('#lg-pass').focus(), 350); },
   doLogin: (_, btn) => run(btn, async () => {
     const pw = $('#lg-pass').value; if (!pw) return;
-    const j = await api('LOGIN', { password: pw, who: $('#lg-who').value.trim() });
+    const j = await api('LOGIN', { password: pw, who: $('#lg-who').value.trim(), dev: DEV_ID, devName: devName() });
     try { localStorage.setItem('spa_who', $('#lg-who').value.trim()); } catch (e) {}
     token = j.token; localStorage.setItem(LS.token, token);
     $('#lg-pass').value = '';
@@ -3909,7 +4536,159 @@ Object.assign(A, {
   })
 });
 let numResolve = null;
-function askNum(t, m) { $('#num-t').textContent = t; $('#num-m').textContent = m; $('#num-in').value = ''; openSheet('sh-num'); setTimeout(() => $('#num-in').focus(), 300); return new Promise(r => numResolve = r); }
+function askNum(t, m, type = 'number') { $('#num-t').textContent = t; $('#num-m').textContent = m; const i = $('#num-in'); i.type = type; i.inputMode = type === 'text' ? 'text' : 'decimal'; i.style.fontSize = type === 'text' ? '17px' : '26px'; i.value = ''; openSheet('sh-num'); setTimeout(() => i.focus(), 300); return new Promise(r => numResolve = r); }
+/* ═════════ actions v5.0 ═════════ */
+Object.assign(A, {
+  flushNow: () => { lastFlush = 0; flushOutbox(); },
+  unlock: (_, btn) => run(btn, async () => {
+    const pw = $('#lk-pass').value; if (!pw) return;
+    const j = await api('LOGIN', { password: pw, who: S?.who || localStorage.getItem('spa_who') || '', dev: DEV_ID, devName: devName() });
+    token = j.token; localStorage.setItem(LS.token, token); $('#lockov').hidden = true; lastAct = Date.now(); await pull(true); toast('ปลดล็อกแล้ว', 'ok');
+  }),
+  lockLogout: () => { $('#lockov').hidden = true; api('LOGOUT').catch(() => {}); pushUnlink(); token = ''; localStorage.removeItem(LS.token); showShell(); pull(true); },
+  voiceGo: () => voiceGo(),
+  quickSvc: ({ t, d }) => { openWalkin(); W.t = t; W.d = Number(d); W.touched = false; renderWalkin(); },
+  chkTick: ({ i }) => {
+    const n = Number(i); CHK.touched = true; CHK.done = CHK.done.includes(n) ? CHK.done.filter(x => x !== n) : [...CHK.done, n];
+    renderChk(); navigator.vibrate?.(20);
+    clearTimeout(CHK.t); CHK.t = setTimeout(async () => { try { await api('DO_CHECKLIST', { kind: CHK.kind, done: CHK.done }, { silent: true }); CHK.touched = false; const list = S.cfg.checklists[CHK.kind] || []; if (CHK.done.length >= list.length) toast('✅ เช็คลิสต์ครบแล้ว', 'ok'); } catch (e) { toast(e.message, 'bad'); } }, 900);
+  },
+  // รายชื่อรอคิว
+  waitOpen: ({ n } = {}) => {
+    $('#wt-type').innerHTML = TYPES.filter(t => dursOf(t.k).length).map(t => `<option value="${t.k}">${t.i} ${t.n}</option>`).join('');
+    $('#wt-dr').innerHTML = '<option value="">— ใครก็ได้ —</option>' + (S.drs || []).map(d => `<option value="${esc(d.n)}">${esc(d.n)}</option>`).join('');
+    $('#wt-name').value = n || ''; $('#wt-phone').value = '';
+    const eta = waitEta((S.wait || []).length);
+    $('#wt-eta').innerHTML = eta === 0 ? '✅ ตอนนี้มีหมอว่าง — ลงคิวได้เลย' : eta != null ? `⏳ ถ้าเพิ่มตอนนี้ เป็นคิวรอที่ ${(S.wait || []).length + 1} · ได้นวดในอีกประมาณ <b>${eta} นาที</b>` : '⏳ ยังไม่มีหมอเข้างาน ประเมินเวลาไม่ได้';
+    openSheet('sh-wait'); setTimeout(() => $('#wt-name').focus(), 300);
+  },
+  walkToWait: () => { const n = $('#w-name').value.trim(); closeSheet('sh-walk'); setTimeout(() => { A.waitOpen({ n }); $('#wt-type').value = W.t; $('#wt-dur').value = W.d; if (W.dr && W.dr !== AUTO) $('#wt-dr').value = W.dr; }, 320); },
+  saveWait: (_, btn) => run(btn, async () => {
+    const n = $('#wt-name').value.trim(); if (!n) return toast('ใส่ชื่อลูกค้า', 'warn');
+    const j = await api('ADD_WAIT', { n, t: $('#wt-type').value, d: Number($('#wt-dur').value), dr: $('#wt-dr').value, phone: $('#wt-phone').value });
+    closeSheet('sh-wait'); toast(j.offline ? '📤 บันทึกไว้ในเครื่อง' : `✓ เพิ่มคุณ${n} เป็นคิวรอที่ ${j.out?.pos || ''} — เด้งเตือนเมื่อหมอว่าง`, 'ok');
+  }),
+  seatWait: ({ id }) => {
+    const w = (S.wait || []).find(x => x.id === id); if (!w) return;
+    openWalkin(w.dr && isFree(w.dr) ? w.dr : undefined); W.waitId = id;
+    $('#w-name').value = w.n; showTag('#w-tag', w.n); showCinfo('#w-cinfo', w.n); renderWalkSmart();
+    if (dursOf(w.t).length) { W.t = w.t; W.d = dursOf(w.t).includes(w.d) ? w.d : dursOf(w.t)[0]; } renderWalkin();
+  },
+  delWait: async ({ id }, btn) => {
+    const w = (S.wait || []).find(x => x.id === id); if (!w) return;
+    if (!await confirmDlg({ icon: '🚶', title: `ลบคุณ${w.n} ออกจากคิวรอ?`, msg: `รอมา ${Math.floor((now() - w.at) / 60000)} นาที`, ok: 'ลูกค้ากลับก่อน', tone: 'danger' })) return;
+    run(btn, async () => { await api('DEL_WAIT', { id, left: true }); toast('ลบแล้ว'); });
+  },
+  // ลงคิว extras
+  wAddon: ({ i }) => { const n = Number(i); W.addons = (W.addons || []).includes(n) ? W.addons.filter(x => x !== n) : [...(W.addons || []), n]; W.touched = false; renderWalkin(); },
+  wPax: ({ v }) => { W.pax = Math.max(1, Math.min(6, (W.pax || 1) + Number(v))); W.touched = false; if (W.pax > rotation().length) toast(`หมอว่าง ${rotation().length} คน — ${W.pax > rotation().length ? 'ไม่พอสำหรับ ' + W.pax + ' คน' : ''}`, 'warn'); renderWalkin(); },
+  wSrc: ({ v }) => { W.src = W.src === v ? '' : v; renderWalkExtras(); },
+  eAddon: ({ i }, btn) => run(btn, async () => { await api('ADD_ADDON', { id: E.id, i: Number(i) }); closeSheet('sh-extend'); toast('✓ เพิ่ม ' + (addonsCfg()[i] || {}).n, 'ok'); }),
+  // ลูกค้า
+  custOpen: ({ n }) => { closeSheet('sh-walk'); setTimeout(() => openCust(n), 200); },
+  cuQueue: () => { const n = TG.n; closeSheet('sh-cust'); setTimeout(() => { openWalkin(); $('#w-name').value = n; showTag('#w-tag', n); showCinfo('#w-cinfo', n); renderWalkSmart(); }, 320); },
+  cuBook: () => prefillBk(nextVisit(TG.n)),
+  cuTag: () => { const n = TG.n; closeSheet('sh-cust'); setTimeout(() => A.tagQ({ n }), 320); },
+  cuWin: () => { const p = custProfile(TG.n); A.winback({ n: TG.n, days: p ? Math.floor((now() - p.last) / 864e5) : 0 }); },
+  cuComp: () => { const n = TG.n; closeSheet('sh-cust'); setTimeout(() => A.compOpen({ n }), 320); },
+  qHist: ({ id }) => {
+    const q = findQ(id); if (!q) return;
+    $('#qh-body').innerHTML = `<div class="summary-box"><div class="avatar">${tIcon(q.t)}</div><div><b>${esc(q.n)}</b><span class="muted sm">${svcLine(q)} · ${baht(q.p)}</span></div></div><div class="tl">${(q.hist || []).map(h => `<div class="tl-i"><b>${esc(h.a)}</b><small>${fmtTime(h.t)} · โดย ${esc(h.w || '-')}</small></div>`).join('')}</div>`;
+    openSheet('sh-qhist');
+  },
+  // ใบเสร็จ
+  rcShare: async () => {
+    const q = findQ(lastReceipt); if (!q) return;
+    const blob = await receiptImage(q), file = new File([blob], `ใบเสร็จ-${q.id}.png`, { type: 'image/png' });
+    try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'ใบเสร็จ' }); return; } } catch (e) { if (e.name === 'AbortError') return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.appendChild(a); a.click(); a.remove(); toast('บันทึกรูปใบเสร็จแล้ว ส่งทาง LINE ได้เลย', 'ok');
+  },
+  nextBk: () => { const q = findQ(lastReceipt); if (!q) return; prefillBk(nextVisit(cleanName(q.n), q)); },
+  noshowBk: async ({ id }, btn) => {
+    const b = (S.bk || []).find(x => x.id === id); if (!b) return;
+    if (!await confirmDlg({ icon: '🙅', title: `คุณ${b.n} ไม่มาตามนัด?`, msg: `${thaiDate(b.date)} ${b.time} · ระบบจะนับในสถิติลูกค้า`, ok: 'ไม่มาตามนัด', tone: 'danger' })) return;
+    run(btn, async () => { await api('NOSHOW_BOOKING', { id }); toast('บันทึกแล้ว'); });
+  },
+  // บัตรของขวัญ
+  gvOpen: () => { $('#gv-vals').innerHTML = [300, 500, 1000, 2000].map(v => `<button class="chip" data-act="gvVal" data-v="${v}">${baht(v)}</button>`).join(''); ['gv-buyer', 'gv-to', 'gv-val', 'gv-check'].forEach(i => $('#' + i).value = ''); openSheet('sh-gv'); loadGvList(); },
+  gvVal: ({ v }) => { $('#gv-val').value = v; },
+  sellGv: (_, btn) => run(btn, async () => {
+    const value = Number($('#gv-val').value); if (!(value >= 100)) return toast('มูลค่าขั้นต่ำ 100 บาท', 'warn');
+    const j = await api('SELL_VOUCHER', { value, buyer: $('#gv-buyer').value.trim(), to: $('#gv-to').value.trim(), days: $('#gv-days').value });
+    closeSheet('sh-gv'); setTimeout(() => openPay(j.out.id), 320);
+  }),
+  checkGv: (_, btn) => run(btn, async () => {
+    const code = $('#gv-check').value.trim().toUpperCase(); if (!code) return;
+    const j = await (await fetch(`${SCRIPT_URL}?type=voucher&code=${encodeURIComponent(code)}&token=${encodeURIComponent(token)}`)).json();
+    const v = j.one; toast(v ? `${v.code}: ${v.st} · เหลือ ${baht(v.balance)} / ${baht(v.value)} · หมดอายุ ${v.exp}` : 'ไม่พบบัตรนี้', v ? 'ok' : 'bad');
+  }),
+  // ขายสินค้า
+  itemOpen: () => { IT = {}; $('#it-name').value = ''; renderItems(); openSheet('sh-item'); },
+  itQ: ({ id, v }) => { const it = (S.stock || []).find(x => x.id === id); IT[id] = Math.max(0, Math.min(it ? Math.floor(it.qty) : 99, (IT[id] || 0) + Number(v))); renderItems(); },
+  sellItems: (_, btn) => run(btn, async () => {
+    const items = Object.keys(IT).filter(k => IT[k] > 0).map(id => ({ id, qty: IT[id] })); if (!items.length) return toast('เลือกสินค้าก่อน', 'warn');
+    const j = await api('SELL_ITEM', { items, n: $('#it-name').value.trim() });
+    closeSheet('sh-item'); setTimeout(() => openPay(j.out.id), 320);
+  }),
+  // สต็อก
+  stCount: async ({ id }, btn) => {
+    const it = findStock(id); if (!it) return;
+    const v = await askNum(`นับ ${it.n} จริง`, `ในระบบมี ${it.qty} ${it.unit} — นับได้จริงกี่ ${it.unit}?`); if (v == null || v === '') return;
+    run(btn, async () => { const j = await api('STOCK_COUNT', { id, counted: Number(v) }); const d = j.out?.diff || 0; toast(d === 0 ? '✓ ตรงกับระบบ' : `บันทึกแล้ว · ${d < 0 ? 'หาย' : 'เกิน'} ${Math.abs(d)} ${it.unit}`, d < 0 ? 'warn' : 'ok'); });
+  },
+  // กันโกง
+  verifyQ: ({ id }, btn) => run(btn, async () => { await api('VERIFY_MANUAL', { id }); toast('✓ บันทึกว่าตรวจแล้ว', 'ok'); renderGuard(); }),
+  compOpen: ({ n } = {}) => { $('#cp-n').value = n || ''; $('#cp-text').value = ''; $('#cp-dr').innerHTML = '<option value="">— ไม่ระบุ —</option>' + (S.drs || []).map(d => `<option value="${esc(d.n)}">${esc(d.n)}</option>`).join(''); const p = n && custProfile(n); if (p?.favDr) $('#cp-dr').value = p.favDr; openSheet('sh-comp'); },
+  saveComp: (_, btn) => run(btn, async () => { const text = $('#cp-text').value.trim(); if (!text) return toast('พิมพ์รายละเอียด', 'warn'); await api('ADD_COMPLAINT', { n: $('#cp-n').value.trim(), dr: $('#cp-dr').value, text }); closeSheet('sh-comp'); toast('✓ บันทึกเรื่องร้องเรียนแล้ว', 'ok'); if (tab === 'guard') renderGuard(); }),
+  resolveComp: async ({ id }, btn) => { const fix = await askNum('แก้ไขอย่างไร?', 'เช่น โทรขอโทษลูกค้าแล้ว, คุยกับหมอแล้ว', 'text'); if (fix == null) return; run(btn, async () => { await api('RESOLVE_COMPLAINT', { id, fix }); toast('✓ ปิดเรื่องแล้ว', 'ok'); renderGuard(); }); },
+  devOk: ({ id, ok }, btn) => run(btn, async () => { await api('APPROVE_DEVICE', { id, ok: !!ok }); fillSettings(); if (tab === 'guard') renderGuard(); toast(ok ? '✓ อนุมัติเครื่องแล้ว' : 'ระงับเครื่องแล้ว', 'ok'); }),
+  devDel: ({ id }, btn) => run(btn, async () => { await api('APPROVE_DEVICE', { id, remove: true }); fillSettings(); toast('ลบแล้ว'); }),
+  mergeCust: async ({ from, to }, btn) => {
+    if (!await confirmDlg({ icon: '🔗', title: 'รวมชื่อลูกค้า?', msg: `“${from}” → “${to}”\nประวัติ แท็ก และข้อมูล จะนับเป็นคนเดียวกัน`, ok: 'รวมชื่อ' })) return;
+    run(btn, async () => { await api('MERGE_CUST', { from, to }); await loadHistory(true); renderInsights(); toast('✓ รวมชื่อแล้ว', 'ok'); });
+  },
+  // ข้อความ / เวร
+  msgOpen: ({ to } = {}) => { $('#ms-to').innerHTML = '<option value="*">📢 ทุกคน</option>' + (S.drs || []).map(d => `<option value="${esc(d.n)}">${esc(d.n)}</option>`).join(''); $('#ms-to').value = to || '*'; $('#ms-text').value = ''; openSheet('sh-msg'); setTimeout(() => $('#ms-text').focus(), 300); },
+  sendMsg: (_, btn) => run(btn, async () => { const text = $('#ms-text').value.trim(); if (!text) return toast('พิมพ์ข้อความ', 'warn'); await api('MSG_DR', { to: $('#ms-to').value, text }); closeSheet('sh-msg'); toast('✓ ส่งแล้ว', 'ok'); }),
+  rosTog: ({ d, n }, btn) => run(btn, async () => { const cur = (S.roster || {})[d] || []; await api('SET_ROSTER', { date: d, names: cur.includes(n) ? cur.filter(x => x !== n) : [...cur, n] }, { silent: true }); }),
+  // QR ดูคิว
+  stQR: () => { const u = BASE_URL() + '?mode=queue'; $('#stqr-body').innerHTML = `<img src="${qrData(u)}" alt="QR ดูคิว"><div class="muted sm" style="word-break:break-all">${esc(u)}</div><p class="muted sm" style="margin:0">ลูกค้าสแกนแล้วเห็นว่ามีหมอว่างกี่คน รอกี่นาที (ไม่เห็นชื่อลูกค้าคนอื่น)</p>`; openSheet('sh-stqr'); },
+  copyStq: async () => { try { await navigator.clipboard.writeText(BASE_URL() + '?mode=queue'); toast('คัดลอกแล้ว', 'ok'); } catch (e) {} },
+  printStq: () => { const sh = S.cfg?.shop || {}; printReport(`<div style="text-align:center;padding-top:30mm"><h1 style="font-size:28px;margin:0">${esc(sh.name || '')}</h1><p style="font-size:18px">สแกนดูคิวรอ / เวลารอ</p><img src="${qrData(BASE_URL() + '?mode=queue')}" style="width:80mm;height:80mm;image-rendering:pixelated"><p style="font-size:16px">ไม่ต้องรอหน้าร้าน ไปเดินเล่นได้ แล้วกลับมาเมื่อใกล้ถึงคิว 🙏</p></div>`); },
+  // ตั้งค่า
+  setGps: (_, btn) => {
+    if (!navigator.geolocation) return toast('เครื่องนี้หาตำแหน่งไม่ได้', 'bad');
+    btn.classList.add('loading');
+    navigator.geolocation.getCurrentPosition(async pos => {
+      btn.classList.remove('loading');
+      try { await api('SET_CONFIG', { guard: { gps: { lat: pos.coords.latitude, lng: pos.coords.longitude } } }); fillSettings(); toast(`✓ ตั้งตำแหน่งร้านแล้ว (แม่นยำ ±${Math.round(pos.coords.accuracy)} ม.)`, 'ok'); } catch (e) { toast(e.message, 'bad'); }
+    }, e => { btn.classList.remove('loading'); toast('หาตำแหน่งไม่ได้ — อนุญาตให้ใช้ตำแหน่งก่อน', 'bad'); }, { enableHighAccuracy: true, timeout: 15000 });
+  },
+  saveHours: (_, btn) => run(btn, async () => { await api('SET_CONFIG', { guard: { openAt: $('#h-open').value, closeAt: $('#h-close').value, breakMax: $('#h-brk').value, beds: $('#h-beds').value, autoCheckout: $('#h-auto').checked, gpsCheckin: $('#h-gps').checked, gpsRadius: $('#h-rad').value } }); if ($('#h-gps').checked && !g4().gps) toast('อย่าลืมกด “ใช้ตำแหน่งตอนนี้เป็นร้าน” ตอนอยู่ที่ร้าน', 'warn'); else toast('✓ บันทึกแล้ว', 'ok'); }),
+  saveDev: (_, btn) => run(btn, async () => { try { localStorage.setItem('spa_idle', String(Math.max(0, Number($('#d-idle').value) || 0))); } catch (e) {} await api('SET_CONFIG', { guard: { devLock: $('#d-lock').checked } }); toast('✓ บันทึกแล้ว', 'ok'); }),
+  adAdd: () => $('#ad-edit').insertAdjacentHTML('beforeend', adRow()),
+  adDel: (_, el) => el.closest('.ad-row').remove(),
+  saveExtras: (_, btn) => run(btn, async () => {
+    const addons = $$('#ad-edit .ad-row').map(r => { const o = {}; r.querySelectorAll('[data-f]').forEach(i => o[i.dataset.f] = i.value); return o; }).filter(a => a.n.trim());
+    await api('SET_CONFIG', { addons, checklists: { open: $('#ck-open').value, close: $('#ck-close').value }, sources: $('#src-edit').value, bkMsg: $('#bk-msg').value });
+    fillSettings(); toast('✓ บันทึกแล้ว', 'ok');
+  }),
+  exportYear: async () => {
+    const y = Number($('#ex-year').value) || new Date(now()).getFullYear();
+    if (!SUMM.at) { await new Promise(r => { SUMM.at = 0; loadSummary().then(r); }); }
+    const rows = SUMM.rows.filter(r => new Date(r[0]).getFullYear() === y);
+    if (!rows.length) return toast('ไม่มีข้อมูลปิดยอดปี ' + y, 'warn');
+    const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"', L = [[`รายรับปี ${y} (พ.ศ. ${y + 543}) — จากชีต Summary_สรุปรายวัน`], ['เดือน', 'รายรับ', 'โอน', 'เงินสด', 'ค่ามือ', 'รายจ่าย', 'กำไร', 'คิว']];
+    const m = {}; rows.forEach(r => { const k = new Date(r[0]).getMonth(); const o = m[k] = m[k] || [0, 0, 0, 0, 0, 0, 0]; [3, 4, 5, 9, 11, 12, 7].forEach((ci, i) => o[i] += Number(r[ci]) || 0); });
+    const MN = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'], tot = [0, 0, 0, 0, 0, 0, 0];
+    Object.keys(m).sort((a, b) => a - b).forEach(k => { L.push([MN[k], ...m[k]]); m[k].forEach((v, i) => tot[i] += v); });
+    L.push(['รวมทั้งปี', ...tot]); L.push([]); L.push(['รายวัน']); L.push(['วันที่', 'รายรับ', 'โอน', 'เงินสด', 'ค่ามือ', 'รายจ่าย', 'กำไร', 'คิว']);
+    rows.sort((a, b) => a[0] - b[0]).forEach(r => L.push([r[1], r[3], r[4], r[5], r[9], r[11], r[12], r[7]]));
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + L.map(r => r.map(q).join(',')).join('\r\n')], { type: 'text/csv;charset=utf-8' })); a.download = `รายรับปี-${y}.csv`; document.body.appendChild(a); a.click(); a.remove();
+    toast('✓ ดาวน์โหลดแล้ว', 'ok');
+  }
+});
+
 const findStock = id => (S.stock || []).find(x => x.id === id);
 function cashDiff() {
   const v = $('#cs-count').value, el = $('#cs-diff b');
@@ -3968,11 +4747,13 @@ document.addEventListener('change', e => {
     $('#voice-st').textContent = '⏳ กำลังแปลงไฟล์…';
     file.arrayBuffer().then(toWavDataUrl).then(saveVoice).then(() => { bankAlert(true); toast('✓ บันทึกเสียงแล้ว', 'ok'); }).catch(err => { toast(err.message, 'bad'); updVoiceSt(); });
   }
+  else if (id === 'set-bigui') { try { localStorage.setItem('spa_bigui', e.target.checked ? '1' : '0'); } catch (x) {} document.body.classList.toggle('bigui', e.target.checked); }
   else if (id === 'set-sound') { soundOn = e.target.checked; localStorage.setItem(LS.sound, soundOn ? '1' : '0'); if (soundOn) beep(); }
 });
 document.addEventListener('keydown', e => {
   if (token && ((e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) || (e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey)))) { e.preventDefault(); openSearch(); return; }
-  if (e.key === 'Enter' && e.target.id === 'sr-in' && SR[0]) { closeSheet('sh-search'); setTimeout(SR[0].fn, 260); return; }
+  if (e.key === 'Enter' && e.target.id === 'sr-in' && SR[0]) { const fn = SR[0].fn, v = e.target.value; closeSheet('sh-search'); setTimeout(() => fn(v), 260); return; }
+  if (e.key === 'Enter' && e.target.id === 'lk-pass') A.unlock({}, $('#lk-btn'));
   if (e.key === 'Escape') { const open = $$('.sheet.open'); if (open.length) closeSheet(open[open.length - 1].id); }
   if (e.key === 'Enter' && e.target.id === 'lg-pass') A.doLogin({}, $('#lg-btn'));
   if (e.key === 'Enter' && e.target.id === 'w-cmd') { e.preventDefault(); applyCmd(e.target.value); }
@@ -3982,7 +4763,7 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('pointerdown', () => { if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } }, { once: true });
 document.addEventListener('visibilitychange', () => { if (!document.hidden) { pull(); if (!token) keepAwake(); } });
-window.addEventListener('online', () => pull());
+window.addEventListener('online', () => { pull(); lastFlush = 0; flushOutbox(); });
 window.addEventListener('offline', () => setSync('off'));
 
 function tickClock() {
@@ -4001,10 +4782,43 @@ async function boot() {
   if (S) { showShell(); $('#boot').hidden = true; }
   else if (!ok) { $('#boot-spin').hidden = true; $('#boot-msg').textContent = 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ — ตรวจสอบอินเทอร์เน็ตหรือ SCRIPT_URL'; $('#boot-retry').hidden = false; }
 }
+/* ⑨ ใบเสร็จดิจิทัล · ㉕ หน้าดูคิวสำหรับลูกค้า (เปิดจากมือถือลูกค้า ไม่ต้องล็อกอิน) */
+async function pubPage() {
+  const qp = new URLSearchParams(location.search), el = $('#pub');
+  document.documentElement.dataset.theme = 'dark';
+  $('#boot').hidden = true; $('#app').hidden = true; $('#board').hidden = true; el.hidden = false;
+  if (qp.get('mode') === 'receipt') {
+    el.innerHTML = '<div class="box"><div class="spinner" style="margin:0 auto"></div></div>';
+    try {
+      const j = await (await fetch(`${SCRIPT_URL}?mode=receipt&id=${encodeURIComponent(qp.get('id') || '')}&k=${encodeURIComponent(qp.get('k') || '')}`)).json();
+      if (!j.ok) throw new Error(j.msg);
+      const r = j.r, sh = j.shop || {}, dt = r.at ? new Date(r.at).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' }) : `${r.date || ''} ${r.time || ''}`;
+      el.innerHTML = `<div class="box"><div class="rc" style="max-width:none"><div class="rc-logo">✦</div><h3>${esc(sh.name || '')}</h3><div class="rc-sub">${esc([sh.branch, sh.phone && 'โทร ' + sh.phone].filter(Boolean).join(' · '))}</div><div class="rc-hr"></div>
+        <div class="rc-row"><span>เลขที่</span><span>${esc(r.id)}</span></div><div class="rc-row"><span>วันที่</span><span>${esc(dt)}</span></div><div class="rc-row"><span>ลูกค้า</span><span>${esc(r.n)}</span></div>${r.dr ? `<div class="rc-row"><span>พนักงาน</span><span>${esc(r.dr)}</span></div>` : ''}
+        <div class="rc-hr"></div><div class="rc-row"><span>${esc(r.item)}</span><span>${baht(r.p)}</span></div>${r.note ? `<div class="rc-row" style="font-size:12px;color:#777"><span>${esc(r.note)}</span></div>` : ''}<div class="rc-hr"></div>
+        <div class="rc-row rc-total"><span>ยอดสุทธิ</span><span>${baht(r.p)}</span></div><div class="rc-row"><span>ชำระโดย</span><span>${esc(r.pm)}</span></div><div class="rc-row"><span>สถานะ</span><span>${r.paid ? '✅ ชำระแล้ว' : 'ยังไม่ชำระ'}</span></div>
+        <div class="rc-hr"></div><div class="rc-thanks">ขอบคุณที่ใช้บริการ 🙏</div></div><p class="sm" style="margin-top:14px">แคปหน้าจอเก็บไว้ได้เลย</p></div>`;
+    } catch (e) { el.innerHTML = `<div class="box"><div class="big">🧾</div><p>${esc(e.message || 'โหลดใบเสร็จไม่ได้')}</p></div>`; }
+    return;
+  }
+  const tick = async () => {
+    try {
+      const j = await (await fetch(`${SCRIPT_URL}?mode=status&t=${Date.now()}`)).json();
+      el.innerHTML = `<div class="box"><div class="mark" style="margin:0 auto 14px;width:56px;height:56px;font-size:26px">✦</div><h2 style="margin:0;color:#E8C66E">${esc(j.shop?.name || '')}</h2><p style="margin:6px 0 0">สถานะคิวตอนนี้ · อัปเดต ${fmtTime(j.now)}</p>
+        <div style="margin:22px 0 6px">${j.free > 0 ? `<div class="big">ว่าง ${j.free}</div><p style="color:#7BE0A6;font-size:18px;margin:4px 0">หมอว่าง พร้อมนวดทันที 🙏</p>` : j.mins >= 0 ? `<div class="big">~${Math.max(5, j.mins + (j.waiting || 0) * 15)} นาที</div><p style="font-size:17px;margin:4px 0">เวลารอโดยประมาณ</p>` : `<div class="big">—</div><p>ยังไม่เปิดรับคิว</p>`}</div>
+        <div class="st"><div><b>${j.busy}</b><span>กำลังนวด</span></div><div><b>${j.waiting}</b><span>คนรอคิว</span></div></div>
+        <p>เวลาร้าน ${esc(j.open || '')}–${esc(j.close || '')} น.${j.shop?.phone ? `<br>จองคิว / สอบถาม <a href="tel:${esc(j.shop.phone)}" style="color:#F3D489">${esc(j.shop.phone)}</a>` : ''}</p></div>`;
+    } catch (e) {}
+    setTimeout(tick, 20000);
+  };
+  tick();
+}
+const adRow = (a = { n: '', min: 15, price: 100, comm: 40 }) => `<div class="pkg-edit ad-row"><div class="pkg-edit-row" style="grid-template-columns:2fr 1fr 1fr 1fr auto;margin:0"><label><span>ชื่อ</span><input class="input in-sm" data-f="n" value="${esc(a.n)}"></label><label><span>นาที</span><input class="input in-sm num" type="number" data-f="min" value="${esc(a.min)}"></label><label><span>ราคา</span><input class="input in-sm num" type="number" data-f="price" value="${esc(a.price)}"></label><label><span>ค่ามือ</span><input class="input in-sm num" type="number" data-f="comm" value="${esc(a.comm)}"></label><button class="icon-btn danger" data-act="adDel" aria-label="ลบ">${ic('trash', 16)}</button></div></div>`;
 function init() {
   $$('[data-ic]').forEach(el => el.innerHTML = ic(el.dataset.ic, Number(el.dataset.s) || 20));
   applyTheme(localStorage.getItem(LS.theme) || 'auto');
   if (window.__CUST) return; // จอลูกค้าใช้สคริปต์ ES5 ด้านบน
+  if (/[?&]mode=(receipt|queue)(&|$)/.test(location.search)) return pubPage();
   tickClock(); setInterval(tickClock, 1000);
   setInterval(() => { if (S) renderAll(); }, 15000);
   startPolling();
