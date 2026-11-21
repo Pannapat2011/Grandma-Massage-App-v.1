@@ -347,6 +347,15 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
 .amt-box input:focus{border-bottom-color:var(--gold)}
 .qr-box{text-align:center;margin-top:16px}
 .qr-box img{width:236px;height:236px;max-width:70vw;max-height:70vw;padding:12px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);image-rendering:pixelated}
+.gw-box{text-align:center;margin-top:16px}
+.gw-box img{width:236px;height:236px;max-width:70vw;max-height:70vw;padding:12px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);image-rendering:pixelated}
+.gw-mode{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--info-soft,#E6F0FB);color:var(--info,#2B6CB0);margin-bottom:10px}
+.gw-mode.mock{background:#FFF1C2;color:#7A5A00}
+.gw-st{font-size:14px;margin-top:10px;font-weight:600}
+.gw-st.bad{color:var(--bad)}
+.gw-cd{font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink2);margin-top:4px}
+.gw-cd.low{color:var(--bad);font-weight:700}
+.gw-acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .cast-note{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:12.5px;color:var(--ok);font-weight:600;background:var(--ok-soft);padding:4px 12px;border-radius:999px}
 .live{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:pulse 1.2s infinite}
 .change-row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding:14px 16px;border-radius:16px;background:var(--surface2);border:1px solid var(--line)}
@@ -1147,6 +1156,32 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
           <div class="btn-row"><button class="btn btn-primary grow" data-act="saveSlipCfg">บันทึก</button><button class="btn btn-ghost danger-text" data-act="clearSlipCfg" id="btn-clear-slip">กลับไปโหมดฟรี</button></div>
         </div>
       </div>
+      <div class="set-group owner-only"><h4>⚡ QR ยืนยันเอง (อัตโนมัติ)</h4>
+        <div class="card form">
+          <div class="slip-mode" id="gw-st"></div>
+          <p class="muted sm" style="margin:12px 0">สร้าง QR พร้อมเพย์ตามยอดของคิว ลูกค้าจ่ายแล้วระบบขึ้น <b>ชำระแล้ว</b> เอง ไม่ต้องดูสลิป · QR หมดเวลา/ยกเลิก จะยกเลิกที่ผู้ให้บริการด้วย ลูกค้าจ่ายไม่ได้แล้ว<br>
+          <b>จำลอง</b> = ลองระบบได้ทันที ไม่มีเงินจริง (สแกน QR ด้วยกล้องมือถือจะเปิดหน้าให้กดจ่าย) · <b>Stripe ทดสอบ</b> = ต่อ Stripe จริงแต่ใช้คีย์ทดสอบเท่านั้น (ค่าธรรมเนียมพร้อมเพย์ของ Stripe ประมาณ 1.65% เมื่อใช้จริง)</p>
+          <label class="field"><span>โหมด</span><select id="gw-mode" class="input"><option value="off">ปิด</option><option value="mock">จำลอง (ไม่มีเงินจริง)</option><option value="stripe">Stripe โหมดทดสอบ</option></select></label>
+          <div id="gw-stripe-f">
+            <label class="field"><span>Stripe Secret key (ขึ้นต้น sk_test_)</span><input id="gw-key" class="input" type="password" autocomplete="off" placeholder="sk_test_..."></label>
+            <label class="field"><span>อีเมลร้าน (Stripe บังคับสำหรับพร้อมเพย์)</span><input id="gw-email" class="input" type="email" autocomplete="off" placeholder="shop@example.com"></label>
+          </div>
+          <label class="field"><span>QR หมดเวลาใน (นาที)</span><input id="gw-min" class="input num" type="number" inputmode="numeric" min="2" max="15"></label>
+          <button class="btn btn-primary btn-block" data-act="saveGw">บันทึก</button>
+          <div id="gw-hook-f" hidden style="margin-top:14px">
+            <label class="field"><span>Webhook URL (ไม่บังคับ — ช่วยให้ยืนยันได้แม้ปิดหน้าจอ)</span><textarea id="gw-hook" class="input sm" readonly rows="3" style="height:auto;padding:10px;font-family:monospace;font-size:12px"></textarea></label>
+            <button class="btn btn-ghost btn-block" data-act="copyGwHook">คัดลอกลิงก์</button>
+            <ol class="steps">
+              <li>สมัคร Stripe (ประเทศไทย) แล้วเปิด <b>Test mode / Sandbox</b></li>
+              <li>Settings › Payment methods › เปิด <b>PromptPay</b></li>
+              <li>Developers › API keys › คัดลอก <b>Secret key</b> ที่ขึ้นต้น <code>sk_test_</code> มาใส่ด้านบน (ไม่ใช่ pk_test_)</li>
+              <li>(ไม่บังคับ) Developers › Webhooks › Add endpoint ใส่ลิงก์ด้านบน เลือก <code>payment_intent.succeeded</code>, <code>payment_failed</code>, <code>canceled</code> — ถึง Stripe จะขึ้นว่าส่งไม่สำเร็จ (Apps Script ตอบแบบ redirect) ระบบก็ได้รับแล้ว</li>
+              <li>QR ในโหมดทดสอบเป็นลิงก์หน้าทดสอบของ Stripe — สแกนด้วยกล้องมือถือแล้วกดอนุมัติ (แอปธนาคารจริงจ่าย QR ทดสอบไม่ได้)</li>
+            </ol>
+          </div>
+          <p class="muted sm" style="margin:14px 0 0">📟 ตู้ ESP32 หน้าร้านอ่านสถานะจาก <code id="gw-kiosk-url"></code></p>
+        </div>
+      </div>
       <div class="set-group"><h4>เสียงประกาศ “เงินเข้าแล้ว”</h4>
         <div class="card form">
           <p class="muted sm" style="margin:0 0 12px">ใช้เสียงคนจริงที่อัดเอง (ไม่ใช่เสียง AI) — เล่นต่อจากเสียง “ติ๊ง” ทุกครั้งที่เงินเข้า ทั้งที่เครื่องนี้และจอลูกค้าทุกจอ</p>
@@ -1189,7 +1224,7 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
           <div class="row"><div><b>ตัวหนังสือใหญ่</b><div class="muted sm">สำหรับแท็บเล็ตหน้าร้าน</div></div><input type="checkbox" class="switch" id="set-bigui"></div>
         </div>
       </div>
-      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v5.0</p>
+      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v5.1</p>
     </section>
   </main>
 </div>
@@ -1238,11 +1273,13 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
   <div id="p-sum" class="summary-box"></div>
   <div class="amt-box"><span class="cur">฿</span><input id="p-amt" class="num" type="number" inputmode="numeric" min="0"></div>
   <div class="seg" id="p-seg">
+    <button data-act="pm" data-pm="gw" id="p-seg-gw" hidden>⚡ QR อัตโนมัติ</button>
     <button data-act="pm" data-pm="qr"><i class="ic" data-ic="qr" data-s="18"></i>สแกนจ่าย</button>
     <button data-act="pm" data-pm="cash"><i class="ic" data-ic="cash" data-s="18"></i>เงินสด</button>
     <button data-act="pm" data-pm="voucher">🎁 บัตรของขวัญ</button>
   </div>
   <div id="p-gv" hidden style="margin-top:16px"><label class="field"><span>รหัสบัตรของขวัญ</span><input id="p-gvcode" class="input num" placeholder="GVXXXXXX" autocomplete="off" style="text-transform:uppercase;letter-spacing:.1em;text-align:center"></label><div id="p-gvinfo" class="muted sm"></div></div>
+  <div id="p-gw" class="gw-box" hidden></div>
   <div id="p-qr" class="qr-box">
     <img id="p-qr-img" alt="PromptPay QR">
     <div class="muted sm" id="p-pp" style="margin-top:8px"></div>
@@ -1739,11 +1776,20 @@ var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4N
       $('cd-amt').textContent = baht(c.p);
       $('cd-name').textContent = c.n ? 'คุณ' + cleanName(c.n) : '';
       var cash = c.pm === 'cash' || c.pm === 'voucher';
-      show('cd-qr-wrap', !cash);
-      $('cd-hint').textContent = c.pm === 'voucher' ? 'ชำระด้วยบัตรของขวัญ' : cash ? 'ชำระด้วยเงินสดที่เคาน์เตอร์' : 'สแกนจ่ายได้ทุกแอปธนาคาร';
-      $('cd-pp').textContent = cash ? '' : 'พร้อมเพย์ ' + fmtPP(C.pp);
-      var key = C.pp + '|' + c.p;
-      if (!cash && C.pp && key !== C.qrKey) { C.qrKey = key; $('cd-qr').src = ppQR(C.pp, c.p); }
+      if (c.pm === 'gw') {
+        // v5.1 QR อัตโนมัติ: ข้อความ QR มาจากผู้ให้บริการ (ผ่านเซิร์ฟเวอร์) ลูกค้าจ่ายแล้วระบบยืนยันเอง
+        var g = c.gw || {}, live = g.st === 'pending' && g.text && g.exp > nowMs();
+        show('cd-qr-wrap', !!live);
+        $('cd-hint').textContent = live ? 'สแกนจ่ายได้ทุกแอปธนาคาร · ระบบยืนยันให้อัตโนมัติ' : g.st === 'failed' ? 'ชำระไม่สำเร็จ — แจ้งพนักงานเพื่อสร้าง QR ใหม่' : (g.st === 'expired' || g.st === 'canceled' || (g.exp && g.exp <= nowMs())) ? 'QR หมดเวลาแล้ว — แจ้งพนักงานเพื่อสร้างใหม่' : 'กำลังเตรียม QR…';
+        if (live && g.text !== C.qrKey) { C.qrKey = g.text; $('cd-qr').src = qrText(g.text); }
+        gwTick();
+      } else {
+        show('cd-qr-wrap', !cash);
+        $('cd-hint').textContent = c.pm === 'voucher' ? 'ชำระด้วยบัตรของขวัญ' : cash ? 'ชำระด้วยเงินสดที่เคาน์เตอร์' : 'สแกนจ่ายได้ทุกแอปธนาคาร';
+        $('cd-pp').textContent = cash ? '' : 'พร้อมเพย์ ' + fmtPP(C.pp);
+        var key = C.pp + '|' + c.p;
+        if (!cash && C.pp && key !== C.qrKey) { C.qrKey = key; $('cd-qr').src = ppQR(C.pp, c.p); }
+      }
     }
     // เสียงเมื่อจ่ายเงินเสร็จ (เล่นครั้งเดียวต่อรายการ)
     var ev = c.thanks ? String(c.thanks) : '';
@@ -1754,6 +1800,16 @@ var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4N
     }
   }
   function applyCast(cast) { C.cast = cast || {}; render(); }
+  var gwT = null;
+  function gwTick() {
+    clearTimeout(gwT);
+    var c = C.cast || {}, g = c.gw || {};
+    if (!(c.show && c.pm === 'gw' && g.st === 'pending' && g.exp)) { if (c.pm === 'gw') $('cd-pp').textContent = ''; return; }
+    var left = Math.ceil((g.exp - nowMs()) / 1000);
+    if (left <= 0) { render(); return; }
+    $('cd-pp').textContent = 'QR หมดเวลาใน ' + Math.floor(left / 60) + ':' + pad(left % 60);
+    gwT = setTimeout(gwTick, 1000);
+  }
 
   /* ---------- เครือข่าย ---------- */
   function getJSON(url, cb) {
@@ -1777,7 +1833,8 @@ var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4N
         if (sc.qid && C.cast.qid === sc.qid && !C.cast.drPP && sc.drPP) C.cast.drPP = sc.drPP;
         if (new Date().getTime() - C.localAt > 15000 || (sc.thanks && sc.thanks > (C.cast.thanks || 0))) applyCast(sc);
       }
-      setTimeout(loop, new Date().getTime() - C.localAt < 15000 ? 5000 : 2000);
+      var gwLive = C.cast && C.cast.pm === 'gw' && C.cast.gw && C.cast.gw.st === 'pending';
+      setTimeout(loop, gwLive ? 2500 : new Date().getTime() - C.localAt < 15000 ? 5000 : 2000);
     });
   }
 
@@ -2269,7 +2326,8 @@ function closeSheet(id) {
   s.classList.remove('open');
   setTimeout(() => { if (!s.classList.contains('open')) s.hidden = true; }, 300);
   if (!$$('.sheet.open').length) document.body.classList.remove('noscroll');
-  if (id === 'sh-pay' && !P.done) castOff();
+  if (id === 'sh-pay' && !P.done) { if (myGw()?.st === 'pending') api('QR_CANCEL', { off: true }, { silent: true }).catch(() => {}); castOff(); }
+  if (id === 'sh-pay') stopGwPoll();
   if (id === 'sh-scan') stopCamera();
   if (id === 'sh-confirm' && confirmResolve) { const r = confirmResolve; confirmResolve = null; r(false); }
   if (id === 'sh-pin' && pinResolve) { const r = pinResolve; pinResolve = null; r(''); }
@@ -2752,11 +2810,12 @@ function renderExtend() {
 /* ═════════ payment ═════════ */
 function openPay(id) {
   const q = findQ(id); if (!q) return;
-  P = { id, pm: 'qr', done: false, qrKey: '' };
+  P = { id, pm: S.gwCfg?.on ? 'gw' : 'qr', done: false, qrKey: '' };
   $('#p-sum').innerHTML = `<div class="avatar">${q.kind === 'reg' ? '🎟️' : q.kind === 'gift' ? '🎁' : q.kind === 'item' ? '🧴' : tIcon(q.t)}</div><div style="min-width:0"><b>${esc(q.n)}</b><span class="muted sm">${svcLine(q)}</span>${q.note ? `<div class="qnote">${esc(q.note)}</div>` : ''}</div>`;
   $('#p-amt').value = Number(q.p) || 0;
   $('#p-recv').value = ''; $('#p-gvcode').value = ''; $('#p-gvinfo').textContent = '';
   $('#p-seg [data-pm=voucher]').hidden = q.kind === 'gift';
+  $('#p-seg-gw').hidden = !S.gwCfg?.on;
   renderPay();
   openSheet('sh-pay');
   castSoon(0);
@@ -2770,6 +2829,9 @@ function renderPay() {
   const amt = Number($('#p-amt').value) || 0;
   $$('#p-seg button').forEach(b => b.classList.toggle('on', b.dataset.pm === P.pm));
   $('#p-qr').hidden = P.pm !== 'qr';
+  $('#p-gw').hidden = P.pm !== 'gw';
+  $('#p-btn').parentElement.hidden = P.pm === 'gw';
+  if (P.pm === 'gw') renderGw(amt);
   $('#p-cash').hidden = P.pm !== 'cash';
   $('#p-gv').hidden = P.pm !== 'voucher';
   if (P.pm === 'qr') {
@@ -2788,10 +2850,76 @@ function renderPay() {
   const dep = (S.deposits || []).find(d => !d.qid && !d.test && Math.round(d.amt) === Math.round(amt) && now() - d.at < 30 * 60000);
   $('#p-dep').innerHTML = dep ? `<div class="dep-banner"><span>💰</span><span class="grow">มีเงินเข้า ${baht(dep.amt)} เมื่อ ${fmtTime(dep.at)} ที่ยังไม่ได้จับคู่</span><button class="btn btn-sm btn-ok" data-act="confirmDep" data-dep="${esc(dep.id)}">ใช้ยอดนี้</button></div>` : '';
 }
+/* ═════════ v5.1 QR อัตโนมัติ ═════════ */
+let gwPollT = null, gwTickT = null;
+const myGw = () => (S.gw && String(S.gw.qid) === String(P.id)) ? S.gw : null;
+const mmss = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+function gwModeTag() { const m = S.gwCfg?.mode; return `<div class="gw-mode ${m === 'mock' ? 'mock' : ''}">${m === 'mock' ? '🧪 โหมดจำลอง · ไม่มีเงินจริง' : '⚡ Stripe โหมดทดสอบ'}</div>`; }
+function renderGw(amt) {
+  const s = myGw(), el = $('#p-gw');
+  const make = (label, note) => `${gwModeTag()}${note ? `<div class="gw-st bad">${note}</div>` : ''}<p class="muted sm" style="margin:10px 0 14px">ลูกค้าสแกนจ่ายแล้วระบบยืนยันให้เอง ไม่ต้องดูสลิป</p><button class="btn btn-primary btn-lg btn-block" data-act="gwMake">${label}</button>`;
+  if (!s || (s.st !== 'pending' && s.st !== 'paid')) {
+    const note = !s ? '' : s.st === 'expired' ? '⏱️ QR หมดเวลาแล้ว' : s.st === 'failed' ? '✕ ลูกค้าจ่ายไม่สำเร็จ' : s.st === 'mismatch' ? '⚠️ ยอดที่จ่ายไม่ตรง — ดูแถบแจ้งเตือนหน้าแรก' : '';
+    const key = 'make|' + amt + '|' + (s ? s.id + s.st : '');
+    if (P.gwKey !== key) { P.gwKey = key; el.innerHTML = make(`⚡ สร้าง QR ยอด ${baht(amt)}`, note); }
+    stopGwPoll(); return;
+  }
+  if (s.st === 'paid') { if (P.gwKey !== 'paid' + s.id) { P.gwKey = 'paid' + s.id; el.innerHTML = `<div class="gw-st" style="color:var(--ok)">✓ ลูกค้าจ่ายแล้ว ${baht(s.amt)}</div>`; } return; }
+  const key = 'pend|' + s.id + '|' + amt;
+  if (P.gwKey !== key) {
+    P.gwKey = key;
+    el.innerHTML = `${gwModeTag()}<div><img id="gw-img" alt="QR อัตโนมัติ" src="${qrData(s.text)}"></div>
+      <div class="gw-st"><span class="live"></span> รอลูกค้าสแกน… ระบบยืนยันให้เอง</div><div class="gw-cd" id="gw-cd"></div>
+      ${amt !== s.amt ? `<div class="gw-st bad">ยอดในช่องเปลี่ยนเป็น ${baht(amt)} แต่ QR นี้ ${baht(s.amt)}</div>` : ''}
+      <div class="cast-note"><span class="live"></span>แสดงบนจอลูกค้าแล้ว</div>
+      <div class="gw-acts">${amt !== s.amt ? `<button class="btn btn-primary" data-act="gwMake">สร้าง QR ใหม่ ${baht(amt)}</button>` : ''}<button class="btn btn-ghost danger-text" data-act="gwCancel">ยกเลิก QR</button>
+      ${S.gwCfg?.mode === 'mock' ? `<button class="btn btn-ok" data-act="gwMock" data-v="pay">🧪 จำลอง: ลูกค้าจ่าย</button><button class="btn" data-act="gwMock" data-v="fail">🧪 ไม่อนุมัติ</button>` : ''}</div>`;
+  }
+  gwTick(); startGwPoll();
+}
+function gwTick() {
+  clearTimeout(gwTickT);
+  const s = myGw(), el = $('#gw-cd');
+  if (!s || s.st !== 'pending' || !el || $('#sh-pay').hidden) return;
+  const left = s.exp - now();
+  el.textContent = left > 0 ? 'QR หมดเวลาใน ' + mmss(left) : 'QR หมดเวลา กำลังยกเลิก…';
+  el.classList.toggle('low', left < 60000);
+  gwTickT = setTimeout(gwTick, 1000);
+}
+function startGwPoll() {
+  if (gwPollT) return;
+  const loop = async () => {
+    gwPollT = null;
+    if ($('#sh-pay').hidden || P.done || myGw()?.st !== 'pending') return;
+    try { await api('QR_STATUS', {}, { silent: true }); } catch (e) {}
+    if (!$('#sh-pay').hidden && !P.done) { if (myGw()?.st !== 'pending') { renderPay(); castSoon(0); } else gwPollT = setTimeout(loop, 3000); }
+  };
+  gwPollT = setTimeout(loop, 3000);
+}
+function stopGwPoll() { clearTimeout(gwPollT); gwPollT = null; clearTimeout(gwTickT); }
+function renderGwCfg() {
+  const g = S.gwCfg || { mode: 'off' };
+  if (!$('#gw-mode')) return;
+  $('#gw-mode').value = g.mode || 'off';
+  $('#gw-email').value = g.email || '';
+  $('#gw-min').value = g.min || 5;
+  $('#gw-key').placeholder = g.keyEnd ? 'ตั้งไว้แล้ว ' + g.keyEnd + ' (เว้นว่าง = ใช้คีย์เดิม)' : 'sk_test_...';
+  $('#gw-stripe-f').hidden = $('#gw-mode').value !== 'stripe';
+  const st = $('#gw-st');
+  st.className = 'slip-mode ' + (g.on ? 'api' : 'basic');
+  st.textContent = g.on ? (g.mode === 'mock' ? '🧪 เปิดอยู่: โหมดจำลอง (ไม่มีเงินจริง)' : '⚡ เปิดอยู่: Stripe โหมดทดสอบ ' + (g.keyEnd || '')) : '⏸️ ปิดอยู่ — ใช้ QR พร้อมเพย์ปกติ';
+  $('#gw-hook-f').hidden = g.mode !== 'stripe' || !g.hook;
+  $('#gw-hook').value = g.hook || '';
+  $('#gw-kiosk-url').textContent = SCRIPT_URL + '?mode=kiosk';
+}
+document.addEventListener('change', e => { if (e.target && e.target.id === 'gw-mode') $('#gw-stripe-f').hidden = e.target.value !== 'stripe'; });
+
 function castSoon(delay = 600) {
   clearTimeout(castT);
   const q = findQ(P.id);
   const cast = { show: true, p: Number($('#p-amt').value) || 0, n: q ? q.n : '', pm: P.pm, qid: P.id };
+  const gs = myGw();
+  if (P.pm === 'gw' && gs) { cast.p = gs.amt; cast.gw = { id: gs.id, st: gs.st, exp: gs.exp, text: gs.text }; }
   localCast(cast); // จอที่ต่อสาย/หน้าต่างเครื่องเดียวกัน ขึ้นทันที
   castT = setTimeout(() => {
     if ($('#sh-pay').hidden || P.done) return; // (ไม่ใช้ isOpen เพราะ sheet ยังเล่นแอนิเมชันเปิดอยู่)
@@ -2972,7 +3100,7 @@ function fillSettings() {
   $('#set-sync').checked = autoSync;
   const r = ROT(); $('#rot-prep').value = r.prepMin; $('#rot-ack').value = r.ackWarnMin; $('#rot-keep').checked = !!r.reqKeepsTurn;
   $('#set-banksound').checked = bankSoundOn;
-  updSlipMode(); updPushSt();
+  updSlipMode(); updPushSt(); renderGwCfg();
   updVoiceSt();
   $('#set-sound').checked = soundOn;
   const g = g4();
@@ -3291,6 +3419,7 @@ function renderSysbars() {
     if (S.tickAge === -1) bars.push(`<div class="sysbar"><span>⚙️</span><span class="grow">ยังไม่ได้เปิดระบบอัตโนมัติ — เปิด Apps Script แล้วรันฟังก์ชัน <b>installTrigger</b> 1 ครั้ง</span></div>`);
     else if (S.tickAge > 10 * 60000) bars.push(`<div class="sysbar bad"><span>⛔</span><span class="grow">ระบบแจ้งเตือนอัตโนมัติหยุดทำงาน ${Math.round(S.tickAge / 60000)} นาที — รัน <b>installTrigger</b> ใน Apps Script อีกครั้ง</span></div>`);
   }
+  (S.gwIssues || []).forEach(i => bars.push(`<div class="sysbar bad"><span>${i.kind === 'double' ? '💸' : '⚠️'}</span><span class="grow">${esc(i.msg)}<small class="muted" style="display:block;font-weight:400">${fmtTime(i.at)} · ${esc(i.pid || '')}</small></span><button class="btn btn-sm" data-act="gwResolve" data-id="${esc(i.id)}">${i.kind === 'double' ? 'คืนแล้ว' : 'ตรวจแล้ว'}</button></div>`));
   const ob = outbox();
   if (ob.length) bars.push(`<div class="sysbar bad" data-act="flushNow" style="cursor:pointer"><span>📤</span><span class="grow">มีรายการรอส่ง ${ob.length} รายการ (เน็ตหลุด) — แตะเพื่อส่งตอนนี้</span></div>`);
   if (isOwner() && (S.devices || []).some(d => !d.ok) && g4().devLock) bars.push(`<div class="sysbar info" data-act="go" data-tab="settings" style="cursor:pointer"><span>📱</span><span class="grow">มีเครื่องใหม่รออนุมัติเข้าแอดมิน</span>${ic('chev', 18)}</div>`);
@@ -4143,6 +4272,7 @@ const A = {
     try { jp = await api('PAY', { id, amount: amt, pm: P.pm, recv: P.pm === 'cash' ? recv : 0, depId: btn.dataset.dep || '', code }); }
     finally { P.busy = false; }
     P.done = true;
+    if (jp.out?.gwPaid) { const pq = findQ(id); localCast(thanksCast(pq, { amt: pq?.p })); closeSheet('sh-pay'); toast(`💰 ลูกค้าโอนผ่าน QR อัตโนมัติแล้ว ${baht(pq?.p)} — ไม่ต้องรับเงินซ้ำ`, 'ok'); setTimeout(() => openReceipt(id), 320); return; }
     localCast(thanksCast(findQ(id), { amt }));
     closeSheet('sh-pay');
     if (jp.offline) { toast(`📤 บันทึกรับเงิน ${baht(amt)} ไว้ในเครื่อง (รอส่ง)`, 'warn'); return; }
@@ -4150,6 +4280,25 @@ const A = {
     if (findQ(id)?.voucherCode) toast('🎁 ออกบัตรของขวัญ ' + findQ(id).voucherCode + ' แล้ว', 'ok');
     setTimeout(() => openReceipt(id), 320);
   }),
+  gwMake: (_, btn) => run(btn, async () => {
+    const amt = Number($('#p-amt').value) || 0;
+    if (amt < 20) return toast('QR อัตโนมัติต้องมียอดอย่างน้อย 20 บาท', 'warn');
+    P.busy = true;
+    let j;
+    try { j = await api('QR_CREATE', { id: P.id, amount: amt }); } finally { P.busy = false; }
+    if (j.out?.paidBefore) toast('รายการ QR ก่อนหน้าจ่ายแล้ว', 'ok');
+    renderPay(); castSoon(0); startGwPoll();
+  }),
+  gwCancel: (_, btn) => run(btn, async () => { stopGwPoll(); const j = await api('QR_CANCEL', {}); if (j.out?.paid) toast('ลูกค้าจ่ายก่อนยกเลิกทัน — ยืนยันรับเงินแล้ว', 'ok'); else toast('ยกเลิก QR แล้ว — ลูกค้าจ่าย QR นี้ไม่ได้อีก'); renderPay(); castSoon(0); }),
+  gwMock: ({ v }, btn) => run(btn, async () => { await api('QR_MOCK', { do: v }); if (v === 'fail') { toast('จำลอง: ลูกค้าจ่ายไม่สำเร็จ', 'warn'); renderPay(); castSoon(0); } }),
+  saveGw: (_, btn) => run(btn, async () => {
+    const mode = $('#gw-mode').value, key = $('#gw-key').value.trim(), email = $('#gw-email').value.trim(), min = Number($('#gw-min').value) || 5;
+    await api('SET_GW', { mode, key, email, min });
+    $('#gw-key').value = ''; await pull(true); renderGwCfg();
+    toast(mode === 'off' ? 'ปิด QR อัตโนมัติแล้ว' : mode === 'mock' ? '✓ เปิด QR อัตโนมัติ (โหมดจำลอง)' : '✓ ต่อ Stripe โหมดทดสอบสำเร็จ', 'ok');
+  }),
+  copyGwHook: async () => { try { await navigator.clipboard.writeText($('#gw-hook').value); toast('คัดลอกแล้ว', 'ok'); } catch (e) { $('#gw-hook').select(); } },
+  gwResolve: ({ id }, btn) => run(btn, async () => { await api('RESOLVE_GW', { id }); toast('บันทึกแล้ว', 'ok'); }),
   scanSlip: () => openScanner(),
   pickSlip: () => $('#slip-file').click(),
   retryScan: () => retryScan(),
