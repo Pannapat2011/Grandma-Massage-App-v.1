@@ -1047,14 +1047,14 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
     <!-- SETTINGS -->
     <section class="view" id="v-settings" hidden>
       <div class="page-head"><button class="icon-btn" data-act="setBack" aria-label="กลับ"><i class="ic" data-ic="back"></i></button><h2 id="set-title">ตั้งค่าระบบ</h2></div>
-      <div id="weak-pass" class="warnbox" hidden>🔐 ตอนนี้ใช้รหัสผ่านเริ่มต้น “123” อยู่ — ตั้ง ADMIN_PASS ใน Apps Script › Project Settings › Script Properties</div>
+      <div id="weak-pass" class="warnbox" hidden>🔐 ตอนนี้ใช้รหัสผ่านเริ่มต้น “123” อยู่ — เปลี่ยนได้ที่ ความปลอดภัย › รหัสเจ้าของ</div>
       <div id="set-hub">
         <label class="set-search"><i class="ic" data-ic="search" data-s="18"></i><input id="set-q" type="search" placeholder="ค้นหาการตั้งค่า เช่น ราคา, PIN, พร้อมเพย์" autocomplete="off" enterkeyhint="search"><button type="button" class="set-x" data-act="setClear" aria-label="ล้างคำค้น" hidden><i class="ic" data-ic="x" data-s="16"></i></button></label>
         <div class="card set-cats" id="set-cats">
           <button class="set-cat" data-act="setCat" data-cat="shop"><span class="mt-ic" style="--c:var(--gold)"><i class="ic" data-ic="tag"></i></span><span class="sc-t"><b>ร้าน &amp; บริการ</b><small>ข้อมูลร้าน · ราคา · แพ็กเกจคอร์ส · บริการเสริม · เช็คลิสต์</small></span><span class="sc-r" data-st="shop"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
           <button class="set-cat" data-act="setCat" data-cat="pay"><span class="mt-ic" style="--c:var(--ok)"><i class="ic" data-ic="wallet"></i></span><span class="sc-t"><b>รับเงิน</b><small>พร้อมเพย์ · QR อัตโนมัติ · เงินเข้าอัตโนมัติ · ตรวจสลิป · เสียงเงินเข้า</small></span><span class="sc-r" data-st="pay"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
           <button class="set-cat" data-act="setCat" data-cat="staff"><span class="mt-ic" style="--c:var(--warn)"><i class="ic" data-ic="users"></i></span><span class="sc-t"><b>หมอ &amp; คิว</b><small>การจัดคิว · ค่ามือ · เวลาร้าน · เช็คชื่อ GPS · เวลาพัก</small></span><span class="sc-r" data-st="staff"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
-          <button class="set-cat" data-act="setCat" data-cat="sec"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="shield"></i></span><span class="sc-t"><b>ความปลอดภัย</b><small>รหัสแคชเชียร์ · PIN เจ้าของ · กันโกง · เครื่องที่อนุมัติ · สำรองข้อมูล</small></span><span class="sc-r" data-st="sec"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
+          <button class="set-cat" data-act="setCat" data-cat="sec"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="shield"></i></span><span class="sc-t"><b>ความปลอดภัย</b><small>รหัสเจ้าของ · รหัสแคชเชียร์ · PIN · กันโกง · เครื่องที่อนุมัติ · สำรองข้อมูล</small></span><span class="sc-r" data-st="sec"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
           <button class="set-cat" data-act="setCat" data-cat="cust"><span class="mt-ic" style="--c:var(--info)"><i class="ic" data-ic="spark"></i></span><span class="sc-t"><b>ลูกค้า &amp; ยอดขาย</b><small>เป้ายอดขาย · โปรโมชันจอลูกค้า · ลิงก์รีวิว · ข้อความชวนกลับ</small></span><span class="sc-r" data-st="cust"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
           <button class="set-cat" data-act="setCat" data-cat="dev"><span class="mt-ic" style="--c:var(--ink2)"><i class="ic" data-ic="monitor"></i></span><span class="sc-t"><b>เครื่องนี้ &amp; แจ้งเตือน</b><small>ธีม · ตัวหนังสือใหญ่ · เสียง · แจ้งเตือนเด้งเข้ามือถือ</small></span><span class="sc-r" data-st="dev"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
         </div>
@@ -1203,9 +1203,17 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
           <button class="btn btn-primary btn-block" data-act="saveHours">บันทึก</button>
         </div>
       </div>
-      <div data-cat="sec" class="set-group"><h4>รหัสแคชเชียร์ &amp; PIN เจ้าของ</h4>
+      <div data-cat="sec" class="set-group"><h4>รหัสเจ้าของ · แคชเชียร์ · PIN</h4>
         <div class="card form">
           <div id="sec-st" class="smart" style="margin:0 0 14px"></div>
+          <div class="sub-label" style="margin-top:0">รหัสเจ้าของ (ใช้เข้าแอดมินแบบเห็นทุกอย่าง)</div>
+          <label class="field"><span>รหัสเจ้าของปัจจุบัน</span><input id="sec-own-old" class="input" type="password" autocomplete="current-password"></label>
+          <div class="grid2">
+            <label class="field"><span>รหัสใหม่ (อย่างน้อย 6 ตัว)</span><input id="sec-own-new" class="input" type="password" autocomplete="new-password"></label>
+            <label class="field"><span>พิมพ์รหัสใหม่อีกครั้ง</span><input id="sec-own-new2" class="input" type="password" autocomplete="new-password"></label>
+          </div>
+          <button class="btn btn-primary btn-block" data-act="saveOwnerPass" style="margin:-4px 0 20px">เปลี่ยนรหัสเจ้าของ</button>
+          <div class="sub-label">รหัสแคชเชียร์ &amp; PIN</div>
           <label class="field"><span>รหัสผ่านแคชเชียร์ (ลงคิว/รับเงินได้ แต่ไม่เห็นรายงานเงิน แก้ราคา/ตั้งค่าไม่ได้)</span><input id="sec-cashier" class="input" type="password" autocomplete="new-password" placeholder="อย่างน้อย 4 ตัว · เว้นว่าง = ไม่เปลี่ยน"></label>
           <div class="btn-row" style="margin:-4px 0 16px"><button class="btn btn-primary grow" data-act="saveSecret" data-k="cashier">บันทึกรหัสแคชเชียร์</button><button class="btn btn-ghost danger-text" data-act="clearSecret" data-k="cashier">ปิดบัญชี</button></div>
           <label class="field"><span>PIN เจ้าของ (ตัวเลข 4–8 หลัก) — ต้องใส่เมื่อแคชเชียร์ลบคิวที่จ่ายแล้ว / ลดราคาเกินกำหนด / ลบรายจ่าย</span><input id="sec-pin" class="input pin-in" type="password" inputmode="numeric" autocomplete="new-password" maxlength="8"></label>
@@ -4744,6 +4752,16 @@ Object.assign(A, {
   saveSecret: ({ k }, btn) => run(btn, async () => {
     const v = (k === 'pin' ? $('#sec-pin') : $('#sec-cashier')).value.trim(); if (!v) return toast('ใส่ค่าก่อน', 'warn');
     await api('SET_SECRET', { kind: k, value: v }); await pull(true); fillSettings(); toast(k === 'pin' ? '✓ ตั้ง PIN แล้ว' : '✓ ตั้งรหัสแคชเชียร์แล้ว', 'ok');
+  }),
+  saveOwnerPass: (_, btn) => run(btn, async () => {
+    const old = $('#sec-own-old').value, v = $('#sec-own-new').value.trim(), v2 = $('#sec-own-new2').value.trim();
+    if (!old) return toast('ใส่รหัสเจ้าของปัจจุบันก่อน', 'warn');
+    if (v.length < 6) return toast('รหัสใหม่ต้องยาวอย่างน้อย 6 ตัว', 'warn');
+    if (v !== v2) return toast('รหัสใหม่ 2 ช่องไม่ตรงกัน', 'warn');
+    await api('SET_SECRET', { kind: 'owner', old, value: v });
+    ['#sec-own-old', '#sec-own-new', '#sec-own-new2'].forEach(s => { $(s).value = ''; });
+    await pull(true); fillSettings();
+    toast('✓ เปลี่ยนรหัสเจ้าของแล้ว — ครั้งหน้าเข้าด้วยรหัสใหม่ · เครื่องอื่นต้องล็อกอินใหม่', 'ok');
   }),
   clearSecret: async ({ k }, btn) => {
     if (!await confirmDlg({ icon: '⚠️', title: k === 'pin' ? 'ลบ PIN เจ้าของ?' : 'ปิดบัญชีแคชเชียร์?', msg: k === 'pin' ? 'แคชเชียร์จะลบคิว/ลดราคาได้โดยไม่ต้องขออนุญาต' : 'เครื่องที่ล็อกอินด้วยรหัสแคชเชียร์จะถูกออกจากระบบ', ok: 'ยืนยัน', tone: 'danger' })) return;
