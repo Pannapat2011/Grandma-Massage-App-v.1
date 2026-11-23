@@ -308,6 +308,48 @@ details.form[open]>summary>.ic{transform:rotate(90deg)}
 .srow .icon-btn{grid-row:1;grid-column:3}
 @media(min-width:640px){.srow .icon-btn{grid-column:4}}
 .inline-add{display:flex;gap:10px;padding:12px}
+/* v5.2 บริการเพิ่มเอง */
+.svc-add{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:8px}
+.svc-add .input{height:46px}
+.svc-add #svc-i{text-align:center;font-size:20px;padding:0}
+.svc-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--rs);background:var(--surface2)}
+.svc-row b{flex:1;min-width:0}
+/* v5.2 ล้างข้อมูล */
+.danger-card{border-color:color-mix(in srgb,var(--bad) 35%,var(--line))}
+.rs-opts{display:grid;gap:8px;margin-bottom:14px}
+.rs-opts label{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:var(--rs);cursor:pointer}
+.rs-opts label:has(input:checked){border-color:var(--gold);background:var(--gold-soft)}
+.rs-opts label.bad:has(input:checked){border-color:var(--bad);background:var(--bad-soft)}
+.rs-opts input{width:20px;height:20px;margin-top:2px;accent-color:var(--gold);flex:none}
+.rs-opts label.bad input{accent-color:var(--bad)}
+.rs-opts b{display:block;font-size:14.5px}
+.rs-opts small{display:block;color:var(--muted);font-size:12.5px;margin-top:1px}
+/* v5.2 สแกนหน้า */
+.fc-cam{position:relative;aspect-ratio:3/4;max-height:58vh;margin:0 auto;border-radius:20px;overflow:hidden;background:#000}
+.fc-cam video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:block}
+.fc-oval{position:absolute;left:50%;top:44%;width:62%;aspect-ratio:3/4;transform:translate(-50%,-50%);border-radius:50%;border:3px dashed rgba(255,255,255,.55);transition:border-color .2s;pointer-events:none}
+.fc-cam.ok .fc-oval{border:3px solid var(--ok)}
+.fc-cam.bad .fc-oval{border-color:var(--bad)}
+.fc-msg{position:absolute;left:12px;right:12px;bottom:12px;padding:10px 14px;border-radius:14px;background:rgba(0,0,0,.62);color:#fff;text-align:center;font-weight:600;font-size:15px;backdrop-filter:blur(6px)}
+.fc-steps{display:flex;gap:6px;justify-content:center;margin:12px 0 4px}
+.fc-steps i{width:28px;height:6px;border-radius:3px;background:var(--line2)}
+.fc-steps i.on{background:var(--ok)}
+.fc-consent{display:flex;gap:10px;align-items:flex-start;margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:var(--rs);font-size:13.5px;line-height:1.55;cursor:pointer}
+.fc-consent input{width:20px;height:20px;margin-top:2px;accent-color:var(--gold);flex:none}
+/* v5.2 ทดสอบเครื่อง */
+.st-sum{display:flex;align-items:center;gap:14px;padding:16px}
+.st-score{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:20px;font-weight:700;background:var(--surface2);flex:none;font-variant-numeric:tabular-nums}
+.st-score.ok{background:var(--ok-soft);color:var(--ok)}.st-score.warn{background:var(--warn-soft);color:var(--warn)}.st-score.bad{background:var(--bad-soft);color:var(--bad)}
+.st-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.st-row:last-child{border-bottom:0}
+.st-ic{font-size:22px;text-align:center}
+.st-row b{display:block;font-size:14.5px}
+.st-row small{display:block;color:var(--muted);font-size:12.5px;line-height:1.5;margin-top:2px}
+.st-row .st-fix{color:var(--ink2)}
+.st-st{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--surface2);color:var(--muted);white-space:nowrap}
+.st-st.ok{background:var(--ok-soft);color:var(--ok)}.st-st.warn{background:var(--warn-soft);color:var(--warn)}.st-st.bad{background:var(--bad-soft);color:var(--bad)}.st-st.run{color:var(--info)}
+.st-ask{display:flex;gap:6px;margin-top:8px}
+@media(max-width:420px){.st-sum{flex-wrap:wrap}.st-sum .btn{width:100%}}
 .inline-add .input{height:48px}
 .set-group h4{margin:24px 2px 10px;font-size:14px;color:var(--muted);font-weight:700}
 /* ตั้งค่า: หน้ารวมหมวด → เปิดทีละหมวด */
@@ -943,10 +985,21 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
         <button class="card mtile" data-act="stQR"><span class="mt-ic" style="--c:var(--ok)"><i class="ic" data-ic="qr"></i></span><b>QR ดูคิว (ลูกค้า)</b><small>ลูกค้าสแกนดูเวลารอเอง</small></button>
         <button class="card mtile" data-act="go" data-tab="guide"><span class="mt-ic" style="--c:var(--info)"><i class="ic" data-ic="list"></i></span><b>คู่มือการใช้งาน</b><small>สำหรับพนักงานใหม่</small></button>
         <button class="card mtile" data-act="ckQR"><span class="mt-ic" style="--c:var(--gold)"><i class="ic" data-ic="qr"></i></span><b>QR เช็คชื่อ</b><small>ให้หมอสแกนตอนมาถึงร้าน</small></button>
+        <button class="card mtile" data-act="faceScan"><span class="mt-ic" style="--c:var(--ok)"><i class="ic" data-ic="users"></i></span><b>สแกนหน้าเช็คชื่อ</b><small>หมอยืนหน้ากล้อง ลงเวลาให้เอง</small></button>
+        <button class="card mtile owner-only" data-act="camOpen"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="monitor"></i></span><b>กล้องวงจรปิด</b><small>เจ้าของดูได้คนเดียว</small></button>
+        <button class="card mtile" data-act="go" data-tab="selftest"><span class="mt-ic" style="--c:var(--info)"><i class="ic" data-ic="check"></i></span><b>ทดสอบเครื่องนี้</b><small>เช็คว่ามือถือใช้ได้ทุกฟังก์ชันไหม</small></button>
         <button class="card mtile owner-only" data-act="go" data-tab="settings"><span class="mt-ic" style="--c:var(--ink2)"><i class="ic" data-ic="sliders"></i></span><b>ตั้งค่าระบบ</b><small>ราคา ค่ามือ ความปลอดภัย</small></button>
         <button class="card mtile" data-act="endDay"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="moon"></i></span><b>ปิดยอดประจำวัน</b><small>สรุป + ล้างคิววันนี้</small></button>
       </div>
       <button class="btn btn-block btn-ghost danger-text" data-act="logout"><i class="ic" data-ic="logout"></i>ออกจากระบบ</button>
+    </section>
+
+    <!-- SELF TEST -->
+    <section class="view" id="v-selftest" hidden>
+      <div class="page-head"><button class="icon-btn" data-act="go" data-tab="more" aria-label="กลับ"><i class="ic" data-ic="back"></i></button><h2>ทดสอบเครื่องนี้</h2></div>
+      <div class="card st-sum" id="st-sum"><div class="st-score" id="st-score">–</div><div class="grow"><b id="st-head">ยังไม่ได้ทดสอบ</b><div class="muted sm" id="st-dev"></div></div><button class="btn btn-primary" data-act="stRun" id="st-run">ทดสอบทั้งหมด</button></div>
+      <p class="muted sm" style="margin:12px 4px">บางข้อเครื่องจะถามสิทธิ์ (กล้อง ไมค์ ตำแหน่ง แจ้งเตือน) ให้กด “อนุญาต” · ข้อที่ต้องฟังเสียง/ดูจอ ระบบจะถามว่าได้ยินไหม</p>
+      <div class="card list" id="st-list"></div>
     </section>
 
     <!-- INSIGHTS -->
@@ -1056,6 +1109,7 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
           <button class="set-cat" data-act="setCat" data-cat="staff"><span class="mt-ic" style="--c:var(--warn)"><i class="ic" data-ic="users"></i></span><span class="sc-t"><b>หมอ &amp; คิว</b><small>การจัดคิว · ค่ามือ · เวลาร้าน · เช็คชื่อ GPS · เวลาพัก</small></span><span class="sc-r" data-st="staff"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
           <button class="set-cat" data-act="setCat" data-cat="sec"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="shield"></i></span><span class="sc-t"><b>ความปลอดภัย</b><small>รหัสเจ้าของ · รหัสแคชเชียร์ · PIN · กันโกง · เครื่องที่อนุมัติ · สำรองข้อมูล</small></span><span class="sc-r" data-st="sec"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
           <button class="set-cat" data-act="setCat" data-cat="cust"><span class="mt-ic" style="--c:var(--info)"><i class="ic" data-ic="spark"></i></span><span class="sc-t"><b>ลูกค้า &amp; ยอดขาย</b><small>เป้ายอดขาย · โปรโมชันจอลูกค้า · ลิงก์รีวิว · ข้อความชวนกลับ</small></span><span class="sc-r" data-st="cust"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
+          <button class="set-cat" data-act="setCat" data-cat="sys"><span class="mt-ic" style="--c:var(--bad)"><i class="ic" data-ic="box"></i></span><span class="sc-t"><b>ข้อมูล &amp; ระบบ</b><small>ทดสอบเครื่อง · กล้องวงจรปิด · ล้างข้อมูลทดสอบ (Set zero)</small></span><span class="sc-r" data-st="sys"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
           <button class="set-cat" data-act="setCat" data-cat="dev"><span class="mt-ic" style="--c:var(--ink2)"><i class="ic" data-ic="monitor"></i></span><span class="sc-t"><b>เครื่องนี้ &amp; แจ้งเตือน</b><small>ธีม · ตัวหนังสือใหญ่ · เสียง · แจ้งเตือนเด้งเข้ามือถือ</small></span><span class="sc-r" data-st="dev"></span><i class="ic sc-chev" data-ic="chev" data-s="18"></i></button>
         </div>
       </div>
@@ -1073,6 +1127,13 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
       </div>
       <div data-cat="shop" class="set-group"><h4>ราคาบริการ (บาท) · เว้นว่าง = ไม่เปิดขายระยะเวลานั้น</h4>
         <div class="card form"><div class="table-wrap" id="price-grid"></div><button class="btn btn-primary btn-block" data-act="savePrices">บันทึกราคา</button></div>
+      </div>
+      <div data-cat="shop" class="set-group"><h4>บริการที่ร้านเพิ่มเอง</h4>
+        <div class="card form">
+          <p class="muted sm" style="margin:0 0 12px">เพิ่มบริการใหม่ เช่น "นวดคอ บ่า ไหล่" แล้วไปใส่ราคาในตารางด้านบน · ค่ามือคิดเป็น % ตาม "บริการอื่นๆ" ในหมวด หมอ &amp; คิว</p>
+          <div id="svc-list" class="stack" style="gap:8px;margin-bottom:12px"></div>
+          <div class="svc-add"><input id="svc-i" class="input" maxlength="4" placeholder="💆" aria-label="ไอคอน"><input id="svc-n" class="input" maxlength="30" placeholder="ชื่อบริการใหม่" autocomplete="off"><button class="btn btn-primary" data-act="svcAdd"><i class="ic" data-ic="plus" data-s="18"></i>เพิ่ม</button></div>
+        </div>
       </div>
       <div data-cat="shop" class="set-group"><h4>แพ็กเกจคอร์ส</h4>
         <div class="card form"><div id="pkg-edit"></div><button class="btn btn-ghost btn-block" data-act="pkgAdd" style="margin-bottom:10px"><i class="ic" data-ic="plus" data-s="18"></i>เพิ่มแพ็กเกจ</button><button class="btn btn-primary btn-block" data-act="savePkgs">บันทึกแพ็กเกจ</button></div>
@@ -1271,8 +1332,36 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
           <div class="row"><div><b>ตัวหนังสือใหญ่</b><div class="muted sm">สำหรับแท็บเล็ตหน้าร้าน</div></div><input type="checkbox" class="switch" id="set-bigui"></div>
         </div>
       </div>
+      <div data-cat="sys" class="set-group"><h4>ทดสอบเครื่องนี้</h4>
+        <div class="card form"><p class="muted sm" style="margin:0 0 12px">เช็คว่ามือถือ/แท็บเล็ตเครื่องนี้ใช้ได้ทุกฟังก์ชันไหม: เน็ต กล้อง สแกน QR แจ้งเตือน เสียง GPS สแกนหน้า ฯลฯ</p>
+          <button class="btn btn-primary btn-block" data-act="go" data-tab="selftest">เปิดหน้าทดสอบ</button></div>
       </div>
-      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v5.1</p>
+      <div data-cat="sys" class="set-group"><h4>กล้องวงจรปิด (เจ้าของดูได้คนเดียว)</h4>
+        <div class="card form">
+          <p class="muted sm" style="margin:0 0 12px">ใส่ที่อยู่ของโปรแกรมกล้องบนคอมร้าน (go2rtc) · ชื่อ/IP/รหัสของกล้องแต่ละตัวตั้งในหน้ากล้องเอง · หน้ากล้องถามรหัสทุกครั้ง แคชเชียร์มองไม่เห็นเมนูนี้</p>
+          <label class="field"><span>ที่อยู่หน้ากล้อง</span><input id="cam-url" class="input" inputmode="url" autocomplete="off" placeholder="http://192.168.1.50:1984"></label>
+          <div class="btn-row"><button class="btn grow" data-act="camOpen">เปิดหน้ากล้อง</button><button class="btn btn-primary grow" data-act="saveCam">บันทึก</button></div>
+          <p class="muted sm" style="margin:10px 0 0">ดูได้เฉพาะตอนมือถืออยู่ WiFi เดียวกับคอมร้าน</p>
+        </div>
+      </div>
+      <div data-cat="sys" class="set-group"><h4>ล้างข้อมูลทดสอบ (Set zero)</h4>
+        <div class="card form danger-card">
+          <p class="sm" style="margin:0 0 12px">ใช้ตอนทดสอบเสร็จแล้วจะเริ่มใช้จริง · <b>ระบบสำรองไฟล์ทั้งหมดไว้ใน Google Drive ก่อนล้างเสมอ</b> (โฟลเดอร์ "สำรองข้อมูล บ้านประคบทอง") · ตั้งค่า ราคา บริการ รหัสผ่าน ไม่ถูกล้าง · บันทึกการแก้ไขไม่ถูกล้าง (กันโกง)</p>
+          <div class="rs-opts">
+            <label><input type="checkbox" data-rs="queues" checked><span><b>คิววันนี้ + การจอง + รอคิว</b><small>คิวที่ค้าง จอลูกค้า QR ที่ค้าง</small></span></label>
+            <label><input type="checkbox" data-rs="sales" checked><span><b>ประวัติยอดขาย / เงินเข้า / รายจ่าย</b><small>ยอดรายวัน สลิป ปิดกะ รีวิว ร้องเรียน</small></span></label>
+            <label><input type="checkbox" data-rs="customers" checked><span><b>ลูกค้า / สมาชิกคอร์ส / บัตรของขวัญ</b><small>รายชื่อ คอร์สคงเหลือ แท็กลูกค้า</small></span></label>
+            <label><input type="checkbox" data-rs="staff" checked><span><b>เวลาเข้างาน / สถิติหมอ / เบิก / ลา</b><small>รายชื่อหมอยังอยู่</small></span></label>
+            <label><input type="checkbox" data-rs="stock"><span><b>ยอดคงเหลือสต็อกเป็น 0</b><small>รายการของยังอยู่</small></span></label>
+            <label class="bad"><input type="checkbox" data-rs="staffList"><span><b>ลบรายชื่อหมอทั้งหมด</b><small>รวมข้อมูลใบหน้า · ต้องเพิ่มชื่อหมอใหม่</small></span></label>
+          </div>
+          <label class="field"><span>รหัสเจ้าของ</span><input id="rs-pass" class="input" type="password" autocomplete="current-password"></label>
+          <label class="field"><span>พิมพ์คำว่า <b>ล้างข้อมูล</b> เพื่อยืนยัน</span><input id="rs-confirm" class="input" autocomplete="off" placeholder="ล้างข้อมูล"></label>
+          <button class="btn btn-block btn-danger" data-act="resetData" id="rs-btn" disabled>ล้างข้อมูลที่เลือก</button>
+        </div>
+      </div>
+      </div>
+      <p class="muted sm center" style="margin-top:24px">ประคบทอง Spa System v5.2</p>
     </section>
   </main>
 </div>
@@ -1497,6 +1586,18 @@ body.bigui .main,body.bigui .panel{zoom:1.13}
   <div class="sh-head"><h2>QR เช็คชื่อเข้างาน</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
   <div class="ckqr"><img id="ck-img" alt="QR เช็คชื่อ"><div class="code" id="ck-code">······</div><div class="ckbar"><i id="ck-bar"></i></div>
   <p class="muted sm" style="margin:0">ให้หมอเปิดแอปพนักงาน › เช็คชื่อ › สแกน QR นี้<br>รหัสเปลี่ยนทุก 30 วินาที ถ่ายรูปไปเช็คชื่อจากบ้านไม่ได้</p></div>
+</div></div>
+
+<div class="sheet" id="sh-face" hidden><div class="panel narrow">
+  <div class="grab"></div>
+  <div class="sh-head"><h2 id="fc-title">สแกนหน้าเช็คชื่อ</h2><button class="icon-btn" data-act="close" aria-label="ปิด"><i class="ic" data-ic="x"></i></button></div>
+  <div class="fc-cam" id="fc-cam"><video id="fc-video" playsinline muted autoplay></video><div class="fc-oval"></div><div class="fc-msg" id="fc-msg">กำลังเปิดกล้อง…</div></div>
+  <div id="fc-enroll" hidden>
+    <div class="fc-steps" id="fc-steps"></div>
+    <label class="fc-consent"><input type="checkbox" id="fc-ok"><span><b id="fc-who"></b> ยินยอมให้ร้านเก็บ <b>ลายใบหน้า</b> (ตัวเลข ไม่ใช่รูป) เพื่อใช้เช็คชื่อเข้างานเท่านั้น · ขอให้ลบได้ทุกเมื่อ · ไม่ยินยอมก็ยังเช็คชื่อแบบเดิมได้</span></label>
+    <div class="btn-row"><button class="btn grow danger-text" data-act="faceDel" id="fc-del" hidden>ลบข้อมูลหน้า</button><button class="btn btn-primary grow" data-act="faceGo" id="fc-go">เริ่มถ่าย</button></div>
+  </div>
+  <div id="fc-scan-note" class="muted sm center" style="margin-top:12px">ยืนตรงหน้ากล้อง หันซ้าย-ขวาเล็กน้อย · ภาพไม่ถูกเก็บ (เก็บรูปเล็กไว้ในบันทึกเข้างานเหมือนเซลฟี)</div>
 </div></div>
 
 <div class="sheet" id="sh-memcard" hidden><div class="panel narrow">
@@ -1754,7 +1855,8 @@ var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4N
     $('cd-clock').textContent = pad(d.getHours()) + ':' + pad(d.getMinutes());
     $('cd-date').textContent = 'วัน' + DAYS[d.getDay()] + 'ที่ ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + (d.getFullYear() + 543);
   }
-  function setMeta(shop, pp, prices) {
+  function setMeta(shop, pp, prices, svcs) {
+    if (svcs && svcs.length) { TYPES = TYPES.slice(0, 7).concat(svcs.map(function (x) { return [x.n, x.n, x.i || '💆']; })); C.menuKey = ''; }
     if (shop && shop.name) $('cd-shop').textContent = shop.name;
     if (shop) C.review = shop.review || '';
     if (pp) C.pp = pp;
@@ -1873,7 +1975,7 @@ var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4N
       show('cd-off', !!err);
       if (!err && j) {
         if (j.now) offset = j.now - new Date().getTime();
-        setMeta(j.shop, j.pp, j.prices);
+        setMeta(j.shop, j.pp, j.prices, j.svcs);
         setIdle(j.promos, j.wait);
         if (j.voiceVer != null) loadVoice(j.voiceVer);
         var sc = j.cast || {};
@@ -1891,7 +1993,7 @@ var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4N
     var m; try { m = typeof raw === 'string' ? JSON.parse(raw) : raw; } catch (e) { return; }
     if (!m || m.type !== 'cast') return;
     C.localAt = new Date().getTime();
-    setMeta(m.shop, m.pp, m.prices);
+    setMeta(m.shop, m.pp, m.prices, m.svcs);
     applyCast(m.cast);
   }
   function watchConn(c) {
@@ -1944,11 +2046,14 @@ var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylXf_kfZmAo2qN2UTnF4N
 const POLL_MS = 8000;
 
 const LS = { token: 'spa_token_v3', cache: 'spa_cache_v3', theme: 'spa_theme', sync: 'spa_autosync', sound: 'spa_sound', bankSound: 'spa_banksound', depSeen: 'spa_dep_seen', voice: 'spa_voice_v1' };
-const TYPES = [
+const BASE_TYPES = [
   { k: 'thai', n: 'นวดไทย', i: '🙏' }, { k: 'foot', n: 'นวดเท้า', i: '🦶' }, { k: 'back', n: 'นวดไทยรีดเส้น', i: '💪' },
   { k: 'oil', n: 'นวดน้ำมัน', i: '💧' }, { k: 'spa', n: 'ขัดผิวกาย', i: '✨' }, { k: 'face', n: 'นวดหน้า_ขัดหน้า', i: '🌸' },
   { k: 'herb', n: 'อบสมุนไพร', i: '🌿' }
 ];
+// v5.2 บริการที่ร้านเพิ่มเอง (รหัส = ชื่อ) ต่อท้ายบริการหลัก
+let TYPES = BASE_TYPES.slice();
+function syncTypes() { TYPES = BASE_TYPES.concat(((S && S.cfg && S.cfg.svcs) || []).map(x => ({ k: x.n, n: x.n, i: x.i || '💆', custom: true }))); }
 const DURS = [30, 60, 90, 120];
 const NOTE_TAGS = ['เน้นนวดหนัก', 'เน้นนวดเบา', 'แพ้ยาหม่อง', 'ปวดหลัง', 'ปวดคอบ่าไหล่', 'ตั้งครรภ์'];
 const CUST_TAGS = ['⭐ VIP', '💛 ลูกค้าประจำ', '⚠️ ระวัง', '⛔ แบล็กลิสต์', '👤 ปกติ'];
@@ -2376,6 +2481,7 @@ function closeSheet(id) {
   if (!$$('.sheet.open').length) document.body.classList.remove('noscroll');
   if (id === 'sh-pay' && !P.done) { if (myGw()?.st === 'pending') api('QR_CANCEL', { off: true }, { silent: true }).catch(() => {}); castOff(); }
   if (id === 'sh-pay') stopGwPoll();
+  if (id === 'sh-face') faceStop();
   if (id === 'sh-scan') stopCamera();
   if (id === 'sh-confirm' && confirmResolve) { const r = confirmResolve; confirmResolve = null; r(false); }
   if (id === 'sh-pin' && pinResolve) { const r = pinResolve; pinResolve = null; r(''); }
@@ -2517,7 +2623,7 @@ function go(t) {
   tab = t;
   $$('.view').forEach(v => v.hidden = v.id !== 'v-' + t);
   if (S && token && S.role === 'cashier' && ['insights', 'guard', 'settings'].includes(t)) { t = tab = 'home'; $$('.view').forEach(v => v.hidden = v.id !== 'v-home'); toast('เมนูนี้สำหรับเจ้าของร้าน', 'warn'); }
-  const navTab = ['settings', 'money', 'guard', 'stock', 'guide'].includes(t) ? 'more' : t;
+  const navTab = ['settings', 'money', 'guard', 'stock', 'guide', 'selftest'].includes(t) ? 'more' : t;
   $$('.nav-item').forEach(b => b.classList.toggle('on', b.dataset.tab === navTab || (navTab === 'booking' && b.dataset.tab === 'more' && innerWidth < 960)));
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
   if (t === 'members') pull(true);
@@ -2528,12 +2634,14 @@ function go(t) {
   if (t === 'guard') { renderGuard(); loadGuard(true); loadHistory(); }
   if (t === 'stock') { renderStock(); }
   if (t === 'guide') renderGuide();
+  if (t === 'selftest') renderSelfTest();
   if (t === 'insights') loadSummary();
   if (t === 'staff') renderReqs();
 }
 
 /* ═════════ render ═════════ */
 function renderAll() {
+  syncTypes();
   if (!S) return;
   if (token) renderApp(); else renderBoard();
   checkCalls();
@@ -2771,7 +2879,7 @@ function renderStaffManage() {
     const k = turnNo(d.n), inT = d.in && d.inAt ? ' · เข้างาน ' + fmtTime(d.inAt) : '';
     const sc = drScore(((S.stats || {}).dr || {})[d.n]).score;
     const sub = q ? `<span class="pill p-warn">กำลังนวด ${esc(q.n)} · เหลือ ${Math.max(0, timeLeft(q))} น.</span>` : `<span class="muted sm">${d.st === 'free' && d.in ? `ว่าง · คิวที่ ${k}` : d.st === 'clean' ? '🧹 เก็บห้อง' : d.st === 'break' ? 'พักเบรก' : 'ยังไม่เช็คชื่อ / เลิกงาน'}${inT}</span>`;
-    return `<div class="card srow"><div class="avatar">${esc(initial(d.n))}</div><div style="min-width:0"><b>${esc(d.n)}</b> <span class="owner-only">${scoreBadge(sc)}</span> <button class="link owner-only" data-act="drInfo" data-n="${esc(d.n)}">แก้ข้อมูล</button><button class="link" data-act="msgOpen" data-to="${esc(d.n)}">ส่งข้อความ</button><div>${sub}</div></div>
+    return `<div class="card srow"><div class="avatar">${esc(initial(d.n))}</div><div style="min-width:0"><b>${esc(d.n)}</b> <span class="owner-only">${scoreBadge(sc)}</span> <button class="link owner-only" data-act="drInfo" data-n="${esc(d.n)}">แก้ข้อมูล</button><button class="link owner-only" data-act="faceEnroll" data-n="${esc(d.n)}">${S.faceSet && S.faceSet[d.n] ? '🙂 ลงหน้าแล้ว' : 'ลงทะเบียนหน้า'}</button><button class="link" data-act="msgOpen" data-to="${esc(d.n)}">ส่งข้อความ</button><div>${sub}</div></div>
       <div class="seg seg-sm">${[['free', d.in ? 'ว่าง' : 'เช็คชื่อ'], ['break', 'พัก'], ['off', 'เลิกงาน']].map(([k, l]) => `<button class="${!q && d.st === k ? 'on' : ''}" data-act="drSt" data-n="${esc(d.n)}" data-st="${k}" ${q ? 'disabled' : ''}>${l}</button>`).join('')}</div>
       <button class="icon-btn danger" data-act="rmDr" data-n="${esc(d.n)}" ${q ? 'disabled' : ''} aria-label="ลบพนักงาน">${ic('trash', 18)}</button></div>`;
   }).join('') || empty('ยังไม่มีพนักงาน', '👥');
@@ -2963,6 +3071,176 @@ function renderGwCfg() {
 }
 document.addEventListener('change', e => { if (e.target && e.target.id === 'gw-mode') $('#gw-stripe-f').hidden = e.target.value !== 'stripe'; });
 
+
+/* ═════════ v5.2 บริการเพิ่มเอง ═════════ */
+function renderSvcList() {
+  const el = $('#svc-list'); if (!el) return;
+  const list = S.cfg?.svcs || [];
+  el.innerHTML = list.map((x, i) => `<div class="svc-row"><span style="font-size:20px">${esc(x.i || '💆')}</span><b>${esc(x.n)}</b><span class="muted sm">${DURS.filter(d => priceOf(x.n, d)).map(d => durLabel(d) + ' ' + baht(priceOf(x.n, d))).join(' · ') || 'ยังไม่ใส่ราคา'}</span><button class="icon-btn danger" data-act="svcDel" data-i="${i}" aria-label="ลบบริการ ${esc(x.n)}">${ic('trash', 18)}</button></div>`).join('')
+    || '<div class="muted sm">ยังไม่มีบริการที่เพิ่มเอง</div>';
+}
+async function saveSvcs(list, msg) {
+  await api('SET_CONFIG', { svcs: list });
+  syncTypes(); renderSvcList(); fillSettings(); toast(msg, 'ok');
+}
+
+/* ═════════ v5.2 สแกนหน้า (face-api · ประมวลผลในเครื่อง ส่งแค่ลายใบหน้า 128 ตัวเลข) ═════════ */
+const FACE_CDN = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/';
+const FC = { mode: '', n: '', stream: null, loop: 0, samples: [], nose: [], busy: false, cool: 0 };
+let faceapi = null, faceReady = null;
+function loadFace() {
+  if (faceReady) return faceReady;
+  faceReady = (async () => {
+    faceapi = await import(FACE_CDN + 'dist/face-api.esm.js');
+    const m = FACE_CDN + 'model/';
+    await Promise.all([faceapi.nets.tinyFaceDetector.loadFromUri(m), faceapi.nets.faceLandmark68TinyNet.loadFromUri(m), faceapi.nets.faceRecognitionNet.loadFromUri(m)]);
+    return faceapi;
+  })();
+  faceReady.catch(() => { faceReady = null; });
+  return faceReady;
+}
+function fcMsg(t, cls = '') { $('#fc-msg').textContent = t; $('#fc-cam').className = 'fc-cam ' + cls; }
+async function faceOpen(mode, n) {
+  Object.assign(FC, { mode, n, samples: [], nose: [], busy: false, cool: 0 });
+  $('#fc-title').textContent = mode === 'enroll' ? 'ลงทะเบียนใบหน้า · ' + n : 'สแกนหน้าเช็คชื่อ';
+  $('#fc-enroll').hidden = mode !== 'enroll';
+  $('#fc-scan-note').hidden = mode === 'enroll';
+  if (mode === 'enroll') {
+    $('#fc-who').textContent = n; $('#fc-ok').checked = false;
+    $('#fc-del').hidden = !(S.faceSet && S.faceSet[n]);
+    $('#fc-go').disabled = false; $('#fc-go').textContent = S.faceSet && S.faceSet[n] ? 'ถ่ายใหม่' : 'เริ่มถ่าย';
+    fcSteps();
+  }
+  openSheet('sh-face');
+  fcMsg('กำลังเปิดกล้อง…');
+  if (!navigator.mediaDevices?.getUserMedia) return fcMsg('เครื่องนี้เปิดกล้องไม่ได้', 'bad');
+  try { FC.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }, audio: false }); }
+  catch (e) { return fcMsg('เปิดกล้องไม่ได้ — กดอนุญาตให้ใช้กล้อง', 'bad'); }
+  if ($('#sh-face').hidden) return faceStop();
+  const v = $('#fc-video'); v.srcObject = FC.stream; try { await v.play(); } catch (e) {}
+  fcMsg('กำลังโหลดระบบจดจำใบหน้า… (ครั้งแรก ~10 วินาที)');
+  try { await loadFace(); } catch (e) { return fcMsg('โหลดระบบสแกนหน้าไม่ได้ — เช็คอินเทอร์เน็ต', 'bad'); }
+  if (!FC.stream) return;
+  fcMsg(mode === 'enroll' ? 'ให้ ' + n + ' มองกล้อง แล้วติ๊กยินยอม › กดเริ่มถ่าย' : 'ยืนตรงหน้ากล้อง');
+  if (mode === 'scan') faceLoop();
+}
+function faceStop() { clearTimeout(FC.loop); FC.mode = ''; if (FC.stream) { FC.stream.getTracks().forEach(t => t.stop()); FC.stream = null; } const v = $('#fc-video'); if (v) v.srcObject = null; }
+function fcSteps() { $('#fc-steps').innerHTML = Array.from({ length: 5 }, (_, i) => `<i class="${i < FC.samples.length ? 'on' : ''}"></i>`).join(''); }
+async function faceDetect() {
+  const v = $('#fc-video');
+  if (!faceapi || !v.videoWidth) return null;
+  const r = await faceapi.detectSingleFace(v, new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.55 })).withFaceLandmarks(true).withFaceDescriptor();
+  if (!r) return null;
+  const box = r.detection.box, nose = r.landmarks.getNose()[3];
+  return { r, size: box.width / v.videoWidth, noseX: (nose.x - box.x) / box.width, score: r.detection.score };
+}
+function fcPhoto() {
+  const v = $('#fc-video'), c = document.createElement('canvas'), w = 200, h = Math.round(w * v.videoHeight / v.videoWidth);
+  c.width = w; c.height = h; c.getContext('2d').drawImage(v, 0, 0, w, h);
+  let q = 0.7, u = c.toDataURL('image/jpeg', q);
+  while (u.length > 44000 && q > 0.3) { q -= 0.15; u = c.toDataURL('image/jpeg', q); }
+  return u;
+}
+// กันรูปถ่ายระดับพื้นฐาน: ต้องเห็นหน้าขยับ (หันซ้าย-ขวาเล็กน้อย) ในช่วง 2 วินาทีล่าสุด
+function fcLive() { const xs = FC.nose.filter(p => Date.now() - p.t < 2500).map(p => p.x); return xs.length >= 3 && Math.max(...xs) - Math.min(...xs) > 0.06; }
+async function faceLoop() {
+  if (FC.mode !== 'scan' || !FC.stream) return;
+  if (!FC.busy && Date.now() > FC.cool) {
+    FC.busy = true;
+    try {
+      const f = await faceDetect();
+      if (!f) fcMsg('ยืนตรงหน้ากล้อง');
+      else if (f.size < 0.22) fcMsg('เข้ามาใกล้อีกนิด');
+      else {
+        FC.nose.push({ t: Date.now(), x: f.noseX }); FC.nose = FC.nose.slice(-12);
+        if (!fcLive()) fcMsg('หันซ้าย-ขวาเล็กน้อย', 'ok');
+        else {
+          fcMsg('กำลังตรวจ…', 'ok');
+          const j = await api('FACE_CHECKIN', { desc: Array.from(f.r.descriptor), photo: fcPhoto() }, { silent: true });
+          const o = j.out || {};
+          FC.nose = []; FC.cool = Date.now() + 4000;
+          if (o.match) {
+            fcMsg(o.already ? `✓ ${o.n} เช็คชื่อไปแล้วตอน ${o.time}` : `✓ สวัสดี ${o.n} · เข้างาน ${o.time}${o.late ? ' (สาย ' + o.late + ' นาที)' : ''}`, 'ok');
+            chime(); navigator.vibrate?.(120);
+          } else fcMsg(o.unsure ? 'ไม่แน่ใจว่าเป็นใคร ลองใหม่อีกครั้ง' : 'ไม่รู้จักใบหน้านี้ · ลงทะเบียนที่ จัดการพนักงาน', 'bad');
+        }
+      }
+    } catch (e) { fcMsg(e.message || 'ผิดพลาด ลองใหม่', 'bad'); FC.cool = Date.now() + 2500; }
+    FC.busy = false;
+  }
+  FC.loop = setTimeout(faceLoop, 280);
+}
+async function faceEnrollRun() {
+  FC.samples = []; FC.nose = []; fcSteps();
+  const t0 = Date.now();
+  while (FC.mode === 'enroll' && FC.samples.length < 5 && Date.now() - t0 < 25000) {
+    const f = await faceDetect().catch(() => null);
+    if (!f) fcMsg('มองตรงมาที่กล้อง');
+    else if (f.size < 0.25) fcMsg('เข้ามาใกล้อีกนิด');
+    else if (f.score < 0.7) fcMsg('ขยับให้แสงเข้าหน้าอีกนิด');
+    else {
+      FC.nose.push({ t: Date.now(), x: f.noseX });
+      FC.samples.push(Array.from(f.r.descriptor)); fcSteps();
+      fcMsg(['ดีมาก ค้างไว้', 'หันซ้ายเล็กน้อย', 'หันขวาเล็กน้อย', 'มองตรงอีกครั้ง', 'อีกนิดเดียว'][FC.samples.length - 1] || '', 'ok');
+      await new Promise(r => setTimeout(r, 650));
+      continue;
+    }
+    await new Promise(r => setTimeout(r, 250));
+  }
+  if (FC.samples.length < 5) throw new Error('ถ่ายไม่ครบ ลองในที่สว่างขึ้น');
+  const avg = Array.from({ length: 128 }, (_, i) => FC.samples.reduce((a, s) => a + s[i], 0) / FC.samples.length);
+  await api('SET_FACE', { n: FC.n, desc: avg, consent: true, consentBy: FC.n });
+}
+
+/* ═════════ v5.2 ทดสอบเครื่องนี้ ═════════ */
+const ST = { res: {}, running: false };
+const ST_TESTS = [
+  { k: 'net', i: '🌐', n: 'อินเทอร์เน็ต + เซิร์ฟเวอร์ร้าน', run: async () => { const t = performance.now(); const r = await fetch(SCRIPT_URL + '?mode=customer&_=' + Date.now(), { cache: 'no-store' }); const j = await r.json(); const ms = Math.round(performance.now() - t); if (!j.ok) throw new Error('เซิร์ฟเวอร์ตอบผิดปกติ'); return ms > 4000 ? ['warn', `ช้า ${ms} ms — เน็ตอาจไม่เสถียร`] : ['ok', `ตอบกลับใน ${ms} ms`]; }, fix: 'เช็ค WiFi/4G · ถ้าเซิร์ฟเวอร์ไม่ตอบ ให้เช็คว่า Deploy Apps Script แล้ว' },
+  { k: 'login', i: '🔑', n: 'เข้าสู่ระบบ', run: async () => token && S ? ['ok', S.role === 'owner' ? 'เจ้าของ' : 'แคชเชียร์'] : ['bad', 'ยังไม่ได้เข้าสู่ระบบ'], fix: 'ออกจากระบบแล้วเข้าใหม่' },
+  { k: 'store', i: '💾', n: 'เก็บข้อมูลในเครื่อง (ใช้ตอนเน็ตหลุด)', run: async () => { localStorage.setItem('__st', '1'); const ok = localStorage.getItem('__st') === '1'; localStorage.removeItem('__st'); return ok ? ['ok', 'ใช้ได้ · ' + (outbox().length ? 'มีรายการรอส่ง ' + outbox().length : 'ไม่มีรายการค้าง')] : ['bad', 'เขียนไม่ได้']; }, fix: 'ปิดโหมดไม่ระบุตัวตน (Incognito)' },
+  { k: 'sound', i: '🔔', n: 'เสียงแจ้งเตือน (ติ๊ง)', ask: 'ได้ยินเสียงติ๊งไหม?', run: async () => { const c = actx(); if (!c) return ['bad', 'เครื่องนี้เล่นเสียงไม่ได้']; chime(); return ['ask', 'กำลังเล่นเสียง…']; }, fix: 'เปิดเสียงมือถือ ปิดโหมดเงียบ' },
+  { k: 'tts', i: '🗣️', n: 'เสียงพูดภาษาไทย', ask: 'ได้ยินเสียงพูดไหม?', run: async () => { if (!window.speechSynthesis) return ['warn', 'เครื่องนี้ไม่มีเสียงพูด (ใช้เสียงติ๊งแทน)']; const u = new SpeechSynthesisUtterance('ทดสอบเสียง บ้านประคบทอง'); u.lang = 'th-TH'; speechSynthesis.cancel(); speechSynthesis.speak(u); const th = speechSynthesis.getVoices().some(v => /th/i.test(v.lang)); return ['ask', th ? 'มีเสียงภาษาไทย · กำลังพูด…' : 'ไม่เจอเสียงภาษาไทย อาจพูดเป็นสำเนียงอื่น']; }, fix: 'ตั้งค่ามือถือ › ภาษา › เสียงอ่านข้อความ › ติดตั้งภาษาไทย' },
+  { k: 'vib', i: '📳', n: 'สั่น', run: async () => navigator.vibrate ? (navigator.vibrate([200, 80, 200]), ['ok', 'สั่งสั่นแล้ว (iPhone ไม่รองรับ)']) : ['warn', 'เครื่องนี้สั่นจากเว็บไม่ได้ (ปกติของ iPhone)'], fix: 'ไม่จำเป็น ใช้เสียงแทนได้' },
+  { k: 'push', i: '📲', n: 'แจ้งเตือนเด้ง', run: async () => { if (inApp()) return PUSH.linked ? ['ok', 'แอปผูกแจ้งเตือนแล้ว (' + PUSH.linked + ')'] : ['warn', 'อยู่ในแอปแต่ยังไม่ผูกแจ้งเตือน']; if (!('Notification' in window)) return ['warn', 'เบราว์เซอร์นี้ไม่รองรับ · ใช้แอปของร้านแทน']; const p = Notification.permission === 'default' ? await Notification.requestPermission() : Notification.permission; return p === 'granted' ? ['ok', 'อนุญาตแล้ว (เด้งได้ตอนเปิดหน้าเว็บอยู่) · แจ้งเตือนตอนปิดจอต้องใช้แอป'] : ['bad', 'ไม่ได้อนุญาตแจ้งเตือน']; }, fix: 'ใช้แอปบ้านประคบทอง (Median) · ตั้งค่า › เครื่องนี้ & แจ้งเตือน › ทดสอบแจ้งเตือน' },
+  { k: 'cam', i: '📷', n: 'กล้อง (สแกนสลิป/บัตรสมาชิก)', run: async () => { const st = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); const tr = st.getVideoTracks()[0], set = tr.getSettings(); st.getTracks().forEach(t => t.stop()); return ['ok', `ใช้ได้ · ${set.width || '?'}×${set.height || '?'}`]; }, fix: 'กดอนุญาตกล้อง · ในแอป: ตั้งค่ามือถือ › แอป › สิทธิ์ › กล้อง' },
+  { k: 'qr', i: '🔳', n: 'อ่าน QR', run: async () => { await getDetector(); return ['ok', 'BarcodeDetector' in window ? 'ใช้ตัวอ่านของเครื่อง (เร็ว)' : 'ใช้ตัวอ่านสำรอง (ช้ากว่านิดหน่อย)']; }, fix: 'เช็คอินเทอร์เน็ต (ตัวอ่านสำรองโหลดจากเน็ต)' },
+  { k: 'mic', i: '🎙️', n: 'ไมโครโฟน + สั่งด้วยเสียง', run: async () => { const SR = window.SpeechRecognition || window.webkitSpeechRecognition; const st = await navigator.mediaDevices.getUserMedia({ audio: true }); st.getTracks().forEach(t => t.stop()); return SR ? ['ok', 'ไมค์ใช้ได้ · สั่งด้วยเสียงได้'] : ['warn', 'ไมค์ใช้ได้ แต่เครื่องนี้แปลงเสียงเป็นข้อความไม่ได้ · ใช้ไมค์บนคีย์บอร์ดแทน']; }, fix: 'กดอนุญาตไมโครโฟน' },
+  { k: 'gps', i: '📍', n: 'ตำแหน่ง GPS (เช็คชื่อในร้าน)', run: () => new Promise(ok => { if (!navigator.geolocation) return ok(['bad', 'ไม่มี GPS']); navigator.geolocation.getCurrentPosition(p => ok([p.coords.accuracy > 150 ? 'warn' : 'ok', `แม่นยำ ±${Math.round(p.coords.accuracy)} เมตร`]), e => ok(['bad', e.code === 1 ? 'ไม่ได้อนุญาตตำแหน่ง' : 'หาตำแหน่งไม่เจอ']), { enableHighAccuracy: true, timeout: 12000 }); }), fix: 'เปิด Location ในมือถือ แล้วอนุญาตให้แอป/เว็บ' },
+  { k: 'face', i: '🙂', n: 'สแกนหน้า (โหลดระบบจดจำใบหน้า)', run: async () => { const c = document.createElement('canvas'); if (!(c.getContext('webgl2') || c.getContext('webgl'))) return ['warn', 'ไม่มี WebGL — สแกนหน้าจะช้ามาก']; const t = performance.now(); await loadFace(); return ['ok', `พร้อม · โหลด ${((performance.now() - t) / 1000).toFixed(1)} วินาที`]; }, fix: 'ใช้เน็ตที่เร็วขึ้น · เครื่องเก่ามากอาจสแกนช้า' },
+  { k: 'cast', i: '🖥️', n: 'ส่งยอดไปจอลูกค้า (เครื่องเดียวกัน)', run: async () => 'BroadcastChannel' in window ? ['ok', 'ใช้ได้ · จอลูกค้าคนละเครื่องใช้ผ่านเน็ต'] : ['warn', 'ส่งตรงไม่ได้ จะใช้ผ่านเน็ตแทน (ช้ากว่า 2-5 วิ)'], fix: 'ไม่จำเป็นต้องแก้' },
+  { k: 'clip', i: '📋', n: 'คัดลอก / แชร์', run: async () => { const c = !!navigator.clipboard?.writeText, sh = !!navigator.share; return c || sh ? ['ok', [c && 'คัดลอกได้', sh && 'แชร์ได้'].filter(Boolean).join(' · ')] : ['warn', 'คัดลอก/แชร์อัตโนมัติไม่ได้']; }, fix: 'ใช้กดค้างคัดลอกเอง' },
+  { k: 'wake', i: '☀️', n: 'กันจอดับ (จอลูกค้า/QR เช็คชื่อ)', run: async () => { if (!('wakeLock' in navigator)) return ['warn', 'ไม่รองรับ · ตั้งเวลาปิดหน้าจอในมือถือให้นานขึ้น']; const l = await navigator.wakeLock.request('screen'); await l.release(); return ['ok', 'ใช้ได้']; }, fix: 'ตั้งค่ามือถือ › หน้าจอ › ระยะเวลาปิดหน้าจอ' },
+  { k: 'screen', i: '📐', n: 'ขนาดจอ', run: async () => { const w = innerWidth; return [w < 340 ? 'warn' : 'ok', `${w}×${innerHeight} · ${w >= 960 ? 'แท็บเล็ต/คอม' : 'มือถือ'}`]; }, fix: 'จอเล็กมาก ลองหมุนแนวนอน' },
+];
+function stDevice() {
+  const ua = navigator.userAgent, os = /Android ([\d.]+)/.exec(ua)?.[0] || /iPhone OS ([\d_]+)/.exec(ua)?.[0]?.replace(/_/g, '.') || /Windows NT|Mac OS X|Linux/.exec(ua)?.[0] || '';
+  const br = /SamsungBrowser\/[\d.]+|Edg\/[\d.]+|Chrome\/\d+|Version\/[\d.]+ Mobile.*Safari|Firefox\/\d+/.exec(ua)?.[0] || '';
+  return [inApp() ? 'แอปร้าน (Median)' : 'เบราว์เซอร์', os, br.split('/')[0] + (br.match(/\/(\d+)/) ? ' ' + br.match(/\/(\d+)/)[1] : '')].filter(Boolean).join(' · ');
+}
+const ST_LABEL = { ok: 'ผ่าน', warn: 'ใช้ได้บางส่วน', bad: 'ไม่ผ่าน', run: 'กำลังทดสอบ…', ask: 'รอตอบ' };
+function renderSelfTest() {
+  $('#st-dev').textContent = stDevice();
+  $('#st-list').innerHTML = ST_TESTS.map(t => {
+    const r = ST.res[t.k] || [];
+    return `<div class="st-row"><span class="st-ic">${t.i}</span><div style="min-width:0"><b>${t.n}</b><small>${esc(r[1] || 'ยังไม่ทดสอบ')}</small>${r[0] === 'bad' || r[0] === 'warn' ? `<small class="st-fix">💡 ${esc(t.fix)}</small>` : ''}${r[0] === 'ask' ? `<div class="st-ask"><button class="btn btn-sm btn-ok" data-act="stAns" data-k="${t.k}" data-v="ok">ได้ยิน</button><button class="btn btn-sm" data-act="stAns" data-k="${t.k}" data-v="bad">ไม่ได้ยิน</button></div>` : ''}</div>
+      ${r[0] && r[0] !== 'ask' ? `<span class="st-st ${r[0]}">${ST_LABEL[r[0]]}</span>` : `<button class="btn btn-sm" data-act="stOne" data-k="${t.k}">ทดสอบ</button>`}</div>`;
+  }).join('');
+  const vals = ST_TESTS.map(t => (ST.res[t.k] || [])[0]).filter(v => v && v !== 'run' && v !== 'ask');
+  const ok = vals.filter(v => v === 'ok').length, bad = vals.filter(v => v === 'bad').length, warn = vals.filter(v => v === 'warn').length;
+  const sc = $('#st-score');
+  sc.textContent = vals.length ? `${ok}/${ST_TESTS.length}` : '–';
+  sc.className = 'st-score ' + (!vals.length ? '' : bad ? 'bad' : warn ? 'warn' : 'ok');
+  $('#st-head').textContent = !vals.length ? 'ยังไม่ได้ทดสอบ' : ST.running ? 'กำลังทดสอบ…' : bad ? `มี ${bad} ข้อที่ใช้ไม่ได้ — ดูวิธีแก้ด้านล่าง` : warn ? 'ใช้งานได้ · บางฟังก์ชันจำกัด' : vals.length === ST_TESTS.length ? '✓ เครื่องนี้ใช้ได้ทุกฟังก์ชัน' : 'ผ่านทุกข้อที่ทดสอบแล้ว';
+  $('#st-run').disabled = ST.running;
+}
+async function stRunOne(t) {
+  ST.res[t.k] = ['run', 'กำลังทดสอบ…']; renderSelfTest();
+  try { ST.res[t.k] = await Promise.race([t.run(), new Promise((_, no) => setTimeout(() => no(new Error('ไม่ตอบสนองใน 20 วินาที')), 20000))]); }
+  catch (e) { ST.res[t.k] = ['bad', e.name === 'NotAllowedError' ? 'ไม่ได้รับอนุญาต' : e.name === 'NotFoundError' ? 'ไม่พบอุปกรณ์' : (e.message || 'ผิดพลาด')]; }
+  if (ST.res[t.k][0] === 'ask') ST.res[t.k][1] = t.ask;
+  renderSelfTest();
+}
+
 function castSoon(delay = 600) {
   clearTimeout(castT);
   const q = findQ(P.id);
@@ -2985,7 +3263,7 @@ try { castBC = new BroadcastChannel('spa_cast'); } catch (e) {}
 const presLive = () => !!presConn && presConn.state === 'connected';
 function localCast(cast) {
   if (cast) lastCast = cast;
-  const msg = JSON.stringify({ type: 'cast', cast: lastCast, pp: S?.pp, shop: S?.cfg?.shop, prices: S?.cfg?.prices, at: now() });
+  const msg = JSON.stringify({ type: 'cast', cast: lastCast, pp: S?.pp, shop: S?.cfg?.shop, prices: S?.cfg?.prices, svcs: S?.cfg?.svcs, at: now() });
   try { if (presLive()) presConn.send(msg); } catch (e) {}
   try { castBC && castBC.postMessage(msg); } catch (e) {}
 }
@@ -3135,7 +3413,7 @@ function pkgRow(p = { name: '', quota: 10, price: 0, kind: 'thai', perMin: 120 }
 }
 /* ═════════ ตั้งค่า: หมวด ═════════ */
 let setCatCur = null;
-const SET_CATS = { shop: 'ร้าน & บริการ', pay: 'รับเงิน', staff: 'หมอ & คิว', sec: 'ความปลอดภัย', cust: 'ลูกค้า & ยอดขาย', dev: 'เครื่องนี้ & แจ้งเตือน' };
+const SET_CATS = { sys: 'ข้อมูล & ระบบ', shop: 'ร้าน & บริการ', pay: 'รับเงิน', staff: 'หมอ & คิว', sec: 'ความปลอดภัย', cust: 'ลูกค้า & ยอดขาย', dev: 'เครื่องนี้ & แจ้งเตือน' };
 function applySetView() {
   const box = $('#set-groups'); if (!box) return;
   const q = ($('#set-q').value || '').trim().toLowerCase();
@@ -3181,7 +3459,8 @@ function fillSettings() {
   $('#set-sync').checked = autoSync;
   const r = ROT(); $('#rot-prep').value = r.prepMin; $('#rot-ack').value = r.ackWarnMin; $('#rot-keep').checked = !!r.reqKeepsTurn;
   $('#set-banksound').checked = bankSoundOn;
-  updSlipMode(); updPushSt(); renderGwCfg();
+  updSlipMode(); updPushSt(); renderGwCfg(); renderSvcList();
+  if ($('#cam-url')) $('#cam-url').value = S.cfg?.cam?.url || '';
   updVoiceSt();
   $('#set-sound').checked = soundOn;
   const g = g4();
@@ -4383,6 +4662,54 @@ const A = {
   }),
   copyGwHook: async () => { try { await navigator.clipboard.writeText($('#gw-hook').value); toast('คัดลอกแล้ว', 'ok'); } catch (e) { $('#gw-hook').select(); } },
   gwResolve: ({ id }, btn) => run(btn, async () => { await api('RESOLVE_GW', { id }); toast('บันทึกแล้ว', 'ok'); }),
+  svcAdd: (_, btn) => run(btn, async () => {
+    const n = $('#svc-n').value.trim(), i = $('#svc-i').value.trim() || '💆';
+    if (!n) return toast('ใส่ชื่อบริการ', 'warn');
+    if (TYPES.some(t => t.n === n || t.k === n)) return toast('มีบริการชื่อนี้แล้ว', 'warn');
+    await saveSvcs([...(S.cfg?.svcs || []), { n, i }], `✓ เพิ่ม "${n}" แล้ว — ใส่ราคาในตารางด้านบนได้เลย`);
+    $('#svc-n').value = ''; $('#svc-i').value = '';
+  }),
+  svcDel: ({ i }, btn) => run(btn, async () => {
+    const list = [...(S.cfg?.svcs || [])], x = list[+i]; if (!x) return;
+    if (!confirm(`ลบบริการ "${x.n}"? (คิวเก่าที่เคยลงไว้ยังอยู่)`)) return;
+    list.splice(+i, 1); await saveSvcs(list, `ลบ "${x.n}" แล้ว`);
+  }),
+  resetData: (_, btn) => run(btn, async () => {
+    const scope = {}; $$('[data-rs]').forEach(x => { scope[x.dataset.rs] = x.checked; });
+    const pass = $('#rs-pass').value, confirmTxt = $('#rs-confirm').value.trim();
+    if (!Object.values(scope).some(Boolean)) return toast('เลือกอย่างน้อย 1 อย่าง', 'warn');
+    if (!pass) return toast('ใส่รหัสเจ้าของ', 'warn');
+    const j = await api('RESET_DATA', { scope, pass, confirm: confirmTxt });
+    $('#rs-pass').value = ''; $('#rs-confirm').value = ''; $('#rs-btn').disabled = true;
+    members = []; await pull(true); fillSettings();
+    toast('✓ ล้างแล้ว: ' + (j.out?.done || []).join(' · ') + (j.out?.backup ? ' · สำรองไฟล์ไว้ใน Drive' : ''), 'ok');
+  }),
+  saveCam: (_, btn) => run(btn, async () => { await api('SET_CAM', { url: $('#cam-url').value.trim() }); toast('บันทึกที่อยู่กล้องแล้ว', 'ok'); }),
+  camOpen: () => {
+    const u = ($('#cam-url')?.value || '').trim() || S.cfg?.cam?.url;
+    if (!u) { go('settings'); setCatCur = 'sys'; applySetView(); return toast('ใส่ที่อยู่หน้ากล้องก่อน', 'warn'); }
+    window.open(u, '_blank', 'noopener');
+  },
+  faceScan: () => faceOpen('scan'),
+  faceEnroll: ({ n }) => faceOpen('enroll', n),
+  faceGo: async (_, btn) => {
+    if (!$('#fc-ok').checked) return toast('ต้องติ๊กยินยอมก่อน (PDPA)', 'warn');
+    if (!faceapi) return toast('รอระบบโหลดให้เสร็จก่อน', 'warn');
+    btn.disabled = true;
+    try { await faceEnrollRun(); fcMsg('✓ ลงทะเบียนใบหน้าแล้ว', 'ok'); toast(`✓ ลงทะเบียนหน้า ${FC.n} แล้ว`, 'ok'); setTimeout(() => closeSheet('sh-face'), 900); }
+    catch (e) { fcMsg(e.message || 'ลงทะเบียนไม่สำเร็จ', 'bad'); btn.disabled = false; btn.textContent = 'ลองใหม่'; }
+  },
+  faceDel: (_, btn) => run(btn, async () => {
+    if (!confirm(`ลบข้อมูลใบหน้าของ ${FC.n}?`)) return;
+    await api('DEL_FACE', { n: FC.n }); toast('ลบข้อมูลใบหน้าแล้ว', 'ok'); closeSheet('sh-face');
+  }),
+  stOne: ({ k }) => { const t = ST_TESTS.find(x => x.k === k); if (t) stRunOne(t); },
+  stAns: ({ k, v }) => { const t = ST_TESTS.find(x => x.k === k); ST.res[k] = v === 'ok' ? ['ok', 'ได้ยินชัด'] : ['bad', 'ไม่ได้ยินเสียง']; renderSelfTest(); },
+  stRun: async () => {
+    ST.running = true; ST.res = {}; renderSelfTest();
+    for (const t of ST_TESTS) { if (tab !== 'selftest') break; await stRunOne(t); if (t.ask) await new Promise(r => setTimeout(r, 1200)); }
+    ST.running = false; renderSelfTest();
+  },
   scanSlip: () => openScanner(),
   pickSlip: () => $('#slip-file').click(),
   retryScan: () => retryScan(),
@@ -4956,6 +5283,7 @@ document.addEventListener('input', e => {
   else if (id === 'w-price') W.touched = true;
   else if (id === 'p-amt') { renderPay(); castSoon(); }
   else if (id === 'set-q') { setCatCur = null; applySetView(); }
+  else if (id === 'rs-confirm') $('#rs-btn').disabled = e.target.value.trim() !== 'ล้างข้อมูล';
   else if (id === 'p-recv') renderPay();
   else if (id === 'bk-name') showTag('#bk-tag', e.target.value);
   else if (id === 'bk-phone') {
